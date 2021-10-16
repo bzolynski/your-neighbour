@@ -14,6 +14,7 @@ using System.ComponentModel.Design;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using YourNeighbour.Api.Middleware;
 using YourNeighbour.Data.EntityFramework.Interfaces;
 using YourNeighbour.Domain.Entities;
 using YourNeighbour.EntityFramework.SqlServer;
@@ -31,6 +32,7 @@ namespace YourNeighbour.Api
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddTransient<ExceptionHandlingMiddleware>();
             services.AddEntityFrameworkSqlServer(Configuration);
             services.AddCors(options =>
             {
@@ -61,6 +63,7 @@ namespace YourNeighbour.Api
             app.UseHttpsRedirection();
             app.UseRouting();
             app.UseCors("CorsPolicy");
+            app.UseMiddleware<ExceptionHandlingMiddleware>();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
