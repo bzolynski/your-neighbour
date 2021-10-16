@@ -10,9 +10,12 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using YourNeighbour.Data.EntityFramework.Interfaces;
+using YourNeighbour.Domain.Entities;
 using YourNeighbour.EntityFramework.SqlServer;
 
 namespace YourNeighbour.Api
@@ -54,6 +57,7 @@ namespace YourNeighbour.Api
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "YourNeighbour.Api v1"));
             }
 
+            
             app.UseHttpsRedirection();
             app.UseRouting();
             app.UseCors("CorsPolicy");

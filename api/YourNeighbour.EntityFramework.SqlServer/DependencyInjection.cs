@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using YourNeighbour.Data.EntityFramework.Interfaces;
 
 namespace YourNeighbour.EntityFramework.SqlServer
 {
@@ -14,6 +15,7 @@ namespace YourNeighbour.EntityFramework.SqlServer
         public static void AddEntityFrameworkSqlServer(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<SqlServerDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("SqlServer")));
+            services.AddScoped<IApplicationDbContext, SqlServerDbContext>();
         }
     }
 }
