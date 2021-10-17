@@ -12,11 +12,11 @@ namespace YourNeighbour.Api.Middleware
 {
     public class ExceptionHandlingMiddleware : IMiddleware
     {
-        private readonly ILogger _logger;
+        private readonly ILogger<ExceptionHandlingMiddleware> _logger;
 
-        public ExceptionHandlingMiddleware(ILogger logger)
+        public ExceptionHandlingMiddleware(ILoggerFactory loggerFactory)
         {
-            _logger = logger;
+            _logger = loggerFactory.CreateLogger<ExceptionHandlingMiddleware>();
         }
         public async Task InvokeAsync(HttpContext context, RequestDelegate next)
         {
