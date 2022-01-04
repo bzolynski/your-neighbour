@@ -1,0 +1,17 @@
+<div class="wrapper">
+    <div class="input-container">
+        <input type="text">
+        <div class="triangle"></div>
+    </div>
+    <ul class="suggestion-container">
+        <li class="suggestion-item"
+            *ngFor="let element of dropdownElements;">
+            <ng-container *ngIf="displayProperty != ''; else noProperty">
+                {{element[displayProperty]}}
+            </ng-container>
+            <ng-template #noProperty>
+                {{element}}
+            </ng-template>
+        </li>
+    </ul>
+</div>
