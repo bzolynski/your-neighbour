@@ -1,0 +1,41 @@
+@use 'src/scss/abstracts' as *;
+$topBarHeight: 56px;
+$navFontColor: #fedc0a;
+
+.wrapper {
+	position: sticky;
+	height: $topBarHeight;
+	width: 100%;
+	top: 0;
+	z-index: 100;
+
+	.container {
+		height: 100%;
+		margin: auto;
+		max-width: $container-max-width;
+		display: grid;
+		grid-template-columns: $topBarHeight 1fr 1fr;
+		background-color: red;
+
+		.logo {
+			background-color: yellow;
+		}
+
+		.nav {
+			display: flex;
+			height: 100%;
+			margin: 0;
+			align-items: center;
+			list-style: none;
+			color: $navFontColor;
+			justify-content: space-around;
+			text-shadow: $text-outline-shadow;
+			li {
+				color: inherit;
+				a {
+					text-decoration: none;
+				}
+			}
+		}
+	}
+}
