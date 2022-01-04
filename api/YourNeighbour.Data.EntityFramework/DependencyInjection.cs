@@ -15,6 +15,7 @@ namespace YourNeighbour.Data.EntityFramework
         {
             services.AddTransient<IAdvertisementDefinitionRepository, AdvertisementDefinitionRepository>();
             services.AddTransient<ICategoryDefinitionRepository, CategoryDefinitionRepository>();
+            services.AddTransient<ICategoryRepository, CategoryRepository>();
         }
     }
 }

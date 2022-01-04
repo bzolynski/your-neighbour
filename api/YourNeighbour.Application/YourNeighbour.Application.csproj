@@ -20,7 +20,6 @@
 
   <ItemGroup>
     <Folder Include="Features\AdvertisementDefinitions\Queries\" />
-    <Folder Include="Features\Categories\" />
   </ItemGroup>
 
 </Project>
