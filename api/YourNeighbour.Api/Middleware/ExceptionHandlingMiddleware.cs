@@ -10,13 +10,13 @@ using YourNeighbour.Api.Models;
 
 namespace YourNeighbour.Api.Middleware
 {
-    public class ExceptionHandlingMiddleware : IMiddleware
+    public sealed class ExceptionHandlingMiddleware : IMiddleware
     {
-        private readonly ILogger<ExceptionHandlingMiddleware> _logger;
+        private readonly ILogger<ExceptionHandlingMiddleware> logger;
 
         public ExceptionHandlingMiddleware(ILoggerFactory loggerFactory)
         {
-            _logger = loggerFactory.CreateLogger<ExceptionHandlingMiddleware>();
+            logger = loggerFactory.CreateLogger<ExceptionHandlingMiddleware>();
         }
         public async Task InvokeAsync(HttpContext context, RequestDelegate next)
         {
@@ -26,7 +26,7 @@ namespace YourNeighbour.Api.Middleware
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, ex.Message);
+                logger.LogError(ex, ex.Message);
                 var response = Response.Error(ex.Message);
                 context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
                 context.Response.ContentType = "application/json";

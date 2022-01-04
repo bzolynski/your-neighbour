@@ -15,6 +15,8 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using YourNeighbour.Api.Middleware;
+using YourNeighbour.Application;
+using YourNeighbour.Data.EntityFramework;
 using YourNeighbour.Data.EntityFramework.Interfaces;
 using YourNeighbour.Domain.Entities;
 using YourNeighbour.EntityFramework.SqlServer;
@@ -33,7 +35,10 @@ namespace YourNeighbour.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddTransient<ExceptionHandlingMiddleware>();
+            services.AddApplication();
+            services.AddDataEntityFramework();
             services.AddEntityFrameworkSqlServer(Configuration);
+
             services.AddCors(options =>
             {
                 options.AddPolicy("CorsPolicy", policy =>
@@ -51,7 +56,7 @@ namespace YourNeighbour.Api
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-        {
+        { 
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

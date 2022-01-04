@@ -8,7 +8,7 @@ namespace YourNeighbour.Api.Controllers
     [ApiController]
     public class BaseController : Controller
     {
-        private IMediator _mediator;
-        protected IMediator Mediator => _mediator ?? (_mediator = HttpContext.RequestServices.GetService<IMediator>());
+        private IMediator mediator;
+        protected IMediator Mediator => mediator ?? (mediator = HttpContext.RequestServices.GetService<IMediator>());
     }
 }
