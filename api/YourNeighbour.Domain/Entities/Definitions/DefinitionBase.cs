@@ -8,6 +8,8 @@ namespace YourNeighbour.Domain.Entities.Definitions
 {
     public class DefinitionBase : EntityBase
     {
-        public bool IsInactive { get; set; }
+        public string Name { get; set; }
+        public string DisplayName { get; set; }
+        public bool IsActive { get; set; } = true;
     }
 }

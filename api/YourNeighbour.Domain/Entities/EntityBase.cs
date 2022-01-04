@@ -10,5 +10,6 @@ namespace YourNeighbour.Domain.Entities
     {
         public int Id { get; set; }
         public Guid Guid { get; set; } = Guid.NewGuid();
+        public bool Basic { get; set; } = false;
     }
 }

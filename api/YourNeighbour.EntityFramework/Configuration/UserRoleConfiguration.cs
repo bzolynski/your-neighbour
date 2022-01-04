@@ -9,7 +9,7 @@ using YourNeighbour.Domain.Entities;
 
 namespace YourNeighbour.EntityFramework.Configuration
 {
-    public class UserRoleConfiguration : IEntityTypeConfiguration<UserRole>
+    public sealed class UserRoleConfiguration : IEntityTypeConfiguration<UserRole>
     {
         public void Configure(EntityTypeBuilder<UserRole> builder)
         {
