@@ -13,48 +13,54 @@ namespace YourNeighbour.Data.EntityFramework.Repositories
     public class RepositoryBase<TEntity> : IRepository<TEntity>
         where TEntity : EntityBase
     {
-        private readonly IApplicationDbContext _applicationDbContext;
-        private readonly DbSet<TEntity> _entities;
+        private readonly IApplicationDbContext applicationDbContext;
+        private readonly DbSet<TEntity> entities;
 
         public RepositoryBase(IApplicationDbContext applicationDbContext)
         {
-            _applicationDbContext = applicationDbContext; 
-            _entities = applicationDbContext.Set<TEntity>();
+            this.applicationDbContext = applicationDbContext; 
+            entities = applicationDbContext.Set<TEntity>();
         }
 
-        public IUnitOfWork UnitOfWork => _applicationDbContext;
+        public IUnitOfWork UnitOfWork => applicationDbContext;
 
         public virtual async Task<TEntity> Create(TEntity entity)
         {
-            var result = await _entities.AddAsync(entity);
+            var result = await entities.AddAsync(entity);
             await UnitOfWork.Commit();
             return result.Entity;
         }
 
-        public virtual async Task<TEntity> Get(int id)
+        public virtual async Task<TEntity> GetById(int id)
         {
-            return await _entities.FindAsync(id);
+            return await entities.FindAsync(id);
+        }
+
+        public virtual async Task<TEntity> GetByGuid(Guid guid)
+        {
+            return await entities.FirstAsync(e => e.Guid == guid);
         }
 
         public virtual IQueryable<TEntity> GetAll()
         {
-            return _entities;
+            return entities;
         }
 
         public virtual async Task<TEntity> Update(int id, TEntity entity)
         {
             entity.Id = id;
-            var result = _entities.Update(entity);
+            var result = entities.Update(entity);
             await UnitOfWork.Commit();
             return result.Entity;
         }
 
         public virtual async Task<bool> Delete(int id)
         {
-            TEntity entity = await _entities.FindAsync(id);
-            _entities.Remove(entity);
+            TEntity entity = await entities.FindAsync(id);
+            entities.Remove(entity);
             var result = await UnitOfWork.Commit();
             return result;
         }
+
     }
 }

@@ -10,7 +10,8 @@ namespace YourNeighbour.Data.Interfaces
     public interface IRepository<TEntity> where TEntity : EntityBase
     {
         IUnitOfWork UnitOfWork { get; }
-        Task<TEntity> Get(int id);
+        Task<TEntity> GetById(int id);
+        Task<TEntity> GetByGuid(Guid guid);
         IQueryable<TEntity> GetAll();
         Task<TEntity> Create(TEntity entity);
         Task<TEntity> Update(int id, TEntity entity);
