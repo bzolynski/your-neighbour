@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace YourNeighbour.Application.Interfaces
+namespace YourNeighbour.Application.Abstractions
 {
     public interface IIdentityService
     {
