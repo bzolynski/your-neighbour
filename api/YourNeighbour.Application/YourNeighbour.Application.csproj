@@ -20,8 +20,6 @@
 
   <ItemGroup>
     <Folder Include="Features\AdvertisementDefinitions\Queries\" />
-    <Folder Include="Features\Advertisements\Commands\" />
-    <Folder Include="Features\Advertisements\Queries\" />
     <Folder Include="Features\Categories\" />
   </ItemGroup>
 
