@@ -1,0 +1,19 @@
+<div class="">
+    <div class="row my-1">
+        <div class="col-12">
+            <a [routerLink]="'/settings/categoryDefinition/form/new'"
+               class="btn btn-warning col-12">Dodaj nowe</a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="list-group">
+                <app-category-definition-list-item *ngFor="let categoryDefinition of categoryDefinitions"
+                                                   [categoryDefinition]="categoryDefinition">
+                </app-category-definition-list-item>
+
+            </div>
+        </div>
+    </div>
+
+</div>

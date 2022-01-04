@@ -1,0 +1,8 @@
+@use 'src/scss/abstracts' as *;
+
+.list {
+	@include make-col(6);
+}
+.details {
+	@include make-col(6);
+}

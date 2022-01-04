@@ -1,0 +1,29 @@
+@use 'src/scss/abstracts' as *;
+
+.wrapper {
+	.title {
+		font-weight: bold;
+		cursor: pointer;
+	}
+	.list {
+		list-style-type: none;
+		display: flex;
+		flex-direction: column;
+		padding: 0;
+		padding-left: 1rem;
+		gap: 10px;
+		overflow: hidden;
+		max-height: 0;
+		transition: 0.3s 0s ease-in-out;
+		.item {
+			cursor: pointer;
+			&:hover {
+				background-color: red;
+			}
+		}
+	}
+	.list.expanded {
+		max-height: 200px;
+		transition: 0.3s 0s ease-in-out;
+	}
+}

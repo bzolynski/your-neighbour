@@ -1,0 +1,9 @@
+@use 'src/scss/abstracts' as *;
+
+.wrapper {
+	padding: 10px;
+	.list-container {
+		display: flex;
+		flex-direction: column;
+	}
+}

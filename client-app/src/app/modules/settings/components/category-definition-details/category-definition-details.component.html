@@ -1,0 +1,13 @@
+<div class="card bg-light mb-3">
+    <div class="card-header">{{categoryDefinition.displayName}}
+        <a class="btn btn-danger"
+           (click)="delete()">Usuń</a>
+    </div>
+    <div class="card-body">
+        <h5 class="card-title">{{categoryDefinition.name}}</h5>
+        <p class="card-text">Nieaktywna: {{categoryDefinition.isActive ? "tak" : "nie"}}</p>
+        <p class="card-text">TODO: zrobić jakiś content</p>
+        <a class="btn btn-primary"
+           (click)="openForm()">Edytuj</a>
+    </div>
+</div>
