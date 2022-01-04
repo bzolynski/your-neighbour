@@ -13,6 +13,6 @@ namespace YourNeighbour.Application.Features.AdvertisementDefinitions.Dtos
         public bool Basic { get; set; } 
         public string Name { get; set; }
         public string DisplayName { get; set; }
-        public bool IsInactive { get; set; }
+        public bool IsActive { get; set; }
     }
 }

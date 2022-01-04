@@ -10,6 +10,6 @@ namespace YourNeighbour.Application.Features.CategoryDefinitions.Dtos
     {
         public string Name { get; set; }
         public string DisplayName { get; set; }
-        public bool IsInactive { get; set; }
+        public bool IsActive { get; set; }
     }
 }
