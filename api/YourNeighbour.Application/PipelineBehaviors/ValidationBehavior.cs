@@ -22,9 +22,9 @@ namespace YourNeighbour.Application.PipelineBehaviors
             if (!validators.Any())
                 return await next();
 
-            var context = new ValidationContext<TRequest>(request);
+            ValidationContext<TRequest> context = new ValidationContext<TRequest>(request);
 
-            var errors = validators.Select(x => x.Validate(context))
+            List<FluentValidation.Results.ValidationFailure> errors = validators.Select(x => x.Validate(context))
                 .SelectMany(x => x.Errors)
                 .Where(x => x != null)
                 .ToList();
