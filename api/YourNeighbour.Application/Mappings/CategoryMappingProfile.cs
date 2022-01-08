@@ -15,6 +15,8 @@ namespace YourNeighbour.Application.Mappings
         {
             CreateMap<Category, CategoryDto>();
             CreateMap<CategoryDto, Category>();
+            CreateMap<CategoryCreateDto, Category>();
+            CreateMap<Category, CategoryCreateDto>();
         }
     }
 }

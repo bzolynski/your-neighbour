@@ -9,5 +9,6 @@ namespace YourNeighbour.Data.Interfaces.Repositories
 {
     public interface ICategoryRepository : IRepository<Category>
     {
+        Task<Category> GetByName(string name);
     }
 }
