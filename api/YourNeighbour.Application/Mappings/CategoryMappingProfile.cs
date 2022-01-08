@@ -13,10 +13,10 @@ namespace YourNeighbour.Application.Mappings
     {
         public CategoryMappingProfile()
         {
-            CreateMap<Category, CategoryDto>();
-            CreateMap<CategoryDto, Category>();
-            CreateMap<CategoryCreateDto, Category>();
-            CreateMap<Category, CategoryCreateDto>();
+            CreateMap<Category, CategoryDto>()
+                .ReverseMap();
+            CreateMap<CategoryCreateDto, Category>()
+                .ReverseMap();
         }
     }
 }

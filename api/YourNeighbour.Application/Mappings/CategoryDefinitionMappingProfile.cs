@@ -13,10 +13,9 @@ namespace YourNeighbour.Application.Mappings
     {
         public CategoryDefinitionMappingProfile()
         {
-            CreateMap<CategoryDefinition, CategoryDefinitionDto>();
-            CreateMap<CategoryDefinitionDto, CategoryDefinition>();
+            CreateMap<CategoryDefinition, CategoryDefinitionDto>()
+                .ReverseMap();
             CreateMap<CategoryDefinitionCreateDto, CategoryDefinition>();
-
             CreateMap<CategoryDefinitionUpdateDto, CategoryDefinition>();
         }
     }

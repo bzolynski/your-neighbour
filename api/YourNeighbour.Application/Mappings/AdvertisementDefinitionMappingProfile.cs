@@ -13,8 +13,8 @@ namespace YourNeighbour.Application.Mappings
     {
         public AdvertisementDefinitionMappingProfile()
         {
-            CreateMap<AdvertisementDefinition, AdvertisementDefinitionDto>();
-            CreateMap<AdvertisementDefinitionDto, AdvertisementDefinition>();
+            CreateMap<AdvertisementDefinition, AdvertisementDefinitionDto>()
+                .ReverseMap();
 
             CreateMap<AdvertisementDefinitionCreateDto, AdvertisementDefinition>();
         }
