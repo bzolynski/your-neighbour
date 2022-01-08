@@ -1,21 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using FluentValidation;
-using YourNeighbour.Data.Interfaces.Repositories;
+using Microsoft.EntityFrameworkCore;
+using YourNeighbour.Application.Abstractions;
+using YourNeighbour.Domain.Entities.Definitions;
 
 namespace YourNeighbour.Application.Features.CategoryDefinitions.Commands.CreateCategoryDefinition
 {
     public sealed class CreateCategoryDefinitionCommandValidator : AbstractValidator<CreateCategoryDefinitionCommand>
     {
-        private readonly ICategoryDefinitionRepository categoryDefinitionRepository;
+        private readonly DbSet<CategoryDefinition> categoryDefinitionContext;
 
-        public CreateCategoryDefinitionCommandValidator(ICategoryDefinitionRepository categoryDefinitionRepository)
+        public CreateCategoryDefinitionCommandValidator(IApplicationDbContext applicationDbContext)
         {
-            this.categoryDefinitionRepository = categoryDefinitionRepository;
+            categoryDefinitionContext = applicationDbContext.Set<CategoryDefinition>();
 
             RuleFor(x => x.CategoryDefinition.Name)
                 .NotNull().WithMessage("Nazwa nie może być puste.")
@@ -32,12 +30,12 @@ namespace YourNeighbour.Application.Features.CategoryDefinitions.Commands.Create
 
         private async Task<bool> BeUniqueDisplayName(string displayName, CancellationToken cancellationToken)
         {
-            return await categoryDefinitionRepository.GetByDisplayName(displayName) is null;
+            return await categoryDefinitionContext.FirstOrDefaultAsync(x => x.DisplayName == displayName) is null;
         }
 
         private async Task<bool> BeUniqueName(string name, CancellationToken cancellationToken)
         {
-            return await categoryDefinitionRepository.GetByName(name) is null;
+            return await categoryDefinitionContext.FirstOrDefaultAsync(x => x.DisplayName == name) is null;
         }
     }
 }

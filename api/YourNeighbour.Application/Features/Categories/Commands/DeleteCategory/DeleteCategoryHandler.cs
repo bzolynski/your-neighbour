@@ -4,23 +4,28 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using YourNeighbour.Application.Abstractions;
-using YourNeighbour.Data.Interfaces.Repositories;
+using YourNeighbour.Domain.Entities;
 
 namespace YourNeighbour.Application.Features.Categories.Commands.DeleteCategory
 {
     public sealed class DeleteCategoryHandler : ICommandHandler<DeleteCategoryCommand, bool>
     {
-        private readonly ICategoryRepository categoryRepository;
+        private readonly IApplicationDbContext applicationDbContext;
 
-        public DeleteCategoryHandler(ICategoryRepository categoryRepository)
+        public DeleteCategoryHandler(IApplicationDbContext applicationDbContext)
         {
-            this.categoryRepository = categoryRepository;
+            this.applicationDbContext = applicationDbContext;
         }
         public async Task<bool> Handle(DeleteCategoryCommand request, CancellationToken cancellationToken)
-        {
-            bool result = await categoryRepository.Delete(request.Id);
-            return result;
+        {            
+            Category category = await applicationDbContext.Set<Category>().FirstOrDefaultAsync(x => x.Id == request.Id);
+            if (category is null)
+                return true;
+            applicationDbContext.Set<Category>().Remove(category);
+            int changes = await applicationDbContext.SaveChangesAsync(cancellationToken);
+            return changes > 0;
         }
     }
 }

@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\YourNeighbour.Data.EntityFramework\YourNeighbour.Data.EntityFramework.csproj" />
+    <ProjectReference Include="..\YourNeighbour.Application\YourNeighbour.Application.csproj" />
   </ItemGroup>
 
 </Project>

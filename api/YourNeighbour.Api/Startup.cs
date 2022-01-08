@@ -1,24 +1,11 @@
-using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.Design;
-using System.Linq;
-using System.Reflection;
-using System.Threading.Tasks;
 using YourNeighbour.Api.Middleware;
 using YourNeighbour.Application;
-using YourNeighbour.Data.EntityFramework;
-using YourNeighbour.Data.EntityFramework.Interfaces;
-using YourNeighbour.Domain.Entities;
 using YourNeighbour.EntityFramework.SqlServer;
 
 namespace YourNeighbour.Api
@@ -36,7 +23,6 @@ namespace YourNeighbour.Api
         {
             services.AddTransient<ExceptionHandlingMiddleware>();
             services.AddApplication();
-            services.AddDataEntityFramework();
             services.AddEntityFrameworkSqlServer(Configuration);
 
             services.AddCors(options =>

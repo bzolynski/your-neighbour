@@ -10,6 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\YourNeighbour.Application\YourNeighbour.Application.csproj" />
     <ProjectReference Include="..\YourNeighbour.EntityFramework\YourNeighbour.EntityFramework.csproj" />
   </ItemGroup>
 

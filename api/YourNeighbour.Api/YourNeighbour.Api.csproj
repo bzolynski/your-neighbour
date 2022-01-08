@@ -19,7 +19,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\YourNeighbour.Application\YourNeighbour.Application.csproj" />
-    <ProjectReference Include="..\YourNeighbour.Data\YourNeighbour.Data.csproj" />
     <ProjectReference Include="..\YourNeighbour.Domain\YourNeighbour.Domain.csproj" />
     <ProjectReference Include="..\YourNeighbour.EntityFramework.SqlServer\YourNeighbour.EntityFramework.SqlServer.csproj" />
   </ItemGroup>

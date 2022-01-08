@@ -7,7 +7,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using YourNeighbour.Data.EntityFramework.Interfaces;
+using YourNeighbour.Application.Abstractions;
 using YourNeighbour.Domain.Entities;
 using YourNeighbour.Domain.Entities.Definitions;
 
@@ -26,12 +26,10 @@ namespace YourNeighbour.EntityFramework
         public DbSet<AdvertisementDefinition> AdvertisementDefinitions { get; set; }
         public DbSet<CategoryDefinition> CategoryDefinitions { get; set; }
 
-        public async Task<bool> Commit(CancellationToken cancellationToken = default)
+        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
-            var result = await SaveChangesAsync(cancellationToken);
-            return result > 0;
+            return base.SaveChangesAsync(cancellationToken);
         }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

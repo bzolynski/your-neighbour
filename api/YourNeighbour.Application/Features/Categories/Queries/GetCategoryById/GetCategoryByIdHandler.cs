@@ -1,31 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
+using Microsoft.EntityFrameworkCore;
 using YourNeighbour.Application.Abstractions;
 using YourNeighbour.Application.Features.Categories.Dtos;
-using YourNeighbour.Data.Interfaces.Repositories;
 using YourNeighbour.Domain.Entities;
 
 namespace YourNeighbour.Application.Features.Categories.Queries.GetCategoryById
 {
     public sealed class GetCategoryByIdHandler : IQueryHandler<GetCategoryByIdQuery, CategoryDto>
     {
-        private readonly ICategoryRepository categoryRepository;
+        private readonly IApplicationDbContext applicationDbContext;
         private readonly IMapper mapper;
 
-        public GetCategoryByIdHandler(ICategoryRepository categoryRepository, IMapper mapper)
+        public GetCategoryByIdHandler(IApplicationDbContext applicationDbContext, IMapper mapper)
         {
-            this.categoryRepository = categoryRepository;
+            this.applicationDbContext = applicationDbContext;
             this.mapper = mapper;
         }
         public async Task<CategoryDto> Handle(GetCategoryByIdQuery request, CancellationToken cancellationToken)
         {
-            Category category = await categoryRepository.GetById(request.Id);
-            return mapper.Map<CategoryDto>(category);
+            return await applicationDbContext.Set<Category>()
+                .Include(c => c.Definition)
+                .ProjectTo<CategoryDto>(mapper.ConfigurationProvider)
+                .FirstOrDefaultAsync(c => c.Id == request.Id);
         }
     }
 }

@@ -1,31 +1,34 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentValidation;
+using Microsoft.EntityFrameworkCore;
 using YourNeighbour.Application.Abstractions;
-using YourNeighbour.Data.Interfaces.Repositories;
 using YourNeighbour.Domain.Entities.Definitions;
 
 namespace YourNeighbour.Application.Features.CategoryDefinitions.Commands.DeleteCategoryDefinition
 {
     public sealed class DeleteCategoryDefinitionHandler : ICommandHandler<DeleteCategoryDefinitionCommand, bool>
     {
-        private readonly ICategoryDefinitionRepository categoryDefinitionRepository;
+        private readonly IApplicationDbContext applicationDbContext;
 
-        public DeleteCategoryDefinitionHandler(ICategoryDefinitionRepository categoryDefinitionRepository)
+        public DeleteCategoryDefinitionHandler(IApplicationDbContext applicationDbContext)
         {
-            this.categoryDefinitionRepository = categoryDefinitionRepository;
+            this.applicationDbContext = applicationDbContext;
         }
         public async Task<bool> Handle(DeleteCategoryDefinitionCommand request, CancellationToken cancellationToken)
         {
-            if (await categoryDefinitionRepository.IsBasicById(request.Id))
+            CategoryDefinition categoryDefinition = await applicationDbContext.Set<CategoryDefinition>()
+                .Include(x => x.Categories)
+                .FirstOrDefaultAsync(x => x.Id == request.Id);
+
+            if (categoryDefinition.Basic)
                 throw new ValidationException("Nie można usunąć podstawowej definicji.");
-            if (await categoryDefinitionRepository.HasAnyCategoryById(request.Id))
+            if (categoryDefinition.Categories.Any())
                 throw new ValidationException("Definicja ma przypisane kategorie.");
-            return await categoryDefinitionRepository.Delete(request.Id);
+            applicationDbContext.Set<CategoryDefinition>().Remove(categoryDefinition);
+            int changes = await applicationDbContext.SaveChangesAsync(cancellationToken);
+            return changes > 0;
         }
     }
 }
