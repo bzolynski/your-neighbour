@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using AutoMapper;
-using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
 using YourNeighbour.Application.Abstractions;
+using YourNeighbour.Application.Extensions;
 using YourNeighbour.Application.Features.Categories.Dtos;
 using YourNeighbour.Domain.Entities;
 
@@ -13,9 +12,9 @@ namespace YourNeighbour.Application.Features.Categories.Queries.GetAllCategories
     public sealed class GetAllCategoriesHandler : IQueryHandler<GetAllCategoriesQuery, IEnumerable<CategoryDto>>
     {
         private readonly IApplicationDbContext applicationDbContext;
-        private readonly IMapper mapper;
+        private readonly IObjectMapper mapper;
 
-        public GetAllCategoriesHandler(IApplicationDbContext applicationDbContext, IMapper mapper)
+        public GetAllCategoriesHandler(IApplicationDbContext applicationDbContext, IObjectMapper mapper)
         {
             this.applicationDbContext = applicationDbContext;
             this.mapper = mapper;
@@ -24,7 +23,7 @@ namespace YourNeighbour.Application.Features.Categories.Queries.GetAllCategories
         {
            return await applicationDbContext.Set<Category>()
                 .Include(x => x.Definition)
-                .ProjectTo<CategoryDto>(mapper.ConfigurationProvider)
+                .ProjectTo<CategoryDto>(mapper)
                 .ToListAsync();
         }
     }

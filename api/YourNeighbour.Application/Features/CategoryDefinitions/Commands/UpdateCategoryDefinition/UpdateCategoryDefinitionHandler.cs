@@ -1,6 +1,5 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using AutoMapper;
 using YourNeighbour.Application.Abstractions;
 using YourNeighbour.Application.Features.CategoryDefinitions.Dtos;
 using YourNeighbour.Domain.Entities.Definitions;
@@ -10,9 +9,9 @@ namespace YourNeighbour.Application.Features.CategoryDefinitions.Commands.Update
     public sealed class UpdateCategoryDefinitionHandler : ICommandHandler<UpdateCategoryDefinitionCommand, CategoryDefinitionDto>
     {
         private readonly IApplicationDbContext applicationDbContext;
-        private readonly IMapper mapper;
+        private readonly IObjectMapper mapper;
 
-        public UpdateCategoryDefinitionHandler(IApplicationDbContext applicationDbContext, IMapper mapper)
+        public UpdateCategoryDefinitionHandler(IApplicationDbContext applicationDbContext, IObjectMapper mapper)
         {
             this.applicationDbContext = applicationDbContext;
             this.mapper = mapper;

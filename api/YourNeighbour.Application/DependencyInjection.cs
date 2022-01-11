@@ -3,8 +3,10 @@ using System.Reflection.Metadata;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
+using YourNeighbour.Application.Abstractions;
 using YourNeighbour.Application.Features.CategoryDefinitions.Commands.CreateCategoryDefinition;
 using YourNeighbour.Application.PipelineBehaviors;
+using YourNeighbour.Application.Services;
 
 namespace YourNeighbour.Application
 {
@@ -18,6 +20,8 @@ namespace YourNeighbour.Application
             ValidatorOptions.Global.CascadeMode = CascadeMode.Stop;
             services.AddValidatorsFromAssembly(typeof(AssemblyReference).Assembly);
             services.AddTransient(typeof(IValidator<CreateCategoryDefinitionCommand>), typeof(CreateCategoryDefinitionCommandValidator));
+
+            services.AddTransient<IObjectMapper, ObjectMapper>();
         }
     }
 }

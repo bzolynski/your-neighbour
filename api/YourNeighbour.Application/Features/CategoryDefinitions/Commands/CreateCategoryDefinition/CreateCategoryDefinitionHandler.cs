@@ -1,6 +1,5 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using AutoMapper;
 using YourNeighbour.Application.Abstractions;
 using YourNeighbour.Application.Features.CategoryDefinitions.Dtos;
 using YourNeighbour.Domain.Entities.Definitions;
@@ -10,9 +9,9 @@ namespace YourNeighbour.Application.Features.CategoryDefinitions.Commands.Create
     public sealed class CreateCategoryDefinitionHandler : ICommandHandler<CreateCategoryDefinitionCommand, CategoryDefinitionDto>
     {
         private readonly IApplicationDbContext applicationDbContext;
-        private readonly IMapper mapper;
+        private readonly IObjectMapper mapper;
 
-        public CreateCategoryDefinitionHandler(IApplicationDbContext applicationDbContext, IMapper mapper)
+        public CreateCategoryDefinitionHandler(IApplicationDbContext applicationDbContext, IObjectMapper mapper)
         {
             this.applicationDbContext = applicationDbContext;
             this.mapper = mapper;
