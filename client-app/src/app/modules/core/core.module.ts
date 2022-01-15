@@ -4,10 +4,16 @@ import { HeaderComponent } from './header/header.component';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { FooterComponent } from './footer/footer.component';
+import { AngularMaterialModule } from '../angular-material/angular-material.module';
 
 @NgModule({
-	declarations: [ HeaderComponent, FooterComponent ],
-	imports: [ CommonModule, RouterModule, HttpClientModule ],
-	exports: [ HeaderComponent, FooterComponent ]
+    declarations: [HeaderComponent, FooterComponent],
+    imports: [
+        CommonModule,
+        RouterModule,
+        HttpClientModule,
+        AngularMaterialModule,
+    ],
+    exports: [HeaderComponent, FooterComponent],
 })
 export class CoreModule {}
