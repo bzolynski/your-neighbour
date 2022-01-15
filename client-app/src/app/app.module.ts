@@ -8,6 +8,8 @@ import { CoreModule } from './modules/core/core.module';
 import { HomeModule } from './modules/home/home.module';
 import { SettingsModule } from './modules/settings/settings.module';
 import { SharedModule } from './modules/shared/shared.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AngularMaterialModule } from './modules/angular-material/angular-material.module';
 
 @NgModule({
 	declarations: [ AppComponent ],
@@ -18,7 +20,9 @@ import { SharedModule } from './modules/shared/shared.module';
 		HomeModule,
 		RouterModule,
 		SharedModule,
-		SettingsModule
+		SettingsModule,
+		BrowserAnimationsModule,
+		AngularMaterialModule
 	],
 	bootstrap: [ AppComponent ],
 	exports: [ AppComponent ]
