@@ -8,6 +8,8 @@ using YourNeighbour.Application.Features.CategoryDefinitions.Commands.CreateCate
 using YourNeighbour.Application.Features.CategoryDefinitions.Commands.DeleteCategoryDefinition;
 using YourNeighbour.Application.Features.CategoryDefinitions.Commands.UpdateCategoryDefinition;
 using YourNeighbour.Application.Features.CategoryDefinitions.Dtos;
+using YourNeighbour.Application.Features.CategoryDefinitions.Queries.CheckCategoryDefinitionDisplayNameExists;
+using YourNeighbour.Application.Features.CategoryDefinitions.Queries.CheckCategoryDefinitionNameExists;
 using YourNeighbour.Application.Features.CategoryDefinitions.Queries.GetAllCategoryDefinitions;
 using YourNeighbour.Application.Features.CategoryDefinitions.Queries.GetCategoryDefinitionById;
 
@@ -48,6 +50,18 @@ namespace YourNeighbour.Api.Controllers
         {
             bool categoryDefinition = await Mediator.Send(new DeleteCategoryDefinitionCommand(id));
             return Models.Response.Success(categoryDefinition);
+        }
+        [HttpGet("nameExists")]
+        public async Task<ActionResult<Response>> CheckNameExists([FromQuery] string name)
+        {
+            bool exists = await Mediator.Send(new CheckCategoryDefinitionNameExistsQuery(name));
+            return Models.Response.Success(exists);
+        }
+        [HttpGet("displayNameExists")]
+        public async Task<ActionResult<Response>> CheckDisplayNameExists([FromQuery] string displayName)
+        {
+            bool exists = await Mediator.Send(new CheckCategoryDefinitionDisplayNameExistsQuery(displayName));
+            return Models.Response.Success(exists);
         }
     }
 }
