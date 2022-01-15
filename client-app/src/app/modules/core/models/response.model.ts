@@ -3,8 +3,8 @@ export enum ResponseStatus {
 	error
 }
 
-export interface Response<T> {
-	errorMessage: string;
+export interface Response<T = any> {
+	errorMessages: Array<string>;
 	responseObject: T;
 	responseStatus: ResponseStatus;
 }
