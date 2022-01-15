@@ -1,0 +1,13 @@
+<button class="btn btn-primary"
+        [type]="type"
+        [disabled]="disabled">
+    <div *ngIf="spinning; else noSpin">
+        <span class="spinner-border spinner-border-sm"
+              role="status"
+              aria-hidden="true"></span>
+        Loading...
+    </div>
+    <ng-template #noSpin>
+        <ng-content></ng-content>
+    </ng-template>
+</button>
