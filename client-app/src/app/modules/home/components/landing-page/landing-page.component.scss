@@ -1,65 +1,31 @@
-@use 'src/scss/abstracts' as *;
-$desktop-landing-height: 60vh;
 
-.spacer {
-	margin-top: $desktop-landing-height;
-	width: 100%;
-}
-.wrapper {
-	position: absolute;
-	width: 100vw;
-	top: 0;
-	left: 0;
-	height: $desktop-landing-height;
-	overflow: hidden;
-	.landing {
-		position: absolute;
-		top: 0;
-		left: 0;
-		background-image: url('/assets/landing-page-image-desktop.jpg');
-		height: $desktop-landing-height;
-		width: 100%;
-		background-size: cover;
-		background-repeat: no-repeat;
-		background-position: left center;
-		margin: auto;
-		.content-wrapper {
-			max-width: $container-max-width;
-			margin: auto;
-			height: calc(#{$desktop-landing-height} - 10vh);
-			display: grid;
-			align-items: center;
-			justify-content: left;
-			.content-container {
-				width: 100%;
-
-				.title-container {
-					display: grid;
-					justify-content: center;
-					font-variant: small-caps;
-					.title {
-						font-weight: normal;
-						font-size: clamp(3.5rem, 6vw, 7rem);
-						color: #fedc0a;
-						margin: 0;
-						text-shadow: $text-outline-shadow;
-					}
-					.subtitle {
-						font-weight: normal;
-						font-size: clamp(1.15rem, 2vw, 2rem);
-						color: #ffffff;
-						margin: 0;
-						text-shadow: $text-outline-shadow;
-					}
-				}
-				.search-container {
-					margin-top: 1.25rem;
-					width: 100%;
-					display: grid;
-					gap: 1rem;
-					grid-template-columns: 2fr 1fr;
-				}
-			}
-		}
-	}
+.landing-container{
+    width: 100%;
+    height: 100vh;
+    background-image: url('/assets/landing-workshop.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: right center;
+    position: relative;
+    .side-panel{
+        position: absolute;
+        height: 100%;
+        width: 50%;
+        top: 0;
+        left: 0;
+        background: rgb(240,240,240);
+        background: linear-gradient(45deg, rgba(240,240,240,1) 0%, rgba(254,254,254,1) 100%);
+    }
+    .center-panel{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        margin: auto;
+        height: 75vh;
+        width: 30vw;
+        mat-card{
+            height: 100%;
+        }
+    }
 }
