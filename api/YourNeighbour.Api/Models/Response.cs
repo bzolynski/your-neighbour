@@ -12,7 +12,7 @@ namespace YourNeighbour.Api.Models
     }
     public class Response
     {
-        public string ErrorMessage { get; set; }
+        public IEnumerable<string> ErrorMessages { get; set; }
         public object ResponseObject { get; set; }
         public ResponseStatus ResponseStatus { get; set; }
 
@@ -21,7 +21,15 @@ namespace YourNeighbour.Api.Models
             return new Response
             {
                 ResponseStatus = ResponseStatus.error,
-                ErrorMessage = errorMessage
+                ErrorMessages = new List<string> { errorMessage }
+            };
+        }
+        public static Response Error(IEnumerable<string> errorMessages)
+        {
+            return new Response
+            {
+                ResponseStatus = ResponseStatus.error,
+                ErrorMessages = errorMessages
             };
         }
 

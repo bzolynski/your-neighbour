@@ -30,7 +30,7 @@ namespace YourNeighbour.Application.PipelineBehaviors
                 .ToList();
 
             if (errors.Any())
-                throw new ValidationException(string.Join("\r\n", errors.Select(x => x.ErrorMessage)));
+                throw new ValidationException(errors);
 
             return await next();
         }
