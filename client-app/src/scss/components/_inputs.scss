@@ -1,9 +1,0 @@
-@use "../abstracts" as a;
-input[type=text] {
-	width: 100%;
-	height: 30px;
-	border: none;
-	border-radius: a.$border-radius;
-	padding: map-get(a.$spacers, 1) map-get(a.$spacers, 2);
-	box-sizing: border-box;
-}
