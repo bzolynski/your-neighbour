@@ -1,9 +1,20 @@
-@use 'src/scss/abstracts' as *;
+.tree {
+	a[role=toggler] {
+		cursor: pointer;
+	}
+	.mat-tree-node {
+		min-height: 30px !important;
+	}
+	.mat-nested-tree-node {
+		div[role=group] {
+			padding-left: 25px;
+			.mat-tree-node {
+				padding-left: 25px;
+			}
+		}
 
-.wrapper {
-	padding: 10px;
-	.list-container {
-		display: flex;
-		flex-direction: column;
+		.example-tree-invisible {
+			display: none;
+		}
 	}
 }

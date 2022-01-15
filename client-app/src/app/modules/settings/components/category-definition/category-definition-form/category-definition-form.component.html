@@ -1,49 +1,39 @@
-<div class="card bg-light mb-3">
-    <div class="card-body">
-        <form [formGroup]="form"
-              (ngSubmit)="onSubmit()">
-            <app-text-input [label]="'Nazwa'"
-                            [type]="'text'"
-                            [formControlName]="'name'">
-                <div slot="validation">
-                    <span *ngIf="nameControl.errors?.required">
-                        Pole jest wymagane
-                    </span>
-                    <span *ngIf="nameControl.errors?.usernameExists">
-                        Nazwa zajęta
-                    </span>
-                    <span *ngIf="nameControl.errors?.minlength">
-                        Minimalna długość: {{nameControl.errors?.minlength?.requiredLength}}
-                    </span>
-                </div>
-            </app-text-input>
-            <app-text-input [label]="'Nazwa wyświetlana'"
-                            [type]="'text'"
-                            [formControlName]="'displayName'">
-                <div slot="validation">
-                    <span *ngIf="displayNameControl.errors?.required">
-                        Pole jest wymagane
-                    </span>
-                    <span *ngIf="displayNameControl.errors?.usernameExists">
-                        Nazwa zajęta
-                    </span>
-                    <span *ngIf="displayNameControl.errors?.minlength">
-                        Minimalna długość: {{displayNameControl.errors?.minlength?.requiredLength}}
-                    </span>
-                </div>
-            </app-text-input>
+<form [formGroup]="form"
+      (ngSubmit)="onSubmit()">
+    <mat-card>
+        <mat-card-title *ngIf="editMode">{{categoryDefinition.displayName}}</mat-card-title>
+        <mat-card-subtitle *ngIf="editMode">{{categoryDefinition.name}}</mat-card-subtitle>
+        <mat-card-content>
+            <div>
 
-            <div class="form-check">
-                <label class="form-check-label"
-                       for="isActive">Aktywny</label>
-                <input type="checkbox"
-                       class="form-check-input"
-                       formControlName="isActive"
-                       id="isActive">
+                <app-text-input [label]="'Nazwa'"
+                                [type]="'text'"
+                                [formControlName]="'name'"
+                                [errorMessage]="nameErrorMessage">
+                </app-text-input>
             </div>
-            <app-spinner-button [type]="'submit'"
-                                [disabled]="loading || !form.valid"
-                                [spinning]="loading">Potwierdź</app-spinner-button>
-        </form>
-    </div>
-</div>
+            <div>
+                <app-text-input [label]="'Nazwa wyświetlana'"
+                                [type]="'text'"
+                                [formControlName]="'displayName'"
+                                [errorMessage]="displayNameErrorMessage">
+                </app-text-input>
+            </div>
+            <div>
+                <mat-checkbox class="example-margin"
+                              formControlName="isActive"
+                              id="isActive">Aktywny</mat-checkbox>
+
+            </div>
+        </mat-card-content>
+        <mat-card-actions>
+            <button mat-button
+                    color="primary"
+                    [type]="'submit'"
+                    [disabled]="loading || !form.valid">Potwierdź</button>
+        </mat-card-actions>
+        <mat-card-footer *ngIf="loading">
+            <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+        </mat-card-footer>
+    </mat-card>
+</form>

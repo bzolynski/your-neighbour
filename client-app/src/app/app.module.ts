@@ -9,7 +9,6 @@ import { HomeModule } from './modules/home/home.module';
 import { SettingsModule } from './modules/settings/settings.module';
 import { SharedModule } from './modules/shared/shared.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { AngularMaterialModule } from './modules/angular-material/angular-material.module';
 
 @NgModule({
 	declarations: [ AppComponent ],
@@ -22,7 +21,6 @@ import { AngularMaterialModule } from './modules/angular-material/angular-materi
 		SharedModule,
 		SettingsModule,
 		BrowserAnimationsModule,
-		AngularMaterialModule
 	],
 	bootstrap: [ AppComponent ],
 	exports: [ AppComponent ]

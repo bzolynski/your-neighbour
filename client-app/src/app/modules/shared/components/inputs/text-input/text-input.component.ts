@@ -1,5 +1,5 @@
 import { Component, ElementRef, Input, OnInit, Self, ViewChild } from '@angular/core';
-import { ControlValueAccessor, NgControl } from '@angular/forms';
+import { ControlValueAccessor, FormControl, NgControl } from '@angular/forms';
 
 @Component({
 	selector: 'app-text-input',
@@ -13,6 +13,10 @@ export class TextInputComponent implements OnInit, ControlValueAccessor {
 	@Input() type: string = 'text';
 	@Input() label: string = '';
 	@Input() placeholder: string = '';
+	@Input() errorMessage: string = '';
+    get control() : FormControl {
+        return this.controlDir.control as FormControl;
+    }
 
 	constructor(@Self() public controlDir : NgControl) {
         this.controlDir.valueAccessor = this;

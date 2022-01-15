@@ -11,8 +11,7 @@ import {
 	CategoryListComponent,
 	CategoryListItemComponent,
 	SettingsLayoutComponent,
-	SettingsSideBarComponent,
-	SettingsSideBarGroupComponent
+	SettingsSideBarComponent
 } from './components';
 import {
 	CategoryDefinitionSettingsComponent,
@@ -23,12 +22,12 @@ import { CategoryDetailsComponent } from './components/category/category-details
 import { CategoryFormComponent } from './components/category/category-form/category-form.component';
 import { SharedModule } from '../shared/shared.module';
 import { CategoryConnectionsEditComponent } from './components/category/category-connections-edit/category-connections-edit.component';
+import { AngularMaterialModule } from '../angular-material/angular-material.module';
 
 @NgModule({
 	declarations: [
 		SettingsComponent,
 		SettingsSideBarComponent,
-		SettingsSideBarGroupComponent,
 		CategoryDefinitionSettingsComponent,
 		CategoryDefinitionFormComponent,
 		CategoryDefinitionListComponent,
@@ -40,7 +39,7 @@ import { CategoryConnectionsEditComponent } from './components/category/category
 		CategoryListItemComponent,
 		CategoryDetailsComponent,
 		CategoryFormComponent,
-  CategoryConnectionsEditComponent
+		CategoryConnectionsEditComponent
 	],
 	imports: [
 		CommonModule,
@@ -48,7 +47,8 @@ import { CategoryConnectionsEditComponent } from './components/category/category
 		SettingsRoutingModule,
 		FormsModule,
 		ReactiveFormsModule,
-		SharedModule
+		SharedModule,
+		AngularMaterialModule
 	]
 })
 export class SettingsModule {}

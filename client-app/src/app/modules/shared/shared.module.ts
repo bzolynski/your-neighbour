@@ -4,10 +4,25 @@ import { TextInputWithDropdownComponent } from './components/form/text-input-wit
 import { RouterModule } from '@angular/router';
 import { SpinnerButtonComponent } from './components/buttons/spinner-button/spinner-button.component';
 import { TextInputComponent } from './components/inputs/text-input/text-input.component';
+import { AngularMaterialModule } from '../angular-material/angular-material.module';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
-	declarations: [ TextInputWithDropdownComponent, SpinnerButtonComponent, TextInputComponent ],
-	imports: [ CommonModule, RouterModule ],
-	exports: [ TextInputWithDropdownComponent, SpinnerButtonComponent, TextInputComponent ]
+    declarations: [
+        TextInputWithDropdownComponent,
+        SpinnerButtonComponent,
+        TextInputComponent,
+    ],
+    imports: [
+        CommonModule,
+        RouterModule,
+        AngularMaterialModule,
+        ReactiveFormsModule,
+    ],
+    exports: [
+        TextInputWithDropdownComponent,
+        SpinnerButtonComponent,
+        TextInputComponent,
+    ],
 })
 export class SharedModule {}

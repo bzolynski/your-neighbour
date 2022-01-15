@@ -32,13 +32,30 @@ export class CategoryDefinitionFormComponent implements OnInit, OnDestroy {
 		isActive: new FormControl(true)
 	});
 
-	get displayNameControl(): AbstractControl {
-		return this.form.controls['displayName'];
+	get displayNameErrorMessage(): string {
+		const displayNameControl = this.form.controls['displayName'];
+        if(displayNameControl.errors?.required)
+            return "Pole jest wymagane";
+        if(displayNameControl.errors?.minlength)
+            return `Minimalna długość: ${displayNameControl.errors?.minlength?.requiredLength}`;
+        if(displayNameControl.errors?.usernameExists)
+            return "Nazwa zajęta";
+        return '';
 	}
-	get nameControl(): AbstractControl {
-		return this.form.controls['name'];
+	get nameErrorMessage(): string {
+		const nameControl = this.form.controls['name'];
+        if(nameControl.errors?.required)
+            return "Pole jest wymagane";
+        if(nameControl.errors?.minlength)
+            return `Minimalna długość: ${nameControl.errors?.minlength?.requiredLength}`;
+        if(nameControl.errors?.usernameExists)
+            return "Nazwa zajęta";
+        return '';
 	}
+    get test(): FormControl {
+		return this.form.controls['isActive'] as FormControl;
 
+    }
 	// Private members
 	destroy$: Subject<boolean> = new Subject<boolean>();
 	constructor(

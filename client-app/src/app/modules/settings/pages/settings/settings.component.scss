@@ -1,2 +1,7 @@
-@use 'src/scss/abstracts' as *;
-
+.drawer-container{
+    height: 100vh;
+    mat-drawer{
+        width: 15rem;
+        height: fit-content;
+    }
+}

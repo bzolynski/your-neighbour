@@ -1,2 +1,3 @@
-<a class="list-group-item list-group-item-action"
-   (click)="openDetails()">{{categoryDefinition.displayName}}</a>
+<mat-list-option (selectedChange)="openDetails()">
+    <div mat-line>{{categoryDefinition.displayName}}</div>
+</mat-list-option>

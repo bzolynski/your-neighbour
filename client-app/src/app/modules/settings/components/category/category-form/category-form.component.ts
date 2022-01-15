@@ -23,6 +23,22 @@ export class CategoryFormComponent implements OnInit, OnDestroy {
 		isActive: new FormControl(true)
 	});
 
+    get nameErrorMessage() {
+        const nameControl = this.form.controls['name'];
+        if(nameControl.errors?.required)
+            return "Pole jest wymagane";
+        if(nameControl.errors?.minlength)
+            return `Minimalna długość: ${nameControl.errors?.minlength?.requiredLength}`;
+        return '';
+    }
+    get definitionIdErrorMessage() {
+        const nameControl = this.form.controls['name'];
+        if(nameControl.errors?.required)
+            return "Pole jest wymagane";
+
+        return '';
+    }
+
 	// Private members
 	destroy$: Subject<boolean> = new Subject<boolean>();
 

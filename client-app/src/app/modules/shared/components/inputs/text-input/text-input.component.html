@@ -1,16 +1,14 @@
-<div class="form-group">
-    <label [for]='label'>{{label}}</label>
-    <input #input
+<mat-form-field appearance="outline">
+    <mat-label>{{label}}</mat-label>
+    <input matInput
+           #input
            [type]="type"
            [id]="label"
            [placeholder]="placeholder"
            (input)="onChange(input!.value)"
            (blur)="onTouched()"
-           [ngClass]="(controlDir?.control?.touched) ? !controlDir?.control?.valid ? 'is-invalid' : 'is-valid' : '' "
-           class="form-control">
-    <div class="invalid-feedback d-block"
-         *ngIf="(!controlDir?.control?.valid && controlDir?.control?.touched)">
-        <ng-content select="[slot=validation]"></ng-content>
-
-    </div>
-</div>
+           [formControl]="control">
+    <mat-error *ngIf="errorMessage">
+        {{errorMessage}}
+    </mat-error>
+</mat-form-field>
