@@ -8,7 +8,9 @@ import { ICategoryDefinition } from 'src/app/modules/core/models';
 	styleUrls: [ './category-definition-list-item.component.scss' ]
 })
 export class CategoryDefinitionListItemComponent implements OnInit {
+    // Public properties
 	@Input() categoryDefinition: ICategoryDefinition = {} as ICategoryDefinition;
+    
 	constructor(private router: Router, private activatedRoute: ActivatedRoute) {}
 
 	ngOnInit(): void {}

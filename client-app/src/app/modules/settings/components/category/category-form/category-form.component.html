@@ -1,5 +1,4 @@
 <div class="card bg-light mb-3">
-    <div class="card-header">{{categoryDefinition.displayName}}</div>
     <div class="card-body">
         <form [formGroup]="form"
               (ngSubmit)="onSubmit()">
@@ -10,12 +9,17 @@
                        formControlName="name"
                        class="form-control">
             </div>
+
             <div class="form-group">
-                <label for="displayName">Nazwa wyświetlana</label>
-                <input type="text"
-                       id="displayName"
-                       formControlName="displayName"
-                       class="form-control">
+                <label for="definitionId">Definicja</label>
+                <select class="form-select"
+                        id="definitionId"
+                        formControlName="definitionId">
+                    <option *ngFor="let definition of definitions"
+                            [value]="definition.id">
+                        {{definition.displayName}}
+                    </option>
+                </select>
             </div>
             <div class="form-check">
                 <label class="form-check-label"
@@ -25,8 +29,9 @@
                        formControlName="isActive"
                        id="isActive">
             </div>
-            <button type="submit"
-                    class="btn btn-primary">Potwierdź</button>
+            <app-spinner-button [type]="'submit'"
+                                [disabled]="loading || !form.valid"
+                                [spinning]="loading">Potwierdź</app-spinner-button>
         </form>
     </div>
 </div>

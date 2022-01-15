@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subject, Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { ICategoryDefinition } from 'src/app/modules/core/models';
+import { HttpError, ICategoryDefinition, Response } from 'src/app/modules/core/models';
 import { CategoryDefinitionsService } from 'src/app/modules/core/services';
 
 @Component({
@@ -12,6 +12,7 @@ import { CategoryDefinitionsService } from 'src/app/modules/core/services';
 export class CategoryDefinitionListComponent implements OnInit, OnDestroy {
 	// Public properties
 	categoryDefinitions: Array<ICategoryDefinition> = [] as Array<ICategoryDefinition>;
+
 	// Private members
 	destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -22,7 +23,6 @@ export class CategoryDefinitionListComponent implements OnInit, OnDestroy {
 			this.fetchCategoryDefinitions();
 		});
 		this.fetchCategoryDefinitions();
-		console.log(this.categoryDefinitions);
 	}
 
 	ngOnDestroy(): void {
@@ -35,8 +35,8 @@ export class CategoryDefinitionListComponent implements OnInit, OnDestroy {
 			(response) => {
 				this.categoryDefinitions = response.responseObject;
 			},
-			(error) => {
-				console.log(error);
+			(error: HttpError<Response>) => {
+				console.log(error.error);
 			}
 		);
 	};

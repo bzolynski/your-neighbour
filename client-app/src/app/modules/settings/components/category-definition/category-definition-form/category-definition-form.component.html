@@ -1,0 +1,49 @@
+<div class="card bg-light mb-3">
+    <div class="card-body">
+        <form [formGroup]="form"
+              (ngSubmit)="onSubmit()">
+            <app-text-input [label]="'Nazwa'"
+                            [type]="'text'"
+                            [formControlName]="'name'">
+                <div slot="validation">
+                    <span *ngIf="nameControl.errors?.required">
+                        Pole jest wymagane
+                    </span>
+                    <span *ngIf="nameControl.errors?.usernameExists">
+                        Nazwa zajęta
+                    </span>
+                    <span *ngIf="nameControl.errors?.minlength">
+                        Minimalna długość: {{nameControl.errors?.minlength?.requiredLength}}
+                    </span>
+                </div>
+            </app-text-input>
+            <app-text-input [label]="'Nazwa wyświetlana'"
+                            [type]="'text'"
+                            [formControlName]="'displayName'">
+                <div slot="validation">
+                    <span *ngIf="displayNameControl.errors?.required">
+                        Pole jest wymagane
+                    </span>
+                    <span *ngIf="displayNameControl.errors?.usernameExists">
+                        Nazwa zajęta
+                    </span>
+                    <span *ngIf="displayNameControl.errors?.minlength">
+                        Minimalna długość: {{displayNameControl.errors?.minlength?.requiredLength}}
+                    </span>
+                </div>
+            </app-text-input>
+
+            <div class="form-check">
+                <label class="form-check-label"
+                       for="isActive">Aktywny</label>
+                <input type="checkbox"
+                       class="form-check-input"
+                       formControlName="isActive"
+                       id="isActive">
+            </div>
+            <app-spinner-button [type]="'submit'"
+                                [disabled]="loading || !form.valid"
+                                [spinning]="loading">Potwierdź</app-spinner-button>
+        </form>
+    </div>
+</div>

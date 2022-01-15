@@ -1,10 +1,17 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { CategoryDefinitionDetailsComponent } from './components/category-definition-details/category-definition-details.component';
-import { CategoryDefinitionFormComponent } from './components/category-definition-form/category-definition-form.component';
-import { CategoryDefinitionSettingsComponent } from './pages/category-definition-settings/category-definition-settings.component';
-import { CategorySettingsComponent } from './pages/category-settings/category-settings.component';
-import { SettingsComponent } from './pages/settings/settings.component';
+import {
+	CategoryDefinitionDetailsComponent,
+	CategoryDefinitionFormComponent,
+	CategoryDetailsComponent,
+	CategoryFormComponent
+} from './components';
+import { CategoryConnectionsEditComponent } from './components/category/category-connections-edit/category-connections-edit.component';
+import {
+	CategoryDefinitionSettingsComponent,
+	CategorySettingsComponent,
+	SettingsComponent
+} from './pages';
 
 const routes: Routes = [
 	{
@@ -12,19 +19,20 @@ const routes: Routes = [
 		component: SettingsComponent,
 		children: [
 			{
-				path: 'categoryDefinition',
+				path: 'category-definition',
 				component: CategoryDefinitionSettingsComponent,
 				children: [
+					{
+						path: 'new',
+						pathMatch: 'full',
+						component: CategoryDefinitionFormComponent
+					},
 					{
 						path: ':id',
 						component: CategoryDefinitionDetailsComponent
 					},
 					{
-						path: 'form/new',
-						component: CategoryDefinitionFormComponent
-					},
-					{
-						path: 'form/:id',
+						path: ':id/edit',
 						component: CategoryDefinitionFormComponent
 					}
 				]
@@ -32,7 +40,25 @@ const routes: Routes = [
 			{
 				path: 'category',
 				component: CategorySettingsComponent,
-				children: []
+				children: [
+					{
+						path: 'connections',
+						component: CategoryConnectionsEditComponent
+					},
+					{
+						path: 'new',
+						pathMatch: 'full',
+						component: CategoryFormComponent
+					},
+					{
+						path: ':id',
+						component: CategoryDetailsComponent
+					},
+					{
+						path: ':id/edit',
+						component: CategoryFormComponent
+					}
+				]
 			}
 		]
 	}

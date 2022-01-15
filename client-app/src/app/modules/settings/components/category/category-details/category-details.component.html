@@ -1,0 +1,12 @@
+<div class="card bg-light mb-3">
+    <div class="card-body">
+        <h5 class="card-title">Nazwa: {{category.name}}</h5>
+        <p class="card-text">Aktywny: {{category.isActive ? "tak" : "nie"}}</p>
+        <p class="card-text">Definicja: {{category.definition?.displayName}}</p>
+        <p class="card-text">TODO: zrobić jakiś content</p>
+        <a class="btn btn-primary me-2"
+           (click)="openForm()">Edytuj</a>
+        <a class="btn btn-danger "
+           (click)="delete()">Usuń</a>
+    </div>
+</div>

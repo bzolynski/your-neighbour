@@ -1,9 +1,9 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { catchError } from 'rxjs/operators';
-import ObservableResponse from '../types/observable-response';
+import { ObservableResponse } from '../types';
 
 @Injectable({
 	providedIn: 'root'
@@ -18,9 +18,9 @@ export class ApiService {
 		return throwError(error);
 	};
 
-	get = <T>(path: string): ObservableResponse<T> => {
+	get = <T>(path: string, params?: HttpParams): ObservableResponse<T> => {
 		return this.client
-			.get<T>(`${environment.api_url}/${path}`)
+			.get<T>(`${environment.api_url}/${path}`, { params: params })
 			.pipe(catchError(this.handleError));
 	};
 	post = <T>(path: string, body: Object): ObservableResponse<T> => {

@@ -1,7 +1,8 @@
+import { HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { ICategoryDefinition } from '../models';
-import ObservableResponse from '../types/observable-response';
+import { ObservableResponse } from '../types';
 import { ApiService } from './';
 
 @Injectable({
@@ -28,5 +29,13 @@ export class CategoryDefinitionsService {
 	};
 	delete = (id: number): ObservableResponse<boolean> => {
 		return this.apiService.delete<boolean>(`categoryDefinition/delete/${id}`);
+	};
+	checkNameExists = (name: string): ObservableResponse<boolean> => {
+		const params = new HttpParams().set('name', name);
+		return this.apiService.get<boolean>(`categoryDefinition/nameExists`, params);
+	};
+	checkDisplayNameExists = (displayName: string): ObservableResponse<boolean> => {
+		const params = new HttpParams().set('displayName', displayName);
+		return this.apiService.get<boolean>(`categoryDefinition/displayNameExists`, params);
 	};
 }

@@ -1,10 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { ICategoryDefinition } from 'src/app/modules/core/models';
 import { CategoryDefinitionsService } from 'src/app/modules/core/services/';
+import { CategoryDefinitionAsyncValidators } from '../../../validators/category-definition-validators';
 
 @Component({
 	selector: 'app-category-definition-form',
@@ -13,19 +14,37 @@ import { CategoryDefinitionsService } from 'src/app/modules/core/services/';
 })
 export class CategoryDefinitionFormComponent implements OnInit, OnDestroy {
 	// Public properties
+	editMode: boolean = false;
+	loading: boolean = false;
 	categoryDefinition: ICategoryDefinition = {} as ICategoryDefinition;
 	form: FormGroup = this.fb.group({
-		name: [ null ],
-		displayName: [ null ],
-		isActive: [ true ]
+		name: new FormControl(
+			'',
+			[ Validators.required, Validators.minLength(3) ],
+			[
+				CategoryDefinitionAsyncValidators.checkNameExists(
+					this.categoryDefinition,
+					this.categoryDefinitionsService
+				)
+			]
+		),
+		displayName: new FormControl('', [ Validators.required, Validators.minLength(3) ]),
+		isActive: new FormControl(true)
 	});
+
+	get displayNameControl(): AbstractControl {
+		return this.form.controls['displayName'];
+	}
+	get nameControl(): AbstractControl {
+		return this.form.controls['name'];
+	}
 
 	// Private members
 	destroy$: Subject<boolean> = new Subject<boolean>();
-	editMode$: boolean = false;
 	constructor(
 		private fb: FormBuilder,
 		private categoryDefinitionsService: CategoryDefinitionsService,
+		private router: Router,
 		private activatedRoute: ActivatedRoute
 	) {}
 
@@ -37,17 +56,17 @@ export class CategoryDefinitionFormComponent implements OnInit, OnDestroy {
 					.getById(id)
 					.pipe(takeUntil(this.destroy$))
 					.subscribe(
-						(data) => {
-							const { name, displayName, isActive } = data.responseObject;
-							Object.assign(this.categoryDefinition, data.responseObject);
+						(response) => {
+							const { name, displayName, isActive } = response.responseObject;
+							Object.assign(this.categoryDefinition, response.responseObject);
 							this.form.setValue({ name, displayName, isActive });
-							this.editMode$ = true;
+							this.editMode = true;
 						},
 						(error) => {
 							console.log(error);
 						}
 					);
-			} else this.editMode$ = false;
+			} else this.editMode = false;
 		});
 	}
 
@@ -56,18 +75,20 @@ export class CategoryDefinitionFormComponent implements OnInit, OnDestroy {
 		this.destroy$.unsubscribe;
 	}
 	onSubmit = () => {
+		this.loading = true;
 		Object.assign(this.categoryDefinition, this.form.value);
-		if (!this.editMode$) {
+		if (!this.editMode) {
 			this.categoryDefinitionsService
 				.create(this.categoryDefinition)
 				.pipe(takeUntil(this.destroy$))
 				.subscribe(
-					(data) => {
+					(response) => {
 						this.categoryDefinitionsService.changed.next();
+						this.loading = false;
+						this.navigateToDetails(response.responseObject.id);
 					},
 					(error) => {
-						console.log('ERR');
-						console.log(error);
+						this.loading = false;
 					}
 				);
 		} else {
@@ -75,15 +96,26 @@ export class CategoryDefinitionFormComponent implements OnInit, OnDestroy {
 				.update(this.categoryDefinition.id, this.categoryDefinition)
 				.pipe(takeUntil(this.destroy$))
 				.subscribe(
-					(data) => {
+					(response) => {
 						this.categoryDefinitionsService.changed.next();
+						this.loading = false;
+						this.navigateBack();
 					},
 					(error) => {
-						console.log('ERR');
-						console.log(error);
+						this.loading = false;
 					}
 				);
 		}
-		this.form.reset();
+	};
+
+	private navigateToDetails = (id: number) => {
+		this.router.navigate([ '../', id ], {
+			relativeTo: this.activatedRoute
+		});
+	};
+	private navigateBack = () => {
+		this.router.navigate([ '../' ], {
+			relativeTo: this.activatedRoute
+		});
 	};
 }

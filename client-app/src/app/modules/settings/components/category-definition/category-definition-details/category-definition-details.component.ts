@@ -43,7 +43,7 @@ export class CategoryDefinitionDetailsComponent implements OnInit {
 	}
 
 	openForm = () => {
-		this.router.navigate([ '../form', this.categoryDefinition.id ], {
+		this.router.navigate([ 'edit' ], {
 			relativeTo: this.activatedRoute
 		});
 	};
@@ -54,14 +54,17 @@ export class CategoryDefinitionDetailsComponent implements OnInit {
 			.subscribe(
 				(data) => {
 					console.log(`Usunięto pomyślnie : ${data.responseObject ? 'tak' : 'nie'}`);
-                    this.categoryDefinitionsService.changed.next();
-					this.router.navigate([ '../' ], {
-						relativeTo: this.activatedRoute
-					});
+					this.categoryDefinitionsService.changed.next();
+					this.navigateBack();
 				},
 				(error) => {
 					console.log(error);
 				}
 			);
 	};
+    private navigateBack = () => {
+        this.router.navigate([ '../' ], {
+            relativeTo: this.activatedRoute
+        });
+    }
 }

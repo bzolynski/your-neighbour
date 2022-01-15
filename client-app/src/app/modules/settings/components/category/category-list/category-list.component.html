@@ -1,0 +1,23 @@
+<div class="">
+    <div class="row my-1">
+        <div class="col-6">
+            <a [routerLink]="'/settings/category/new'"
+               class="btn btn-warning col-12">Dodaj nowe</a>
+        </div>
+        <div class="col-6">
+            <a [routerLink]="'/settings/category/connections'"
+               class="btn btn-primary col-12">Edytuj połączenia</a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="list-group">
+                <app-category-list-item *ngFor="let category of categories"
+                                        [category]="category">
+                </app-category-list-item>
+
+            </div>
+        </div>
+    </div>
+
+</div>
