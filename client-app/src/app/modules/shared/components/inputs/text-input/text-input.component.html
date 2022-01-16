@@ -2,12 +2,21 @@
     <mat-label>{{label}}</mat-label>
     <input matInput
            #input
-           [type]="type"
+           [type]="type === 'password' ? (hidePassword ? 'password' : 'text') : type"
            [id]="label"
            [placeholder]="placeholder"
            (input)="onChange(input!.value)"
            (blur)="onTouched()"
            [formControl]="control">
+    <button *ngIf="type ==='password'"
+            mat-icon-button
+            matSuffix
+            type="button"
+            (click)="hidePassword = !hidePassword"
+            [attr.aria-label]="'Hide password'"
+            [attr.aria-pressed]="hidePassword">
+        <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+    </button>
     <mat-error *ngIf="errorMessage">
         {{errorMessage}}
     </mat-error>

@@ -1,28 +1,36 @@
-import { Component, ElementRef, Input, OnInit, Self, ViewChild } from '@angular/core';
+import {
+    Component,
+    ElementRef,
+    Input,
+    OnInit,
+    Self,
+    ViewChild,
+} from '@angular/core';
 import { ControlValueAccessor, FormControl, NgControl } from '@angular/forms';
 
 @Component({
-	selector: 'app-text-input',
-	templateUrl: './text-input.component.html',
-	styleUrls: [ './text-input.component.scss' ]
+    selector: 'app-text-input',
+    templateUrl: './text-input.component.html',
+    styleUrls: ['./text-input.component.scss'],
 })
 export class TextInputComponent implements OnInit, ControlValueAccessor {
-	// Public properties
-	@ViewChild('input', { static: true }) input!: ElementRef<HTMLInputElement>;
-	@Input() formControlName: string = '';
-	@Input() type: string = 'text';
-	@Input() label: string = '';
-	@Input() placeholder: string = '';
-	@Input() errorMessage: string = '';
-    get control() : FormControl {
+    // Public properties
+    @ViewChild('input', { static: true }) input!: ElementRef<HTMLInputElement>;
+    @Input() formControlName: string = '';
+    @Input() type: string = 'text';
+    @Input() label: string = '';
+    @Input() placeholder: string = '';
+    @Input() errorMessage: string = '';
+    get control(): FormControl {
         return this.controlDir.control as FormControl;
     }
+    hidePassword: boolean = true;
 
-	constructor(@Self() public controlDir : NgControl) {
+    constructor(@Self() public controlDir: NgControl) {
         this.controlDir.valueAccessor = this;
     }
 
-	ngOnInit(): void {
+    ngOnInit(): void {
         const control = this.controlDir.control;
         const validators = control?.validator ? [control.validator] : [];
         const asyncValidators = control?.asyncValidator ? [control.asyncValidator] : [];
@@ -32,18 +40,17 @@ export class TextInputComponent implements OnInit, ControlValueAccessor {
         control?.updateValueAndValidity;
     }
 
-    onChange = (value: string) => {}
+    onChange = (value: string) => {};
 
-    onTouched = () => {}
+    onTouched = () => {};
 
-	writeValue(obj: any): void {
-		this.input.nativeElement.value = obj || '';
-	}
-	registerOnChange(fn: any): void {
-		this.onChange = fn;
-	}
-	registerOnTouched(fn: any): void {
-		this.onTouched = fn;
-	}
-
+    writeValue(obj: any): void {
+        this.input.nativeElement.value = obj || '';
+    }
+    registerOnChange(fn: any): void {
+        this.onChange = fn;
+    }
+    registerOnTouched(fn: any): void {
+        this.onTouched = fn;
+    }
 }
