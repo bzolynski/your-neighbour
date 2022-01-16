@@ -1,12 +1,15 @@
 
 .landing-container{
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100vh;
     background-image: url('/assets/landing-workshop.png');
     background-size: cover;
     background-repeat: no-repeat;
     background-position: right center;
-    position: relative;
+
     .side-panel{
         position: absolute;
         height: 100%;
@@ -15,6 +18,9 @@
         left: 0;
         background: rgb(240,240,240);
         background: linear-gradient(45deg, rgba(240,240,240,1) 0%, rgba(254,254,254,1) 100%);
+        @media (max-width: 1280px) {
+            display: none;
+        }
     }
     .center-panel{
         position: absolute;
@@ -22,10 +28,11 @@
         left: 50%;
         transform: translate(-50%, -50%);
         margin: auto;
-        height: 75vh;
-        width: 30vw;
+        height: 530px;
+        width: 380px;
         mat-card{
-            height: 100%;
+            height: 100% !important;
         }
+
     }
 }
