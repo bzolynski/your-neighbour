@@ -1,1 +1,6 @@
 @forward 'base';
+
+// override angular-material tab default height
+mat-card, mat-tab-group, .mat-tab-body-wrapper{
+    height: 100%;
+}
