@@ -1,28 +1,26 @@
-<form class="form">
-    <div class="login-avatar"></div>
-    <mat-form-field appearance="outline">
-        <mat-label>Login</mat-label>
-        <input matInput
-               [type]="'text'">
-    </mat-form-field>
-    <mat-form-field appearance="outline">
-        <mat-label>Hasło</mat-label>
-        <input matInput
-               [type]="hide ? 'password' : 'text'">
-        <button mat-icon-button
-                matSuffix
-                type="button"
-                (click)="hide = !hide"
-                [attr.aria-label]="'Hide password'"
-                [attr.aria-pressed]="hide">
-            <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-        </button>
-    </mat-form-field>
-    <button mat-stroked-button
-            color="primary"
-            class="submit-button">Zaloguj</button>
+<div class="wrapper">
+    <div class="icon"></div>
+    <form class="form-group"
+          [formGroup]="form"
+          (ngSubmit)="onSubmit()">
+        <app-text-input [label]="'Login lub email'"
+                        [type]="'text'"
+                        [formControlName]="'login'"
+                        [errorMessage]="loginErrorMessage">
+        </app-text-input>
+        <app-text-input [label]="'Hasło'"
+                        [type]="'password'"
+                        [formControlName]="'password'"
+                        [errorMessage]="passwordErrorMessage">
+        </app-text-input>
+        <button mat-stroked-button
+                [type]="'submit'"
+                [disabled]="!form.valid"
+                color="primary"
+                class="submit-button">Zaloguj</button>
+    </form>
 
-    <div class="external-login-buttons">
+    <div class="external-buttons">
         <button mat-raised-button
                 color="primary"
                 class="submit-button">Placeholder dla facebooka</button>
@@ -31,7 +29,7 @@
                 disabled
                 color="warn"
                 class="submit-button">Placeholder dla google</button>
-
     </div>
+
     <span class="no-acc-link">Kontynuuj bez konta</span>
-</form>
+</div>
