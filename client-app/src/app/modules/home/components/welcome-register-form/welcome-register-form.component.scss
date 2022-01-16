@@ -1,0 +1,45 @@
+.wrapper{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    height: 100%;
+    gap:10px;
+    .icon{
+        margin-top: 20px;
+        height: 70px;
+        width: 70px;
+
+        background-image: url('/assets/fingerprint.png');
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: right center;
+
+    }
+
+    .form-group{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
+
+    .submit-button{
+        height: 40px;
+        width: 80%;
+    }
+
+    .external-buttons{
+        width: 80%;
+        display: flex;
+        flex-direction: row;
+        gap: 5px;
+        align-items: center;
+    }
+    app-text-input{
+        width: 80%;
+    }
+    mat-form-field{
+        width: 80%;
+    }
+}
