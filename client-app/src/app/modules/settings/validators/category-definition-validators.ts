@@ -15,8 +15,6 @@ export class CategoryDefinitionAsyncValidators {
 			const debounceTime = 500;
 			return timer(debounceTime).pipe(
 				switchMap(() => {
-					console.log(categoryDefinition.name);
-
 					if (control.value === categoryDefinition.name) return of(null);
 					if (!control.value) return of(null);
 					return categoryDefinitionsService.checkNameExists(control.value).pipe(

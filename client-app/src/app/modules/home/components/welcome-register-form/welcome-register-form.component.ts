@@ -6,6 +6,7 @@ import {
     Validators,
 } from '@angular/forms';
 import { Subject } from 'rxjs';
+import { FormGroupValidators } from 'src/app/modules/shared/validators';
 
 @Component({
     selector: 'app-welcome-register-form',
@@ -14,11 +15,18 @@ import { Subject } from 'rxjs';
 })
 export class WelcomeRegisterFormComponent implements OnInit {
     // Public properties
-    form: FormGroup = this.fb.group({
-        email: new FormControl('', [Validators.required, Validators.email]),
-        password: new FormControl('', [Validators.required]),
-        repeatPassword: new FormControl('', [Validators.required]),
-    });
+    form: FormGroup = this.fb.group(
+        {
+            email: new FormControl('', [Validators.required, Validators.email]),
+            password: new FormControl('', [Validators.required]),
+            confirmPassword: new FormControl('', [Validators.required]),
+        },
+        {
+            validator: Validators.compose([
+                FormGroupValidators.checkEqual('confirmPassword', ['password']),
+            ]),
+        }
+    );
 
     get emailErrorMessage(): string {
         const loginControl = this.form.controls['email'];
@@ -31,9 +39,12 @@ export class WelcomeRegisterFormComponent implements OnInit {
         if (passwordControl.errors?.required) return 'Pole jest wymagane';
         return '';
     }
-    get repeatPasswordErrorMessage(): string {
-        const repeatPasswordControl = this.form.controls['repeatPassword'];
-        if (repeatPasswordControl.errors?.required) return 'Pole jest wymagane';
+    get confirmPasswordErrorMessage(): string {
+        const confirmPasswordControl = this.form.controls['confirmPassword'];
+        if (confirmPasswordControl.errors?.required)
+            return 'Pole jest wymagane';
+        if (confirmPasswordControl.errors?.notEqual)
+            return 'Podane hasła nie są takie same';
         return '';
     }
 
