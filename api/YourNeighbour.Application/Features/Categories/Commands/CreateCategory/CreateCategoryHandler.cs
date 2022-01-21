@@ -4,7 +4,7 @@ using YourNeighbour.Application.Abstractions;
 using YourNeighbour.Application.Features.Categories.Dtos;
 using YourNeighbour.Domain.Entities;
 
-namespace YourNeighbour.Application.Features.Categories.Commands
+namespace YourNeighbour.Application.Features.Categories.Commands.CreateCategory
 {
     public sealed class CreateCategoryHandler : ICommandHandler<CreateCategoryCommand, CategoryDto>
     {

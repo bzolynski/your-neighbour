@@ -3,10 +3,9 @@ using System.Threading.Tasks;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using YourNeighbour.Application.Abstractions;
-using YourNeighbour.Application.Features.CategoryDefinitions.Commands.UpdateCategoryDefinition;
 using YourNeighbour.Domain.Entities.Definitions;
 
-namespace YourNeighbour.Application.Features.CategoryDefinitions.Commands.CreateCategoryDefinition
+namespace YourNeighbour.Application.Features.CategoryDefinitions.Commands.UpdateCategoryDefinition
 {
     public sealed class UpdateCategoryDefinitionCommandValidator : AbstractValidator<UpdateCategoryDefinitionCommand>
     {
