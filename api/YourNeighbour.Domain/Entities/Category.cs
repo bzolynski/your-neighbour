@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using YourNeighbour.Domain.Entities.Common;
 using YourNeighbour.Domain.Entities.Definitions;
 
 namespace YourNeighbour.Domain.Entities
 {
-    public class Category : EntityBase
+    public class Category : EntityCustom
     {
         public Category()
         {

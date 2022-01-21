@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using YourNeighbour.Domain.Entities.Common;
 
 namespace YourNeighbour.Domain.Entities.Definitions
 {
-    public class DefinitionBase : EntityBase
+    public class DefinitionBase : EntityCustom
     {
         public string Name { get; set; }
         public string DisplayName { get; set; }

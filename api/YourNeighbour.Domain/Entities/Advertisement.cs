@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using YourNeighbour.Domain.Entities.Common;
 using YourNeighbour.Domain.Entities.Definitions;
+using YourNeighbour.Domain.Entities.Identity;
 
 namespace YourNeighbour.Domain.Entities
 {
-    public class Advertisement : EntityBase
+    public class Advertisement : EntityCustom
     {
         public User User { get; set; }
         public DateTime DateCreated { get; set; }

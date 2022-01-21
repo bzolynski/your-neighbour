@@ -1,18 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 
-namespace YourNeighbour.Domain.Entities
+namespace YourNeighbour.Domain.Entities.Identity
 {
-    public class Role : EntityBase
+    public class Role : IdentityRole<int>
     {
         public Role()
         {
             RoleUsers = new HashSet<UserRole>();
         }
-        public string Name { get; set; }
+        public Guid Guid { get; set; } = Guid.NewGuid();
 
         public ICollection<UserRole> RoleUsers { get; private set; }
     }

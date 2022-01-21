@@ -1,27 +1,31 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using System.Reflection;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using YourNeighbour.Application.Abstractions;
 using YourNeighbour.Domain.Entities;
 using YourNeighbour.Domain.Entities.Definitions;
+using YourNeighbour.Domain.Entities.Identity;
+
 
 namespace YourNeighbour.EntityFramework
 {
-    public class ApplicationDbContext : DbContext, IApplicationDbContext
+    public class ApplicationDbContext : IdentityDbContext
+       <User,
+        Role,
+        int,
+        UserClaim,
+        UserRole,
+        UserLogin,
+        RoleClaim,
+        UserToken>, IApplicationDbContext
     {
         public ApplicationDbContext(DbContextOptions options) : base(options) { }
 
         public DbSet<Advertisement> Advertisements { get; set; }
         public DbSet<Category> Categories { get; set; }
-        public DbSet<Role> Roles { get; set; }
-        public DbSet<User> Users { get; set; }
-        public DbSet<UserRole> UserRoles { get; set; }
 
         public DbSet<AdvertisementDefinition> AdvertisementDefinitions { get; set; }
         public DbSet<CategoryDefinition> CategoryDefinitions { get; set; }

@@ -1,11 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using YourNeighbour.Domain.Entities;
+using YourNeighbour.Domain.Entities.Identity;
 
 namespace YourNeighbour.EntityFramework.Configuration
 {
@@ -13,6 +8,8 @@ namespace YourNeighbour.EntityFramework.Configuration
     {
         public void Configure(EntityTypeBuilder<UserRole> builder)
         {
+            builder.ToTable("UserRoles");
+
             builder.HasKey(ur => new { ur.UserId, ur.RoleId });
 
             builder.HasOne(ur => ur.User)
