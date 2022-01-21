@@ -14,7 +14,7 @@ import { Subject } from 'rxjs';
 })
 export class WelcomeLoginFormComponent implements OnInit, OnDestroy {
     // Public properties
-    form: FormGroup = this.fb.group({
+    form: FormGroup = new FormGroup({
         login: new FormControl('', [Validators.required]),
         password: new FormControl('', [Validators.required]),
     });
@@ -33,7 +33,7 @@ export class WelcomeLoginFormComponent implements OnInit, OnDestroy {
     // Private members
     destroy$: Subject<boolean> = new Subject<boolean>();
 
-    constructor(private fb: FormBuilder) {}
+    constructor() {}
 
     ngOnInit(): void {}
 

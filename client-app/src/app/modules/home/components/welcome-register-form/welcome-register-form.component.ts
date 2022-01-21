@@ -15,17 +15,13 @@ import { FormGroupValidators } from 'src/app/modules/shared/validators';
 })
 export class WelcomeRegisterFormComponent implements OnInit {
     // Public properties
-    form: FormGroup = this.fb.group(
+    form: FormGroup = new FormGroup(
         {
             email: new FormControl('', [Validators.required, Validators.email]),
             password: new FormControl('', [Validators.required]),
             confirmPassword: new FormControl('', [Validators.required]),
         },
-        {
-            validator: Validators.compose([
-                FormGroupValidators.checkEqual('confirmPassword', ['password']),
-            ]),
-        }
+        [FormGroupValidators.checkEqual('confirmPassword', ['password'])]
     );
 
     get emailErrorMessage(): string {
@@ -51,7 +47,7 @@ export class WelcomeRegisterFormComponent implements OnInit {
     // Private members
     destroy$: Subject<boolean> = new Subject<boolean>();
 
-    constructor(private fb: FormBuilder) {}
+    constructor() {}
 
     ngOnInit(): void {}
 
