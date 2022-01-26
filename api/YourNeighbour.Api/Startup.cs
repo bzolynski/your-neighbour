@@ -7,6 +7,7 @@ using Microsoft.OpenApi.Models;
 using YourNeighbour.Api.Middleware;
 using YourNeighbour.Application;
 using YourNeighbour.EntityFramework.SqlServer;
+using YourNeighbour.Infrastructure;
 
 namespace YourNeighbour.Api
 {
@@ -24,6 +25,7 @@ namespace YourNeighbour.Api
             services.AddTransient<ExceptionHandlingMiddleware>();
             services.AddApplication();
             services.AddEntityFrameworkSqlServer(Configuration);
+            services.AddInfrastructure();
 
             services.AddCors(options =>
             {
@@ -42,7 +44,7 @@ namespace YourNeighbour.Api
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-        { 
+        {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

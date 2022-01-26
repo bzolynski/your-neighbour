@@ -9,9 +9,9 @@ namespace YourNeighbour.Application.Features.CategoryDefinitions.Commands.Create
     public sealed class CreateCategoryDefinitionHandler : ICommandHandler<CreateCategoryDefinitionCommand, CategoryDefinitionDto>
     {
         private readonly IApplicationDbContext applicationDbContext;
-        private readonly IObjectMapper mapper;
+        private readonly IMapper mapper;
 
-        public CreateCategoryDefinitionHandler(IApplicationDbContext applicationDbContext, IObjectMapper mapper)
+        public CreateCategoryDefinitionHandler(IApplicationDbContext applicationDbContext, IMapper mapper)
         {
             this.applicationDbContext = applicationDbContext;
             this.mapper = mapper;

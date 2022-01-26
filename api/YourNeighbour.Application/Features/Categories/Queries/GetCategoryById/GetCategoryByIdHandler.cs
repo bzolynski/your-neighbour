@@ -1,7 +1,6 @@
-﻿using System.Threading;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Threading;
 using System.Threading.Tasks;
-using AutoMapper.QueryableExtensions;
-using Microsoft.EntityFrameworkCore;
 using YourNeighbour.Application.Abstractions;
 using YourNeighbour.Application.Extensions;
 using YourNeighbour.Application.Features.Categories.Dtos;
@@ -12,9 +11,9 @@ namespace YourNeighbour.Application.Features.Categories.Queries.GetCategoryById
     public sealed class GetCategoryByIdHandler : IQueryHandler<GetCategoryByIdQuery, CategoryDto>
     {
         private readonly IApplicationDbContext applicationDbContext;
-        private readonly IObjectMapper mapper;
+        private readonly IMapper mapper;
 
-        public GetCategoryByIdHandler(IApplicationDbContext applicationDbContext, IObjectMapper mapper)
+        public GetCategoryByIdHandler(IApplicationDbContext applicationDbContext, IMapper mapper)
         {
             this.applicationDbContext = applicationDbContext;
             this.mapper = mapper;

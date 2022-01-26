@@ -11,9 +11,9 @@ namespace YourNeighbour.Application.Features.CategoryDefinitions.Queries.GetCate
     public sealed class GetCategoryDefinitionByIdHandler : IQueryHandler<GetCategoryDefinitionByIdQuery, CategoryDefinitionDto>
     {
         private readonly IApplicationDbContext applicationDbContext;
-        private readonly IObjectMapper mapper;
+        private readonly IMapper mapper;
 
-        public GetCategoryDefinitionByIdHandler(IApplicationDbContext applicationDbContext, IObjectMapper mapper)
+        public GetCategoryDefinitionByIdHandler(IApplicationDbContext applicationDbContext, IMapper mapper)
         {
             this.applicationDbContext = applicationDbContext;
             this.mapper = mapper;

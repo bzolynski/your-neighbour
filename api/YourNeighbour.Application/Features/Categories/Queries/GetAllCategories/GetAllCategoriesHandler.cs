@@ -12,9 +12,9 @@ namespace YourNeighbour.Application.Features.Categories.Queries.GetAllCategories
     public sealed class GetAllCategoriesHandler : IQueryHandler<GetAllCategoriesQuery, IEnumerable<CategoryDto>>
     {
         private readonly IApplicationDbContext applicationDbContext;
-        private readonly IObjectMapper mapper;
+        private readonly IMapper mapper;
 
-        public GetAllCategoriesHandler(IApplicationDbContext applicationDbContext, IObjectMapper mapper)
+        public GetAllCategoriesHandler(IApplicationDbContext applicationDbContext, IMapper mapper)
         {
             this.applicationDbContext = applicationDbContext;
             this.mapper = mapper;

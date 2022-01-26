@@ -9,9 +9,9 @@ namespace YourNeighbour.Application.Features.AdvertisementDefinitions.Commands.C
     public sealed class CreateAdvertisementDefinitionHandler : ICommandHandler<CreateAdvertisementDefinitionCommand, AdvertisementDefinitionDto>
     {
         private readonly IApplicationDbContext applicationDbContext;
-        private readonly IObjectMapper mapper;
+        private readonly IMapper mapper;
 
-        public CreateAdvertisementDefinitionHandler(IApplicationDbContext applicationDbContext, IObjectMapper mapper)
+        public CreateAdvertisementDefinitionHandler(IApplicationDbContext applicationDbContext, IMapper mapper)
         {
             this.applicationDbContext = applicationDbContext;
             this.mapper = mapper;

@@ -1,18 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper.QueryableExtensions;
+﻿using AutoMapper.QueryableExtensions;
 using YourNeighbour.Application.Abstractions;
 
-namespace YourNeighbour.Application.Services
+namespace YourNeighbour.Infrastructure.Services
 {
-    public sealed class ObjectMapper : IObjectMapper
+    public sealed class Mapper : IMapper
     {
         private readonly AutoMapper.IMapper mapper;
 
-        public ObjectMapper(AutoMapper.IMapper mapper)
+        public Mapper(AutoMapper.IMapper mapper)
         {
             this.mapper = mapper;
         }

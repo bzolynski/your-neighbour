@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31613.86
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32112.339
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YourNeighbour.Api", "YourNeighbour.Api\YourNeighbour.Api.csproj", "{0ABBE497-52F2-4F41-B532-CDF71B4F2BB2}"
 EndProject
@@ -12,6 +12,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YourNeighbour.EntityFramework", "YourNeighbour.EntityFramework\YourNeighbour.EntityFramework.csproj", "{F5AC971C-F46A-443C-943C-961135D0561B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YourNeighbour.EntityFramework.SqlServer", "YourNeighbour.EntityFramework.SqlServer\YourNeighbour.EntityFramework.SqlServer.csproj", "{EB2569EC-CE89-4809-9927-12CD2B4FA6D9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YourNeighbour.Infrastructure", "YourNeighbour.Infrastructure\YourNeighbour.Infrastructure.csproj", "{8068F015-856F-4BBF-A167-A63B0AEE8608}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{EB2569EC-CE89-4809-9927-12CD2B4FA6D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EB2569EC-CE89-4809-9927-12CD2B4FA6D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EB2569EC-CE89-4809-9927-12CD2B4FA6D9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8068F015-856F-4BBF-A167-A63B0AEE8608}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8068F015-856F-4BBF-A167-A63B0AEE8608}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8068F015-856F-4BBF-A167-A63B0AEE8608}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8068F015-856F-4BBF-A167-A63B0AEE8608}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
