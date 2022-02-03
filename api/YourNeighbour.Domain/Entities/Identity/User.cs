@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
-using Microsoft.AspNetCore.Identity;
 
 namespace YourNeighbour.Domain.Entities.Identity
 {
@@ -11,6 +11,7 @@ namespace YourNeighbour.Domain.Entities.Identity
             UserRoles = new HashSet<UserRole>();
         }
         public Guid Guid { get; set; } = Guid.NewGuid();
+        public bool RequiresData { get; set; } = true;
 
         public ICollection<UserRole> UserRoles { get; private set; }
     }

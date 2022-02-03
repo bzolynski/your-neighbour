@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
+    <UserSecretsId>d8bd2852-a41b-42e2-b649-604e5fc3ad3a</UserSecretsId>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -21,6 +22,7 @@
     <ProjectReference Include="..\YourNeighbour.Application\YourNeighbour.Application.csproj" />
     <ProjectReference Include="..\YourNeighbour.Domain\YourNeighbour.Domain.csproj" />
     <ProjectReference Include="..\YourNeighbour.EntityFramework.SqlServer\YourNeighbour.EntityFramework.SqlServer.csproj" />
+    <ProjectReference Include="..\YourNeighbour.Infrastructure\YourNeighbour.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

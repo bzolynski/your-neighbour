@@ -6,6 +6,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using YourNeighbour.Api.Middleware;
 using YourNeighbour.Application;
+using YourNeighbour.Domain.Options;
 using YourNeighbour.EntityFramework.SqlServer;
 using YourNeighbour.Infrastructure;
 
@@ -22,10 +23,11 @@ namespace YourNeighbour.Api
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<AuthorizationOptions>(Configuration.GetSection("Authorization"));
             services.AddTransient<ExceptionHandlingMiddleware>();
             services.AddApplication();
             services.AddEntityFrameworkSqlServer(Configuration);
-            services.AddInfrastructure();
+            services.AddInfrastructure(Configuration);
 
             services.AddCors(options =>
             {
@@ -57,6 +59,8 @@ namespace YourNeighbour.Api
             app.UseRouting();
             app.UseCors("CorsPolicy");
             app.UseMiddleware<ExceptionHandlingMiddleware>();
+
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
