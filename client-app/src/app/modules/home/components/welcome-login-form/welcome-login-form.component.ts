@@ -6,6 +6,7 @@ import {
     Validators,
 } from '@angular/forms';
 import { Subject } from 'rxjs';
+import { AuthenticationService } from 'src/app/modules/core/authentication/authentication.service';
 
 @Component({
     selector: 'app-welcome-login-form',
@@ -33,7 +34,7 @@ export class WelcomeLoginFormComponent implements OnInit, OnDestroy {
     // Private members
     destroy$: Subject<boolean> = new Subject<boolean>();
 
-    constructor() {}
+    constructor(private authenticationService: AuthenticationService) {}
 
     ngOnInit(): void {}
 
@@ -43,6 +44,11 @@ export class WelcomeLoginFormComponent implements OnInit, OnDestroy {
     }
 
     onSubmit = () => {
-        console.log(this.form.value);
+        if (this.form.valid) {
+            this.authenticationService.login(
+                this.form.get('login')?.value,
+                this.form.get('password')?.value
+            );
+        }
     };
 }
