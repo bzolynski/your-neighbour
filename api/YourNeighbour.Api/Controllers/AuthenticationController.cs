@@ -1,4 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
+using System;
+using System.Security.Authentication;
 using System.Threading.Tasks;
 using YourNeighbour.Api.Models;
 using YourNeighbour.Application.Features.Authentication.Commands.Login;
@@ -6,11 +10,18 @@ using YourNeighbour.Application.Features.Authentication.Commands.Logout;
 using YourNeighbour.Application.Features.Authentication.Commands.Refresh;
 using YourNeighbour.Application.Features.Authentication.Commands.Register;
 using YourNeighbour.Application.Features.Authentication.Dtos;
+using YourNeighbour.Domain.Options;
 
 namespace YourNeighbour.Api.Controllers
 {
     public class AuthenticationController : BaseController
     {
+        private readonly AuthorizationOptions authenticationOptions;
+
+        public AuthenticationController(IOptions<AuthorizationOptions> authenticationOptions)
+        {
+            this.authenticationOptions = authenticationOptions.Value;
+        }
         [HttpPost("register")]
         public async Task<ActionResult<Response>> Register(RegisterDto register)
         {
@@ -21,21 +32,53 @@ namespace YourNeighbour.Api.Controllers
         public async Task<ActionResult<Response>> Login(LoginDto login)
         {
             AuthenticationDto authenticationResult = await Mediator.Send(new LoginCommand(login));
-            return Models.Response.Success(authenticationResult);
+            SetAccessTokenCookie(authenticationResult.AccessToken);
+            SetRefreshTokenCookie(authenticationResult.RefreshToken);
+            return Models.Response.Success(true);
         }
         [HttpPost("logout")]
         public async Task<ActionResult<Response>> Logout(LogoutDto logout)
         {
             bool succeded = await Mediator.Send(new LogoutCommand(logout));
+            RemoveCookie("access-token");
+            RemoveCookie("refresh-token");
             return Models.Response.Success(succeded);
         }
         [HttpPost("refresh")]
-        public async Task<ActionResult<Response>> Refresh(RefreshDto refresh)
+        public async Task<ActionResult<Response>> Refresh()
         {
-            AuthenticationDto authenticationResult = await Mediator.Send(new RefreshCommand(refresh));
-            return Models.Response.Success(authenticationResult);
+            if (!Request.Cookies.TryGetValue("refresh-token", out string refreshToken))
+                throw new AuthenticationException("Invalid token");
+
+            AuthenticationDto authenticationResult = await Mediator.Send(new RefreshCommand(new RefreshDto { RefreshToken = refreshToken }));
+            SetRefreshTokenCookie(authenticationResult.RefreshToken);
+            SetAccessTokenCookie(authenticationResult.AccessToken);
+            return Models.Response.Success(true);
         }
 
+        private void SetRefreshTokenCookie(string value)
+        {
+            CookieOptions options = new CookieOptions
+            {
+                HttpOnly = true,
+                Expires = DateTime.Now.AddMinutes(authenticationOptions.RefreshTokenExpirationMinutes)
+            };
+            Response.Cookies.Append("refresh-token", value, options);
+        }
+        private void SetAccessTokenCookie(string value)
+        {
+            CookieOptions options = new CookieOptions
+            {
+                HttpOnly = true,
+                Expires = DateTime.Now.AddMinutes(authenticationOptions.AccessTokenExpirationMinutes)
+            };
+            Response.Cookies.Append("access-token", value, options);
+        }
+
+        private void RemoveCookie(string key)
+        {
+            Response.Cookies.Delete(key);
+        }
 
     }
 }

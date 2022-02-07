@@ -24,6 +24,7 @@ namespace YourNeighbour.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.Configure<AuthorizationOptions>(Configuration.GetSection("Authorization"));
+            services.AddTransient<AccessTokenMiddleware>();
             services.AddTransient<ExceptionHandlingMiddleware>();
             services.AddApplication();
             services.AddEntityFrameworkSqlServer(Configuration);
@@ -33,9 +34,12 @@ namespace YourNeighbour.Api
             {
                 options.AddPolicy("CorsPolicy", policy =>
                 {
-                    policy.AllowAnyMethod()
+                    policy.WithOrigins("http://localhost:4200")
                         .AllowAnyHeader()
-                        .AllowAnyOrigin();
+                        .AllowAnyMethod()
+                        .AllowCredentials()
+                        .SetIsOriginAllowed(_ => true);
+
                 });
             });
             services.AddControllers();
@@ -58,6 +62,7 @@ namespace YourNeighbour.Api
             app.UseHttpsRedirection();
             app.UseRouting();
             app.UseCors("CorsPolicy");
+            app.UseMiddleware<AccessTokenMiddleware>();
             app.UseMiddleware<ExceptionHandlingMiddleware>();
 
             app.UseAuthentication();

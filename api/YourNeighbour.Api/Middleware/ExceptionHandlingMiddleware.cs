@@ -28,7 +28,6 @@ namespace YourNeighbour.Api.Middleware
             }
             catch (ValidationException ex)
             {
-                logger.LogError(ex, ex.Message);
                 Response response = Response.Error(FormatValidationErrorMessages(ex.Errors));
                 context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
                 context.Response.ContentType = "application/json";
@@ -37,7 +36,6 @@ namespace YourNeighbour.Api.Middleware
             }
             catch (AuthenticationException ex)
             {
-                logger.LogError(ex, ex.Message);
                 Response response = Response.Error(ex.Errors);
                 context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
                 context.Response.ContentType = "application/json";
