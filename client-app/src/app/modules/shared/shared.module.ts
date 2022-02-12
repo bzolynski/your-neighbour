@@ -5,15 +5,20 @@ import { TextInputComponent } from './components/inputs/text-input/text-input.co
 import { AngularMaterialModule } from '../angular-material/angular-material.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SnackBarContentComponent } from './components/snack-bar-content/snack-bar-content.component';
+import { ContainerComponent } from './components/layout/container/container.component';
 
 @NgModule({
-    declarations: [TextInputComponent, SnackBarContentComponent],
+    declarations: [
+        TextInputComponent,
+        SnackBarContentComponent,
+        ContainerComponent,
+    ],
     imports: [
         CommonModule,
         RouterModule,
         AngularMaterialModule,
         ReactiveFormsModule,
     ],
-    exports: [TextInputComponent],
+    exports: [TextInputComponent, ContainerComponent],
 })
 export class SharedModule {}

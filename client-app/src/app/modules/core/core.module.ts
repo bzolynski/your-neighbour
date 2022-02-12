@@ -6,6 +6,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FooterComponent } from './footer/footer.component';
 import { AngularMaterialModule } from '../angular-material/angular-material.module';
 import { AuthentiacionInterceptor } from './authentication/authentication.interceptor';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
     declarations: [HeaderComponent, FooterComponent],
@@ -14,6 +15,7 @@ import { AuthentiacionInterceptor } from './authentication/authentication.interc
         RouterModule,
         HttpClientModule,
         AngularMaterialModule,
+        SharedModule,
     ],
     exports: [HeaderComponent, FooterComponent],
     providers: [

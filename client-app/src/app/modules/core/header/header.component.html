@@ -1,17 +1,19 @@
 <mat-toolbar color="primary">
-    <div class="nav-container">
-        <span [routerLink]="'/'">Twój sąsiad</span>
-        <a class="spacer"></a>
-        <button mat-button
-                [routerLink]="'/'">Strona główna
-        </button>
-        <button mat-button>*****</button>
-        <button mat-button>***</button>
-        <button mat-button>*</button>
-        <button mat-button>************</button>
-        <button mat-icon-button
-                [routerLink]="'settings'">
-            <mat-icon>settings</mat-icon>
-        </button>
-    </div>
+    <app-container>
+        <div class="nav-container">
+            <span [routerLink]="'/'">Twój sąsiad</span>
+            <a class="spacer"></a>
+            <button mat-button
+                    [routerLink]="'/'">Strona główna
+            </button>
+            <button mat-button>*****</button>
+            <button mat-button>***</button>
+            <button mat-button>*</button>
+            <button mat-button>************</button>
+            <button mat-icon-button
+                    [routerLink]="'settings'">
+                <mat-icon>settings</mat-icon>
+            </button>
+        </div>
+    </app-container>
 </mat-toolbar>
