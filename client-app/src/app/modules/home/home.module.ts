@@ -4,13 +4,13 @@ import { SharedModule } from '../shared/shared.module';
 import { AngularMaterialModule } from '../angular-material/angular-material.module';
 import { HomeComponent, WelcomeComponent } from './pages';
 import {
+    HomeLandingPageComponent,
     WelcomeLandingPageComponent,
     WelcomeLoginFormComponent,
     WelcomeRegisterFormComponent,
 } from './components';
 import { HomeRoutingModule } from './home-routing.module';
 import { ReactiveFormsModule } from '@angular/forms';
-import { HomeLandingPageComponent } from './components/home-landing-page/home-landing-page.component';
 
 @NgModule({
     declarations: [
