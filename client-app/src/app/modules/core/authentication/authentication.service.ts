@@ -25,6 +25,16 @@ export class AuthenticationService {
         );
     };
 
+    logout = (): void => {
+        localStorage.removeItem('user');
+        this.authenticationApiService.logout().subscribe(
+            (response) => {
+                this.router.navigateByUrl('welcome');
+            },
+            (error) => {}
+        );
+    };
+
     refreshToken = (): ObservableResponse<boolean> => {
         return this.authenticationApiService.refresh();
     };

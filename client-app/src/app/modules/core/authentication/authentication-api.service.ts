@@ -27,6 +27,14 @@ export class AuthenticationApiService {
             .pipe(catchError(this.handleError));
     };
 
+    logout = (): ObservableResponse<boolean> => {
+        return this.client
+            .post<ObservableResponse<boolean>>(
+                `${environment.authentiaction_api_url}/authentication/logout`,
+                {}
+            )
+            .pipe(catchError(this.handleError));
+    };
 
     refresh = (): ObservableResponse<boolean> => {
         return this.client
