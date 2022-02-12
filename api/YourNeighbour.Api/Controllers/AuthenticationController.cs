@@ -34,12 +34,15 @@ namespace YourNeighbour.Api.Controllers
             AuthenticationDto authenticationResult = await Mediator.Send(new LoginCommand(login));
             SetAccessTokenCookie(authenticationResult.AccessToken);
             SetRefreshTokenCookie(authenticationResult.RefreshToken);
-            return Models.Response.Success(true);
+            return Models.Response.Success(new { UserInfo = authenticationResult.UserInfo });
         }
         [HttpPost("logout")]
-        public async Task<ActionResult<Response>> Logout(LogoutDto logout)
+        public async Task<ActionResult<Response>> Logout()
         {
-            bool succeded = await Mediator.Send(new LogoutCommand(logout));
+            if (!HttpContext.Request.Cookies.TryGetValue("refresh-token", out string refreshToken))
+                return Models.Response.Success(true);
+
+            bool succeded = await Mediator.Send(new LogoutCommand(new LogoutDto { RefreshToken = refreshToken }));
             RemoveCookie("access-token");
             RemoveCookie("refresh-token");
             return Models.Response.Success(succeded);

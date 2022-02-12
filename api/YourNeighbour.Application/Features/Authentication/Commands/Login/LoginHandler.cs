@@ -52,7 +52,8 @@ namespace YourNeighbour.Application.Features.Authentication.Commands.Login
             return new AuthenticationDto
             {
                 AccessToken = tokenService.CreateAccessToken(user),
-                RefreshToken = token
+                RefreshToken = token,
+                UserInfo = user.Email
             };
         }
     }
