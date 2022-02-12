@@ -58,7 +58,7 @@ export class AuthentiacionInterceptor implements HttpInterceptor {
             switchMap(() => {
                 return next.handle(req);
             }),
-            catchError(this.handleError)
+            catchError((error, caught) => this.handleError(firstError, caught))
         );
     };
 }
