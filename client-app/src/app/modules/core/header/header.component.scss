@@ -1,3 +1,5 @@
+@use '/src/scss/theme/theme.scss' as theme;
+
 mat-toolbar{
     position: sticky;
     app-container{
@@ -10,6 +12,29 @@ mat-toolbar{
             .spacer{
                 width: 1px;
                 margin-left: auto;
+            }
+            .auth-button-section{
+                display: inline-block;
+                .logout-button{
+                    color: theme.$accent-default;
+                }
+                .logged-in-section{
+                    display: inline-block;
+                    .login-button{
+                        color: theme.$accent-default;
+                    }
+                    button:first-child{
+                        border-top-right-radius: 0px;
+                        border-bottom-right-radius: 0px;
+                    }
+                    button:not(:first-child):not(:last-child){
+                        border-radius: 0px;
+                    }
+                    button:last-child{
+                        border-top-left-radius: 0px;
+                        border-bottom-left-radius: 0px;
+                    }
+                }
             }
         }
     }
