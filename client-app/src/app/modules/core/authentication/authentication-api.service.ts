@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
+import { IUser } from '../models/user.model';
 import { ObservableResponse } from '../types/observable-response';
 
 @Injectable({
@@ -17,17 +18,15 @@ export class AuthenticationApiService {
 
         return throwError(error);
     };
-    login = (
-        login: string,
-        password: string
-    ): ObservableResponse<boolean> => {
+    login = (login: string, password: string): ObservableResponse<IUser> => {
         return this.client
-            .post<ObservableResponse<boolean>>(
+            .post<ObservableResponse<IUser>>(
                 `${environment.authentiaction_api_url}/authentication/login`,
                 { login: login, password: password }
             )
             .pipe(catchError(this.handleError));
     };
+
 
     refresh = (): ObservableResponse<boolean> => {
         return this.client

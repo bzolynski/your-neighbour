@@ -15,11 +15,16 @@ export class AuthenticationService {
     login = (login: string, password: string): void => {
         this.authenticationApiService.login(login, password).subscribe(
             (response) => {
+                localStorage.setItem(
+                    'user',
+                    JSON.stringify(response.responseObject)
+                );
                 this.router.navigate(['../']);
             },
             (error) => {}
         );
     };
+
     refreshToken = (): ObservableResponse<boolean> => {
         return this.authenticationApiService.refresh();
     };
