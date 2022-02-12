@@ -2,7 +2,8 @@
     <div class="side-panel"></div>
     <div class="center-panel">
         <mat-card class="mat-elevation-z6">
-            <mat-tab-group mat-stretch-tabs>
+            <mat-tab-group mat-stretch-tabs
+                           [selectedIndex]="selectedIndex">
                 <mat-tab>
                     <ng-template mat-tab-label>Login</ng-template>
                     <app-welcome-login-form></app-welcome-login-form>

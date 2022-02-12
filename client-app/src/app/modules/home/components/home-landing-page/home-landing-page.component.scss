@@ -1,0 +1,60 @@
+@use '/node_modules/@angular/material/toolbar/_toolbar-variables.import.scss' as *;
+@use '/src/scss/theme/theme.scss' as theme;
+
+$height: 70vh;
+.wrapper{
+
+    height: $height;
+
+    .landing-container::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: $height;
+        z-index: -1;
+        margin-top: $mat-toolbar-height-desktop;
+        background-image: url('/assets/home-landing.jpg');
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: top;
+        backdrop-filter: blur(2px);
+        pointer-events: none;
+        filter: blur(2px);
+    }
+    .landing-container{
+        height: 100%;
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: stretch;
+        align-items: flex-end;
+
+        .bottom-bar{
+            width: 100%;
+            background: theme.$accent-default;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+
+            padding: 0.2rem;
+            .input-section{
+                width: 100%;
+                display: inline-block;
+                background: white;
+                border: 3px solid theme.$accent-600;
+                border-radius: 4px;
+                .input{
+
+                    padding: 0.5rem;
+                }
+                    mat-slider{
+                        width: 500px;
+
+                    }
+
+            }
+        }
+    }
+}

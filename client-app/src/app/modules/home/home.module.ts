@@ -4,7 +4,8 @@ import { SharedModule } from '../shared/shared.module';
 import { AngularMaterialModule } from '../angular-material/angular-material.module';
 import { HomeComponent, WelcomeComponent } from './pages';
 import {
-    LandingPageComponent,
+    HomeLandingPageComponent,
+    WelcomeLandingPageComponent,
     WelcomeLoginFormComponent,
     WelcomeRegisterFormComponent,
 } from './components';
@@ -14,10 +15,11 @@ import { ReactiveFormsModule } from '@angular/forms';
 @NgModule({
     declarations: [
         HomeComponent,
-        LandingPageComponent,
+        WelcomeLandingPageComponent,
         WelcomeComponent,
         WelcomeLoginFormComponent,
         WelcomeRegisterFormComponent,
+        HomeLandingPageComponent,
     ],
     imports: [
         CommonModule,
