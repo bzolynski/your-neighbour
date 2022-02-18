@@ -1,17 +1,19 @@
-import { Dictionary, IDictionary } from '.';
+import { Dictionary, IDictionary, Tree, ITree } from '.';
 
 export interface ILookup<TKey, TValue>
-    extends IDictionary<TKey, Array<TValue>> {}
+    extends IDictionary<TKey, Array<TValue>> {
+    toTree(this: ILookup<TKey, TKey>): ITree<TKey>;
+}
 
 export class Lookup<TKey, TValue>
     extends Dictionary<TKey, Array<TValue>>
     implements ILookup<TKey, TValue>
 {
-    private constructor(dict: Dictionary<TKey, Array<TValue>>) {
+    private constructor(dict: IDictionary<TKey, Array<TValue>>) {
         super(dict);
     }
 
-    public static toLookup = <TKey, TValue, TArray>(
+    static toLookup = <TKey, TValue, TArray>(
         array: Array<TArray>,
         parentSelector: (item: TArray) => TKey,
         childSelector: (item: TArray) => TValue,
@@ -33,4 +35,8 @@ export class Lookup<TKey, TValue>
 
         return new Lookup<TKey, TValue>(dict);
     };
+
+    toTree(this: ILookup<TKey, TKey>): ITree<TKey> {
+        return Tree.fromLookup<TKey>(this);
+    }
 }

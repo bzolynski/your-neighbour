@@ -29,12 +29,13 @@ export class Tree<T> implements ITree<T> {
         this.parent = parent;
     }
 
-    public static toTree = <T>(lookup: ILookup<T, T>) => {
+    static fromLookup = <T>(lookup: ILookup<T, T>) : ITree<T> => {
         const c: [T, T[]] = lookup.entries().next().value;
         const root = new Tree<T>(c[0]);
         root.loadChildren(lookup);
         return root;
     };
+
     private loadChildren = (lookup: ILookup<T, T>) => {
         for (const data of lookup.get(this.data)) {
             const child = new Tree<T>(data, this);
