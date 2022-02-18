@@ -8,8 +8,8 @@ export class Dictionary<TKey, TValue>
     implements IDictionary<TKey, TValue>
 {
     constructor();
-    constructor(dict: Dictionary<TKey, TValue>);
-    constructor(dict?: Dictionary<TKey, TValue>) {
+    constructor(dict: IDictionary<TKey, TValue>);
+    constructor(dict?: IDictionary<TKey, TValue>) {
         super(dict ?? new Map<TKey, TValue>());
     }
 
