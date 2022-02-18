@@ -7,6 +7,7 @@ import { FooterComponent } from './footer/footer.component';
 import { AngularMaterialModule } from '../angular-material/angular-material.module';
 import { AuthentiacionInterceptor } from './authentication/authentication.interceptor';
 import { SharedModule } from '../shared/shared.module';
+import './extensions';
 
 @NgModule({
     declarations: [HeaderComponent, FooterComponent],
