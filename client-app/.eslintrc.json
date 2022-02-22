@@ -1,0 +1,89 @@
+{
+    "root": true,
+    "ignorePatterns": ["projects/**/*"],
+
+    "env": {
+        "browser": true,
+        "node": true
+    },
+    "overrides": [
+        {
+            "files": ["*.ts"],
+            "parser": "@typescript-eslint/parser",
+            "parserOptions": {
+                "project": ["tsconfig.json"],
+                "createDefaultProgram": true,
+                "ecmaVersion": 2020,
+                "sourceType": "module"
+            },
+            "plugins": ["@typescript-eslint", "unused-imports"],
+            "extends": [
+                "eslint:recommended",
+                "plugin:@angular-eslint/recommended",
+                "plugin:@angular-eslint/template/process-inline-templates",
+                "plugin:prettier/recommended",
+                "prettier",
+                "plugin:@typescript-eslint/recommended"
+            ],
+            "rules": {
+                "@angular-eslint/directive-selector": [
+                    "error",
+                    {
+                        "type": "attribute",
+                        "prefix": "app",
+                        "style": "camelCase"
+                    }
+                ],
+                "@angular-eslint/component-selector": [
+                    "error",
+                    {
+                        "type": "element",
+                        "prefix": "app",
+                        "style": "kebab-case"
+                    }
+                ],
+                "prettier/prettier": [
+                    "error",
+                    {
+                        "singleQuote": true,
+                        "bracketSpacing": true,
+                        "bracketSameLine": true,
+                        "arrowParens": "always",
+                        "semi": true,
+                        "endOfLine": "auto"
+                    }
+                ],
+                "semi": ["error", "always"],
+                "no-unused-vars": [
+                    "error",
+                    {
+                        "vars": "all",
+                        "args": "none",
+                        "ignoreRestSiblings": false
+                    }
+                ],
+                "no-multiple-empty-lines": ["error", { "max": 1, "maxBOF": 1 }],
+                "prefer-arrow-callback": "error",
+                "arrow-parens": ["error", "always"],
+                "unused-imports/no-unused-imports": "error",
+                "@typescript-eslint/no-inferrable-types": 0,
+                "@typescript-eslint/no-parameter-properties": 0,
+                "@typescript-eslint/semi": ["error"]
+            }
+        },
+        {
+            "files": ["*.html"],
+            "extends": [
+                "plugin:@angular-eslint/template/recommended",
+                "plugin:prettier/recommended"
+            ],
+            "rules": {
+                "no-use-before-define": [
+                    "error",
+                    { "functions": true, "classes": false, "variables": true }
+                ],
+                "prettier/prettier": "error"
+            }
+        }
+    ]
+}
