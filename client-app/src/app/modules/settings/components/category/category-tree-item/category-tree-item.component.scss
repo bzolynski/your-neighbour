@@ -1,0 +1,35 @@
+
+$height: 2rem;
+.wrapper {
+    user-select: none;
+    position: relative;
+    box-sizing: border-box;
+    padding-left: 1rem;
+    width: 100%;
+    border: 1px solid red;
+    margin: 8px 0;
+    cursor: move;
+    &::before{
+        content: ">";
+        position:absolute;
+        left: 0;
+        height: $height;
+    }
+
+    .info{
+        height: $height;
+        display: flex;
+        align-items: center;
+        border: 1px solid blue;
+        margin: 5px 0;
+        cursor: pointer;
+
+        &:hover{
+            background-color: red;
+        }
+    }
+}
+.dragging {
+    background-color: yellow;
+    opacity: 0.5;
+}

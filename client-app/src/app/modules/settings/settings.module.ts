@@ -4,12 +4,17 @@ import { SettingsRoutingModule } from './settings-routing.module';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
+    CategoryConnectionsEditComponent,
     CategoryDefinitionDetailsComponent,
     CategoryDefinitionFormComponent,
     CategoryDefinitionListComponent,
     CategoryDefinitionListItemComponent,
+    CategoryDetailsComponent,
+    CategoryFormComponent,
     CategoryListComponent,
     CategoryListItemComponent,
+    CategoryTreeComponent,
+    CategoryTreeItemComponent,
     SettingsLayoutComponent,
     SettingsSideBarComponent,
 } from './components';
@@ -18,10 +23,7 @@ import {
     CategorySettingsComponent,
     SettingsComponent,
 } from './pages';
-import { CategoryDetailsComponent } from './components/category/category-details/category-details.component';
-import { CategoryFormComponent } from './components/category/category-form/category-form.component';
 import { SharedModule } from '../shared/shared.module';
-import { CategoryConnectionsEditComponent } from './components/category/category-connections-edit/category-connections-edit.component';
 import { AngularMaterialModule } from '../angular-material/angular-material.module';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
@@ -41,6 +43,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
         CategoryDetailsComponent,
         CategoryFormComponent,
         CategoryConnectionsEditComponent,
+        CategoryTreeComponent,
+        CategoryTreeItemComponent,
     ],
     imports: [
         CommonModule,
