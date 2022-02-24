@@ -1,0 +1,7 @@
+<div class="tree-root-container">
+    <app-category-tree-item *ngIf="treeItem; else temp" [treeItem]="treeItem">
+    </app-category-tree-item>
+</div>
+<div style="margin-top: 50px"></div>
+
+<ng-template #temp> LOADING </ng-template>
