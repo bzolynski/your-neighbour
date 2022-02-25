@@ -6,12 +6,15 @@ import { AngularMaterialModule } from '../angular-material/angular-material.modu
 import { ReactiveFormsModule } from '@angular/forms';
 import { SnackBarContentComponent } from './components/snack-bar-content/snack-bar-content.component';
 import { ContainerComponent } from './components/layout/container/container.component';
+import { DragContainerDirective, DragItemDirective } from './directives';
 
 @NgModule({
     declarations: [
         TextInputComponent,
         SnackBarContentComponent,
         ContainerComponent,
+        DragContainerDirective,
+        DragItemDirective,
     ],
     imports: [
         CommonModule,
@@ -19,6 +22,11 @@ import { ContainerComponent } from './components/layout/container/container.comp
         AngularMaterialModule,
         ReactiveFormsModule,
     ],
-    exports: [TextInputComponent, ContainerComponent],
+    exports: [
+        TextInputComponent,
+        ContainerComponent,
+        DragItemDirective,
+        DragContainerDirective,
+    ],
 })
 export class SharedModule {}

@@ -1,9 +1,10 @@
-<div class="wrapper" #treeContainer>
+<div class="wrapper" appDragContainer>
     <div class="info" (click)="triggerExpand()">
         {{ treeItem.data.name }}
     </div>
     <ng-container *ngIf="isExpanded">
         <app-category-tree-item
+            appDragItem
             *ngFor="let item of treeItem.children"
             [treeItem]="item"></app-category-tree-item>
     </ng-container>
