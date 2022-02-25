@@ -1,10 +1,4 @@
-import {
-    Component,
-    ElementRef,
-    OnDestroy,
-    OnInit,
-    ViewChild,
-} from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { ICategory } from 'src/app/modules/core/models';
@@ -17,7 +11,6 @@ import { ITree } from 'src/app/modules/core/types';
     styleUrls: ['./category-tree.component.scss'],
 })
 export class CategoryTreeComponent implements OnInit, OnDestroy {
-    @ViewChild('treeContainer') treeContainerRef!: ElementRef<HTMLElement>;
     treeItem: ITree<ICategory> | undefined;
     destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -43,52 +36,4 @@ export class CategoryTreeComponent implements OnInit, OnDestroy {
         this.destroy$.next(true);
         this.destroy$.unsubscribe();
     }
-
-    dragOver = (e: MouseEvent) => {
-        e.preventDefault();
-        e.stopPropagation();
-        const cos = this.getAfterId(e.clientY);
-        const dragging = document.querySelector('.dragging');
-        if (dragging) {
-            if (cos == null || cos.child == undefined)
-                this.treeContainerRef.nativeElement.appendChild(dragging);
-            if (cos.child) {
-                this.treeContainerRef.nativeElement.insertBefore(
-                    dragging,
-                    cos.child
-                );
-            }
-        }
-    };
-
-    getAfterId = (
-        yPosition: number
-    ): { offset: number; child: Element | undefined } => {
-        const draggables = [
-            ...this.treeContainerRef.nativeElement.querySelectorAll(
-                '[draggable="true"]:not(.dragging)'
-            ),
-        ];
-
-        return draggables.reduce(
-            (
-                closest: {
-                    offset: number;
-                    child: Element | undefined;
-                },
-                child
-            ) => {
-                const box = child.getBoundingClientRect();
-                const offset = yPosition - box.top - box.height / 2;
-
-                if (offset < 0 && offset > closest.offset) {
-                    return { offset, child };
-                } else return closest;
-            },
-            {
-                offset: Number.NEGATIVE_INFINITY,
-                child: undefined,
-            }
-        );
-    };
 }

@@ -13,6 +13,7 @@ import {
     TreeViewRootDirective,
 } from './directives';
 import { TreeViewNodeComponent } from './components';
+import { DragContainerDirective, DragItemDirective } from './directives';
 
 @NgModule({
     declarations: [
@@ -24,6 +25,8 @@ import { TreeViewNodeComponent } from './components';
         TreeViewNodeComponent,
         TreeViewOutletDirective,
         TreeViewNodeToggleDirective,
+        DragContainerDirective,
+        DragItemDirective,
     ],
     imports: [
         CommonModule,
@@ -39,6 +42,8 @@ import { TreeViewNodeComponent } from './components';
         TreeViewNodeComponent,
         TreeViewOutletDirective,
         TreeViewNodeToggleDirective,
+        DragItemDirective,
+        DragContainerDirective,
     ],
 })
 export class SharedModule {}
