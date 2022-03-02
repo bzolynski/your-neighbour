@@ -12,39 +12,32 @@ export class DragContainerDirective {
     @HostListener('dragover', ['$event'])
     dragOver = (e: MouseEvent) => {
         e.preventDefault();
-        e.stopPropagation();
-
+        //e.stopPropagation();
+        /*
         const cos = this.getAfterId(e.clientY);
-        const dragging = document.querySelector('.dragging');
+        const dragging = document.querySelector('[drag-drop-dragging]');
+        if (dragging) {
+            if (cos == null || cos.child == undefined)
+                this.renderer.appendChild(
+                    this.elementRef.nativeElement,
+                    dragging
+                );
 
-        try {
-            if (dragging) {
-                if (cos == null || cos.child == undefined)
-                    this.renderer.appendChild(
-                        this.elementRef.nativeElement,
-                        dragging
-                    );
-
-                if (cos.child) {
-                    this.renderer.insertBefore(
-                        this.elementRef.nativeElement,
-                        dragging,
-                        cos.child
-                    );
-                }
+            if (cos.child) {
+                this.renderer.insertBefore(
+                    this.elementRef.nativeElement,
+                    dragging,
+                    cos.child
+                );
             }
-        } catch (error) {
-            const x = 'a  ';
-            x.trim();
-        }
+        }*/
     };
-
     getAfterId = (
         yPosition: number
     ): { offset: number; child: Element | undefined } => {
         const draggables = [
             ...this.elementRef.nativeElement.querySelectorAll(
-                '[draggable="true"]:not(.dragging)'
+                '[draggable="true"]:not([drag-drop-dragging=""])'
             ),
         ];
 

@@ -1,13 +1,14 @@
 
 $height: 2rem;
 .wrapper {
+    box-sizing: border-box;
     user-select: none;
     position: relative;
-    box-sizing: border-box;
-    padding-left: 1rem;
+    padding: 4px 0 4px 1rem;
     width: 100%;
     border: 1px solid red;
-    margin: 8px 0;
+    height: max-content;
+    //margin: 8px 0;
     cursor: move;
     &::before{
         content: ">";
@@ -21,15 +22,11 @@ $height: 2rem;
         display: flex;
         align-items: center;
         border: 1px solid blue;
-        margin: 5px 0;
+        padding: 5px 0;
         cursor: pointer;
 
         &:hover{
             background-color: red;
         }
     }
-}
-.dragging {
-    background-color: yellow;
-    opacity: 0.5;
 }
