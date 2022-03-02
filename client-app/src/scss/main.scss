@@ -8,3 +8,34 @@ html{
 mat-card, mat-tab-group, .mat-tab-body-wrapper{
     height: 100%;
 }
+
+[drag-drop-overlay] {
+    position: fixed;
+    top: 0px;
+    opacity: 0;
+    height: 100vh;
+    width: 100vw;
+    z-index: -999;
+}
+
+[drag-drop-dragging] {
+    position: fixed;
+    top: 0px;
+    opacity: 0;
+    left: -999;
+
+}
+[drag-drop-dragging-preview] {
+    position: fixed !important;
+    top: 0;
+    z-index: 1000;
+    opacity: 1;
+    left: 0;
+
+}
+[drag-drop-placeholder]{
+    box-sizing: border-box;
+    width: 100%;
+    border: 2px dotted black;
+    background: #ccc;
+}
