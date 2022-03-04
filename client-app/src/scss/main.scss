@@ -9,29 +9,38 @@ mat-card, mat-tab-group, .mat-tab-body-wrapper{
     height: 100%;
 }
 
+[appDragItem] {
+    cursor: grab;
+}
+
+
 [drag-drop-overlay] {
     position: fixed;
     top: 0px;
     opacity: 0;
     height: 100vh;
     width: 100vw;
-    z-index: -999;
+    z-index: -1000;
+    cursor: grabbing;
 }
 
 [drag-drop-dragging] {
     position: fixed;
     top: 0px;
     opacity: 0;
-    left: -999;
+    left: -999px;
 
 }
 [drag-drop-dragging-preview] {
-    position: fixed !important;
+    position: fixed;
     top: 0;
-    z-index: 1000;
+    z-index: 999;
     opacity: 1;
     left: 0;
-
+    pointer-events: none;
+    *  {
+        pointer-events: none;
+    }
 }
 [drag-drop-placeholder]{
     box-sizing: border-box;
