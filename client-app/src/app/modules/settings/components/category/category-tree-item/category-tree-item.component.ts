@@ -10,7 +10,6 @@ import { ITree } from 'src/app/modules/core/types';
 export class CategoryTreeItemComponent {
     @Input() treeItem!: ITree<ICategory>;
     isExpanded: boolean = true;
-
     triggerExpand = () => {
         this.isExpanded = !this.isExpanded;
     };

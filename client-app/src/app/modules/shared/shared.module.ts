@@ -6,15 +6,22 @@ import { AngularMaterialModule } from '../angular-material/angular-material.modu
 import { ReactiveFormsModule } from '@angular/forms';
 import { SnackBarContentComponent } from './components/snack-bar-content/snack-bar-content.component';
 import { ContainerComponent } from './components/layout/container/container.component';
-import { DragContainerDirective, DragItemDirective } from './directives';
+import {
+    DragDropContainerDirective,
+    DragDropItemDirective,
+} from './directives';
+import { DragDropPlaceholderDirective } from './directives/drag-and-drop/drag-drop-placeholder.directive';
+import { DragDropPlaceholderComponent } from './components/drag-and-drop/drag-drop-placeholder/drag-drop-placeholder.component';
 
 @NgModule({
     declarations: [
         TextInputComponent,
         SnackBarContentComponent,
         ContainerComponent,
-        DragContainerDirective,
-        DragItemDirective,
+        DragDropContainerDirective,
+        DragDropItemDirective,
+        DragDropPlaceholderDirective,
+        DragDropPlaceholderComponent,
     ],
     imports: [
         CommonModule,
@@ -25,8 +32,9 @@ import { DragContainerDirective, DragItemDirective } from './directives';
     exports: [
         TextInputComponent,
         ContainerComponent,
-        DragItemDirective,
-        DragContainerDirective,
+        DragDropItemDirective,
+        DragDropContainerDirective,
+        DragDropPlaceholderDirective,
     ],
 })
 export class SharedModule {}

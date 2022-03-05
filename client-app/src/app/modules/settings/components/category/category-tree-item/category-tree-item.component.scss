@@ -4,12 +4,11 @@ $height: 2rem;
     box-sizing: border-box;
     user-select: none;
     position: relative;
-    padding: 4px 0 4px 1rem;
+    padding: 4px 0 0px 1rem;
     width: 100%;
     border: 1px solid red;
     height: max-content;
     //margin: 8px 0;
-    cursor: move;
     &::before{
         content: ">";
         position:absolute;

@@ -1,7 +1,5 @@
-<div class="tree-root-container" appDragContainer>
-    <app-category-tree-item *ngIf="treeItem; else temp" [treeItem]="treeItem">
+<div class="tree-root-container" dragDropContainer>
+    <app-category-tree-item *ngIf="treeItem" [treeItem]="treeItem">
     </app-category-tree-item>
 </div>
 <div style="margin-top: 50px"></div>
-
-<ng-template #temp> LOADING </ng-template>
