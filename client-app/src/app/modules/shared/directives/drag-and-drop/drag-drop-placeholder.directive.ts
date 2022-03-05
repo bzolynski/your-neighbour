@@ -10,7 +10,7 @@ import { DragDropPlaceholderComponent } from '../../components/drag-and-drop/dra
     selector: '[dragDropPlaceholder]',
 })
 export class DragDropPlaceholderDirective {
-    private elementRef!: ElementRef<HTMLElement>;
+    public elementRef!: ElementRef<HTMLElement>;
     constructor(
         public viewContainerRef: ViewContainerRef,
         private renderer: Renderer2
@@ -23,6 +23,7 @@ export class DragDropPlaceholderDirective {
                 DragDropPlaceholderComponent
             );
         this.elementRef = componentRef.location;
+        // może insertBefore??
         this.setHeight(height);
         console.log(this.elementRef);
     };
@@ -39,11 +40,23 @@ export class DragDropPlaceholderDirective {
         );
     };
 
-    move = (x: number, y: number) => {
+    move = (box: DOMRect) => {
+        const placeholderBox =
+            this.elementRef.nativeElement.getBoundingClientRect();
+        console.log(placeholderBox);
+        console.log(box);
+        const x = box.x - placeholderBox.x;
+        const y = box.y - placeholderBox.y;
+        console.log(x, y);
+
         this.renderer.setStyle(
             this.elementRef.nativeElement,
             'transform',
             `translate3d(${x}px, ${y}px, 0px)`
         );
+    };
+
+    remove = () => {
+        this.viewContainerRef.clear();
     };
 }
