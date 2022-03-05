@@ -1,36 +1,19 @@
-import {
-    AfterViewInit,
-    Directive,
-    ElementRef,
-    HostListener,
-    Renderer2,
-} from '@angular/core';
+import { Directive, ElementRef, HostListener, Renderer2 } from '@angular/core';
 import { DragDropPlaceholderDirective } from './drag-drop-placeholder.directive';
 
 @Directive({
     selector: '[dragDropItem]',
 })
-export class DragDropItemDirective implements AfterViewInit {
+export class DragDropItemDirective {
     public dragging = false;
     private docMouseMoveListener: undefined | (() => void);
     private docMouseUpListener: undefined | (() => void);
     public placeholderDirective!: DragDropPlaceholderDirective;
-    /*
-    @ContentChild(DragDropPlaceholderDirective)
-    dragDropPlaceholder!: DragDropPlaceholderDirective;
-*/
+
     constructor(
         private elementRef: ElementRef<HTMLElement>,
         private renderer: Renderer2
     ) {}
-    ngAfterViewInit(): void {
-        //console.log(this.elementRef);
-        /*console.log(this.dragDropPlaceholder);
-
-        this.placeholderContainerRef =
-            this.dragDropPlaceholder.viewContainerRef;
-        this.placeholderContainerRef.clear();*/
-    }
     /*
     @HostListener('mouseover', ['$event'])
     mouseOver = (e: MouseEvent) => {
@@ -59,12 +42,6 @@ export class DragDropItemDirective implements AfterViewInit {
             ''
         );
         const preview = this.generateDraggingPreview(e);
-        const placeholder = this.generatePlaceholderElement();
-        this.renderer.insertBefore(
-            this.elementRef.nativeElement.parentElement,
-            placeholder,
-            this.elementRef.nativeElement
-        );
         this.renderer.appendChild(document.body, preview);
         this.renderer.appendChild(document.body, this.elementRef.nativeElement);
         this.docMouseMoveListener = this.renderer.listen(
@@ -81,6 +58,9 @@ export class DragDropItemDirective implements AfterViewInit {
             this.placeholderDirective.create(
                 this.elementRef.nativeElement.clientHeight
             );
+            /*this.placeholderDirective.move(
+                this.elementRef.nativeElement.getBoundingClientRect()
+            );*/
         }
     };
 
@@ -109,53 +89,14 @@ export class DragDropItemDirective implements AfterViewInit {
         return preview;
     };
 
-    private generatePlaceholderElement = (): HTMLElement => {
-        const placeholder: HTMLElement = this.renderer.createElement('div');
-        this.renderer.setAttribute(placeholder, 'dragDropPlaceholder', '');
-
-        this.renderer.setStyle(
-            placeholder,
-            'height',
-            `${this.elementRef.nativeElement.clientHeight}px`
-        );
-        return placeholder;
-    };
-
     private dragContinue = (e: MouseEvent) => {
         e.preventDefault();
         e.stopPropagation();
         this.movePreview(e);
-        const placeholder = <HTMLElement>(
+        /*        const placeholder = <HTMLElement>(
             document.querySelector('[dragDropPlaceholder]')
         );
-        //x i y to położenie
-        //console.log(test.child?.getBoundingClientRect());
         const test2 = this.getElementTest2(e.clientY);
-        /*
-        console.log('test2.element:');
-        console.log(test2.element);
-        console.log('test2.coords:');
-        console.log(test2.coords);
-        console.log();
-        console.log('test2.box:');
-        console.log(test2.element?.getBoundingClientRect());
-        console.log(
-            '============================================================='
-        );
-        */
-        /* console.log('test2.element:');
-        console.log(test2.element);
-        console.log();
-        console.log('test2.box:');
-        console.log(placeholder.getBoundingClientRect());
-        console.log('placeholder.box:');
-        console.log(placeholder.getBoundingClientRect());
-        console.log(
-            '============================================================='
-        );*/
-
-        //x i y to położenie
-        //console.log(placeholder.getBoundingClientRect());
 
         if (test2.element) {
             const test2box = test2.element?.getBoundingClientRect();
@@ -232,15 +173,13 @@ export class DragDropItemDirective implements AfterViewInit {
         if (this.docMouseUpListener) this.docMouseUpListener();
         e.stopPropagation();
         this.dragging = false;
-        const placeholder = this.renderer.selectRootElement(
-            '[dragDropPlaceholder]'
-        );
+        const placeholder = this.placeholderDirective.elementRef.nativeElement;
         this.renderer.insertBefore(
             placeholder.parentElement,
             this.elementRef.nativeElement,
             placeholder
         );
-        this.renderer.removeChild(placeholder.parentElement, placeholder);
+        placeholder.remove();
 
         this.renderer.removeChild(
             document.body,
