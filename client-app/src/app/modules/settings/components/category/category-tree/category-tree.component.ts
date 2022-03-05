@@ -28,7 +28,6 @@ export class CategoryTreeComponent implements OnInit, OnDestroy {
                         (p, c) => p.id == c.parentId
                     )
                     .toTree();
-                console.log(this.treeItem);
             });
     }
 

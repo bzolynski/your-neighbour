@@ -1,8 +1,8 @@
-import { DragContainerDirective } from './drag-container.directive';
+import { DragDropContainerDirective } from './drag-drop-container.directive';
 
 describe('DragContainerDirective', () => {
     it('should create an instance', () => {
-        const directive = new DragContainerDirective();
+        const directive = new DragDropContainerDirective();
         expect(directive).toBeTruthy();
     });
 });

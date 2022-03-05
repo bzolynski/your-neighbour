@@ -1,2 +1,2 @@
-export * from './drag-container.directive';
-export * from './drag-item.directive';
+export * from './drag-drop-container.directive';
+export * from './drag-drop-item.directive';

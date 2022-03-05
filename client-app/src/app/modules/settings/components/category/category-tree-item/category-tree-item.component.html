@@ -1,22 +1,15 @@
-<div class="wrapper" appDragContainer>
+<div class="wrapper" dragDropContainer>
     <div class="info" (click)="triggerExpand()">
         {{ treeItem.data.name }}
     </div>
     <ng-container *ngIf="isExpanded">
         <app-category-tree-item
-            appDragItem
+            dragDropItem
             *ngFor="let item of treeItem.children"
-            [treeItem]="item"></app-category-tree-item>
+            [treeItem]="item">
+        </app-category-tree-item>
     </ng-container>
-</div>
-<!-- (dragstart)="startDrag($event)"
-    (dragend)="endDrag()"
-    (dragover)="dragOver($event)" -->
-<!-- <div
-    class="wrapper"
-    [draggable]="true"
-    (dragstart)="startDrag($event)"
-    (dragend)="endDrag()"
-    #treeElement>
     <ng-content></ng-content>
-</div> -->
+    <!-- <ng-template dragDropPlaceholder></ng-template> -->
+    <div *dragDropPlaceholder></div>
+</div>

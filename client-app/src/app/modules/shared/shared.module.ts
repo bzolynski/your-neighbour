@@ -13,7 +13,12 @@ import {
     TreeViewRootDirective,
 } from './directives';
 import { TreeViewNodeComponent } from './components';
-import { DragContainerDirective, DragItemDirective } from './directives';
+import {
+    DragDropContainerDirective,
+    DragDropItemDirective,
+} from './directives';
+import { DragDropPlaceholderDirective } from './directives/drag-and-drop/drag-drop-placeholder.directive';
+import { DragDropPlaceholderComponent } from './components/drag-and-drop/drag-drop-placeholder/drag-drop-placeholder.component';
 
 @NgModule({
     declarations: [
@@ -25,8 +30,10 @@ import { DragContainerDirective, DragItemDirective } from './directives';
         TreeViewNodeComponent,
         TreeViewOutletDirective,
         TreeViewNodeToggleDirective,
-        DragContainerDirective,
-        DragItemDirective,
+        DragDropContainerDirective,
+        DragDropItemDirective,
+        DragDropPlaceholderDirective,
+        DragDropPlaceholderComponent,
     ],
     imports: [
         CommonModule,
@@ -42,8 +49,9 @@ import { DragContainerDirective, DragItemDirective } from './directives';
         TreeViewNodeComponent,
         TreeViewOutletDirective,
         TreeViewNodeToggleDirective,
-        DragItemDirective,
-        DragContainerDirective,
+        DragDropItemDirective,
+        DragDropContainerDirective,
+        DragDropPlaceholderDirective,
     ],
 })
 export class SharedModule {}
