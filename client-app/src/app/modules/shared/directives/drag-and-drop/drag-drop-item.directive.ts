@@ -1,35 +1,49 @@
-import { Directive, ElementRef, HostListener, Renderer2 } from '@angular/core';
+import {
+    AfterViewInit,
+    Directive,
+    ElementRef,
+    HostListener,
+    Renderer2,
+    ViewContainerRef,
+    ViewRef,
+} from '@angular/core';
 import { DragDropPlaceholderDirective } from './drag-drop-placeholder.directive';
 
 @Directive({
     selector: '[dragDropItem]',
 })
-export class DragDropItemDirective {
+export class DragDropItemDirective implements AfterViewInit {
     public dragging = false;
     private docMouseMoveListener: undefined | (() => void);
     private docMouseUpListener: undefined | (() => void);
     public placeholderDirective!: DragDropPlaceholderDirective;
+    public initialPosition!: DOMRect;
+    public dragDropContainerViewRef!: ViewRef;
 
     constructor(
-        private elementRef: ElementRef<HTMLElement>,
-        private renderer: Renderer2
+        public elementRef: ElementRef<HTMLElement>,
+        private renderer: Renderer2,
+        public viewContainerRef: ViewContainerRef
     ) {}
-    /*
+    ngAfterViewInit(): void {
+        this.initialPosition =
+            this.elementRef.nativeElement.getBoundingClientRect();
+    }
+
     @HostListener('mouseover', ['$event'])
     mouseOver = (e: MouseEvent) => {
         e.stopPropagation();
-        //e.stopImmediatePropagation();
-        const placeholder = <HTMLElement>(
-            document.querySelector('[dragDropPlaceholder]')
-        );
-        if (!placeholder) return;
-        const box = this.elementRef.nativeElement.getBoundingClientRect();
-        if (e.clientY < box.top && e.clientY > box.bottom) return;
-        //if (e.clientY <= box.bottom && e.clientY >= box.top) {
-        console.log('WESZŁO XDDDDDDDDDDDDDDDDDDD');
-        //}
+        /* if (this.placeholderDirective && this.placeholderDirective.elementRef) {
+            this.placeholderDirective.move(
+                this.elementRef.nativeElement.getBoundingClientRect()
+            );
+        }
+        if (this.placeholderDirective) {
+            this.placeholderDirective.create(
+                this.elementRef.nativeElement.clientHeight
+            );
+        }*/
     };
-*/
     @HostListener('mousedown', ['$event'])
     dragStart = (e: MouseEvent) => {
         e.preventDefault();
@@ -43,6 +57,7 @@ export class DragDropItemDirective {
         );
         const preview = this.generateDraggingPreview(e);
         this.renderer.appendChild(document.body, preview);
+        //this.viewContainerRef.detach();
         this.renderer.appendChild(document.body, this.elementRef.nativeElement);
         this.docMouseMoveListener = this.renderer.listen(
             document,
@@ -58,9 +73,6 @@ export class DragDropItemDirective {
             this.placeholderDirective.create(
                 this.elementRef.nativeElement.clientHeight
             );
-            /*this.placeholderDirective.move(
-                this.elementRef.nativeElement.getBoundingClientRect()
-            );*/
         }
     };
 
@@ -168,28 +180,42 @@ export class DragDropItemDirective {
             `translate3d(${e.clientX}px, ${e.clientY}px, 0px)`
         );
     };
+
     private dragEnd = (e: MouseEvent) => {
         if (this.docMouseMoveListener) this.docMouseMoveListener();
         if (this.docMouseUpListener) this.docMouseUpListener();
         e.stopPropagation();
         this.dragging = false;
-        const placeholder = this.placeholderDirective.elementRef.nativeElement;
-        this.renderer.insertBefore(
-            placeholder.parentElement,
-            this.elementRef.nativeElement,
-            placeholder
-        );
-        placeholder.remove();
 
-        this.renderer.removeChild(
-            document.body,
-            this.renderer.selectRootElement('[dragDropDraggingPreview]')
-        );
+        if (this.placeholderDirective.elementRef) {
+            const placeholder =
+                this.placeholderDirective.elementRef.nativeElement;
 
-        this.renderer.removeAttribute(
-            this.elementRef.nativeElement,
-            'dragDropDragging'
-        );
+            //this.viewContainerRef.get(1) <- zwraca null albo ViefRef
+            console.log('DROP CONT REF');
+            //console.log(this.dragDropContainerRef.);
+
+            //this.viewContainerRef.insert(this.dragDropContainerViewRef);
+
+            this.renderer.insertBefore(
+                placeholder.parentElement,
+                this.elementRef.nativeElement,
+                placeholder
+            );
+            console.log('REMOVE');
+
+            this.placeholderDirective.remove();
+
+            this.renderer.removeChild(
+                document.body,
+                this.renderer.selectRootElement('[dragDropDraggingPreview]')
+            );
+
+            this.renderer.removeAttribute(
+                this.elementRef.nativeElement,
+                'dragDropDragging'
+            );
+        }
     };
 }
 

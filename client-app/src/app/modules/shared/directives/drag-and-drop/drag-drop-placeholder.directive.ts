@@ -10,7 +10,8 @@ import { DragDropPlaceholderComponent } from '../../components/drag-and-drop/dra
     selector: '[dragDropPlaceholder]',
 })
 export class DragDropPlaceholderDirective {
-    public elementRef!: ElementRef<HTMLElement>;
+    public elementRef: ElementRef<HTMLElement> | undefined;
+    private initialPosition!: DOMRect;
     constructor(
         public viewContainerRef: ViewContainerRef,
         private renderer: Renderer2
@@ -24,11 +25,13 @@ export class DragDropPlaceholderDirective {
             );
         this.elementRef = componentRef.location;
         // może insertBefore??
-        this.setHeight(height);
-        console.log(this.elementRef);
+        this.setStyles(height);
+        this.initialPosition =
+            this.elementRef.nativeElement.getBoundingClientRect();
     };
 
-    private setHeight = (height: number) => {
+    private setStyles = (height: number) => {
+        if (!this.elementRef) return;
         this.renderer.addClass(
             this.elementRef.nativeElement,
             'drag-drop-placeholder'
@@ -41,14 +44,13 @@ export class DragDropPlaceholderDirective {
     };
 
     move = (box: DOMRect) => {
-        const placeholderBox =
-            this.elementRef.nativeElement.getBoundingClientRect();
-        console.log(placeholderBox);
-        console.log(box);
-        const x = box.x - placeholderBox.x;
-        const y = box.y - placeholderBox.y;
-        console.log(x, y);
+        console.log();
+        console.log(this.elementRef?.nativeElement);
 
+        if (!this.elementRef) return;
+        const x = box.x - this.initialPosition.x;
+        const y = box.y - this.initialPosition.y;
+        console.log(x, y);
         this.renderer.setStyle(
             this.elementRef.nativeElement,
             'transform',
@@ -57,6 +59,7 @@ export class DragDropPlaceholderDirective {
     };
 
     remove = () => {
-        this.viewContainerRef.clear();
+        this.viewContainerRef.remove();
+        this.elementRef = undefined;
     };
 }
