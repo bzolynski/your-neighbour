@@ -19,6 +19,7 @@ import {
 } from './directives';
 import { DragDropPlaceholderDirective } from './directives/drag-and-drop/drag-drop-placeholder.directive';
 import { DragDropPlaceholderComponent } from './components/drag-and-drop/drag-drop-placeholder/drag-drop-placeholder.component';
+import { DragDropRootContainerDirective } from './directives/drag-and-drop/drag-drop-root-container.directive';
 
 @NgModule({
     declarations: [
@@ -34,6 +35,7 @@ import { DragDropPlaceholderComponent } from './components/drag-and-drop/drag-dr
         DragDropItemDirective,
         DragDropPlaceholderDirective,
         DragDropPlaceholderComponent,
+        DragDropRootContainerDirective,
     ],
     imports: [
         CommonModule,
