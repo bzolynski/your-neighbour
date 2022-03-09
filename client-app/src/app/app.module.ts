@@ -9,20 +9,22 @@ import { HomeModule } from './modules/home/home.module';
 import { SettingsModule } from './modules/settings/settings.module';
 import { SharedModule } from './modules/shared/shared.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
-	declarations: [ AppComponent ],
-	imports: [
-		AppRoutingModule,
-		BrowserModule,
-		CoreModule,
-		HomeModule,
-		RouterModule,
-		SharedModule,
-		SettingsModule,
-		BrowserAnimationsModule,
-	],
-	bootstrap: [ AppComponent ],
-	exports: [ AppComponent ]
+    declarations: [AppComponent],
+    imports: [
+        AppRoutingModule,
+        BrowserModule,
+        CoreModule,
+        HomeModule,
+        RouterModule,
+        SharedModule,
+        SettingsModule,
+        BrowserAnimationsModule,
+        FontAwesomeModule,
+    ],
+    bootstrap: [AppComponent],
+    exports: [AppComponent],
 })
 export class AppModule {}
