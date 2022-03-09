@@ -8,6 +8,7 @@ import { SnackBarContentComponent } from './components/snack-bar-content/snack-b
 import { ContainerComponent } from './components/layout/container/container.component';
 import {
     TreeNodeDirective,
+    TreeViewNodeToggleDirective,
     TreeViewOutletDirective,
     TreeViewRootDirective,
 } from './directives';
@@ -22,6 +23,7 @@ import { TreeViewNodeComponent } from './components';
         TreeViewRootDirective,
         TreeViewNodeComponent,
         TreeViewOutletDirective,
+        TreeViewNodeToggleDirective,
     ],
     imports: [
         CommonModule,
@@ -36,6 +38,7 @@ import { TreeViewNodeComponent } from './components';
         TreeViewRootDirective,
         TreeViewNodeComponent,
         TreeViewOutletDirective,
+        TreeViewNodeToggleDirective,
     ],
 })
 export class SharedModule {}
