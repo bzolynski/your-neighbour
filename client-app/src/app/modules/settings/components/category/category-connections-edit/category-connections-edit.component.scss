@@ -1,3 +1,9 @@
 div{
     background-color: red;
 }
+.tree-view-node{
+    display: block;
+}
+.tree-view-node .tree-view-node{
+    padding-left: 40px;
+}

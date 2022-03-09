@@ -1,1 +1,14 @@
-<div>na razie pusto</div>
+<div *ngIf="treeItem">
+    <div [appTreeViewRoot]="treeItem">
+        <app-tree-view-node
+            appTreeViewNodeToggle
+            class="tree-view-node"
+            [node]="node"
+            *appTreeNode="let node">
+            {{ node.data.name }}
+            <div [style.display]="node.isExpanded ? 'block' : 'none'">
+                <ng-container appTreeViewOutlet></ng-container>
+            </div>
+        </app-tree-view-node>
+    </div>
+</div>
