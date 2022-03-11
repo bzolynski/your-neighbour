@@ -23,6 +23,7 @@ import { CategoryFormComponent } from './components/category/category-form/categ
 import { SharedModule } from '../shared/shared.module';
 import { CategoryConnectionsEditComponent } from './components/category/category-connections-edit/category-connections-edit.component';
 import { AngularMaterialModule } from '../angular-material/angular-material.module';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
     declarations: [
@@ -49,6 +50,7 @@ import { AngularMaterialModule } from '../angular-material/angular-material.modu
         ReactiveFormsModule,
         SharedModule,
         AngularMaterialModule,
+        FontAwesomeModule,
     ],
 })
 export class SettingsModule {}
