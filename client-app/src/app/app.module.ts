@@ -9,7 +9,6 @@ import { HomeModule } from './modules/home/home.module';
 import { SettingsModule } from './modules/settings/settings.module';
 import { SharedModule } from './modules/shared/shared.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
     declarations: [AppComponent],
@@ -22,7 +21,6 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
         SharedModule,
         SettingsModule,
         BrowserAnimationsModule,
-        FontAwesomeModule,
     ],
     bootstrap: [AppComponent],
     exports: [AppComponent],

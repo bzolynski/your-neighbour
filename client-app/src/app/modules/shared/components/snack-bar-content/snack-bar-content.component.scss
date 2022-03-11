@@ -1,18 +1,18 @@
-.container{
+.container {
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
 
-    mat-icon{
-        padding-right: 16px;
+    mat-icon {
+          padding-right: 16px;
     }
-    .content{
+    .content {
         font-weight: 400;
         margin: 0px;
     }
 
-    .close-button{
+    .close-button {
         color: white;
     }
 }

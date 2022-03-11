@@ -1,17 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using YourNeighbour.Api.Models;
-using YourNeighbour.Application.Features.Categories.Commands;
+using YourNeighbour.Application.Features.Categories.Commands.CreateCategory;
 using YourNeighbour.Application.Features.Categories.Commands.DeleteCategory;
 using YourNeighbour.Application.Features.Categories.Dtos;
 using YourNeighbour.Application.Features.Categories.Queries.GetAllCategories;
 using YourNeighbour.Application.Features.Categories.Queries.GetCategoryById;
 
 namespace YourNeighbour.Api.Controllers
-{ 
+{
     public class CategoryController : BaseController
     {
         [HttpGet("get/{id}")]
@@ -22,7 +20,7 @@ namespace YourNeighbour.Api.Controllers
         }
 
         [HttpGet("getAll")]
-        public async Task<ActionResult<Response>> GetAll() 
+        public async Task<ActionResult<Response>> GetAll()
         {
             IEnumerable<CategoryDto> categories = await Mediator.Send(new GetAllCategoriesQuery());
             return Models.Response.Success(categories);
