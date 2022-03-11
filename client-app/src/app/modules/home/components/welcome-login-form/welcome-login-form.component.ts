@@ -1,10 +1,6 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import {
-    FormBuilder,
-    FormControl,
-    FormGroup,
-    Validators,
-} from '@angular/forms';
+import { Component, OnDestroy } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { AuthenticationService } from 'src/app/modules/core/authentication/authentication.service';
 
@@ -13,7 +9,7 @@ import { AuthenticationService } from 'src/app/modules/core/authentication/authe
     templateUrl: './welcome-login-form.component.html',
     styleUrls: ['./welcome-login-form.component.scss'],
 })
-export class WelcomeLoginFormComponent implements OnInit, OnDestroy {
+export class WelcomeLoginFormComponent implements OnDestroy {
     // Public properties
     form: FormGroup = new FormGroup({
         login: new FormControl('', [Validators.required]),
@@ -34,10 +30,10 @@ export class WelcomeLoginFormComponent implements OnInit, OnDestroy {
     // Private members
     destroy$: Subject<boolean> = new Subject<boolean>();
 
-    constructor(private authenticationService: AuthenticationService) {}
-
-    ngOnInit(): void {}
-
+    constructor(
+        private authenticationService: AuthenticationService,
+        private router: Router
+    ) {}
     ngOnDestroy(): void {
         this.destroy$.next(true);
         this.destroy$.unsubscribe;
@@ -45,10 +41,14 @@ export class WelcomeLoginFormComponent implements OnInit, OnDestroy {
 
     onSubmit = () => {
         if (this.form.valid) {
-            this.authenticationService.login(
-                this.form.get('login')?.value,
-                this.form.get('password')?.value
-            );
+            this.authenticationService
+                .login(
+                    this.form.get('login')?.value,
+                    this.form.get('password')?.value
+                )
+                .subscribe((response) => {
+                    this.router.navigate(['../']);
+                });
         }
     };
 }

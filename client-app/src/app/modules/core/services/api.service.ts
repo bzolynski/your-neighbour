@@ -4,6 +4,7 @@ import { Observable, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { catchError } from 'rxjs/operators';
 import { ObservableResponse } from '../types';
+import { HttpError } from '../models';
 
 @Injectable({
     providedIn: 'root',
@@ -12,11 +13,14 @@ export class ApiService {
     constructor(private client: HttpClient) {}
 
     private headers = new Headers().append('Content-Type', 'application/json');
-    private handleError = (error: any, caught: Observable<any>) => {
+    private handleError = (
+        httpError: HttpError<Response>,
+        caught: Observable<any>
+    ) => {
         // for ex: logs
-        console.log(error);
+        console.log(httpError);
 
-        return throwError(error);
+        return throwError(httpError);
     };
 
     get = <T>(path: string, params?: HttpParams): ObservableResponse<T> => {

@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
+import { HttpError } from '../models';
 import { IUser } from '../models/user.model';
 import { ObservableResponse } from '../types/observable-response';
 
@@ -12,11 +13,14 @@ import { ObservableResponse } from '../types/observable-response';
 export class AuthenticationApiService {
     constructor(private client: HttpClient) {}
 
-    private handleError = (error: any, caught: Observable<any>) => {
+    private handleError = (
+        httpError: HttpError<Response>,
+        caught: Observable<any>
+    ) => {
         // for ex: logs
-        console.log(error);
+        console.log(httpError);
 
-        return throwError(error);
+        return throwError(httpError);
     };
     login = (login: string, password: string): ObservableResponse<IUser> => {
         return this.client
