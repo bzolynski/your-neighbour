@@ -1,11 +1,17 @@
 <div *ngIf="treeItem">
-    <div [appTreeViewRoot]="treeItem">
+    <div [appTreeViewRoot]="treeItem" class="root">
         <app-tree-view-node
             appTreeViewNodeToggle
             class="tree-view-node"
             [node]="node"
             *appTreeNode="let node">
-            {{ node.data.name }}
+            <div class="title">
+                <fa-icon
+                    *ngIf="!node.isLeaf"
+                    [class]="node.isExpanded ? 'rotate' : ''"
+                    [icon]="faChevronDown"></fa-icon>
+                {{ node.data.name }}
+            </div>
             <div [style.display]="node.isExpanded ? 'block' : 'none'">
                 <ng-container appTreeViewOutlet></ng-container>
             </div>

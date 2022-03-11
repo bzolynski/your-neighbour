@@ -4,7 +4,10 @@ import { takeUntil } from 'rxjs/operators';
 import { ICategory } from 'src/app/modules/core/models';
 import { CategoryService } from 'src/app/modules/core/services';
 import { ITree } from 'src/app/modules/core/types';
-
+import {
+    faChevronDown,
+    IconDefinition,
+} from '@fortawesome/free-solid-svg-icons';
 @Component({
     selector: 'app-category-connections-edit',
     templateUrl: './category-connections-edit.component.html',
@@ -13,7 +16,7 @@ import { ITree } from 'src/app/modules/core/types';
 export class CategoryConnectionsEditComponent implements OnInit, OnDestroy {
     treeItem: ITree<ICategory> | undefined;
     destroy$: Subject<boolean> = new Subject<boolean>();
-
+    faChevronDown: IconDefinition = faChevronDown;
     constructor(private categoryService: CategoryService) {}
 
     ngOnInit(): void {
