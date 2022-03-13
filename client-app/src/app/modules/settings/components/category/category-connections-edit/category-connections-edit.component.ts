@@ -32,7 +32,6 @@ export class CategoryConnectionsEditComponent implements OnInit, OnDestroy {
                     )
                     .toTree();
                 console.log('tree item w componencie');
-                console.log(this.treeItem);
             });
     }
 

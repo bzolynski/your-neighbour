@@ -1,0 +1,8 @@
+<div *ngIf="treeNode && nodeTemplate">
+    <ng-container
+        [ngTemplateOutlet]="nodeTemplate"
+        [ngTemplateOutletContext]="{
+            $implicit: treeNode
+        }">
+    </ng-container>
+</div>

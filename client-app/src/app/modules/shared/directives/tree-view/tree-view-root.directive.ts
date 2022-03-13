@@ -1,34 +1,13 @@
-import {
-    AfterViewInit,
-    ChangeDetectorRef,
-    ContentChild,
-    Directive,
-    Input,
-    TemplateRef,
-} from '@angular/core';
+import { Directive, Input } from '@angular/core';
 import { ITree } from 'src/app/modules/core/types';
-import { TreeNodeDirective } from './tree-view-node.directive';
+import { TreeViewService } from './tree-view.service';
 
 @Directive({
     selector: '[appTreeViewRoot]',
 })
-export class TreeViewRootDirective<T> implements AfterViewInit {
-    @ContentChild(TreeNodeDirective)
-    viewNodeDirective!: TreeNodeDirective;
-    constructor(private changeDetector: ChangeDetectorRef) {}
-
-    componentTemplate: TemplateRef<any> | undefined;
-
+export class TreeViewRootDirective<T> {
     @Input('appTreeViewRoot') node!: ITree<T> | undefined;
-
-    ngAfterViewInit(): void {
-        this.componentTemplate = this.viewNodeDirective.template;
-
-        this.viewNodeDirective.viewContainerRef.createEmbeddedView(
-            this.componentTemplate,
-            { $implicit: this.node }
-        );
-
-        this.changeDetector.detectChanges();
+    constructor(private treeService: TreeViewService<T>) {
+        treeService.roots.push(this);
     }
 }

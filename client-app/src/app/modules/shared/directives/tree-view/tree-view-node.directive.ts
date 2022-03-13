@@ -1,11 +1,13 @@
-import { Directive, TemplateRef, ViewContainerRef } from '@angular/core';
+import { Directive, Input } from '@angular/core';
+import { ITree } from 'src/app/modules/core/types';
+import { TreeViewService } from './tree-view.service';
 
 @Directive({
-    selector: '[appTreeNode]',
+    selector: '[appTreeViewNode]',
 })
-export class TreeNodeDirective {
-    constructor(
-        public template: TemplateRef<any>,
-        public viewContainerRef: ViewContainerRef
-    ) {}
+export class TreeViewNodeDirective<T> {
+    @Input('appTreeViewNode') node: ITree<T> | undefined;
+    constructor(private treeService: TreeViewService<T>) {
+        treeService.nodes.push(this);
+    }
 }

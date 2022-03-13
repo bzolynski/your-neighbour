@@ -7,23 +7,25 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { SnackBarContentComponent } from './components/snack-bar-content/snack-bar-content.component';
 import { ContainerComponent } from './components/layout/container/container.component';
 import {
-    TreeNodeDirective,
+    TreeViewNodeContainerDirective,
+    TreeViewNodeDirective,
     TreeViewNodeToggleDirective,
-    TreeViewOutletDirective,
     TreeViewRootDirective,
+    TreeViewRootGroupDirective,
 } from './directives';
-import { TreeViewNodeComponent } from './components';
+import { TreeViewRootComponent } from './components';
 
 @NgModule({
     declarations: [
         TextInputComponent,
         SnackBarContentComponent,
         ContainerComponent,
-        TreeNodeDirective,
         TreeViewRootDirective,
-        TreeViewNodeComponent,
-        TreeViewOutletDirective,
         TreeViewNodeToggleDirective,
+        TreeViewRootComponent,
+        TreeViewRootGroupDirective,
+        TreeViewNodeDirective,
+        TreeViewNodeContainerDirective,
     ],
     imports: [
         CommonModule,
@@ -34,11 +36,12 @@ import { TreeViewNodeComponent } from './components';
     exports: [
         TextInputComponent,
         ContainerComponent,
-        TreeNodeDirective,
         TreeViewRootDirective,
-        TreeViewNodeComponent,
-        TreeViewOutletDirective,
         TreeViewNodeToggleDirective,
+        TreeViewRootComponent,
+        TreeViewRootGroupDirective,
+        TreeViewNodeDirective,
+        TreeViewNodeContainerDirective,
     ],
 })
 export class SharedModule {}

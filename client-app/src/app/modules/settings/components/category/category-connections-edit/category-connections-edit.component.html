@@ -1,20 +1,30 @@
 <div *ngIf="treeItem">
-    <div [appTreeViewRoot]="treeItem" class="root">
-        <app-tree-view-node
-            appTreeViewNodeToggle
-            class="tree-view-node"
-            [node]="node"
-            *appTreeNode="let node">
-            <div class="title">
-                <fa-icon
-                    *ngIf="!node.isLeaf"
-                    [class]="node.isExpanded ? 'rotate' : ''"
-                    [icon]="faChevronDown"></fa-icon>
-                {{ node.data.name }}
+    <div appTreeViewRootGroup>
+        <app-tree-view-root
+            [appTreeViewRoot]="treeItem"
+            [treeNode]="treeItem"
+            [nodeTemplate]="nodeTemplate">
+        </app-tree-view-root>
+        <ng-template let-node #nodeTemplate>
+            <div class="tree-view-node" [appTreeViewNode]="node">
+                <div class="title" [appTreeViewNodeToggle]="node">
+                    <fa-icon
+                        *ngIf="!node.isLeaf"
+                        [class]="node.isExpanded ? 'rotate' : ''"
+                        [icon]="faChevronDown"></fa-icon>
+                    {{ node.data.name }}
+                </div>
+                <div
+                    [style.display]="node.isExpanded ? 'block' : 'none'"
+                    class="container"
+                    appTreeViewNodeContainer>
+                    <ng-container
+                        *ngFor="let nested of node.children"
+                        [ngTemplateOutletContext]="{ $implicit: nested }"
+                        [ngTemplateOutlet]="nodeTemplate">
+                    </ng-container>
+                </div>
             </div>
-            <div [style.display]="node.isExpanded ? 'block' : 'none'">
-                <ng-container appTreeViewOutlet></ng-container>
-            </div>
-        </app-tree-view-node>
+        </ng-template>
     </div>
 </div>
