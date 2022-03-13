@@ -54,6 +54,8 @@ import { DragDropRootContainerDirective } from './directives/drag-and-drop/drag-
         DragDropItemDirective,
         DragDropContainerDirective,
         DragDropPlaceholderDirective,
+        DragDropPlaceholderComponent,
+        DragDropRootContainerDirective,
     ],
 })
 export class SharedModule {}

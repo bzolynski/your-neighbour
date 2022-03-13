@@ -1,65 +1,92 @@
-import {
-    Directive,
-    ElementRef,
-    Renderer2,
-    ViewContainerRef,
-} from '@angular/core';
+import { Directive, ElementRef, Renderer2 } from '@angular/core';
 import { DragDropPlaceholderComponent } from '../../components/drag-and-drop/drag-drop-placeholder/drag-drop-placeholder.component';
+import { DragDropItemDirective } from './drag-drop-item.directive';
+import { DragDropRootContainerDirective } from './drag-drop-root-container.directive';
 
 @Directive({
     selector: '[dragDropPlaceholder]',
 })
 export class DragDropPlaceholderDirective {
-    public elementRef: ElementRef<HTMLElement> | undefined;
+    public placehodlerComponentRef: ElementRef<HTMLElement> | undefined;
     private initialPosition!: DOMRect;
     constructor(
-        public viewContainerRef: ViewContainerRef,
-        private renderer: Renderer2
+        private renderer: Renderer2,
+        private dragDropItem: DragDropItemDirective,
+        private dragDropRootContainer: DragDropRootContainerDirective
     ) {}
 
-    create = (height: number) => {
-        this.viewContainerRef.clear();
+    create = () => {
+        this.dragDropItem.viewContainerRef.clear();
         const componentRef =
-            this.viewContainerRef.createComponent<DragDropPlaceholderComponent>(
+            this.dragDropItem.viewContainerRef.createComponent<DragDropPlaceholderComponent>(
                 DragDropPlaceholderComponent
             );
-        this.elementRef = componentRef.location;
-        // może insertBefore??
-        this.setStyles(height);
+
+        this.placehodlerComponentRef = componentRef.location;
+        const ngcontentAttribute =
+            [...this.dragDropItem.elementRef.nativeElement.attributes].find(
+                (x) => x.name.startsWith('_ngcontent')
+            )?.name ?? '';
+
+        this.renderer.setAttribute(
+            this.placehodlerComponentRef.nativeElement,
+            ngcontentAttribute,
+            ''
+        );
+        this.dragDropRootContainer.movingPlaceholderSubject.next(componentRef);
+        for (const styleClass of this.dragDropItem
+            .dragDropPlaceholderStyleClasses) {
+            console.log(styleClass);
+
+            this.renderer.addClass(
+                this.placehodlerComponentRef.nativeElement,
+                styleClass
+            );
+        }
+
+        this.setStyles();
         this.initialPosition =
-            this.elementRef.nativeElement.getBoundingClientRect();
+            this.placehodlerComponentRef.nativeElement.getBoundingClientRect();
     };
 
-    private setStyles = (height: number) => {
-        if (!this.elementRef) return;
-        this.renderer.addClass(
-            this.elementRef.nativeElement,
-            'drag-drop-placeholder'
+    private setStyles = () => {
+        if (!this.placehodlerComponentRef) return;
+
+        this.renderer.setStyle(
+            this.placehodlerComponentRef.nativeElement,
+            'height',
+            `${this.dragDropItem.elementRef.nativeElement.clientHeight}px`
         );
         this.renderer.setStyle(
-            this.elementRef.nativeElement,
-            'height',
-            `${height}px`
+            this.placehodlerComponentRef.nativeElement,
+            'display',
+            `block`
+        );
+        this.renderer.setStyle(
+            this.placehodlerComponentRef.nativeElement,
+            'pointer-events',
+            `none`
         );
     };
 
     move = (box: DOMRect) => {
         console.log();
-        console.log(this.elementRef?.nativeElement);
+        console.log(this.placehodlerComponentRef?.nativeElement);
 
-        if (!this.elementRef) return;
+        if (!this.placehodlerComponentRef) return;
         const x = box.x - this.initialPosition.x;
         const y = box.y - this.initialPosition.y;
         console.log(x, y);
         this.renderer.setStyle(
-            this.elementRef.nativeElement,
+            this.placehodlerComponentRef.nativeElement,
             'transform',
             `translate3d(${x}px, ${y}px, 0px)`
         );
     };
 
     remove = () => {
-        this.viewContainerRef.remove();
-        this.elementRef = undefined;
+        this.dragDropItem.viewContainerRef.remove();
+        this.placehodlerComponentRef = undefined;
+        this.dragDropRootContainer.movingPlaceholderSubject.next(undefined);
     };
 }

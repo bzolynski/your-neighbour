@@ -1,49 +1,53 @@
 import {
     AfterViewInit,
+    ContentChild,
     Directive,
     ElementRef,
     HostListener,
+    Input,
+    OnInit,
     Renderer2,
     ViewContainerRef,
-    ViewRef,
 } from '@angular/core';
+import { DragDropContainerDirective } from '..';
 import { DragDropPlaceholderDirective } from './drag-drop-placeholder.directive';
 
 @Directive({
     selector: '[dragDropItem]',
 })
-export class DragDropItemDirective implements AfterViewInit {
+export class DragDropItemDirective implements  AfterViewInit {
     public dragging = false;
     private docMouseMoveListener: undefined | (() => void);
     private docMouseUpListener: undefined | (() => void);
-    public placeholderDirective!: DragDropPlaceholderDirective;
-    public initialPosition!: DOMRect;
-    public dragDropContainerViewRef!: ViewRef;
+    // public placeholderDirective!: DragDropPlaceholderDirective;
+    public currentPosition!: Position;
+
+    /* TO JEST GIT */
+    @ContentChild(DragDropPlaceholderDirective)
+    placeholderDirective!: DragDropPlaceholderDirective;
+    @Input() dragDropPlaceholderStyleClasses: Array<string> =
+        new Array<string>();
+    /****************************/
 
     constructor(
         public elementRef: ElementRef<HTMLElement>,
         private renderer: Renderer2,
-        public viewContainerRef: ViewContainerRef
+        public viewContainerRef: ViewContainerRef,
+        private dragDropContainerDirective: DragDropContainerDirective
     ) {}
+
     ngAfterViewInit(): void {
-        this.initialPosition =
-            this.elementRef.nativeElement.getBoundingClientRect();
+        const box = this.elementRef.nativeElement.getBoundingClientRect();
+        this.currentPosition = new Position(
+            box.top,
+            box.top + 32,
+            box.left,
+            box.right
+        );
+        console.log(this.currentPosition);
+        console.log(this.elementRef);
     }
 
-    @HostListener('mouseover', ['$event'])
-    mouseOver = (e: MouseEvent) => {
-        e.stopPropagation();
-        /* if (this.placeholderDirective && this.placeholderDirective.elementRef) {
-            this.placeholderDirective.move(
-                this.elementRef.nativeElement.getBoundingClientRect()
-            );
-        }
-        if (this.placeholderDirective) {
-            this.placeholderDirective.create(
-                this.elementRef.nativeElement.clientHeight
-            );
-        }*/
-    };
     @HostListener('mousedown', ['$event'])
     dragStart = (e: MouseEvent) => {
         e.preventDefault();
@@ -69,11 +73,7 @@ export class DragDropItemDirective implements AfterViewInit {
             'mouseup',
             this.dragEnd
         );
-        if (this.placeholderDirective) {
-            this.placeholderDirective.create(
-                this.elementRef.nativeElement.clientHeight
-            );
-        }
+        this.placeholderDirective.create();
     };
 
     private generateDraggingPreview = (e: MouseEvent): HTMLElement => {
@@ -105,68 +105,6 @@ export class DragDropItemDirective implements AfterViewInit {
         e.preventDefault();
         e.stopPropagation();
         this.movePreview(e);
-        /*        const placeholder = <HTMLElement>(
-            document.querySelector('[dragDropPlaceholder]')
-        );
-        const test2 = this.getElementTest2(e.clientY);
-
-        if (test2.element) {
-            const test2box = test2.element?.getBoundingClientRect();
-            const placeholderBox = placeholder.getBoundingClientRect();
-            if (
-                test2box.x == placeholderBox.x &&
-                test2box.y == placeholderBox.y
-            )
-                return;
-            const y = test2box.y - placeholderBox.y;
-            const x = test2box.x - placeholderBox.x;
-            console.log(`x: ${x} | y: ${y}`);
-
-            this.renderer.setStyle(
-                placeholder,
-                'transform',
-                `translate3d(${x}px, ${y}px, 0px)`
-            );
-        } /*else {
-            this.renderer.setStyle(
-                placeholder,
-                'transform',
-                `translate3d(0px, 0px, 0px)`
-            );
-        }*/
-    };
-
-    getElementTest2 = (yPosition: number): TestInterface => {
-        const draggables = [
-            ...document.querySelectorAll(
-                '[dragDropItem]:not([dragDropDragging=""])'
-            ),
-        ];
-
-        return draggables.reduce(
-            (test: TestInterface, child: Element) => {
-                const box = child.getBoundingClientRect();
-                const coords: Coords = {
-                    top: box.top,
-                    bottom: box.bottom,
-                };
-                if (
-                    coords.top <= yPosition &&
-                    coords.bottom - 10 >= yPosition
-                ) {
-                    test.element = child;
-                    test.coords = coords;
-                    return test;
-                } else return test;
-            },
-            {
-                coords: {
-                    top: -1,
-                    bottom: -1,
-                },
-                element: undefined,
-            }
-        );
     };
 
     private movePreview = (e: MouseEvent) => {
@@ -180,16 +118,15 @@ export class DragDropItemDirective implements AfterViewInit {
             `translate3d(${e.clientX}px, ${e.clientY}px, 0px)`
         );
     };
-
     private dragEnd = (e: MouseEvent) => {
         if (this.docMouseMoveListener) this.docMouseMoveListener();
         if (this.docMouseUpListener) this.docMouseUpListener();
         e.stopPropagation();
         this.dragging = false;
 
-        if (this.placeholderDirective.elementRef) {
+        if (this.placeholderDirective.placehodlerComponentRef) {
             const placeholder =
-                this.placeholderDirective.elementRef.nativeElement;
+                this.placeholderDirective.placehodlerComponentRef.nativeElement;
 
             //this.viewContainerRef.get(1) <- zwraca null albo ViefRef
             console.log('DROP CONT REF');
@@ -217,14 +154,38 @@ export class DragDropItemDirective implements AfterViewInit {
             );
         }
     };
+
+    move = (x: number, y: number) => {
+        this.renderer.setStyle(
+            this.elementRef.nativeElement,
+            'transform',
+            `translate3d(${x}px, ${y}px, 0px)`
+        );
+        // this.currentPosition.top += y;
+        // this.currentPosition.bottom += y;
+        // this.currentPosition.left += x;
+        // this.currentPosition.right += x;
+    };
 }
 
-interface TestInterface {
-    coords: Coords;
-    element: Element | undefined;
-}
-
-interface Coords {
+export interface IPosition {
     top: number;
     bottom: number;
+    left: number;
+    right: number;
+}
+
+export class Position implements IPosition {
+    constructor(
+        public top: number,
+        public bottom: number,
+        public left: number,
+        public right: number
+    ) {}
+    addTo = (offset: IPosition) => {
+        this.top = offset.top;
+        this.bottom = offset.bottom;
+        this.left = offset.left;
+        this.right = offset.right;
+    };
 }

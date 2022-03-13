@@ -44,11 +44,3 @@ mat-card, mat-tab-group, .mat-tab-body-wrapper{
         pointer-events: none;
     }
 }
-.drag-drop-placeholder {
-    display: block;
-    box-sizing: border-box;
-    width: 100%;
-    border: 2px dotted black;
-    background: #ccc;
-   // pointer-events: none;
-}
