@@ -23,13 +23,12 @@ export class TreeViewRootDirective<T> implements AfterViewInit {
 
     ngAfterViewInit(): void {
         this.componentTemplate = this.viewNodeDirective.template;
-        const viewRef =
-            this.viewNodeDirective.viewContainerRef.createEmbeddedView(
-                this.componentTemplate,
-                this.node
-            );
 
-        viewRef.context.$implicit = this.node;
+        this.viewNodeDirective.viewContainerRef.createEmbeddedView(
+            this.componentTemplate,
+            { $implicit: this.node }
+        );
+
         this.changeDetector.detectChanges();
     }
 }

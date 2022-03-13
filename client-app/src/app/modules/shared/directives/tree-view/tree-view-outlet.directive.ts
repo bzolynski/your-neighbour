@@ -23,12 +23,9 @@ export class TreeViewOutletDirective<T> implements OnInit {
     private addChildren = (template: TemplateRef<any>) => {
         if (!this.treeViewNodeComponent.node?.children) return;
         for (const child of this.treeViewNodeComponent.node.children) {
-            const viewRef = this.viewContainerRef.createEmbeddedView(
-                template,
-                child
-            );
-
-            viewRef.context.$implicit = child;
+            this.viewContainerRef.createEmbeddedView(template, {
+                $implicit: child,
+            });
         }
     };
 }
