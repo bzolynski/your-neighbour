@@ -16,7 +16,6 @@ export class TreeViewNodeToggleDirective<T> implements OnInit {
     @HostBinding('style.cursor') pointer = 'default';
     @HostListener('click', ['$event'])
     click = (e: MouseEvent) => {
-        e.stopPropagation();
         e.preventDefault();
         if (this.isExpandable) this.node.isExpanded = !this.node.isExpanded;
     };

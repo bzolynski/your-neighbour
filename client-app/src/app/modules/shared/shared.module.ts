@@ -8,12 +8,11 @@ import { SnackBarContentComponent } from './components/snack-bar-content/snack-b
 import { ContainerComponent } from './components/layout/container/container.component';
 import {
     TreeViewNodeContainerDirective,
-    TreeViewNodeDirective,
     TreeViewNodeToggleDirective,
     TreeViewRootDirective,
     TreeViewRootGroupDirective,
 } from './directives';
-import { TreeViewRootComponent } from './components';
+import { TreeViewNodeComponent, TreeViewRootComponent } from './components';
 
 @NgModule({
     declarations: [
@@ -24,8 +23,8 @@ import { TreeViewRootComponent } from './components';
         TreeViewNodeToggleDirective,
         TreeViewRootComponent,
         TreeViewRootGroupDirective,
-        TreeViewNodeDirective,
         TreeViewNodeContainerDirective,
+        TreeViewNodeComponent,
     ],
     imports: [
         CommonModule,
@@ -40,8 +39,8 @@ import { TreeViewRootComponent } from './components';
         TreeViewNodeToggleDirective,
         TreeViewRootComponent,
         TreeViewRootGroupDirective,
-        TreeViewNodeDirective,
         TreeViewNodeContainerDirective,
+        TreeViewNodeComponent,
     ],
 })
 export class SharedModule {}

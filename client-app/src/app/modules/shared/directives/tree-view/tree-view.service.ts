@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Renderer2 } from '@angular/core';
+import { TreeViewNodeComponent } from '../../components/tree-view/tree-view-node/tree-view-node.component';
 import { TreeViewNodeContainerDirective } from './tree-view-node-container.directive';
-import { TreeViewNodeDirective } from './tree-view-node.directive';
 import { TreeViewRootGroupDirective } from './tree-view-root-group.directive';
 import { TreeViewRootDirective } from './tree-view-root.directive';
 
@@ -10,11 +10,11 @@ export class TreeViewService<T> {
     roots: Array<TreeViewRootDirective<T>> = new Array<
         TreeViewRootDirective<T>
     >();
-    nodes: Array<TreeViewNodeDirective<T>> = new Array<
-        TreeViewNodeDirective<T>
+    nodes: Array<TreeViewNodeComponent<T>> = new Array<
+        TreeViewNodeComponent<T>
     >();
     nodeContainers: Array<TreeViewNodeContainerDirective<T>> = new Array<
         TreeViewNodeContainerDirective<T>
     >();
-    constructor() {}
+    constructor(private renderer: Renderer2) {}
 }

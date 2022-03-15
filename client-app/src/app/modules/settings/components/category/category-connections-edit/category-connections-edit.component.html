@@ -6,24 +6,12 @@
             [nodeTemplate]="nodeTemplate">
         </app-tree-view-root>
         <ng-template let-node #nodeTemplate>
-            <div class="tree-view-node" [appTreeViewNode]="node">
-                <div class="title" [appTreeViewNodeToggle]="node">
-                    <fa-icon
-                        *ngIf="!node.isLeaf"
-                        [class]="node.isExpanded ? 'rotate' : ''"
-                        [icon]="faChevronDown"></fa-icon>
-                    {{ node.data.name }}
-                </div>
-                <div
-                    [style.display]="node.isExpanded ? 'block' : 'none'"
-                    class="container"
-                    appTreeViewNodeContainer>
-                    <ng-container
-                        *ngFor="let nested of node.children"
-                        [ngTemplateOutletContext]="{ $implicit: nested }"
-                        [ngTemplateOutlet]="nodeTemplate">
-                    </ng-container>
-                </div>
+            <div class="title" [appTreeViewNodeToggle]="node">
+                <fa-icon
+                    *ngIf="!node.isLeaf"
+                    [class]="node.isExpanded ? 'rotate' : ''"
+                    [icon]="faChevronDown"></fa-icon>
+                {{ node.data.name }}
             </div>
         </ng-template>
     </div>

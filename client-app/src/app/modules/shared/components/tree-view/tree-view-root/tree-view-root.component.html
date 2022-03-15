@@ -1,8 +1,32 @@
 <div *ngIf="treeNode && nodeTemplate">
     <ng-container
-        [ngTemplateOutlet]="nodeTemplate"
+        [ngTemplateOutlet]="mainTemplate"
         [ngTemplateOutletContext]="{
             $implicit: treeNode
         }">
     </ng-container>
+
+    <ng-template let-rootNode #mainTemplate>
+        <app-tree-view-node [node]="rootNode" [template]="nodeTemplate">
+            <div class="main-node-content">
+                <ng-container
+                    [ngTemplateOutlet]="nodeTemplate"
+                    [ngTemplateOutletContext]="{
+                        $implicit: rootNode
+                    }"></ng-container>
+            </div>
+            <div
+                [style.display]="rootNode.isExpanded ? 'block' : 'none'"
+                class="container"
+                appTreeViewNodeContainer>
+                <ng-container
+                    *ngFor="let child of rootNode.children"
+                    [ngTemplateOutlet]="mainTemplate"
+                    [ngTemplateOutletContext]="{
+                        $implicit: child
+                    }">
+                </ng-container>
+            </div>
+        </app-tree-view-node>
+    </ng-template>
 </div>
