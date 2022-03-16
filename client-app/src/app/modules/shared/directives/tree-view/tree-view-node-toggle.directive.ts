@@ -13,7 +13,7 @@ import { ITree } from 'src/app/modules/core/types';
 export class TreeViewNodeToggleDirective<T> implements OnInit {
     isExpandable: boolean = true;
     @Input('appTreeViewNodeToggle') node!: ITree<T>;
-    @HostBinding('style.cursor') pointer = 'default';
+    @HostBinding('style.cursor') pointer = 'inherit';
     @HostListener('click', ['$event'])
     click = (e: MouseEvent) => {
         e.preventDefault();
@@ -26,6 +26,6 @@ export class TreeViewNodeToggleDirective<T> implements OnInit {
     }
 
     private setCursorStyle = () => {
-        this.pointer = this.isExpandable ? 'pointer' : 'default';
+        this.pointer = this.isExpandable ? 'pointer' : 'inherit';
     };
 }

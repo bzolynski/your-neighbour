@@ -11,21 +11,19 @@ export class TreeViewService<T> {
     // public properties
 
     rootContainer: TreeViewRootGroupDirective<T> | undefined;
-    roots: Array<TreeViewRootDirective<T>> = new Array<
-        TreeViewRootDirective<T>
-    >();
-    nodes: Array<TreeViewNodeComponent<T>> = new Array<
-        TreeViewNodeComponent<T>
-    >();
+    roots: Array<TreeViewRootDirective<T>> = new Array<TreeViewRootDirective<T>>();
+    nodes: Array<TreeViewNodeComponent<T>> = new Array<TreeViewNodeComponent<T>>();
     nodeContainers: Array<TreeViewNodeContainerDirective<T>> = new Array<
         TreeViewNodeContainerDirective<T>
     >();
 
     // private members
-    setDraggingOverComponent$: Subject<TreeViewNodeComponent<T> | undefined> =
-        new Subject<TreeViewNodeComponent<T> | undefined>();
+    setDraggingOverComponent$: Subject<TreeViewNodeComponent<T> | undefined> = new Subject<
+        TreeViewNodeComponent<T> | undefined
+    >();
     draggingOverComponent$: TreeViewNodeComponent<T> | undefined;
-    dragging$: boolean = false;
+    isDragging$: boolean = false;
+    draggingComponent$: TreeViewNodeComponent<T> | undefined;
     draggingPreview$: HTMLElement | undefined;
     docMouseMoveListener$: undefined | (() => void);
     docMouseUpListener$: undefined | (() => void);
@@ -45,21 +43,14 @@ export class TreeViewService<T> {
     }
 
     dragStart = (e: MouseEvent, node: TreeViewNodeComponent<T>) => {
-        this.dragging$ = true;
+        this.isDragging$ = true;
         this.createDraggingElement(e, node);
-        this.docMouseMoveListener$ = this.renderer.listen(
-            document,
-            'mousemove',
-            this.dragContinue
-        );
-        this.docMouseUpListener$ = this.renderer.listen(
-            document,
-            'mouseup',
-            this.dragEnd
-        );
+        this.docMouseMoveListener$ = this.renderer.listen(document, 'mousemove', this.dragContinue);
+        this.docMouseUpListener$ = this.renderer.listen(document, 'mouseup', this.dragEnd);
     };
 
     createDraggingElement = (e: MouseEvent, node: TreeViewNodeComponent<T>) => {
+        this.draggingComponent$ = node;
         const element = node.elementRef.nativeElement;
         this.draggingPreview$ = <HTMLElement>element.cloneNode(true);
         this.setPreviewStyles(node);
@@ -73,16 +64,8 @@ export class TreeViewService<T> {
     };
 
     setPreviewStyles = (node: TreeViewNodeComponent<T>) => {
-        this.renderer.setStyle(
-            this.draggingPreview$,
-            'height',
-            `${node.box?.height}px`
-        );
-        this.renderer.setStyle(
-            this.draggingPreview$,
-            'width',
-            `${node.box?.width}px`
-        );
+        this.renderer.setStyle(this.draggingPreview$, 'height', `${node.box?.height}px`);
+        this.renderer.setStyle(this.draggingPreview$, 'width', `${node.box?.width}px`);
         this.renderer.setStyle(this.draggingPreview$, 'position', 'fixed');
         this.renderer.setStyle(this.draggingPreview$, 'top', '0');
         this.renderer.setStyle(this.draggingPreview$, 'left', '0');
@@ -103,7 +86,7 @@ export class TreeViewService<T> {
     };
 
     checkDragOver = (e: MouseEvent) => {
-        const component2 = this.nodes.find((x) => {
+        const component = this.nodes.find((x) => {
             if (x.box) {
                 const xBool = x.box.left < e.x && x.box.right > e.x;
                 const yBool = x.box.top < e.y && x.box.bottom > e.y;
@@ -112,13 +95,15 @@ export class TreeViewService<T> {
             return false;
         });
 
-        this.setDraggingOverComponent$.next(component2);
+        if (this.draggingComponent$ == component || component?.node.isRoot) return;
+
+        this.setDraggingOverComponent$.next(component);
 
         if (this.draggingOverComponent$?.box) {
             const box = this.draggingOverComponent$.box;
             const height = box.height;
-            const quater = height / 4;
-            let position: NodeMouseLocation = 'none';
+            const quater = height / 3;
+            let position: DropLocation = 'none';
             if (e.y < box.top + quater) {
                 this.stylePositionLines(this.draggingOverComponent$, 'above');
                 position = 'above';
@@ -135,21 +120,70 @@ export class TreeViewService<T> {
 
     private stylePositionLines = (
         component: TreeViewNodeComponent<T> | undefined,
-        style: NodeMouseLocation
+        style: DropLocation
     ) => {
         if (component) component.mouseLocationChanged.next(style);
     };
 
     dragEnd = (e: MouseEvent) => {
+        this.moveDraggedItem();
+        this.isDragging$ = false;
         this.stylePositionLines(this.draggingOverComponent$, 'none');
-        this.dragging$ = false;
         if (this.docMouseMoveListener$) this.docMouseMoveListener$();
         if (this.docMouseUpListener$) this.docMouseUpListener$();
-        this.renderer.removeChild(
-            this.draggingPreview$?.parentElement,
-            this.draggingPreview$
-        );
+        this.renderer.removeChild(this.draggingPreview$?.parentElement, this.draggingPreview$);
+    };
+    moveDraggedItem = () => {
+        if (
+            this.draggingComponent$ != this.draggingOverComponent$ &&
+            this.draggingComponent$ &&
+            this.draggingOverComponent$
+        ) {
+            const location: DropLocation = this.draggingOverComponent$?.mouseLocation;
+            let index: number | undefined;
+            let parentContainer!: TreeViewNodeContainerDirective<T>;
+            switch (location) {
+                case 'above': {
+                    parentContainer = this.draggingOverComponent$.parentContainer;
+                    const selfIndex = parentContainer.viewContainerRef.indexOf(
+                        this.draggingComponent$.componentRef.hostView
+                    );
+                    index = parentContainer.viewContainerRef.indexOf(
+                        this.draggingOverComponent$.componentRef.hostView
+                    );
+                    console.log('self: ' + selfIndex + ' index: ' + index);
+                    if (selfIndex !== -1 && selfIndex + 1 === index) index = selfIndex;
+                    console.log('self: ' + selfIndex + ' index: ' + index);
+                    break;
+                }
+                case 'inside': {
+                    parentContainer = this.draggingOverComponent$.childContainer;
+                    break;
+                }
+                case 'bellow': {
+                    parentContainer = this.draggingOverComponent$.parentContainer;
+                    index = parentContainer.viewContainerRef.indexOf(
+                        this.draggingOverComponent$.componentRef.hostView
+                    );
+                    const selfIndex = parentContainer.viewContainerRef.indexOf(
+                        this.draggingComponent$.componentRef.hostView
+                    );
+                    if (selfIndex > index || selfIndex === -1) index += 1;
+
+                    break;
+                }
+                default:
+                    return;
+            }
+            console.log(parentContainer.viewContainerRef);
+
+            parentContainer.viewContainerRef.insert(
+                this.draggingComponent$.componentRef.hostView,
+                index
+            );
+            this.draggingComponent$.parentContainer = this.draggingOverComponent$.parentContainer;
+        }
     };
 }
-
-export type NodeMouseLocation = 'none' | 'above' | 'inside' | 'bellow';
+export type DropLocation = 'none' | 'above' | 'inside' | 'bellow';
+export type CursorStyle = 'auto' | 'move' | 'not-allowed';

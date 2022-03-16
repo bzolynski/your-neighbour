@@ -15,7 +15,7 @@ export class TreeViewRootGroupDirective<T> {
 
     @HostListener('mousemove', ['$event'])
     mouseOver = (e: MouseEvent) => {
-        if (this.treeService.dragging$) {
+        if (this.treeService.isDragging$) {
             this.treeService.checkDragOver(e);
         }
     };

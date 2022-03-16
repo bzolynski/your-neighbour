@@ -6,8 +6,9 @@
             [nodeTemplate]="nodeTemplate">
         </app-tree-view-root>
         <ng-template let-node #nodeTemplate>
-            <div class="title" [appTreeViewNodeToggle]="node">
+            <div class="title">
                 <fa-icon
+                    [appTreeViewNodeToggle]="node"
                     *ngIf="!node.isLeaf"
                     [class]="node.isExpanded ? 'rotate' : ''"
                     [icon]="faChevronDown"></fa-icon>
