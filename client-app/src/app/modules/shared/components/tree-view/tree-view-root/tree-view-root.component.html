@@ -7,7 +7,15 @@
     </ng-container>
 
     <ng-template let-rootNode #mainTemplate>
-        <app-tree-view-node [node]="rootNode" [template]="nodeTemplate">
+        <app-tree-view-node
+            [node]="rootNode"
+            [template]="nodeTemplate"
+            #nodeComponent>
+            <div
+                data-line="above"
+                [class.show-line]="nodeComponent.mouseLocation == 'above'"
+                class="show-line"></div>
+
             <div class="main-node-content">
                 <ng-container
                     [ngTemplateOutlet]="nodeTemplate"
@@ -15,6 +23,11 @@
                         $implicit: rootNode
                     }"></ng-container>
             </div>
+            <div
+                data-line="bellow"
+                [class.show-line]="
+                    nodeComponent.mouseLocation == 'bellow'
+                "></div>
             <div
                 [style.display]="rootNode.isExpanded ? 'block' : 'none'"
                 class="container"
