@@ -1,19 +1,17 @@
-<div class="line-container">
-    <div data-line="above" [class.show-line]="mouseLocation == 'above'"></div>
-</div>
-<!-- [class.show-inside-arrow]="mouseLocation == 'inside'" -->
-<div class="main-node-content">
+<div
+    class="main-node-content"
+    [class.show-inside-arrow]="dropLocation == 'inside'">
+    <div data-line="above" [class.show-line]="dropLocation == 'above'"></div>
     <ng-container
         [ngTemplateOutlet]="template"
         [ngTemplateOutletContext]="{
             $implicit: node
         }"></ng-container>
-</div>
-<div class="line-container">
-    <div data-line="bellow" [class.show-line]="mouseLocation == 'bellow'"></div>
+    <div data-line="bellow" [class.show-line]="dropLocation == 'bellow'"></div>
 </div>
 <div [style.display]="node.isExpanded ? 'block' : 'none'" class="container">
     <div
+        data-line="inside"
         appTreeViewNodeContainer
-        [class.show-line]="mouseLocation == 'inside'"></div>
+        [class.show-line]="dropLocation == 'inside'"></div>
 </div>

@@ -3,6 +3,7 @@
 }
 
 .main-node-content {
+    padding: 2.5px 0;
     position: relative;
     cursor: inherit !important;
 }
@@ -25,14 +26,9 @@
     }
 }
 
-.line-container {
-    padding: 1.5px 0;
-    position: relative;
-    width: 100%;
-}
 .show-line {
     position: absolute;
-    height: 3px;
+    height: 6px;
     border-radius: 5px;
 
     &::before {
@@ -40,8 +36,7 @@
         background-color: pink;
         position: absolute;
         left: 0;
-        top: 50%;
-        transform: translateY(-50%);
+        top: -50%;
         height: 6px;
         width: 6px;
         border: 0.1px solid black;
@@ -54,18 +49,15 @@
         background-color: black;
         position: absolute;
         left: 0;
-        top: 50%;
-        transform: translateY(-50%);
         height: 1px;
-        width: 100px;
+        width: 1000px;
         z-index: 1;
     }
-}
 
-[data-line='above'] {
-    top: -50%;
-}
-
-[data-line='bellow'] {
-    top: 50%;
+    &[data-line='above'] {
+        top: 0;
+    }
+    &[data-line='bellow'] {
+        top: 100%;
+    }
 }

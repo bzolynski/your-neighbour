@@ -1,30 +1,3 @@
-div {
-    background-color: red;
-}
-.root {
-    .tree-view-node {
-        display: block;
-        .title {
-            border: 1px solid black;
-            border-radius: 5px;
-            padding: 5px;
-            user-select: none;
-            fa-icon {
-                display: inline-block;
-                transition: ease 0.085s;
-            }
-
-            .rotate {
-                transform: rotate(-90deg);
-            }
-        }
-    }
-    .tree-view-node .tree-view-node {
-        padding-left: 40px;
-    }
-}
-
-/* NOWE STYLOWANIE */
 .title {
     border: 1px solid black;
     border-radius: 5px;
@@ -41,4 +14,3 @@ div {
 .container {
     padding-left: 40px;
 }
-/*********************/

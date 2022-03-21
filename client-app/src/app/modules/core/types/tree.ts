@@ -9,6 +9,7 @@ export interface ITree<T> {
     readonly isRoot: boolean;
     readonly level: number;
     readonly isLeaf: boolean;
+    changeParent(parent: ITree<T>): void;
 }
 
 export class Tree<T> implements ITree<T> {
@@ -46,5 +47,9 @@ export class Tree<T> implements ITree<T> {
             this.children.push(child);
             child.loadChildren(lookup);
         }
+    };
+
+    changeParent = (parent: ITree<T>): void => {
+        this.parent = parent;
     };
 }
