@@ -1,10 +1,4 @@
-import {
-    Directive,
-    HostBinding,
-    HostListener,
-    Input,
-    OnInit,
-} from '@angular/core';
+import { Directive, HostBinding, HostListener, Input, OnInit } from '@angular/core';
 import { ITree } from 'src/app/modules/core/types';
 
 @Directive({

@@ -10,6 +10,7 @@ export interface ITree<T> {
     readonly level: number;
     readonly isLeaf: boolean;
     changeParent(parent: ITree<T>): void;
+    flatten(): Array<ITree<T>>;
 }
 
 export class Tree<T> implements ITree<T> {
@@ -28,7 +29,7 @@ export class Tree<T> implements ITree<T> {
         return this.parent == undefined ? 0 : this.parent.level + 1;
     }
 
-    private constructor(data: T, parent?: ITree<T>) {
+    constructor(data: T, parent?: ITree<T>) {
         this.children = new Array<ITree<T>>();
         this.data = data;
         this.parent = parent;
@@ -47,6 +48,11 @@ export class Tree<T> implements ITree<T> {
             this.children.push(child);
             child.loadChildren(lookup);
         }
+    };
+    //TODO Flatten tree
+    flatten = (): Array<ITree<T>> => {
+        const arr = new Array<ITree<T>>(this);
+        return arr.concat(...this.children.map((child) => child.flatten()));
     };
 
     changeParent = (parent: ITree<T>): void => {

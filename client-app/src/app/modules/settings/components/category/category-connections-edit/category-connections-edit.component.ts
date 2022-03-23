@@ -3,11 +3,8 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { ICategory } from 'src/app/modules/core/models';
 import { CategoryService } from 'src/app/modules/core/services';
-import { ITree } from 'src/app/modules/core/types';
-import {
-    faChevronDown,
-    IconDefinition,
-} from '@fortawesome/free-solid-svg-icons';
+import { Dictionary, ITree } from 'src/app/modules/core/types';
+import { faChevronDown, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 @Component({
     selector: 'app-category-connections-edit',
     templateUrl: './category-connections-edit.component.html',
@@ -15,8 +12,10 @@ import {
 })
 export class CategoryConnectionsEditComponent implements OnInit, OnDestroy {
     treeItem: ITree<ICategory> | undefined;
+    unasignedCategories: Array<ICategory> | undefined;
     destroy$: Subject<boolean> = new Subject<boolean>();
     faChevronDown: IconDefinition = faChevronDown;
+    parentChanges: Dictionary<number, number | null> = new Dictionary<number, number | null>();
     constructor(private categoryService: CategoryService) {}
 
     ngOnInit(): void {
@@ -31,7 +30,12 @@ export class CategoryConnectionsEditComponent implements OnInit, OnDestroy {
                         (p, c) => p.id == c.parentId
                     )
                     .toTree();
-                console.log('tree item w componencie');
+            });
+        this.categoryService
+            .getUnassigned()
+            .pipe(takeUntil(this.destroy$))
+            .subscribe((response) => {
+                this.unasignedCategories = response.responseObject;
             });
     }
 
@@ -39,4 +43,16 @@ export class CategoryConnectionsEditComponent implements OnInit, OnDestroy {
         this.destroy$.next(true);
         this.destroy$.unsubscribe();
     }
+
+    treeDragEnd = (data: {
+        draggedItem: ITree<ICategory>;
+        draggedOverItem: ITree<ICategory> | null;
+    }): void => {
+        //data.draggedItem.changeParent(data.draggedOverItem);
+        this.parentChanges.set(data.draggedItem.data.id, data.draggedOverItem?.data.id ?? null);
+        if (data.draggedItem.parent == data.draggedOverItem)
+            this.parentChanges.delete(data.draggedItem.data.id);
+
+        console.log(this.parentChanges);
+    };
 }

@@ -6,10 +6,8 @@ import { TreeViewService } from './tree-view.service';
 })
 export class TreeViewNodeContainerDirective<T> {
     constructor(
-        private treeService: TreeViewService<T>,
+        protected treeService: TreeViewService<T>,
         public elementRef: ElementRef<HTMLElement>,
         public viewContainerRef: ViewContainerRef
-    ) {
-        treeService.nodeContainers.push(this);
-    }
+    ) {}
 }

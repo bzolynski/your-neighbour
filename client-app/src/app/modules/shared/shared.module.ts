@@ -12,7 +12,12 @@ import {
     TreeViewRootDirective,
     TreeViewRootGroupDirective,
 } from './directives';
-import { TreeViewNodeComponent, TreeViewRootComponent } from './components';
+import {
+    TreeViewNodeComponent,
+    TreeViewNodeContainerComponent,
+    TreeViewRootComponent,
+    TreeViewUnassignedNodeContainerComponent,
+} from './components';
 
 @NgModule({
     declarations: [
@@ -25,13 +30,10 @@ import { TreeViewNodeComponent, TreeViewRootComponent } from './components';
         TreeViewRootGroupDirective,
         TreeViewNodeContainerDirective,
         TreeViewNodeComponent,
+        TreeViewNodeContainerComponent,
+        TreeViewUnassignedNodeContainerComponent,
     ],
-    imports: [
-        CommonModule,
-        RouterModule,
-        AngularMaterialModule,
-        ReactiveFormsModule,
-    ],
+    imports: [CommonModule, RouterModule, AngularMaterialModule, ReactiveFormsModule],
     exports: [
         TextInputComponent,
         ContainerComponent,
@@ -41,6 +43,8 @@ import { TreeViewNodeComponent, TreeViewRootComponent } from './components';
         TreeViewRootGroupDirective,
         TreeViewNodeContainerDirective,
         TreeViewNodeComponent,
+        TreeViewNodeContainerComponent,
+        TreeViewUnassignedNodeContainerComponent,
     ],
 })
 export class SharedModule {}

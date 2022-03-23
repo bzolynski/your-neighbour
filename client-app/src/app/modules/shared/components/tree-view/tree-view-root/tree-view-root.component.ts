@@ -12,9 +12,7 @@ export class TreeViewRootComponent<T> implements OnInit {
     @Input() treeNode: ITree<T> | undefined;
     constructor(public treeService: TreeViewService<T>) {}
     ngOnInit(): void {
-        if (!this.nodeTemplate)
-            throw new Error('Provide template for nodes! [nodeTemplate]');
-        if (!this.treeNode)
-            throw new Error('Provide tree node root! [treeNode]');
+        if (!this.nodeTemplate) throw new Error('Provide template for nodes! [nodeTemplate]');
+        if (!this.treeNode) throw new Error('Provide tree node root! [treeNode]');
     }
 }

@@ -1,25 +1,37 @@
-import { Injectable, Renderer2 } from '@angular/core';
-import { Subject } from 'rxjs';
-import { distinctUntilChanged, pairwise, startWith } from 'rxjs/operators';
-import { TreeViewNodeComponent } from '../../components/tree-view/tree-view-node/tree-view-node.component';
-import { TreeViewNodeContainerDirective } from './tree-view-node-container.directive';
-import { TreeViewRootGroupDirective } from './tree-view-root-group.directive';
-import { TreeViewRootDirective } from './tree-view-root.directive';
+import { Injectable, OnDestroy, Renderer2 } from '@angular/core';
+import { fromEvent, Observable, of, Subject } from 'rxjs';
+import {
+    delay,
+    distinctUntilChanged,
+    mergeMap,
+    pairwise,
+    startWith,
+    takeUntil,
+} from 'rxjs/operators';
+import { ITree } from 'src/app/modules/core/types';
+import { TreeViewRootDirective, TreeViewRootGroupDirective } from '.';
+import { TreeViewNodeComponent } from '../../components';
+import { TreeViewNodeContainerComponent } from '../../components/tree-view/tree-view-node-container/tree-view-node-container.component';
+import { TreeViewUnassignedNodeContainerComponent } from '../../components/tree-view/tree-view-unassigned-node-container/tree-view-unassigned-node-container.component';
 
 export type DropLocation = 'none' | 'above' | 'inside' | 'bellow';
 export type CursorStyle = 'auto' | 'move' | 'not-allowed';
 
 @Injectable()
-export class TreeViewService<T> {
+export class TreeViewService<T> implements OnDestroy {
     // public properties
-
+    dragDropAllowed: boolean = false;
     rootContainer: TreeViewRootGroupDirective<T> | undefined;
     roots: Array<TreeViewRootDirective<T>> = new Array<TreeViewRootDirective<T>>();
     nodes: Array<TreeViewNodeComponent<T>> = new Array<TreeViewNodeComponent<T>>();
-    nodeContainers: Array<TreeViewNodeContainerDirective<T>> = new Array<
-        TreeViewNodeContainerDirective<T>
-    >();
+    unassignedContainer: TreeViewUnassignedNodeContainerComponent<T> | undefined;
+    treeDragEnd: Subject<{ draggedItem: ITree<T>; draggedOverItem: ITree<T> | null }> | undefined;
 
+    /* */
+    treeNodeComponentsChanged: Subject<TreeViewNodeComponent<T>> = new Subject();
+    mouseup$!: Observable<MouseEvent>;
+
+    /* */
     // private members
     dragPreviewOffsetX$: number = 0;
     dragPreviewOffsetY$: number = 20;
@@ -32,24 +44,48 @@ export class TreeViewService<T> {
     draggingPreview$: HTMLElement | undefined;
     docMouseMoveListener$: undefined | (() => void);
     docMouseUpListener$: undefined | (() => void);
+    destroy$: Subject<boolean> = new Subject();
 
     // constructor
     constructor(private renderer: Renderer2) {
+        this.mouseup$ = fromEvent<MouseEvent>(document.body, 'mouseup').pipe(
+            takeUntil(this.destroy$)
+        );
+
         this.setDraggingOverComponent$
-            .pipe(distinctUntilChanged(), startWith(undefined), pairwise())
+            .pipe(
+                distinctUntilChanged(),
+                startWith(undefined),
+                pairwise(),
+                takeUntil(this.destroy$)
+            )
             .subscribe(([previous, current]) => {
                 if (previous) {
                     this.stylePositionLines(previous, 'none');
                 }
                 this.draggingOverComponent$ = current;
             });
+        for (const x of this.nodes) {
+            x.mousedown$.pipe(
+                mergeMap((z) => {
+                    console.log('W ŚRODKU JEBANEGO SERVICE');
+                    return of(z).pipe(delay(250), takeUntil(this.destroy$));
+                })
+            );
+        }
     }
 
     dragStart = (e: MouseEvent, node: TreeViewNodeComponent<T>) => {
-        this.isDragging$ = true;
-        this.createDraggingElement(e, node);
-        this.docMouseMoveListener$ = this.renderer.listen(document, 'mousemove', this.dragContinue);
-        this.docMouseUpListener$ = this.renderer.listen(document, 'mouseup', this.dragEnd);
+        if (this.dragDropAllowed) {
+            this.isDragging$ = true;
+            this.createDraggingElement(e, node);
+            this.docMouseMoveListener$ = this.renderer.listen(
+                document,
+                'mousemove',
+                this.dragContinue
+            );
+            this.docMouseUpListener$ = this.renderer.listen(document, 'mouseup', this.dragEnd);
+        }
     };
 
     createDraggingElement = (e: MouseEvent, node: TreeViewNodeComponent<T>) => {
@@ -93,18 +129,16 @@ export class TreeViewService<T> {
         );
     };
 
+    // styling drop indicators
     // triggered in TreeViewRootGroupDirective on mousemove
     checkDragOver = (e: MouseEvent) => {
         const component = this.nodes.find((x) => {
-            if (x.box) {
-                const xBool = x.box.left < e.x && x.box.right > e.x;
-                const yBool = x.box.top < e.y && x.box.bottom > e.y;
-                return yBool && xBool;
-            }
+            if (x.box) return this.isCursorInBox(x.box, e);
             return false;
         });
 
         if (this.draggingComponent$ == component) return;
+        if (component?.parentContainer == this.unassignedContainer) return;
         if (
             this.draggingComponent$?.elementRef.nativeElement.contains(
                 component?.elementRef.nativeElement ?? null
@@ -138,13 +172,35 @@ export class TreeViewService<T> {
 
     // document mouseup event
     dragEnd = (e: MouseEvent) => {
-        this.moveDraggedItem();
+        console.log(this.unassignedContainer?.box);
+        //temp move to unassigned container
+        if (this.unassignedContainer && this.isCursorInBox(this.unassignedContainer.box, e)) {
+            if (!this.draggingComponent$) return;
+            const x = this.draggingComponent$.node.flatten();
+            console.log(x);
+
+            this.unassignedContainer.container.insert(
+                this.draggingComponent$.componentRef.hostView
+            );
+            if (this.treeDragEnd)
+                this.treeDragEnd.next({
+                    draggedItem: this.draggingComponent$.node,
+                    draggedOverItem: null,
+                });
+        } else this.moveDraggedItem();
         this.isDragging$ = false;
         this.stylePositionLines(this.draggingOverComponent$, 'none');
         if (this.docMouseMoveListener$) this.docMouseMoveListener$();
         if (this.docMouseUpListener$) this.docMouseUpListener$();
         this.renderer.removeChild(this.draggingPreview$?.parentElement, this.draggingPreview$);
     };
+
+    isCursorInBox = (box: DOMRect, e: MouseEvent) => {
+        const xBool = box.left < e.x && box.right > e.x;
+        const yBool = box.top < e.y && box.bottom > e.y;
+        return xBool && yBool;
+    };
+
     moveDraggedItem = () => {
         if (
             this.draggingComponent$ != this.draggingOverComponent$ &&
@@ -158,7 +214,7 @@ export class TreeViewService<T> {
             )
                 return;
             let index: number | undefined;
-            let parentContainer!: TreeViewNodeContainerDirective<T>;
+            let parentContainer!: TreeViewNodeContainerComponent<T>;
             switch (dropLocation) {
                 case 'above': {
                     parentContainer = this.draggingOverComponent$.parentContainer;
@@ -194,7 +250,16 @@ export class TreeViewService<T> {
                 index
             );
             this.draggingComponent$.parentContainer = parentContainer;
-            this.draggingComponent$.node.changeParent(this.draggingOverComponent$.node);
+            if (this.treeDragEnd)
+                this.treeDragEnd.next({
+                    draggedItem: this.draggingComponent$.node,
+                    draggedOverItem: this.draggingOverComponent$.node,
+                });
         }
     };
+
+    ngOnDestroy(): void {
+        this.destroy$.next(true);
+        this.destroy$.unsubscribe();
+    }
 }

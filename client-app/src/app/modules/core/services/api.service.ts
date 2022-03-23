@@ -13,10 +13,7 @@ export class ApiService {
     constructor(private client: HttpClient) {}
 
     private headers = new Headers().append('Content-Type', 'application/json');
-    private handleError = (
-        httpError: HttpError<Response>,
-        caught: Observable<any>
-    ) => {
+    private handleError = (httpError: HttpError<Response>, caught: Observable<any>) => {
         // for ex: logs
         console.log(httpError);
 
@@ -31,6 +28,11 @@ export class ApiService {
     post = <T>(path: string, body: Object): ObservableResponse<T> => {
         return this.client
             .post<T>(`${environment.api_url}/${path}`, body)
+            .pipe(catchError(this.handleError));
+    };
+    patch = <T>(path: string, body?: Object): ObservableResponse<T> => {
+        return this.client
+            .patch<T>(`${environment.api_url}/${path}`, body)
             .pipe(catchError(this.handleError));
     };
     put = <T>(path: string, body: Object): ObservableResponse<T> => {

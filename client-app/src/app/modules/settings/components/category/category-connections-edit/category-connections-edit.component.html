@@ -1,19 +1,29 @@
-<div *ngIf="treeItem">
-    <div appTreeViewRootGroup>
+<div
+    class="row"
+    appTreeViewRootGroup
+    [dragDropAllowed]="true"
+    (treeDragEnd)="treeDragEnd($event)">
+    <div *ngIf="unasignedCategories" class="col-6">
+        <app-tree-view-unassigned-node-container
+            [nodeTemplate]="nodeTemplate"
+            [items]="unasignedCategories">
+        </app-tree-view-unassigned-node-container>
+    </div>
+    <div *ngIf="treeItem" class="col-6">
         <app-tree-view-root
             [appTreeViewRoot]="treeItem"
             [treeNode]="treeItem"
             [nodeTemplate]="nodeTemplate">
         </app-tree-view-root>
-        <ng-template let-node #nodeTemplate>
-            <div class="title">
-                <fa-icon
-                    [appTreeViewNodeToggle]="node"
-                    *ngIf="!node.isLeaf"
-                    [class]="node.isExpanded ? 'rotate' : ''"
-                    [icon]="faChevronDown"></fa-icon>
-                {{ node.data.name }}
-            </div>
-        </ng-template>
     </div>
+    <ng-template let-node #nodeTemplate>
+        <div class="title">
+            <fa-icon
+                [appTreeViewNodeToggle]="node"
+                *ngIf="!node.isLeaf"
+                [class]="node.isExpanded ? 'rotate' : ''"
+                [icon]="faChevronDown"></fa-icon>
+            {{ node.data.name }}
+        </div>
+    </ng-template>
 </div>

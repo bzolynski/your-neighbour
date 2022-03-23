@@ -1,11 +1,17 @@
-.container {
-    margin-left: 40px;
-}
-
 .main-node-content {
     padding: 2.5px 0;
     position: relative;
-    cursor: inherit !important;
+    pointer-events: auto;
+
+    .draggable-content {
+        cursor: grab;
+    }
+}
+
+.container {
+    margin-left: 40px;
+    pointer-events: none;
+    cursor: default;
 }
 
 .show-inside-arrow {

@@ -3,17 +3,19 @@ import {
     Component,
     ComponentRef,
     ElementRef,
-    HostBinding,
     Input,
     OnDestroy,
     OnInit,
+    Renderer2,
     TemplateRef,
     ViewChild,
 } from '@angular/core';
 import { fromEvent, Observable, of, Subject } from 'rxjs';
 import { delay, mergeMap, takeUntil } from 'rxjs/operators';
 import { ITree } from 'src/app/modules/core/types';
-import { DropLocation, TreeViewNodeContainerDirective, TreeViewService } from '../../../directives';
+import { DropLocation, TreeViewService } from '../../../directives';
+import { TreeViewNodeContainerComponent } from '../tree-view-node-container/tree-view-node-container.component';
+import { TreeViewUnassignedNodeContainerComponent } from '../tree-view-unassigned-node-container/tree-view-unassigned-node-container.component';
 
 @Component({
     selector: 'app-tree-view-node',
@@ -22,15 +24,16 @@ import { DropLocation, TreeViewNodeContainerDirective, TreeViewService } from '.
 })
 export class TreeViewNodeComponent<T> implements OnInit, AfterViewInit, OnDestroy {
     // public properties
-    @HostBinding('style.cursor') cursor = 'auto';
     @Input() node!: ITree<T>;
     @Input() template!: TemplateRef<any>;
-    @ViewChild(TreeViewNodeContainerDirective, { static: true })
-    childContainer!: TreeViewNodeContainerDirective<T>;
-    parentContainer!: TreeViewNodeContainerDirective<T>;
+    @ViewChild('draggableContent', { static: true }) draggableContentRef!: ElementRef<HTMLElement>;
+    @ViewChild(TreeViewNodeContainerComponent, { static: true })
+    childContainer!: TreeViewNodeContainerComponent<T>;
+    parentContainer!: TreeViewNodeContainerComponent<T>;
     componentRef!: ComponentRef<TreeViewNodeComponent<T>>;
     dropLocation: DropLocation = 'none';
     dropLocationChanged: Subject<DropLocation> = new Subject();
+    dragDropAllowed!: boolean;
     get box(): DOMRect | undefined {
         return this.elementRef.nativeElement
             .querySelector('.main-node-content')
@@ -38,44 +41,57 @@ export class TreeViewNodeComponent<T> implements OnInit, AfterViewInit, OnDestro
     }
 
     // private members
-    mousedown$: Observable<MouseEvent>;
-    mouseup$: Observable<MouseEvent>;
+    mousedown$!: Observable<MouseEvent>;
+    mouseup$!: Observable<MouseEvent>;
     destroy$: Subject<boolean> = new Subject<boolean>();
 
     // constructor
     constructor(
         private treeService: TreeViewService<T>,
-        public elementRef: ElementRef<HTMLElement>
+        public elementRef: ElementRef<HTMLElement>,
+        private renderer: Renderer2
     ) {
         treeService.nodes.push(this);
         this.dropLocationChanged.subscribe((x) => {
             this.dropLocation = x;
         });
-        this.mousedown$ = fromEvent<MouseEvent>(this.elementRef.nativeElement, 'mousedown').pipe(
-            takeUntil(this.destroy$)
-        );
-        this.mouseup$ = fromEvent<MouseEvent>(this.elementRef.nativeElement, 'mouseup').pipe(
-            takeUntil(this.destroy$)
-        );
     }
 
     ngOnInit(): void {
+        this.dragDropAllowed =
+            this.treeService.dragDropAllowed &&
+            (!this.node.isRoot ||
+                this.parentContainer instanceof TreeViewUnassignedNodeContainerComponent);
+        this.mousedown$ = fromEvent<MouseEvent>(
+            this.draggableContentRef.nativeElement,
+            'mousedown'
+        ).pipe(takeUntil(this.destroy$));
+        this.mouseup$ = fromEvent<MouseEvent>(document.body, 'mouseup').pipe(
+            takeUntil(this.destroy$)
+        );
         if (this.childContainer) this.renderChild();
     }
 
     ngAfterViewInit(): void {
-        this.mousedown$
-            .pipe(
-                mergeMap((event) => {
-                    event.stopPropagation();
-                    return of(event).pipe(delay(250), takeUntil(this.mouseup$));
-                })
-            )
-            .subscribe((e) => {
-                if (!this.node.isRoot) {
+        if (this.dragDropAllowed) {
+            this.mousedown$
+                .pipe(
+                    mergeMap((event) => {
+                        event.stopPropagation();
+
+                        return of(event).pipe(delay(250), takeUntil(this.mouseup$));
+                    })
+                )
+                .subscribe((e) => {
+                    this.renderer.addClass(document.body, 'inheritCursors');
+                    this.renderer.setStyle(document.body, 'cursor', 'grabbing');
                     this.treeService.dragStart(e, this);
-                }
+                });
+            this.mouseup$.subscribe((e) => {
+                this.renderer.removeStyle(document.body, 'cursor');
+                this.renderer.removeClass(document.body, 'inheritCursors');
             });
+        }
     }
 
     ngOnDestroy(): void {
