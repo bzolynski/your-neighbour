@@ -2,7 +2,7 @@
     class="main-node-content"
     [class.show-inside-arrow]="dropLocation == 'inside'">
     <div data-line="above" [class.show-line]="dropLocation == 'above'"></div>
-    <div [class.draggable-content]="dragDropAllowed" #draggableContent>
+    <div #draggableContent>
         <ng-container
             [ngTemplateOutlet]="template"
             [ngTemplateOutletContext]="{
@@ -14,7 +14,6 @@
 <div [style.display]="node.isExpanded ? 'block' : 'none'" class="container">
     <app-tree-view-node-container
         data-line="inside"
-        appTreeViewNodeContainer
         [class.show-line]="
             dropLocation == 'inside'
         "></app-tree-view-node-container>

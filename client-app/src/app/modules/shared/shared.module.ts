@@ -6,16 +6,13 @@ import { AngularMaterialModule } from '../angular-material/angular-material.modu
 import { ReactiveFormsModule } from '@angular/forms';
 import { SnackBarContentComponent } from './components/snack-bar-content/snack-bar-content.component';
 import { ContainerComponent } from './components/layout/container/container.component';
-import {
-    TreeViewNodeContainerDirective,
-    TreeViewNodeToggleDirective,
-    TreeViewRootDirective,
-    TreeViewRootGroupDirective,
-} from './directives';
+import { TreeViewNodeContainerDirective, TreeViewNodeToggleDirective } from './directives';
 import {
     TreeViewNodeComponent,
     TreeViewNodeContainerComponent,
-    TreeViewRootComponent,
+    TreeViewPreviewComponent,
+    TreeViewRootContainerComponent,
+    TreeViewRootContainerGroupComponent,
     TreeViewUnassignedNodeContainerComponent,
 } from './components';
 
@@ -24,27 +21,27 @@ import {
         TextInputComponent,
         SnackBarContentComponent,
         ContainerComponent,
-        TreeViewRootDirective,
         TreeViewNodeToggleDirective,
-        TreeViewRootComponent,
-        TreeViewRootGroupDirective,
+        TreeViewRootContainerComponent,
         TreeViewNodeContainerDirective,
         TreeViewNodeComponent,
         TreeViewNodeContainerComponent,
         TreeViewUnassignedNodeContainerComponent,
+        TreeViewPreviewComponent,
+        TreeViewRootContainerGroupComponent,
     ],
     imports: [CommonModule, RouterModule, AngularMaterialModule, ReactiveFormsModule],
     exports: [
         TextInputComponent,
         ContainerComponent,
-        TreeViewRootDirective,
         TreeViewNodeToggleDirective,
-        TreeViewRootComponent,
-        TreeViewRootGroupDirective,
+        TreeViewRootContainerComponent,
         TreeViewNodeContainerDirective,
         TreeViewNodeComponent,
         TreeViewNodeContainerComponent,
         TreeViewUnassignedNodeContainerComponent,
+        TreeViewPreviewComponent,
+        TreeViewRootContainerGroupComponent,
     ],
 })
 export class SharedModule {}

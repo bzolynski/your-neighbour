@@ -1,12 +1,12 @@
 import { Directive, ElementRef, ViewContainerRef } from '@angular/core';
-import { TreeViewService } from './tree-view.service';
+import { TreeViewService } from '.';
 
 @Directive({
     selector: '[appTreeViewNodeContainer]',
 })
 export class TreeViewNodeContainerDirective<T> {
     constructor(
-        protected treeService: TreeViewService<T>,
+        private treeService: TreeViewService<T>,
         public elementRef: ElementRef<HTMLElement>,
         public viewContainerRef: ViewContainerRef
     ) {}

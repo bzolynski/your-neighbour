@@ -19,10 +19,7 @@ import { TreeViewNodeContainerComponent } from '../tree-view-node-container/tree
     templateUrl: './tree-view-unassigned-node-container.component.html',
     styleUrls: ['./tree-view-unassigned-node-container.component.scss'],
 })
-export class TreeViewUnassignedNodeContainerComponent<T>
-    extends TreeViewNodeContainerComponent<T>
-    implements OnInit
-{
+export class TreeViewUnassignedNodeContainerComponent<T> extends TreeViewNodeContainerComponent<T> implements OnInit {
     @HostBinding('style.height') height = '100%';
     @HostBinding('style.width') width = '100%';
     @HostBinding('style.display') display = 'inline-block';
@@ -38,8 +35,7 @@ export class TreeViewUnassignedNodeContainerComponent<T>
         public viewContainerRef: ViewContainerRef
     ) {
         super(treeService, elementRef, viewContainerRef);
-        if (treeService.unassignedContainer)
-            throw new Error('Tree view group can only have one unassigned container!');
+        if (treeService.unassignedContainer) throw new Error('Tree view group can only have one unassigned container!');
         treeService.unassignedContainer = this;
     }
     ngOnInit(): void {
@@ -50,9 +46,9 @@ export class TreeViewUnassignedNodeContainerComponent<T>
 
     renderChild = () => {
         for (const item of this.items) {
-            const compRef = this.container.createComponent(
-                TreeViewNodeComponent
-            ) as unknown as ComponentRef<TreeViewNodeComponent<T>>;
+            const compRef = this.container.createComponent(TreeViewNodeComponent) as unknown as ComponentRef<
+                TreeViewNodeComponent<T>
+            >;
             compRef.instance.parentContainer = this;
             compRef.instance.node = new Tree(item);
             compRef.instance.template = this.nodeTemplate;

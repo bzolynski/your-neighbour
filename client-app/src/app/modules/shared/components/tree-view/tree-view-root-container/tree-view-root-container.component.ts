@@ -1,13 +1,13 @@
 import { Component, Input, OnInit, TemplateRef } from '@angular/core';
 import { ITree } from 'src/app/modules/core/types';
-import { TreeViewService } from '../../../directives/tree-view/tree-view.service';
+import { TreeViewService } from '../../../directives';
 
 @Component({
-    selector: 'app-tree-view-root',
-    templateUrl: './tree-view-root.component.html',
-    styleUrls: ['./tree-view-root.component.scss'],
+    selector: 'app-tree-view-root-container',
+    templateUrl: './tree-view-root-container.component.html',
+    styleUrls: ['./tree-view-root-container.component.scss'],
 })
-export class TreeViewRootComponent<T> implements OnInit {
+export class TreeViewRootContainerComponent<T> implements OnInit {
     @Input() nodeTemplate: TemplateRef<any> | undefined;
     @Input() treeNode: ITree<T> | undefined;
     constructor(public treeService: TreeViewService<T>) {}

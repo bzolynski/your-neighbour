@@ -1,6 +1,5 @@
-<div
+<app-tree-view-root-container-group
     class="row"
-    appTreeViewRootGroup
     [dragDropAllowed]="true"
     (treeDragEnd)="treeDragEnd($event)">
     <div *ngIf="unasignedCategories" class="col-6">
@@ -10,11 +9,10 @@
         </app-tree-view-unassigned-node-container>
     </div>
     <div *ngIf="treeItem" class="col-6">
-        <app-tree-view-root
-            [appTreeViewRoot]="treeItem"
+        <app-tree-view-root-container
             [treeNode]="treeItem"
             [nodeTemplate]="nodeTemplate">
-        </app-tree-view-root>
+        </app-tree-view-root-container>
     </div>
     <ng-template let-node #nodeTemplate>
         <div class="title">
@@ -26,4 +24,4 @@
             {{ node.data.name }}
         </div>
     </ng-template>
-</div>
+</app-tree-view-root-container-group>

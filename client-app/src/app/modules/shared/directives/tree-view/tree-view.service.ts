@@ -1,19 +1,14 @@
 import { Injectable, OnDestroy, Renderer2 } from '@angular/core';
-import { fromEvent, Observable, of, Subject } from 'rxjs';
-import {
-    delay,
-    distinctUntilChanged,
-    mergeMap,
-    pairwise,
-    startWith,
-    takeUntil,
-} from 'rxjs/operators';
+import { forkJoin, fromEvent, Observable, of, Subject } from 'rxjs';
+import { delay, distinctUntilChanged, mergeMap, pairwise, startWith, takeUntil, takeWhile } from 'rxjs/operators';
 import { ITree } from 'src/app/modules/core/types';
-import { TreeViewRootDirective, TreeViewRootGroupDirective } from '.';
-import { TreeViewNodeComponent } from '../../components';
-import { TreeViewNodeContainerComponent } from '../../components/tree-view/tree-view-node-container/tree-view-node-container.component';
-import { TreeViewUnassignedNodeContainerComponent } from '../../components/tree-view/tree-view-unassigned-node-container/tree-view-unassigned-node-container.component';
-
+import {
+    TreeViewNodeComponent,
+    TreeViewNodeContainerComponent,
+    TreeViewPreviewComponent,
+    TreeViewRootContainerGroupComponent,
+    TreeViewUnassignedNodeContainerComponent,
+} from '../../components';
 export type DropLocation = 'none' | 'above' | 'inside' | 'bellow';
 export type CursorStyle = 'auto' | 'move' | 'not-allowed';
 
@@ -21,12 +16,11 @@ export type CursorStyle = 'auto' | 'move' | 'not-allowed';
 export class TreeViewService<T> implements OnDestroy {
     // public properties
     dragDropAllowed: boolean = false;
-    rootContainer: TreeViewRootGroupDirective<T> | undefined;
-    roots: Array<TreeViewRootDirective<T>> = new Array<TreeViewRootDirective<T>>();
+    rootContainer: TreeViewRootContainerGroupComponent<T> | undefined;
     nodes: Array<TreeViewNodeComponent<T>> = new Array<TreeViewNodeComponent<T>>();
     unassignedContainer: TreeViewUnassignedNodeContainerComponent<T> | undefined;
     treeDragEnd: Subject<{ draggedItem: ITree<T>; draggedOverItem: ITree<T> | null }> | undefined;
-
+    treePreviewComponent!: TreeViewPreviewComponent<T>;
     /* */
     treeNodeComponentsChanged: Subject<TreeViewNodeComponent<T>> = new Subject();
     mouseup$!: Observable<MouseEvent>;
@@ -41,23 +35,58 @@ export class TreeViewService<T> implements OnDestroy {
     draggingOverComponent$: TreeViewNodeComponent<T> | undefined;
     isDragging$: boolean = false;
     draggingComponent$: TreeViewNodeComponent<T> | undefined;
-    draggingPreview$: HTMLElement | undefined;
     docMouseMoveListener$: undefined | (() => void);
     docMouseUpListener$: undefined | (() => void);
     destroy$: Subject<boolean> = new Subject();
 
     // constructor
     constructor(private renderer: Renderer2) {
+        // assign mouseup event for document
         this.mouseup$ = fromEvent<MouseEvent>(document.body, 'mouseup').pipe(
-            takeUntil(this.destroy$)
+            takeUntil(this.destroy$),
+            takeWhile(() => this.dragDropAllowed)
         );
+        this.mouseup$.subscribe(() => {
+            this.renderer.removeStyle(document.body, 'cursor');
+            this.renderer.removeClass(document.body, 'inheritCursors');
+        });
 
+        // add node components to array and subscribe to mouseDown events
+        this.treeNodeComponentsChanged
+            .pipe(
+                takeUntil(this.destroy$),
+                takeWhile(() => {
+                    return this.dragDropAllowed;
+                })
+            )
+            .subscribe((component) => {
+                this.nodes.push(component);
+                const canBeGrabbed = !component.node.isRoot || component.parentContainer == this.unassignedContainer;
+                if (canBeGrabbed) this.renderer.setStyle(component.draggableContentRef.nativeElement, 'cursor', 'grab');
+                component.mousedown$
+                    .pipe(
+                        takeWhile(() => {
+                            if (!canBeGrabbed) return false;
+                            return this.dragDropAllowed;
+                        }),
+                        mergeMap((event) => {
+                            event.stopPropagation();
+                            return forkJoin([of(event).pipe(delay(250), takeUntil(this.mouseup$)), of(component)]);
+                        })
+                    )
+                    .subscribe((data) => {
+                        this.dragStart(...data);
+                    });
+            });
+
+        // set dragging over component
         this.setDraggingOverComponent$
             .pipe(
                 distinctUntilChanged(),
                 startWith(undefined),
                 pairwise(),
-                takeUntil(this.destroy$)
+                takeUntil(this.destroy$),
+                takeWhile(() => this.dragDropAllowed)
             )
             .subscribe(([previous, current]) => {
                 if (previous) {
@@ -65,68 +94,22 @@ export class TreeViewService<T> implements OnDestroy {
                 }
                 this.draggingOverComponent$ = current;
             });
-        for (const x of this.nodes) {
-            x.mousedown$.pipe(
-                mergeMap((z) => {
-                    console.log('W ŚRODKU JEBANEGO SERVICE');
-                    return of(z).pipe(delay(250), takeUntil(this.destroy$));
-                })
-            );
-        }
     }
 
     dragStart = (e: MouseEvent, node: TreeViewNodeComponent<T>) => {
-        if (this.dragDropAllowed) {
-            this.isDragging$ = true;
-            this.createDraggingElement(e, node);
-            this.docMouseMoveListener$ = this.renderer.listen(
-                document,
-                'mousemove',
-                this.dragContinue
-            );
-            this.docMouseUpListener$ = this.renderer.listen(document, 'mouseup', this.dragEnd);
-        }
-    };
-
-    createDraggingElement = (e: MouseEvent, node: TreeViewNodeComponent<T>) => {
+        this.isDragging$ = true;
+        this.renderer.addClass(document.body, 'inheritCursors');
+        this.renderer.setStyle(document.body, 'cursor', 'grabbing');
+        this.treePreviewComponent.attachElement(e, node);
         this.draggingComponent$ = node;
-        const element = node.elementRef.nativeElement;
-        this.draggingPreview$ = <HTMLElement>element.cloneNode(true);
-        this.setPreviewStyles(e, node);
 
-        if (this.rootContainer) {
-            this.renderer.appendChild(
-                this.rootContainer.elementRef.nativeElement,
-                this.draggingPreview$
-            );
-        }
-    };
-
-    setPreviewStyles = (e: MouseEvent, node: TreeViewNodeComponent<T>) => {
-        this.renderer.setStyle(this.draggingPreview$, 'height', `${node.box?.height}px`);
-        this.renderer.setStyle(this.draggingPreview$, 'width', `${node.box?.width}px`);
-        this.renderer.setStyle(this.draggingPreview$, 'position', 'fixed');
-        this.renderer.setStyle(this.draggingPreview$, 'top', '0');
-        this.renderer.setStyle(this.draggingPreview$, 'left', '0');
-        this.renderer.setStyle(this.draggingPreview$, 'z-index', '999');
-        this.renderer.setStyle(
-            this.draggingPreview$,
-            'transform',
-            `translate3d(${e.clientX + this.dragPreviewOffsetX$}px, ${
-                e.clientY + this.dragPreviewOffsetY$
-            }px, 0px)`
-        );
+        this.docMouseMoveListener$ = this.renderer.listen(document, 'mousemove', this.dragContinue);
+        this.docMouseUpListener$ = this.renderer.listen(document, 'mouseup', this.dragEnd);
     };
 
     // document mousemove event
     dragContinue = (e: MouseEvent) => {
-        this.renderer.setStyle(
-            this.draggingPreview$,
-            'transform',
-            `translate3d(${e.clientX + this.dragPreviewOffsetX$}px, ${
-                e.clientY + this.dragPreviewOffsetY$
-            }px, 0px)`
-        );
+        this.treePreviewComponent.moveElement(e);
     };
 
     // styling drop indicators
@@ -139,12 +122,7 @@ export class TreeViewService<T> implements OnDestroy {
 
         if (this.draggingComponent$ == component) return;
         if (component?.parentContainer == this.unassignedContainer) return;
-        if (
-            this.draggingComponent$?.elementRef.nativeElement.contains(
-                component?.elementRef.nativeElement ?? null
-            )
-        )
-            return;
+        if (this.draggingComponent$?.elementRef.nativeElement.contains(component?.elementRef.nativeElement ?? null)) return;
         this.setDraggingOverComponent$.next(component);
 
         if (this.draggingOverComponent$?.box) {
@@ -163,10 +141,7 @@ export class TreeViewService<T> implements OnDestroy {
         }
     };
 
-    private stylePositionLines = (
-        component: TreeViewNodeComponent<T> | undefined,
-        dropLocation: DropLocation
-    ) => {
+    private stylePositionLines = (component: TreeViewNodeComponent<T> | undefined, dropLocation: DropLocation) => {
         if (component) component.dropLocationChanged.next(dropLocation);
     };
 
@@ -179,9 +154,7 @@ export class TreeViewService<T> implements OnDestroy {
             const x = this.draggingComponent$.node.flatten();
             console.log(x);
 
-            this.unassignedContainer.container.insert(
-                this.draggingComponent$.componentRef.hostView
-            );
+            this.unassignedContainer.container.insert(this.draggingComponent$.componentRef.hostView);
             if (this.treeDragEnd)
                 this.treeDragEnd.next({
                     draggedItem: this.draggingComponent$.node,
@@ -192,7 +165,8 @@ export class TreeViewService<T> implements OnDestroy {
         this.stylePositionLines(this.draggingOverComponent$, 'none');
         if (this.docMouseMoveListener$) this.docMouseMoveListener$();
         if (this.docMouseUpListener$) this.docMouseUpListener$();
-        this.renderer.removeChild(this.draggingPreview$?.parentElement, this.draggingPreview$);
+
+        this.treePreviewComponent.removeElement();
     };
 
     isCursorInBox = (box: DOMRect, e: MouseEvent) => {
@@ -202,28 +176,16 @@ export class TreeViewService<T> implements OnDestroy {
     };
 
     moveDraggedItem = () => {
-        if (
-            this.draggingComponent$ != this.draggingOverComponent$ &&
-            this.draggingComponent$ &&
-            this.draggingOverComponent$
-        ) {
+        if (this.draggingComponent$ != this.draggingOverComponent$ && this.draggingComponent$ && this.draggingOverComponent$) {
             const dropLocation: DropLocation = this.draggingOverComponent$?.dropLocation;
-            if (
-                (dropLocation == 'above' || dropLocation == 'bellow') &&
-                this.draggingOverComponent$.node.isRoot
-            )
-                return;
+            if ((dropLocation == 'above' || dropLocation == 'bellow') && this.draggingOverComponent$.node.isRoot) return;
             let index: number | undefined;
             let parentContainer!: TreeViewNodeContainerComponent<T>;
             switch (dropLocation) {
                 case 'above': {
                     parentContainer = this.draggingOverComponent$.parentContainer;
-                    const selfIndex = parentContainer.viewContainerRef.indexOf(
-                        this.draggingComponent$.componentRef.hostView
-                    );
-                    index = parentContainer.viewContainerRef.indexOf(
-                        this.draggingOverComponent$.componentRef.hostView
-                    );
+                    const selfIndex = parentContainer.viewContainerRef.indexOf(this.draggingComponent$.componentRef.hostView);
+                    index = parentContainer.viewContainerRef.indexOf(this.draggingOverComponent$.componentRef.hostView);
                     if (selfIndex !== -1 && selfIndex + 1 === index) index = selfIndex;
                     break;
                 }
@@ -233,22 +195,15 @@ export class TreeViewService<T> implements OnDestroy {
                 }
                 case 'bellow': {
                     parentContainer = this.draggingOverComponent$.parentContainer;
-                    index = parentContainer.viewContainerRef.indexOf(
-                        this.draggingOverComponent$.componentRef.hostView
-                    );
-                    const selfIndex = parentContainer.viewContainerRef.indexOf(
-                        this.draggingComponent$.componentRef.hostView
-                    );
+                    index = parentContainer.viewContainerRef.indexOf(this.draggingOverComponent$.componentRef.hostView);
+                    const selfIndex = parentContainer.viewContainerRef.indexOf(this.draggingComponent$.componentRef.hostView);
                     if (selfIndex > index || selfIndex === -1) index += 1;
                     break;
                 }
                 default:
                     return;
             }
-            parentContainer.viewContainerRef.insert(
-                this.draggingComponent$.componentRef.hostView,
-                index
-            );
+            parentContainer.viewContainerRef.insert(this.draggingComponent$.componentRef.hostView, index);
             this.draggingComponent$.parentContainer = parentContainer;
             if (this.treeDragEnd)
                 this.treeDragEnd.next({
