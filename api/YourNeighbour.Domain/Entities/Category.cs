@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using YourNeighbour.Domain.Entities.Common;
 using YourNeighbour.Domain.Entities.Definitions;
 
@@ -6,6 +7,7 @@ namespace YourNeighbour.Domain.Entities
 {
     public class Category : EntityCustom
     {
+        public static readonly Guid RootCategoryGuid = new Guid("00000000-0000-0000-0000-000000000000");
         public Category()
         {
             Subcategories = new HashSet<Category>();

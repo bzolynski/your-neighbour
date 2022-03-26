@@ -4,7 +4,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using YourNeighbour.Api.Extensions;
 using YourNeighbour.Api.Middleware;
+using YourNeighbour.Api.Tasks;
 using YourNeighbour.Application;
 using YourNeighbour.Domain.Options;
 using YourNeighbour.EntityFramework.SqlServer;
@@ -29,6 +31,8 @@ namespace YourNeighbour.Api
             services.AddApplication();
             services.AddEntityFrameworkSqlServer(Configuration);
             services.AddInfrastructure(Configuration);
+
+            services.AddStartupTask<InitializeDatabaseStartupTask>();
 
             services.AddCors(options =>
             {
