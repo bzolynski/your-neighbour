@@ -9,10 +9,8 @@ import {
     TreeViewRootContainerComponent,
     TreeViewRootContainerGroupComponent,
     TreeViewUnassignedNodeContainerComponent,
-} from '../../components';
-export type DropLocation = 'none' | 'above' | 'inside' | 'bellow';
-export type CursorStyle = 'auto' | 'move' | 'not-allowed';
-
+} from '../components';
+import { DropLocation } from '../models';
 @Injectable()
 export class TreeViewService<T> implements OnDestroy {
     // public properties

@@ -13,17 +13,14 @@ import {
     SettingsLayoutComponent,
     SettingsSideBarComponent,
 } from './components';
-import {
-    CategoryDefinitionSettingsComponent,
-    CategorySettingsComponent,
-    SettingsComponent,
-} from './pages';
+import { CategoryDefinitionSettingsComponent, CategorySettingsComponent, SettingsComponent } from './pages';
 import { CategoryDetailsComponent } from './components/category/category-details/category-details.component';
 import { CategoryFormComponent } from './components/category/category-form/category-form.component';
 import { SharedModule } from '../shared/shared.module';
 import { CategoryConnectionsEditComponent } from './components/category/category-connections-edit/category-connections-edit.component';
 import { AngularMaterialModule } from '../angular-material/angular-material.module';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { TreeViewModule } from '../tree-view/tree-view.module';
 
 @NgModule({
     declarations: [
@@ -51,6 +48,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
         SharedModule,
         AngularMaterialModule,
         FontAwesomeModule,
+        TreeViewModule,
     ],
 })
 export class SettingsModule {}

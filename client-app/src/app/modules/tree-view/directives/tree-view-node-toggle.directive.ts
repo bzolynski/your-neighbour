@@ -1,5 +1,5 @@
 import { Directive, HostBinding, HostListener, Input, OnInit } from '@angular/core';
-import { TreeViewNodeComponent } from '../../components';
+import { TreeViewNodeComponent } from '../components';
 
 @Directive({
     selector: '[appTreeViewNodeToggle]',

@@ -2,7 +2,8 @@ import { Component, ComponentRef, ElementRef, Input, OnDestroy, OnInit, Template
 import { fromEvent, Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { ITree } from 'src/app/modules/core/types';
-import { DropLocation, TreeViewService } from '../../../directives';
+import { DropLocation } from '../../models';
+import { TreeViewService } from '../../services';
 import { TreeViewNodeContainerComponent } from '../tree-view-node-container/tree-view-node-container.component';
 
 @Component({

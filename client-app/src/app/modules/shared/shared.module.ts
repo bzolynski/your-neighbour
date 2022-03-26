@@ -6,40 +6,10 @@ import { AngularMaterialModule } from '../angular-material/angular-material.modu
 import { ReactiveFormsModule } from '@angular/forms';
 import { SnackBarContentComponent } from './components/snack-bar-content/snack-bar-content.component';
 import { ContainerComponent } from './components/layout/container/container.component';
-import { TreeViewNodeToggleDirective } from './directives';
-import {
-    TreeViewNodeComponent,
-    TreeViewNodeContainerComponent,
-    TreeViewPreviewComponent,
-    TreeViewRootContainerComponent,
-    TreeViewRootContainerGroupComponent,
-    TreeViewUnassignedNodeContainerComponent,
-} from './components';
 
 @NgModule({
-    declarations: [
-        TextInputComponent,
-        SnackBarContentComponent,
-        ContainerComponent,
-        TreeViewNodeToggleDirective,
-        TreeViewRootContainerComponent,
-        TreeViewNodeComponent,
-        TreeViewNodeContainerComponent,
-        TreeViewUnassignedNodeContainerComponent,
-        TreeViewPreviewComponent,
-        TreeViewRootContainerGroupComponent,
-    ],
+    declarations: [TextInputComponent, SnackBarContentComponent, ContainerComponent],
     imports: [CommonModule, RouterModule, AngularMaterialModule, ReactiveFormsModule],
-    exports: [
-        TextInputComponent,
-        ContainerComponent,
-        TreeViewNodeToggleDirective,
-        TreeViewRootContainerComponent,
-        TreeViewNodeComponent,
-        TreeViewNodeContainerComponent,
-        TreeViewUnassignedNodeContainerComponent,
-        TreeViewPreviewComponent,
-        TreeViewRootContainerGroupComponent,
-    ],
+    exports: [TextInputComponent, ContainerComponent],
 })
 export class SharedModule {}

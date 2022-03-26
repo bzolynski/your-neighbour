@@ -1,6 +1,6 @@
 import { Component, ElementRef, HostBinding, Renderer2 } from '@angular/core';
 import { TreeViewNodeComponent } from '..';
-import { TreeViewService } from '../../../directives';
+import { TreeViewService } from '../../services';
 
 @Component({
     selector: 'app-tree-view-preview',
@@ -19,7 +19,6 @@ export class TreeViewPreviewComponent<T> {
     }
 
     attachElement = (e: MouseEvent, node: TreeViewNodeComponent<T>) => {
-
         this.display$ = 'block';
         this.draggingElement$ = <HTMLElement>node.elementRef.nativeElement.cloneNode(true);
         this.renderer.appendChild(this.elementRef.nativeElement, this.draggingElement$);

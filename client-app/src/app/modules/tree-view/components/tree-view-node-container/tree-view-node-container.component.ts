@@ -2,7 +2,7 @@ import { Component, ComponentRef, ElementRef, TemplateRef, ViewChild, ViewContai
 import { Subject } from 'rxjs';
 import { ITree } from 'src/app/modules/core/types';
 import { TreeViewNodeComponent } from '..';
-import { TreeViewService } from '../../../directives';
+import { TreeViewService } from '../../services';
 
 @Component({
     selector: 'app-tree-view-node-container',

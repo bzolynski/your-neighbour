@@ -1,7 +1,8 @@
 import { Component, ElementRef, Input, OnInit, Output } from '@angular/core';
 import { Subject } from 'rxjs';
 import { ITree } from 'src/app/modules/core/types';
-import { DropLocation, TreeViewService } from '../../../directives';
+import { DropLocation } from '../../models';
+import { TreeViewService } from '../../services';
 
 @Component({
     selector: 'app-tree-view-root-container-group',
