@@ -9,5 +9,6 @@ namespace YourNeighbour.Application.Abstractions
     {
         DbSet<TEntity> Set<TEntity>() where TEntity : class;
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
+        DatabaseFacade Database { get; }
     }
 }

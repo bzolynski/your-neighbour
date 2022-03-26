@@ -49,10 +49,10 @@ namespace YourNeighbour.Api.Controllers
             return Models.Response.Success(result);
         }
 
-        [HttpPatch("change-parent/{id}/{parentId}")]
-        public async Task<ActionResult<Response>> ChangeParent(int id, int parentId)
+        [HttpPatch("change-parent")]
+        public async Task<ActionResult<Response>> ChangeParent(IEnumerable<ChangeParentCategoryPairDto> changeParents)
         {
-            bool result = await Mediator.Send(new ChangeCategoryParentCommand(id, parentId));
+            bool result = await Mediator.Send(new ChangeParentCategoryCommand(changeParents));
             return Models.Response.Success(result);
         }
     }
