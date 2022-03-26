@@ -1,7 +1,7 @@
-import { Component, ElementRef, HostListener, Input, OnInit, Output, ViewChild, ViewContainerRef } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, Output } from '@angular/core';
 import { Subject } from 'rxjs';
 import { ITree } from 'src/app/modules/core/types';
-import { TreeViewService } from '../../../directives';
+import { DropLocation, TreeViewService } from '../../../directives';
 
 @Component({
     selector: 'app-tree-view-root-container-group',
@@ -11,20 +11,16 @@ import { TreeViewService } from '../../../directives';
 })
 export class TreeViewRootContainerGroupComponent<T> implements OnInit {
     @Input() dragDropAllowed: boolean = false;
-    @Output() treeDragEnd: Subject<{ draggedItem: ITree<T>; draggedOverItem: ITree<T> | null }> = new Subject();
-    @ViewChild('previewContainer', { static: true, read: ViewContainerRef }) previewContainerRef!: ViewContainerRef;
+    @Output() treeDragEnd: Subject<{ draggedItem: ITree<T>; draggedOverItem: ITree<T> | undefined; dropLocation: DropLocation }> =
+        new Subject();
+
+    // private members
     constructor(private treeService: TreeViewService<T>, public elementRef: ElementRef<HTMLElement>) {
-        this.treeService.rootContainer = this;
+        this.treeService.rootGroupContainer = this;
     }
+
     ngOnInit(): void {
         this.treeService.dragDropAllowed = this.dragDropAllowed;
         this.treeService.treeDragEnd = this.treeDragEnd;
     }
-
-    @HostListener('mousemove', ['$event'])
-    mouseOver = (e: MouseEvent) => {
-        if (this.treeService.isDragging$) {
-            this.treeService.checkDragOver(e);
-        }
-    };
 }

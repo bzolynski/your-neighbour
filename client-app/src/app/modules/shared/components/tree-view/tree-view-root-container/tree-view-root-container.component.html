@@ -1,4 +1,5 @@
 <div *ngIf="treeNode && nodeTemplate" class="root">
+    <ng-container #container></ng-container>
     <app-tree-view-node
         [node]="treeNode"
         [template]="nodeTemplate"

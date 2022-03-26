@@ -6,15 +6,14 @@
         <ng-container
             [ngTemplateOutlet]="template"
             [ngTemplateOutletContext]="{
-                $implicit: node
+                $implicit: node,
+                component: this
             }"></ng-container>
     </div>
     <div data-line="bellow" [class.show-line]="dropLocation == 'bellow'"></div>
 </div>
-<div [style.display]="node.isExpanded ? 'block' : 'none'" class="container">
-    <app-tree-view-node-container
-        data-line="inside"
-        [class.show-line]="
-            dropLocation == 'inside'
-        "></app-tree-view-node-container>
-</div>
+<app-tree-view-node-container
+    [style.display]="isExpanded ? 'block' : 'none'"
+    class="container">
+    <div data-line="inside" [class.show-line]="dropLocation == 'inside'"></div>
+</app-tree-view-node-container>

@@ -20,25 +20,26 @@ export class TreeViewNodeComponent<T> implements OnInit, OnDestroy {
     parentContainer!: TreeViewNodeContainerComponent<T>;
     componentRef!: ComponentRef<TreeViewNodeComponent<T>>;
     dropLocation: DropLocation = 'none';
-    dropLocationChanged: Subject<DropLocation> = new Subject();
-    get box(): DOMRect | undefined {
-        return this.elementRef.nativeElement.querySelector('.main-node-content')?.getBoundingClientRect();
+    isExpanded: boolean = true;
+    get box(): DOMRect {
+        return this.draggableContentRef.nativeElement.getBoundingClientRect();
     }
-
+    mousedown!: Observable<MouseEvent>;
+    changeParent: Subject<TreeViewNodeContainerComponent<T>> = new Subject();
     // private members
-    mousedown$!: Observable<MouseEvent>;
-    mouseup$!: Observable<MouseEvent>;
     destroy$: Subject<boolean> = new Subject<boolean>();
 
     // constructor
     constructor(private treeService: TreeViewService<T>, public elementRef: ElementRef<HTMLElement>) {
-        this.dropLocationChanged.subscribe((x) => {
-            this.dropLocation = x;
+        this.changeParent.pipe(takeUntil(this.destroy$)).subscribe((container) => {
+            //this.parentContainer.nodes.splice(this.parentContainer.nodes.indexOf(this), 1);
+            this.parentContainer.removeNode(this);
+            this.parentContainer = container;
         });
     }
 
     ngOnInit(): void {
-        this.mousedown$ = fromEvent<MouseEvent>(this.draggableContentRef.nativeElement, 'mousedown').pipe(
+        this.mousedown = fromEvent<MouseEvent>(this.draggableContentRef.nativeElement, 'mousedown').pipe(
             takeUntil(this.destroy$)
         );
         this.treeService.treeNodeComponentsChanged.next(this);
@@ -50,15 +51,38 @@ export class TreeViewNodeComponent<T> implements OnInit, OnDestroy {
         this.destroy$.unsubscribe();
     }
 
-    renderChild = () => {
+    renderChild = (): void => {
         for (const child of this.node.children) {
-            const compRef = this.childContainer.viewContainerRef.createComponent(
-                TreeViewNodeComponent
-            ) as unknown as ComponentRef<TreeViewNodeComponent<T>>;
-            compRef.instance.parentContainer = this.childContainer;
-            compRef.instance.node = child;
-            compRef.instance.template = this.template;
-            compRef.instance.componentRef = compRef;
+            this.childContainer.renderNode(child, this.template);
         }
+    };
+
+    isCursorOver = (e: MouseEvent): boolean => {
+        const xBool = this.box.left < e.x && this.box.right > e.x;
+        const yBool = this.box.top < e.y && this.box.bottom > e.y;
+        return xBool && yBool;
+    };
+
+    setDropLocationLine = (e: MouseEvent): void => {
+        const height = this.box.height;
+        const quater = height / 3;
+        let dropLocation: DropLocation = 'none';
+        if (e.y <= this.box.top + quater && !this.node.isRoot) {
+            dropLocation = 'above';
+        } else if (e.y > this.box.top + quater && e.y < this.box.bottom - quater) {
+            dropLocation = 'inside';
+        } else if (e.y >= this.box.bottom - quater && !this.node.isRoot) {
+            dropLocation = 'bellow';
+        }
+        this.dropLocation = dropLocation;
+    };
+
+    removeDropLocation = (): void => {
+        this.dropLocation = 'none';
+    };
+
+    flatten = (): Array<TreeViewNodeComponent<T>> => {
+        const arr = new Array<TreeViewNodeComponent<T>>(this);
+        return arr.concat(...this.childContainer.nodes.map((child) => child.flatten()));
     };
 }

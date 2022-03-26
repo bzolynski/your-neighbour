@@ -1,4 +1,7 @@
-import { Component, ElementRef, ViewContainerRef } from '@angular/core';
+import { Component, ComponentRef, ElementRef, TemplateRef, ViewChild, ViewContainerRef } from '@angular/core';
+import { Subject } from 'rxjs';
+import { ITree } from 'src/app/modules/core/types';
+import { TreeViewNodeComponent } from '..';
 import { TreeViewService } from '../../../directives';
 
 @Component({
@@ -7,9 +10,50 @@ import { TreeViewService } from '../../../directives';
     styleUrls: ['./tree-view-node-container.component.scss'],
 })
 export class TreeViewNodeContainerComponent<T> {
+    nodes: Array<TreeViewNodeComponent<T>> = new Array<TreeViewNodeComponent<T>>();
+    hasNodesChanged: Subject<boolean> = new Subject();
+    @ViewChild('container', { static: true, read: ViewContainerRef }) containerRef!: ViewContainerRef;
+    get box(): DOMRect {
+        return this.elementRef.nativeElement.getBoundingClientRect();
+    }
+
     constructor(
         protected treeService: TreeViewService<T>,
         public elementRef: ElementRef<HTMLElement>,
-        public viewContainerRef: ViewContainerRef
+        public nodeComponent?: TreeViewNodeComponent<T>
     ) {}
+
+    isCursorOver = (e: MouseEvent): boolean => {
+        const xBool = this.box.left < e.x && this.box.right > e.x;
+        const yBool = this.box.top < e.y && this.box.bottom > e.y;
+        return xBool && yBool;
+    };
+
+    renderNode = (node: ITree<T>, template: TemplateRef<any>): void => {
+        const compRef = this.containerRef.createComponent(TreeViewNodeComponent) as unknown as ComponentRef<
+            TreeViewNodeComponent<T>
+        >;
+        compRef.instance.parentContainer = this;
+        compRef.instance.node = node;
+        compRef.instance.template = template;
+        compRef.instance.componentRef = compRef;
+        this.nodes.push(compRef.instance);
+    };
+
+    positionOf = (node: TreeViewNodeComponent<T>): number => {
+        return this.containerRef.indexOf(node.componentRef.hostView);
+    };
+
+    insertNode = (node: TreeViewNodeComponent<T>, index?: number | undefined): void => {
+        this.containerRef.insert(node.componentRef.hostView, index);
+        //node.parentContainer = this;
+        node.changeParent.next(this);
+        this.nodes.push(node);
+        this.hasNodesChanged.next(this.nodes.length > 0);
+    };
+
+    removeNode = (node: TreeViewNodeComponent<T>) => {
+        this.nodes.splice(this.nodes.indexOf(node), 1);
+        this.hasNodesChanged.next(this.nodes.length > 0);
+    };
 }

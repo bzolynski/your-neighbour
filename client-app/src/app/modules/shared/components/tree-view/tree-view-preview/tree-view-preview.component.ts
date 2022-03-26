@@ -15,11 +15,10 @@ export class TreeViewPreviewComponent<T> {
     dragPreviewOffsetY$: number = 20;
 
     constructor(public elementRef: ElementRef<HTMLElement>, private renderer: Renderer2, treeService: TreeViewService<T>) {
-        treeService.treePreviewComponent = this;
+        treeService.previewComponent = this;
     }
 
     attachElement = (e: MouseEvent, node: TreeViewNodeComponent<T>) => {
-        console.log('TREEPREVIEW XD');
 
         this.display$ = 'block';
         this.draggingElement$ = <HTMLElement>node.elementRef.nativeElement.cloneNode(true);

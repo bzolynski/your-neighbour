@@ -6,7 +6,7 @@ import { AngularMaterialModule } from '../angular-material/angular-material.modu
 import { ReactiveFormsModule } from '@angular/forms';
 import { SnackBarContentComponent } from './components/snack-bar-content/snack-bar-content.component';
 import { ContainerComponent } from './components/layout/container/container.component';
-import { TreeViewNodeContainerDirective, TreeViewNodeToggleDirective } from './directives';
+import { TreeViewNodeToggleDirective } from './directives';
 import {
     TreeViewNodeComponent,
     TreeViewNodeContainerComponent,
@@ -23,7 +23,6 @@ import {
         ContainerComponent,
         TreeViewNodeToggleDirective,
         TreeViewRootContainerComponent,
-        TreeViewNodeContainerDirective,
         TreeViewNodeComponent,
         TreeViewNodeContainerComponent,
         TreeViewUnassignedNodeContainerComponent,
@@ -36,7 +35,6 @@ import {
         ContainerComponent,
         TreeViewNodeToggleDirective,
         TreeViewRootContainerComponent,
-        TreeViewNodeContainerDirective,
         TreeViewNodeComponent,
         TreeViewNodeContainerComponent,
         TreeViewUnassignedNodeContainerComponent,

@@ -1,21 +1,26 @@
 import { Directive, HostBinding, HostListener, Input, OnInit } from '@angular/core';
-import { ITree } from 'src/app/modules/core/types';
+import { TreeViewNodeComponent } from '../../components';
 
 @Directive({
     selector: '[appTreeViewNodeToggle]',
 })
 export class TreeViewNodeToggleDirective<T> implements OnInit {
     isExpandable: boolean = true;
-    @Input('appTreeViewNodeToggle') node!: ITree<T>;
+    //@Input('appTreeViewNodeToggle') node!: ITree<T>;
+    @Input('appTreeViewNodeToggle') component!: TreeViewNodeComponent<T>;
+
     @HostBinding('style.cursor') pointer = 'inherit';
     @HostListener('click', ['$event'])
     click = (e: MouseEvent) => {
         e.preventDefault();
-        if (this.isExpandable) this.node.isExpanded = !this.node.isExpanded;
+        if (this.isExpandable) this.component.isExpanded = !this.component.isExpanded;
     };
 
     ngOnInit(): void {
-        this.isExpandable = !this.node.isLeaf;
+        if (!this.component) throw new Error('Provide TreeViewNodeComponent reference!');
+        this.component.childContainer.hasNodesChanged.subscribe((hasNodes) => {
+            this.isExpandable = hasNodes;
+        });
         this.setCursorStyle();
     }
 

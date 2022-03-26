@@ -5,11 +5,10 @@ export interface ITree<T> {
     parent: ITree<T> | undefined;
     children: Array<ITree<T>>;
     // temp solution - move it to treeviewrootclass or smth
-    isExpanded: boolean;
     readonly isRoot: boolean;
     readonly level: number;
     readonly isLeaf: boolean;
-    changeParent(parent: ITree<T>): void;
+    changeParent(parent: ITree<T> | undefined): void;
     flatten(): Array<ITree<T>>;
 }
 
@@ -17,8 +16,6 @@ export class Tree<T> implements ITree<T> {
     data: T;
     parent: ITree<T> | undefined;
     children: Array<ITree<T>>;
-    // temp solution - move it to treeviewrootclass or smth
-    isExpanded: boolean = true;
     get isLeaf(): boolean {
         return this.children.length == 0;
     }
@@ -49,13 +46,13 @@ export class Tree<T> implements ITree<T> {
             child.loadChildren(lookup);
         }
     };
-    //TODO Flatten tree
+
     flatten = (): Array<ITree<T>> => {
         const arr = new Array<ITree<T>>(this);
         return arr.concat(...this.children.map((child) => child.flatten()));
     };
 
-    changeParent = (parent: ITree<T>): void => {
+    changeParent = (parent: ITree<T> | undefined): void => {
         this.parent = parent;
     };
 }
