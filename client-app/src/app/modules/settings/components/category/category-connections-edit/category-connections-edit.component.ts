@@ -1,12 +1,14 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { ICategory } from 'src/app/modules/core/models';
+import { HttpError, ICategory, Response } from 'src/app/modules/core/models';
 import { CategoryService } from 'src/app/modules/core/services';
 import { Dictionary } from 'src/app/modules/core/types';
 import { faChevronDown, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { DragEndEventProps } from 'src/app/modules/tree-view/models/drag-end-event-props.model';
 import { ITree } from 'src/app/modules/tree-view/models';
+import { MessageService } from 'src/app/modules/core/services/message.service';
+import { ChildParentPair } from 'src/app/modules/core/types/child-parent-pair.type';
 @Component({
     selector: 'app-category-connections-edit',
     templateUrl: './category-connections-edit.component.html',
@@ -18,7 +20,7 @@ export class CategoryConnectionsEditComponent implements OnInit, OnDestroy {
     destroy$: Subject<boolean> = new Subject<boolean>();
     faChevronDown: IconDefinition = faChevronDown;
     parentChanges: Dictionary<number, number | null> = new Dictionary<number, number | null>();
-    constructor(private categoryService: CategoryService) {}
+    constructor(private categoryService: CategoryService, private messageService: MessageService) {}
 
     ngOnInit(): void {
         this.categoryService
@@ -68,5 +70,20 @@ export class CategoryConnectionsEditComponent implements OnInit, OnDestroy {
         //else
         this.parentChanges.set(data.dragged.data.id, parentId ?? null);
         console.log(this.parentChanges);
+    };
+
+    submitChanges = () => {
+        const childParentPairs = Array.from(this.parentChanges, ([key, value]) => {
+            return new ChildParentPair(key, value);
+        });
+
+        this.categoryService.changeParent(childParentPairs).subscribe(
+            (response) => {
+                this.messageService.showMessage('Pomyślnie zaktualizowano kategorie!', 'success');
+            },
+            (errorResponse: HttpError<Response>) => {
+                this.messageService.showMessage(errorResponse.error?.errorMessages[0] ?? 'Niespodziewany błąd', 'error');
+            }
+        );
     };
 }

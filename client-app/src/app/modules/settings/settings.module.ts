@@ -21,6 +21,7 @@ import { CategoryConnectionsEditComponent } from './components/category/category
 import { AngularMaterialModule } from '../angular-material/angular-material.module';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { TreeViewModule } from '../tree-view/tree-view.module';
+import { CoreModule } from '../core/core.module';
 
 @NgModule({
     declarations: [
@@ -49,6 +50,7 @@ import { TreeViewModule } from '../tree-view/tree-view.module';
         AngularMaterialModule,
         FontAwesomeModule,
         TreeViewModule,
+        CoreModule,
     ],
 })
 export class SettingsModule {}

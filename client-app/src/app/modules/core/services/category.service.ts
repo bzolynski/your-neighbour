@@ -3,6 +3,7 @@ import { Subject } from 'rxjs';
 import { ApiService } from '.';
 import { ICategory } from '../models';
 import { ObservableResponse } from '../types';
+import { IChildParentPair } from '../types/child-parent-pair.type';
 
 @Injectable({
     providedIn: 'root',
@@ -24,8 +25,8 @@ export class CategoryService {
     delete = (id: number): ObservableResponse<boolean> => {
         return this.apiService.delete<boolean>(`category/delete/${id}`);
     };
-    changeParent = (id: number, parentId: number): ObservableResponse<boolean> => {
-        return this.apiService.patch<boolean>(`category/change-parent/${id}/${parentId}`);
+    changeParent = (childParentPairs: Array<IChildParentPair>): ObservableResponse<boolean> => {
+        return this.apiService.patch<boolean>(`category/change-parent/`, childParentPairs);
     };
     getUnassigned = (): ObservableResponse<Array<ICategory>> => {
         return this.apiService.get<Array<ICategory>>('category/get-unassigned');
