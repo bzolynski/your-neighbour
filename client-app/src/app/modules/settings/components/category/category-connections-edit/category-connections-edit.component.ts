@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { HttpError, ICategory, Response } from 'src/app/modules/core/models';
+import { HttpError, ICategory, Response, ROOT_CATEGORY_GUID } from 'src/app/modules/core/models';
 import { CategoryService } from 'src/app/modules/core/services';
 import { Dictionary } from 'src/app/modules/core/types';
 import { faChevronDown, IconDefinition } from '@fortawesome/free-solid-svg-icons';
@@ -33,7 +33,9 @@ export class CategoryConnectionsEditComponent implements OnInit, OnDestroy {
                         (x) => x,
                         (p, c) => p.id == c.parentId
                     )
-                    .toTree();
+                    .toTree((lookup) => {
+                        return [...lookup].filter((val) => val[0].guid == ROOT_CATEGORY_GUID)[0];
+                    });
             });
         this.categoryService
             .getUnassigned()

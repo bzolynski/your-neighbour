@@ -21,11 +21,11 @@ export class Tree<T> implements ITree<T> {
         this.parent = parent;
     }
 
-    static fromLookup = <T>(lookup: ILookup<T, T>): ITree<T> => {
-        const c: [T, T[]] = lookup.entries().next().value;
-        const root = new Tree<T>(c[0]);
-        root.loadChildren(lookup);
-        return root;
+    static fromLookup = <T>(lookup: ILookup<T, T>, rootSelector: (item: ILookup<T, T>) => [T, T[]]): ITree<T> => {
+        const root = rootSelector(lookup);
+        const treeRoot = new Tree<T>(root[0]);
+        treeRoot.loadChildren(lookup);
+        return treeRoot;
     };
 
     private loadChildren = (lookup: ILookup<T, T>) => {

@@ -2,7 +2,8 @@ import { Dictionary, IDictionary, Tree } from '.';
 import { ITree } from '../../tree-view/models';
 
 export interface ILookup<TKey, TValue> extends IDictionary<TKey, Array<TValue>> {
-    toTree(this: ILookup<TKey, TKey>): ITree<TKey>;
+    //toTree(this: ILookup<TKey, TKey>): ITree<TKey>;
+    toTree(this: ILookup<TKey, TKey>, rootSelector: (item: ILookup<TKey, TKey>) => [TKey, TKey[]]): ITree<TKey>;
 }
 
 export class Lookup<TKey, TValue> extends Dictionary<TKey, Array<TValue>> implements ILookup<TKey, TValue> {
@@ -30,7 +31,7 @@ export class Lookup<TKey, TValue> extends Dictionary<TKey, Array<TValue>> implem
         return new Lookup<TKey, TValue>(dict);
     };
 
-    toTree(this: ILookup<TKey, TKey>): ITree<TKey> {
-        return Tree.fromLookup<TKey>(this);
+    toTree(this: ILookup<TKey, TKey>, rootSelector: (item: ILookup<TKey, TKey>) => [TKey, TKey[]]): ITree<TKey> {
+        return Tree.fromLookup<TKey>(this, rootSelector);
     }
 }
