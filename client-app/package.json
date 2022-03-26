@@ -45,6 +45,7 @@
     "@typescript-eslint/parser": "5.11.0",
     "eslint": "^8.2.0",
     "eslint-config-prettier": "^8.4.0",
+    "eslint-plugin-html": "^6.2.0",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-unused-imports": "^2.0.0",
     "jasmine-core": "~3.8.0",
