@@ -1,7 +1,6 @@
 import { Component, ElementRef, Input, OnInit, Output } from '@angular/core';
 import { Subject } from 'rxjs';
-import { ITree } from 'src/app/modules/core/types';
-import { DropLocation } from '../../models';
+import { DragEndEventProps } from '../../models/drag-end-event-props.model';
 import { TreeViewService } from '../../services';
 
 @Component({
@@ -12,8 +11,7 @@ import { TreeViewService } from '../../services';
 })
 export class TreeViewRootContainerGroupComponent<T> implements OnInit {
     @Input() dragDropAllowed: boolean = false;
-    @Output() treeDragEnd: Subject<{ draggedItem: ITree<T>; draggedOverItem: ITree<T> | undefined; dropLocation: DropLocation }> =
-        new Subject();
+    @Output() treeDragEnd: Subject<DragEndEventProps<T>> = new Subject();
 
     // private members
     constructor(private treeService: TreeViewService<T>, public elementRef: ElementRef<HTMLElement>) {

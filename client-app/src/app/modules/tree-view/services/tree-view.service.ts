@@ -11,6 +11,7 @@ import {
     TreeViewUnassignedNodeContainerComponent,
 } from '../components';
 import { DropLocation } from '../models';
+import { DragEndEventProps } from '../models/drag-end-event-props.model';
 @Injectable()
 export class TreeViewService<T> implements OnDestroy {
     // public properties
@@ -21,9 +22,7 @@ export class TreeViewService<T> implements OnDestroy {
     unassignedContainer: TreeViewUnassignedNodeContainerComponent<T> | undefined;
     previewComponent!: TreeViewPreviewComponent<T>;
 
-    treeDragEnd:
-        | Subject<{ draggedItem: ITree<T>; draggedOverItem: ITree<T> | undefined; dropLocation: DropLocation }>
-        | undefined;
+    treeDragEnd: Subject<DragEndEventProps<T>> | undefined;
     treeNodeComponentsChanged: Subject<TreeViewNodeComponent<T>> = new Subject();
 
     // private members
@@ -183,12 +182,14 @@ export class TreeViewService<T> implements OnDestroy {
     };
 
     tryTriggerOnDragEndEvent = (dragged: ITree<T>, draggedOver: ITree<T> | undefined, dropLocation: DropLocation) => {
-        if (this.treeDragEnd)
-            this.treeDragEnd.next({
-                draggedItem: dragged,
-                draggedOverItem: draggedOver,
+        if (this.treeDragEnd) {
+            const props: DragEndEventProps<T> = {
+                dragged: dragged,
+                draggedOver: draggedOver,
                 dropLocation: dropLocation,
-            });
+            };
+            this.treeDragEnd.next(props);
+        }
     };
 
     ngOnDestroy(): void {
