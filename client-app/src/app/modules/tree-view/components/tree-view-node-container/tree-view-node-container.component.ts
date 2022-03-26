@@ -46,7 +46,6 @@ export class TreeViewNodeContainerComponent<T> {
 
     insertNode = (node: TreeViewNodeComponent<T>, index?: number | undefined): void => {
         this.containerRef.insert(node.componentRef.hostView, index);
-        //node.parentContainer = this;
         node.changeParent.next(this);
         this.nodes.push(node);
         this.hasNodesChanged.next(this.nodes.length > 0);

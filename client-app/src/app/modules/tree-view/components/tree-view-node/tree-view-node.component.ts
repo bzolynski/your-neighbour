@@ -35,6 +35,7 @@ export class TreeViewNodeComponent<T> implements OnInit, OnDestroy {
             //this.parentContainer.nodes.splice(this.parentContainer.nodes.indexOf(this), 1);
             this.parentContainer.removeNode(this);
             this.parentContainer = container;
+            this.node.parent = container.nodeComponent?.node;
         });
     }
 
@@ -74,6 +75,8 @@ export class TreeViewNodeComponent<T> implements OnInit, OnDestroy {
         } else if (e.y >= this.box.bottom - quater && !this.node.isRoot) {
             dropLocation = 'bellow';
         }
+        console.log(this.box.top + ' ' + this.box.bottom);
+        console.log(e.y);
         this.dropLocation = dropLocation;
     };
 

@@ -63,9 +63,10 @@ export class CategoryConnectionsEditComponent implements OnInit, OnDestroy {
                 break;
             }
         }
-
-        if (data.dragged.parent?.data.id == parentId) this.parentChanges.delete(data.dragged.data.id);
-        else this.parentChanges.set(data.dragged.data.id, parentId ?? null);
+        // todo: change history.
+        //if (data.dragged.parent?.data.id == parentId) this.parentChanges.delete(data.dragged.data.id);
+        //else
+        this.parentChanges.set(data.dragged.data.id, parentId ?? null);
         console.log(this.parentChanges);
     };
 }

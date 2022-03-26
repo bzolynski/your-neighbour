@@ -14,12 +14,12 @@
             [nodeTemplate]="nodeTemplate">
         </app-tree-view-root-container>
     </div>
-    <ng-template let-node #nodeTemplate>
+    <ng-template let-node let-component="component" #nodeTemplate>
         <div class="title">
             <fa-icon
-                [appTreeViewNodeToggle]="node"
+                [appTreeViewNodeToggle]="component"
                 *ngIf="!node.isLeaf"
-                [class]="node.isExpanded ? 'rotate' : ''"
+                [class]="component.isExpanded ? 'rotate' : ''"
                 [icon]="faChevronDown"></fa-icon>
             {{ node.data.name }}
         </div>
