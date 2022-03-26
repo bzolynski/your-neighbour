@@ -1,7 +1,7 @@
 import { Component, ComponentRef, ElementRef, TemplateRef, ViewChild, ViewContainerRef } from '@angular/core';
 import { Subject } from 'rxjs';
-import { ITree } from 'src/app/modules/core/types';
 import { TreeViewNodeComponent } from '..';
+import { ITree } from '../../models';
 import { TreeViewService } from '../../services';
 
 @Component({

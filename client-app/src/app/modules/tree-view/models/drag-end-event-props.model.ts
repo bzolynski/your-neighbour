@@ -1,5 +1,4 @@
-import { DropLocation } from '.';
-import { ITree } from '../../core/types';
+import { DropLocation, ITree } from '.';
 
 export interface DragEndEventProps<T> {
     dragged: ITree<T>;

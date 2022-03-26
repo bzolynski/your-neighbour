@@ -3,8 +3,10 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { ICategory } from 'src/app/modules/core/models';
 import { CategoryService } from 'src/app/modules/core/services';
-import { Dictionary, ITree } from 'src/app/modules/core/types';
+import { Dictionary } from 'src/app/modules/core/types';
 import { faChevronDown, IconDefinition } from '@fortawesome/free-solid-svg-icons';
+import { DragEndEventProps } from 'src/app/modules/tree-view/models/drag-end-event-props.model';
+import { ITree } from 'src/app/modules/tree-view/models';
 @Component({
     selector: 'app-category-connections-edit',
     templateUrl: './category-connections-edit.component.html',
@@ -44,15 +46,26 @@ export class CategoryConnectionsEditComponent implements OnInit, OnDestroy {
         this.destroy$.unsubscribe();
     }
 
-    treeDragEnd = (data: {
-        draggedItem: ITree<ICategory>;
-        draggedOverItem: ITree<ICategory> | null;
-    }): void => {
-        //data.draggedItem.changeParent(data.draggedOverItem);
-        this.parentChanges.set(data.draggedItem.data.id, data.draggedOverItem?.data.id ?? null);
-        if (data.draggedItem.parent == data.draggedOverItem)
-            this.parentChanges.delete(data.draggedItem.data.id);
+    treeDragEnd = (data: DragEndEventProps<ICategory>): void => {
+        let parentId: number | undefined = undefined;
+        switch (data.dropLocation) {
+            case 'above':
+            case 'bellow': {
+                parentId = data.draggedOver?.parent?.data.id;
+                break;
+            }
+            case 'inside': {
+                parentId = data.draggedOver?.data.id;
+                break;
+            }
+            default: {
+                parentId = undefined;
+                break;
+            }
+        }
 
+        if (data.dragged.parent?.data.id == parentId) this.parentChanges.delete(data.dragged.data.id);
+        else this.parentChanges.set(data.dragged.data.id, parentId ?? null);
         console.log(this.parentChanges);
     };
 }

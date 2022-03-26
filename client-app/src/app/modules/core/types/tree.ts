@@ -1,16 +1,5 @@
 import { ILookup } from '.';
-
-export interface ITree<T> {
-    data: T;
-    parent: ITree<T> | undefined;
-    children: Array<ITree<T>>;
-    // temp solution - move it to treeviewrootclass or smth
-    readonly isRoot: boolean;
-    readonly level: number;
-    readonly isLeaf: boolean;
-    changeParent(parent: ITree<T> | undefined): void;
-    flatten(): Array<ITree<T>>;
-}
+import { ITree } from '../../tree-view/models/tree.model';
 
 export class Tree<T> implements ITree<T> {
     data: T;

@@ -1,7 +1,6 @@
 import { Injectable, OnDestroy, Renderer2 } from '@angular/core';
 import { forkJoin, fromEvent, Observable, of, Subject } from 'rxjs';
 import { delay, distinctUntilChanged, mergeMap, pairwise, startWith, takeUntil, takeWhile } from 'rxjs/operators';
-import { ITree } from 'src/app/modules/core/types';
 import {
     TreeViewNodeComponent,
     TreeViewNodeContainerComponent,
@@ -10,7 +9,7 @@ import {
     TreeViewRootContainerGroupComponent,
     TreeViewUnassignedNodeContainerComponent,
 } from '../components';
-import { DropLocation } from '../models';
+import { DropLocation, ITree } from '../models';
 import { DragEndEventProps } from '../models/drag-end-event-props.model';
 @Injectable()
 export class TreeViewService<T> implements OnDestroy {

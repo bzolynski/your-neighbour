@@ -1,14 +1,11 @@
-import { Dictionary, IDictionary, Tree, ITree } from '.';
+import { Dictionary, IDictionary, Tree } from '.';
+import { ITree } from '../../tree-view/models';
 
-export interface ILookup<TKey, TValue>
-    extends IDictionary<TKey, Array<TValue>> {
+export interface ILookup<TKey, TValue> extends IDictionary<TKey, Array<TValue>> {
     toTree(this: ILookup<TKey, TKey>): ITree<TKey>;
 }
 
-export class Lookup<TKey, TValue>
-    extends Dictionary<TKey, Array<TValue>>
-    implements ILookup<TKey, TValue>
-{
+export class Lookup<TKey, TValue> extends Dictionary<TKey, Array<TValue>> implements ILookup<TKey, TValue> {
     private constructor(dict: IDictionary<TKey, Array<TValue>>) {
         super(dict);
     }
@@ -24,10 +21,7 @@ export class Lookup<TKey, TValue>
             if (!dict.has(parent)) dict.set(parent, new Array<TValue>());
             for (const item of innerArray) {
                 if (condition(current, item)) {
-                    dict.set(parent, [
-                        ...dict.get(parent),
-                        childSelector(item),
-                    ]);
+                    dict.set(parent, [...dict.get(parent), childSelector(item)]);
                 }
             }
             return dict;
