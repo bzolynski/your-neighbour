@@ -1,11 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import {
-    FormBuilder,
-    FormControl,
-    FormGroup,
-    Validators,
-} from '@angular/forms';
+import { Component, OnDestroy } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
+import { AuthenticationService } from 'src/app/modules/core/authentication/authentication.service';
+import { HttpError, Response } from 'src/app/modules/core/models';
+import { IRegister } from 'src/app/modules/core/models/authentication.model';
+import { MessageService } from 'src/app/modules/core/services/message.service';
 import { FormGroupValidators } from 'src/app/modules/shared/validators';
 
 @Component({
@@ -13,7 +12,7 @@ import { FormGroupValidators } from 'src/app/modules/shared/validators';
     templateUrl: './welcome-register-form.component.html',
     styleUrls: ['./welcome-register-form.component.scss'],
 })
-export class WelcomeRegisterFormComponent implements OnInit {
+export class WelcomeRegisterFormComponent implements OnDestroy {
     // Public properties
     form: FormGroup = new FormGroup(
         {
@@ -37,24 +36,33 @@ export class WelcomeRegisterFormComponent implements OnInit {
     }
     get confirmPasswordErrorMessage(): string {
         const confirmPasswordControl = this.form.controls['confirmPassword'];
-        if (confirmPasswordControl.errors?.required)
-            return 'Pole jest wymagane';
-        if (confirmPasswordControl.errors?.notEqual)
-            return 'Podane hasła nie są takie same';
+        if (confirmPasswordControl.errors?.required) return 'Pole jest wymagane';
+        if (confirmPasswordControl.errors?.notEqual) return 'Podane hasła nie są takie same';
         return '';
     }
 
     // Private members
     destroy$: Subject<boolean> = new Subject<boolean>();
 
-    constructor() {}
-
-    ngOnInit(): void {}
-
+    constructor(private authenticationService: AuthenticationService, private messageService: MessageService) {}
     ngOnDestroy(): void {
         this.destroy$.next(true);
         this.destroy$.unsubscribe;
     }
 
-    onSubmit = () => {};
+    onSubmit = () => {
+        console.log(this.form.valid);
+
+        if (this.form.valid) {
+            const register: IRegister = Object.assign(this.form.value);
+            this.authenticationService.register(register).subscribe(
+                (response) => {
+                    console.log(response);
+                },
+                (errorResponse: HttpError<Response>) => {
+                    this.messageService.showMessage(errorResponse.error?.errorMessages[0] ?? 'Error', 'error');
+                }
+            );
+        }
+    };
 }

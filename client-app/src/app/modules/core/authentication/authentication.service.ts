@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
+import { IRegister } from '../models/authentication.model';
 import { IUser } from '../models/user.model';
 import { ObservableResponse } from '../types';
 import { AuthenticationApiService } from './authentication-api.service';
@@ -13,10 +14,7 @@ export class AuthenticationService {
     login = (login: string, password: string): ObservableResponse<IUser> => {
         return this.authenticationApiService.login(login, password).pipe(
             map((response) => {
-                localStorage.setItem(
-                    'user',
-                    JSON.stringify(response.responseObject)
-                );
+                localStorage.setItem('user', JSON.stringify(response.responseObject));
                 return response;
             })
         );
@@ -29,5 +27,9 @@ export class AuthenticationService {
 
     refreshToken = (): ObservableResponse<boolean> => {
         return this.authenticationApiService.refresh();
+    };
+
+    register = (register: IRegister): ObservableResponse<boolean> => {
+        return this.authenticationApiService.register(register);
     };
 }
