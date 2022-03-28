@@ -23,7 +23,7 @@ namespace YourNeighbour.Application.Features.Categories.Queries.GetUnassigned
         public async Task<IEnumerable<CategoryDto>> Handle(GetUnassignedCategoriesCommand request, CancellationToken cancellationToken)
         {
             return await applicationDbContext.Set<Category>()
-                .Where(x => x.ParentId == null)
+                .Where(x => x.ParentId == null && x.Guid != Category.RootCategoryGuid)
                 .Include(x => x.Definition)
                 .ProjectTo<CategoryDto>(mapper)
                 .ToListAsync();
