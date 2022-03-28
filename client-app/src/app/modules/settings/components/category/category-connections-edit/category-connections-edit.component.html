@@ -1,28 +1,35 @@
-<app-tree-view-root-container-group
-    class="row"
-    [dragDropAllowed]="true"
-    (treeDragEnd)="treeDragEnd($event)">
-    <div *ngIf="unasignedCategories" class="col-6">
-        <app-tree-view-unassigned-node-container
-            [nodeTemplate]="nodeTemplate"
-            [items]="unasignedCategories">
-        </app-tree-view-unassigned-node-container>
+<div class="container">
+    <div class="top-bar">
+        <h2 class="header">Hierarchia kategorii</h2>
+        <button mat-raised-button color="primary" (click)="submitChanges()">
+            Zatwierdź zmiany
+        </button>
     </div>
-    <div *ngIf="treeItem" class="col-6">
-        <app-tree-view-root-container
-            [treeNode]="treeItem"
-            [nodeTemplate]="nodeTemplate">
-        </app-tree-view-root-container>
-    </div>
-    <ng-template let-node let-component="component" #nodeTemplate>
-        <div class="title">
-            <fa-icon
-                [appTreeViewNodeToggle]="component"
-                *ngIf="!node.isLeaf"
-                [class]="component.isExpanded ? 'rotate' : ''"
-                [icon]="faChevronDown"></fa-icon>
-            {{ node.data.name }}
+    <app-tree-view-root-container-group
+        class="row col-gap-2"
+        [dragDropAllowed]="true"
+        (treeDragEnd)="treeDragEnd($event)">
+        <div *ngIf="unasignedCategories" class="col-6">
+            <app-tree-view-unassigned-node-container
+                [nodeTemplate]="nodeTemplate"
+                [items]="unasignedCategories">
+            </app-tree-view-unassigned-node-container>
         </div>
-    </ng-template>
-</app-tree-view-root-container-group>
-<button mat-raised-button (click)="submitChanges()">Zatwierdź zmiany</button>
+        <div *ngIf="treeItem" class="col-6">
+            <app-tree-view-root-container
+                [treeNode]="treeItem"
+                [nodeTemplate]="nodeTemplate">
+            </app-tree-view-root-container>
+        </div>
+        <ng-template let-node let-component="component" #nodeTemplate>
+            <div class="title">
+                <fa-icon
+                    [appTreeViewNodeToggle]="component"
+                    *ngIf="!node.isLeaf"
+                    [class]="component.isExpanded ? 'rotate' : ''"
+                    [icon]="faChevronDown"></fa-icon>
+                {{ node.data.name }}
+            </div>
+        </ng-template>
+    </app-tree-view-root-container-group>
+</div>
