@@ -1,15 +1,16 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
-using System;
+﻿using System;
 using System.Security.Authentication;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using YourNeighbour.Api.Models;
 using YourNeighbour.Application.Features.Authentication.Commands.Login;
 using YourNeighbour.Application.Features.Authentication.Commands.Logout;
 using YourNeighbour.Application.Features.Authentication.Commands.Refresh;
 using YourNeighbour.Application.Features.Authentication.Commands.Register;
 using YourNeighbour.Application.Features.Authentication.Dtos;
+using YourNeighbour.Application.Features.Authentication.Queries.GetCurrentUser;
 using YourNeighbour.Domain.Options;
 
 namespace YourNeighbour.Api.Controllers
@@ -27,6 +28,12 @@ namespace YourNeighbour.Api.Controllers
         {
             bool succeded = await Mediator.Send(new RegisterCommand(register));
             return Models.Response.Success(succeded);
+        }
+        [HttpGet("get-current-user")]
+        public async Task<ActionResult<Response>> GetCurrentUser()
+        {
+            UserDto user = await Mediator.Send(new GetCurrentUserQuery());
+            return Models.Response.Success(user);
         }
         [HttpPost("login")]
         public async Task<ActionResult<Response>> Login(LoginDto login)

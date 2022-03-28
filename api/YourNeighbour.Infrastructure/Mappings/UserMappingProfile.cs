@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using YourNeighbour.Application.Features.Authentication.Dtos;
+using YourNeighbour.Domain.Entities.Identity;
 
 namespace YourNeighbour.Infrastructure.Mappings
 {
@@ -6,8 +8,8 @@ namespace YourNeighbour.Infrastructure.Mappings
     {
         public UserMappingProfile()
         {
-            //CreateMap<User, UserDto>()
-            //    .ReverseMap();
+            CreateMap<User, UserDto>()
+                .ReverseMap();
 
         }
     }
