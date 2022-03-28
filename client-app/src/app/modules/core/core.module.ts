@@ -11,13 +11,7 @@ import './extensions';
 
 @NgModule({
     declarations: [HeaderComponent, FooterComponent],
-    imports: [
-        CommonModule,
-        RouterModule,
-        HttpClientModule,
-        AngularMaterialModule,
-        SharedModule,
-    ],
+    imports: [CommonModule, RouterModule, HttpClientModule, AngularMaterialModule, SharedModule],
     exports: [HeaderComponent, FooterComponent],
     providers: [
         {

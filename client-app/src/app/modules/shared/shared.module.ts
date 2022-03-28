@@ -7,10 +7,23 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { SnackBarContentComponent } from './components/snack-bar-content/snack-bar-content.component';
 import { ContainerComponent } from './components/layout/container/container.component';
 import { ConfirmationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.component';
+import { BackdropLoadingComponent } from './components/backdrop-loading/backdrop-loading.component';
 
 @NgModule({
-    declarations: [TextInputComponent, SnackBarContentComponent, ContainerComponent, ConfirmationDialogComponent],
+    declarations: [
+        TextInputComponent,
+        SnackBarContentComponent,
+        ContainerComponent,
+        ConfirmationDialogComponent,
+        BackdropLoadingComponent,
+    ],
     imports: [CommonModule, RouterModule, AngularMaterialModule, ReactiveFormsModule],
-    exports: [TextInputComponent, ContainerComponent],
+    exports: [
+        TextInputComponent,
+        ContainerComponent,
+        SnackBarContentComponent,
+        ConfirmationDialogComponent,
+        BackdropLoadingComponent,
+    ],
 })
 export class SharedModule {}

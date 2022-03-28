@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { AuthenticationService } from './modules/core/authentication/authentication.service';
 
 @Component({
@@ -6,9 +8,21 @@ import { AuthenticationService } from './modules/core/authentication/authenticat
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.scss'],
 })
-export class AppComponent {
+export class AppComponent implements OnDestroy {
     title = 'client-app';
+    isBusy = true;
+    unsubscriber$: Subject<boolean> = new Subject();
+
     constructor(authenticationService: AuthenticationService) {
-        authenticationService.getCurrentUser();
+        authenticationService
+            .getCurrentUser()
+            .pipe(takeUntil(this.unsubscriber$))
+            .subscribe(() => {
+                this.isBusy = false;
+            });
+    }
+    ngOnDestroy(): void {
+        this.unsubscriber$.next(true);
+        this.unsubscriber$.unsubscribe();
     }
 }

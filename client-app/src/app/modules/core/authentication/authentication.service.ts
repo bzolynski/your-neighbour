@@ -13,10 +13,13 @@ export class AuthenticationService {
     constructor(private authenticationApiService: AuthenticationApiService) {}
     currentUser: ReplaySubject<IUser | null> = new ReplaySubject<IUser | null>(1);
 
-    getCurrentUser = (): void => {
-        this.authenticationApiService.getCurrentUser().subscribe((response) => {
-            this.currentUser.next(response.responseObject);
-        });
+    getCurrentUser = (): ObservableResponse<IUser> => {
+        return this.authenticationApiService.getCurrentUser().pipe(
+            map((value) => {
+                this.currentUser.next(value.responseObject);
+                return value;
+            })
+        );
     };
 
     login = (login: string, password: string): ObservableResponse<IUser> => {
