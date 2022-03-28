@@ -14,10 +14,10 @@ export class TreeViewNodeComponent<T> implements OnInit, OnDestroy {
     // public properties
     @Input() node!: ITree<T>;
     @Input() template!: TemplateRef<any>;
-    @ViewChild('draggableContent', { static: true }) draggableContentRef!: ElementRef<HTMLElement>;
+    @Input() parentContainer!: TreeViewNodeContainerComponent<T>;
     @ViewChild(TreeViewNodeContainerComponent, { static: true })
     childContainer!: TreeViewNodeContainerComponent<T>;
-    parentContainer!: TreeViewNodeContainerComponent<T>;
+    @ViewChild('draggableContent', { static: true }) draggableContentRef!: ElementRef<HTMLElement>;
     componentRef!: ComponentRef<TreeViewNodeComponent<T>>;
     dropLocation: DropLocation = 'none';
     isExpanded: boolean = true;
@@ -75,8 +75,6 @@ export class TreeViewNodeComponent<T> implements OnInit, OnDestroy {
         } else if (e.y >= this.box.bottom - quater && !this.node.isRoot) {
             dropLocation = 'bellow';
         }
-        console.log(this.box.top + ' ' + this.box.bottom);
-        console.log(e.y);
         this.dropLocation = dropLocation;
     };
 
