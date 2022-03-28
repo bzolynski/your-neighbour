@@ -6,9 +6,10 @@ import { AngularMaterialModule } from '../angular-material/angular-material.modu
 import { ReactiveFormsModule } from '@angular/forms';
 import { SnackBarContentComponent } from './components/snack-bar-content/snack-bar-content.component';
 import { ContainerComponent } from './components/layout/container/container.component';
+import { ConfirmationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.component';
 
 @NgModule({
-    declarations: [TextInputComponent, SnackBarContentComponent, ContainerComponent],
+    declarations: [TextInputComponent, SnackBarContentComponent, ContainerComponent, ConfirmationDialogComponent],
     imports: [CommonModule, RouterModule, AngularMaterialModule, ReactiveFormsModule],
     exports: [TextInputComponent, ContainerComponent],
 })

@@ -15,6 +15,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSliderModule } from '@angular/material/slider';
+import { MatDialogModule } from '@angular/material/dialog';
 @NgModule({
     declarations: [],
     exports: [
@@ -34,6 +35,7 @@ import { MatSliderModule } from '@angular/material/slider';
         MatTabsModule,
         MatSnackBarModule,
         MatSliderModule,
+        MatDialogModule,
     ],
 })
 export class AngularMaterialModule {}

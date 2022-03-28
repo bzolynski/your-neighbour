@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { Observable, Subject } from 'rxjs';
+import { map, takeUntil } from 'rxjs/operators';
 import { HttpError, ICategory, Response, ROOT_CATEGORY_GUID } from 'src/app/modules/core/models';
 import { CategoryService } from 'src/app/modules/core/services';
 import { Dictionary } from 'src/app/modules/core/types';
@@ -9,18 +9,25 @@ import { DragEndEventProps } from 'src/app/modules/tree-view/models/drag-end-eve
 import { ITree } from 'src/app/modules/tree-view/models';
 import { MessageService } from 'src/app/modules/core/services/message.service';
 import { ChildParentPair } from 'src/app/modules/core/types/child-parent-pair.type';
+import { CanComponentDeactivate } from 'src/app/modules/core/guards/can-deactivate.guard';
+import { UrlTree } from '@angular/router';
 @Component({
     selector: 'app-category-connections-edit',
     templateUrl: './category-connections-edit.component.html',
     styleUrls: ['./category-connections-edit.component.scss'],
 })
-export class CategoryConnectionsEditComponent implements OnInit, OnDestroy {
+export class CategoryConnectionsEditComponent implements OnInit, OnDestroy, CanComponentDeactivate {
     treeItem: ITree<ICategory> | undefined;
     unasignedCategories: Array<ICategory> | undefined;
     destroy$: Subject<boolean> = new Subject<boolean>();
     faChevronDown: IconDefinition = faChevronDown;
     parentChanges: Dictionary<number, number | null> = new Dictionary<number, number | null>();
     constructor(private categoryService: CategoryService, private messageService: MessageService) {}
+
+    canDeactivate = (): boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> => {
+        if (!this.parentChanges.keys().next().value) return true;
+        return this.messageService.showConfirmationDialog('Czy chcesz odrzucić niezapisane zmiany?').pipe(map((x) => x.result));
+    };
 
     ngOnInit(): void {
         this.categoryService
@@ -71,7 +78,6 @@ export class CategoryConnectionsEditComponent implements OnInit, OnDestroy {
         //if (data.dragged.parent?.data.id == parentId) this.parentChanges.delete(data.dragged.data.id);
         //else
         this.parentChanges.set(data.dragged.data.id, parentId ?? null);
-        console.log(this.parentChanges);
     };
 
     submitChanges = () => {
@@ -81,6 +87,7 @@ export class CategoryConnectionsEditComponent implements OnInit, OnDestroy {
 
         this.categoryService.changeParent(childParentPairs).subscribe(
             (response) => {
+                this.parentChanges.clear();
                 this.messageService.showMessage('Pomyślnie zaktualizowano kategorie!', 'success');
             },
             (errorResponse: HttpError<Response>) => {

@@ -1,9 +1,12 @@
 import { Injectable } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition, MatSnackBar } from '@angular/material/snack-bar';
+import { Observable } from 'rxjs';
 import {
-    MatSnackBarHorizontalPosition,
-    MatSnackBarVerticalPosition,
-    MatSnackBar,
-} from '@angular/material/snack-bar';
+    ConfirmationDialogComponent,
+    ConfirmationDialogData,
+    ConfirmationDialogResult,
+} from '../../shared/components/confirmation-dialog/confirmation-dialog.component';
 import {
     ISnackBarContentData,
     SnackBarContentComponent,
@@ -17,7 +20,7 @@ export class MessageService {
     private horizontalPosition: MatSnackBarHorizontalPosition = 'end';
     private verticalPosition: MatSnackBarVerticalPosition = 'top';
     private durationInSeconds: number = 4;
-    constructor(private snackBar: MatSnackBar) {}
+    constructor(private snackBar: MatSnackBar, private dialog: MatDialog) {}
 
     showMessage = (message: string, messageType: SnackBarMessageType) => {
         const data: ISnackBarContentData = {
@@ -32,5 +35,17 @@ export class MessageService {
             duration: this.durationInSeconds * 1000,
             panelClass: [],
         });
+    };
+
+    showConfirmationDialog = (question?: string, title?: string): Observable<ConfirmationDialogResult> => {
+        const data: ConfirmationDialogData = {
+            cancelText: 'Nie',
+            confirmText: 'Tak',
+            question: question,
+            title: title,
+        };
+        return this.dialog
+            .open(ConfirmationDialogComponent, { data: data })
+            .afterClosed() as Observable<ConfirmationDialogResult>;
     };
 }

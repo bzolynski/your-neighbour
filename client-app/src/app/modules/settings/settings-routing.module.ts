@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from '../core/guards/auth.guard';
+import { CanDeactivateGuard } from '../core/guards/can-deactivate.guard';
 import {
     CategoryDefinitionDetailsComponent,
     CategoryDefinitionFormComponent,
@@ -42,6 +43,7 @@ const routes: Routes = [
                     {
                         path: 'connections',
                         component: CategoryConnectionsEditComponent,
+                        canDeactivate: [CanDeactivateGuard],
                     },
                     {
                         path: 'new',
