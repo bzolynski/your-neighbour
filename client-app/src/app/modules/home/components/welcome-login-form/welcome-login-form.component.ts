@@ -1,6 +1,6 @@
 import { Component, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { AuthenticationService } from 'src/app/modules/core/authentication/authentication.service';
 
@@ -32,7 +32,8 @@ export class WelcomeLoginFormComponent implements OnDestroy {
 
     constructor(
         private authenticationService: AuthenticationService,
-        private router: Router
+        private router: Router,
+        private activatedRoute: ActivatedRoute
     ) {}
     ngOnDestroy(): void {
         this.destroy$.next(true);
@@ -42,12 +43,9 @@ export class WelcomeLoginFormComponent implements OnDestroy {
     onSubmit = () => {
         if (this.form.valid) {
             this.authenticationService
-                .login(
-                    this.form.get('login')?.value,
-                    this.form.get('password')?.value
-                )
+                .login(this.form.get('login')?.value, this.form.get('password')?.value)
                 .subscribe((response) => {
-                    this.router.navigate(['../']);
+                    this.router.navigateByUrl(this.activatedRoute.snapshot.queryParams['returnUrl'] ?? '/');
                 });
         }
     };

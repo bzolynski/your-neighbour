@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { AuthenticationService } from '../authentication/authentication.service';
 import { IUser } from '../models/user.model';
 
@@ -8,19 +10,19 @@ import { IUser } from '../models/user.model';
     templateUrl: './header.component.html',
     styleUrls: ['./header.component.scss'],
 })
-export class HeaderComponent {
-    constructor(
-        private authenticationService: AuthenticationService,
-        private router: Router
-    ) {}
-    get user(): IUser | null {
-        const user = localStorage.getItem('user');
-        if (user) return JSON.parse(user);
-        return null;
+export class HeaderComponent implements OnDestroy {
+    user: IUser | null = null;
+    unsubscriber$: Subject<boolean> = new Subject<boolean>();
+    constructor(private authenticationService: AuthenticationService, private router: Router) {
+        authenticationService.currentUser.pipe(takeUntil(this.unsubscriber$)).subscribe((user) => (this.user = user));
     }
     logout = () => {
         this.authenticationService.logout().subscribe((response) => {
             this.router.navigateByUrl('welcome');
         });
     };
+    ngOnDestroy(): void {
+        this.unsubscriber$.next(true);
+        this.unsubscriber$.unsubscribe();
+    }
 }

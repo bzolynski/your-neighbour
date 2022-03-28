@@ -20,6 +20,13 @@ export class AuthenticationApiService {
 
         return throwError(httpError);
     };
+
+    getCurrentUser = (): ObservableResponse<IUser> => {
+        return this.client
+            .get<Observable<IUser>>(`${environment.authentiaction_api_url}/authentication/get-current-user`)
+            .pipe(catchError(this.handleError));
+    };
+
     login = (login: string, password: string): ObservableResponse<IUser> => {
         return this.client
             .post<ObservableResponse<IUser>>(`${environment.authentiaction_api_url}/authentication/login`, {
