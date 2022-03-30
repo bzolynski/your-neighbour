@@ -1,22 +1,27 @@
 @use '@angular/material' as mat;
 @include mat.core();
 
+// paletter
 $primary-palette: mat.define-palette(mat.$indigo-palette, 500);
 $accent-palette: mat.define-palette(mat.$pink-palette, A200, A100, A400);
 $warn-palette: mat.define-palette(mat.$red-palette);
 
-$theme: mat.define-light-theme((
-    color: (
-        primary: $primary-palette,
-        accent: $accent-palette,
-        warn: $warn-palette
-        )
-        ));
+$theme: mat.define-light-theme(
+    (
+        color: (
+            primary: $primary-palette,
+            accent: $accent-palette,
+            warn: $warn-palette,
+        ),
+    )
+);
 
+// colors
 $primary-default: mat.get-color-from-palette($primary-palette, default);
 $accent-default: mat.get-color-from-palette($accent-palette, default);
 $accent-600: mat.get-color-from-palette($accent-palette, 600);
 $warn-default: mat.get-color-from-palette($warn-palette, default);
+$main-backdround-color: #e8eefe;
 // Emit theme-dependent styles for common features used across multiple components.
 @include mat.all-component-themes($theme);
 // Emit styles for MatButton based on `$my-theme`. Because the configuration

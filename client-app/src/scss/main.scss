@@ -1,8 +1,15 @@
 @forward 'base';
+@forward 'theme';
+@use 'theme' as theme;
 
 html {
     overflow-y: scroll;
 }
+
+body {
+    background-color: theme.$main-backdround-color;
+}
+
 /* Override angular-material tab default height */
 mat-card,
 mat-tab-group,
@@ -36,7 +43,6 @@ $row__gap: 12;
             column-gap: $i * 1rem;
         }
     }
-
 }
 
 $grid__cols: 12;
