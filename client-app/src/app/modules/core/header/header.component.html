@@ -3,32 +3,39 @@
         <div class="nav-container">
             <span [routerLink]="'/'">Twój sąsiad</span>
             <a class="spacer"></a>
-            <button mat-button
-                    [routerLink]="'/'">Strona główna
-            </button>
+            <button mat-button [routerLink]="'/'">Strona główna</button>
             <button mat-button>*****</button>
             <button mat-button>***</button>
             <button mat-button>*</button>
-            <button mat-button>************</button>
+            <button mat-button [routerLink]="'advertisements'">
+                Ogłoszenia
+            </button>
             <div class="auth-button-section">
-                <button *ngIf="user"
-                        class="logout-button"
-                        (click)="logout()"
-                        mat-raised-button>Logout</button>
-                <div *ngIf="!user"
-                     class="logged-in-section">
-                    <button class="register-button"
-                            [routerLink]="'welcome'"
-                            [fragment]="'register'"
-                            mat-raised-button>Register</button>
-                    <button class="login-button"
-                            [routerLink]="'welcome'"
-                            [fragment]="'login'"
-                            mat-raised-button>Login</button>
+                <button
+                    *ngIf="user"
+                    class="logout-button"
+                    (click)="logout()"
+                    mat-raised-button>
+                    Logout
+                </button>
+                <div *ngIf="!user" class="logged-in-section">
+                    <button
+                        class="register-button"
+                        [routerLink]="'welcome'"
+                        [fragment]="'register'"
+                        mat-raised-button>
+                        Register
+                    </button>
+                    <button
+                        class="login-button"
+                        [routerLink]="'welcome'"
+                        [fragment]="'login'"
+                        mat-raised-button>
+                        Login
+                    </button>
                 </div>
             </div>
-            <button mat-icon-button
-                    [routerLink]="'settings'">
+            <button mat-icon-button [routerLink]="'settings'">
                 <mat-icon>settings</mat-icon>
             </button>
         </div>
