@@ -1,12 +1,11 @@
-@use '/src/scss/theme/theme.scss' as theme;
+@use '/src/scss/theme' as theme;
 
-.wrapper{
+.wrapper {
     background-color: theme.$primary-default;
-    app-container{
+    app-container {
         width: 100%;
         .footer-content {
             align-self: flex-end;
         }
-
     }
 }

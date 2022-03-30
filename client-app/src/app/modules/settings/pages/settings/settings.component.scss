@@ -1,6 +1,9 @@
-.drawer-container{
+@use '/src/scss/theme' as theme;
+
+.drawer-container {
     height: 100vh;
-    mat-drawer{
+    background-color: theme.$main-backdround-color;
+    .drawer {
         width: 15rem;
         height: fit-content;
     }

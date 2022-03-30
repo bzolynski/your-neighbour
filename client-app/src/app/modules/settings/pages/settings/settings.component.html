@@ -1,8 +1,5 @@
-<mat-drawer-container class="drawer-container"
-                      [hasBackdrop]="hasBackdrop">
-    <mat-drawer #drawer
-                [mode]="drawerMode"
-                [opened]="opened">
+<mat-drawer-container class="drawer-container" [hasBackdrop]="hasBackdrop">
+    <mat-drawer class="drawer" #drawer [mode]="drawerMode" [opened]="opened">
         <app-settings-side-bar></app-settings-side-bar>
     </mat-drawer>
     <mat-drawer-content>
