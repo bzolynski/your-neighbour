@@ -1,13 +1,12 @@
 @use '/node_modules/@angular/material/toolbar/_toolbar-variables.import.scss' as *;
-@use '/src/scss/theme/theme.scss' as theme;
+@use '/src/scss/theme' as theme;
 
 $height: 70vh;
-.wrapper{
-
+.wrapper {
     height: $height;
 
     .landing-container::before {
-        content: "";
+        content: '';
         position: absolute;
         top: 0;
         left: 0;
@@ -23,7 +22,7 @@ $height: 70vh;
         pointer-events: none;
         filter: blur(2px);
     }
-    .landing-container{
+    .landing-container {
         height: 100%;
         width: 100%;
         display: flex;
@@ -31,7 +30,7 @@ $height: 70vh;
         justify-content: stretch;
         align-items: flex-end;
 
-        .bottom-bar{
+        .bottom-bar {
             width: 100%;
             background: theme.$accent-default;
             display: flex;
@@ -39,21 +38,18 @@ $height: 70vh;
             justify-content: center;
 
             padding: 0.2rem;
-            .input-section{
+            .input-section {
                 width: 100%;
                 display: inline-block;
                 background: white;
                 border: 3px solid theme.$accent-600;
                 border-radius: 4px;
-                .input{
-
+                .input {
                     padding: 0.5rem;
                 }
-                    mat-slider{
-                        width: 500px;
-
-                    }
-
+                mat-slider {
+                    width: 500px;
+                }
             }
         }
     }
