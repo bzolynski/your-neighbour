@@ -1,0 +1,18 @@
+<mat-form-field appearance="outline">
+    <mat-label>{{ label }}</mat-label>
+    <textarea
+        matInput
+        #input
+        [id]="label"
+        [rows]="rows"
+        [cols]="cols"
+        [wrap]="wrap"
+        [required]="required"
+        [placeholder]="placeholder"
+        (input)="onChange(input!.value)"
+        (blur)="onTouched()"
+        [formControl]="control"></textarea>
+    <mat-error *ngIf="errorMessage">
+        {{ errorMessage }}
+    </mat-error>
+</mat-form-field>
