@@ -1,0 +1,63 @@
+<form class="container" [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="section add-photo-container" appElevatedSection>
+        <div class="add-photo-outline">
+            <div class="add-photo-info">
+                <button mat-stroked-button color="accent">
+                    Przeciągnij i upuść tutaj
+                </button>
+                <span>lub</span>
+                <button mat-flat-button color="accent">
+                    Wybierz zdjęcia z dysku
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="section form-group" appElevatedSection>
+        TODO: możliwośc wyboru: nowy przedmiot/wybierz z listy
+        <app-text-input
+            [label]="'Nazwa'"
+            [type]="'text'"
+            [formControlName]="'name'"
+            [errorMessage]="nameErrorMessage">
+        </app-text-input>
+        <!-- Move select to custom component -->
+        <mat-form-field appearance="outline">
+            <mat-label>Kategoria</mat-label>
+            <mat-select formControlName="categoryId" name="categoryId">
+                <mat-option
+                    *ngFor="let category of categories"
+                    [value]="category.id">
+                    {{ category.name }}
+                </mat-option>
+            </mat-select>
+            <mat-error>
+                {{ categoryIdErrorMessage }}
+            </mat-error>
+        </mat-form-field>
+        <!--  -->
+        <app-text-area-input
+            [rows]="5"
+            [label]="'Opis'"
+            [formControlName]="'description'">
+        </app-text-area-input>
+        <button
+            mat-stroked-button
+            [type]="'submit'"
+            color="primary"
+            class="submit-button">
+            Zaloguj
+        </button>
+    </div>
+    <div class="section form-group" appElevatedSection>
+        miasto
+        ulica?
+        mapa?
+        użyj obecnej lokalizacji?
+    </div>
+    <div class="section form-group" appElevatedSection>
+        darmo?
+        odpłatnie?
+    </div>
+
+</form>
