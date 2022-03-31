@@ -1,0 +1,5 @@
+@use '../theme/colors' as colors;
+.elevated-section {
+    background-color: colors.$secondary-background-color;
+    border-radius: 2px;
+}
