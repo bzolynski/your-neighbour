@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AdvertisementComponent } from './advertisement.component';
+import { AdvertisementRootComponent } from './advertisement-root.component';
 
-describe('AdvertisementComponent', () => {
-  let component: AdvertisementComponent;
-  let fixture: ComponentFixture<AdvertisementComponent>;
+describe('AdvertisementRootComponent', () => {
+  let component: AdvertisementRootComponent;
+  let fixture: ComponentFixture<AdvertisementRootComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AdvertisementComponent ]
+      declarations: [ AdvertisementRootComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AdvertisementComponent);
+    fixture = TestBed.createComponent(AdvertisementRootComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

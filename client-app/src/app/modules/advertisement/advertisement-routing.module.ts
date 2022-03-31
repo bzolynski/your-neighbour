@@ -1,12 +1,22 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AdvertisementComponent } from './pages';
+import { AdvertisementRootComponent, AdvertisementCreationComponent, AdvertisementListComponent } from './pages';
 
 const routes: Routes = [
     {
         path: '',
-        component: AdvertisementComponent,
-        children: [],
+        component: AdvertisementRootComponent,
+        children: [
+            {
+                path: '',
+                pathMatch: 'full',
+                component: AdvertisementListComponent,
+            },
+            {
+                path: 'new',
+                component: AdvertisementCreationComponent,
+            },
+        ],
     },
 ];
 
