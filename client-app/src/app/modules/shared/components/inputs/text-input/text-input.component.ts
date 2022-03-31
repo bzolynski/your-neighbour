@@ -1,11 +1,4 @@
-import {
-    Component,
-    ElementRef,
-    Input,
-    OnInit,
-    Self,
-    ViewChild,
-} from '@angular/core';
+import { Component, ElementRef, Input, OnInit, Self, ViewChild } from '@angular/core';
 import { ControlValueAccessor, FormControl, NgControl } from '@angular/forms';
 
 @Component({
@@ -25,7 +18,7 @@ export class TextInputComponent implements OnInit, ControlValueAccessor {
         return this.controlDir.control as FormControl;
     }
     hidePassword: boolean = true;
-
+    required: boolean = false;
     constructor(@Self() public controlDir: NgControl) {
         this.controlDir.valueAccessor = this;
     }
@@ -38,6 +31,8 @@ export class TextInputComponent implements OnInit, ControlValueAccessor {
         control?.setValidators(validators);
         control?.setAsyncValidators(asyncValidators);
         control?.updateValueAndValidity;
+
+        this.required = control?.errors?.required ?? false;
     }
 
     onChange = (value: string) => {};
