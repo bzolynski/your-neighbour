@@ -9,6 +9,7 @@ import { HomeModule } from './modules/home/home.module';
 import { SettingsModule } from './modules/settings/settings.module';
 import { SharedModule } from './modules/shared/shared.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AdvertisementModule } from './modules/advertisement/advertisement.module';
 
 @NgModule({
     declarations: [AppComponent],
@@ -20,6 +21,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
         RouterModule,
         SharedModule,
         SettingsModule,
+        AdvertisementModule,
         BrowserAnimationsModule,
     ],
     bootstrap: [AppComponent],
