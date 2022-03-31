@@ -6,8 +6,9 @@ html {
     overflow-y: scroll;
 }
 
+/* Global background */
 body {
-    background-color: theme.$main-backdround-color;
+    background-color: theme.$main-background-color;
 }
 
 /* Override angular-material tab default height */
@@ -16,13 +17,18 @@ mat-tab-group,
 .mat-tab-body-wrapper {
     height: 100%;
 }
+
+/* Remove default background color */
+mat-drawer-container {
+    background-color: inherit !important;
+}
+
 /* Disables all cursor overrides when body has this class. */
 body.inheritCursors * {
     cursor: inherit !important;
 }
 
 /* Simple style for row and columns*/
-
 $row__gap: 12;
 .row {
     display: flex;
