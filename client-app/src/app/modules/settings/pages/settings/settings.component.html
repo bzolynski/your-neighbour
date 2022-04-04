@@ -1,8 +1,10 @@
-<mat-drawer-container class="drawer-container" [hasBackdrop]="hasBackdrop">
-    <mat-drawer class="drawer" #drawer [mode]="drawerMode" [opened]="opened">
-        <app-settings-side-bar></app-settings-side-bar>
-    </mat-drawer>
-    <mat-drawer-content>
+<div class="container">
+    <div class="side-bar">
+        <app-settings-side-bar
+            appElevatedSection
+            class="sticky"></app-settings-side-bar>
+    </div>
+    <div class="content" appElevatedSection>
         <router-outlet></router-outlet>
-    </mat-drawer-content>
-</mat-drawer-container>
+    </div>
+</div>
