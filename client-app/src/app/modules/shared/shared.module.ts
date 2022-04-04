@@ -8,7 +8,7 @@ import { ContainerComponent } from './components/layout/container/container.comp
 import { ConfirmationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.component';
 import { BackdropLoadingComponent } from './components/backdrop-loading/backdrop-loading.component';
 import { ElevatedSectionDirective } from './directives';
-import { TextAreaInputComponent, TextInputComponent } from './components';
+import { MapComponent, TextAreaInputComponent, TextInputComponent } from './components';
 
 @NgModule({
     declarations: [
@@ -19,6 +19,7 @@ import { TextAreaInputComponent, TextInputComponent } from './components';
         ConfirmationDialogComponent,
         BackdropLoadingComponent,
         ElevatedSectionDirective,
+        MapComponent,
     ],
     imports: [CommonModule, RouterModule, AngularMaterialModule, ReactiveFormsModule],
     exports: [
@@ -29,6 +30,7 @@ import { TextAreaInputComponent, TextInputComponent } from './components';
         ConfirmationDialogComponent,
         BackdropLoadingComponent,
         ElevatedSectionDirective,
+        MapComponent,
     ],
 })
 export class SharedModule {}
