@@ -11,11 +11,13 @@ import { CategoryService } from 'src/app/modules/core/services';
     styleUrls: ['./advertisement-form.component.scss'],
 })
 export class AdvertisementFormComponent implements OnInit, OnDestroy {
+    itemSelectPanelOpen: boolean = false;
     categories: Array<ICategory> = [] as Array<ICategory>;
     form: FormGroup = new FormGroup({
         name: new FormControl('', [Validators.required, Validators.minLength(3)]),
         categoryId: new FormControl(null, [Validators.required]),
         description: new FormControl('', [Validators.required]),
+        saveItem: new FormControl(true),
     });
 
     get nameErrorMessage() {
@@ -26,6 +28,11 @@ export class AdvertisementFormComponent implements OnInit, OnDestroy {
     }
     get categoryIdErrorMessage() {
         const nameControl = this.form.controls['categoryId'];
+        if (nameControl.errors?.required) return 'Pole jest wymagane';
+        return '';
+    }
+    get descriptionErrorMessage() {
+        const nameControl = this.form.controls['description'];
         if (nameControl.errors?.required) return 'Pole jest wymagane';
         return '';
     }

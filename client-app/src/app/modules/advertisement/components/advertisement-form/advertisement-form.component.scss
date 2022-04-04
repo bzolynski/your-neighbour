@@ -3,6 +3,11 @@
     gap: 1rem;
     grid-template: 1fr / 1fr;
 
+    .panel-description {
+        justify-content: space-between;
+        align-items: center;
+    }
+
     .section {
         padding: 1rem;
         box-sizing: border-box;
@@ -30,5 +35,9 @@
 
     .form-group {
         width: 100%;
+    }
+
+    .map-section {
+        height: 600px;
     }
 }
