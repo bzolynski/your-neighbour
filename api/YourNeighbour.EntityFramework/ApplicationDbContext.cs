@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
-using System.Reflection;
+﻿using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using YourNeighbour.Application.Abstractions;
 using YourNeighbour.Domain.Entities;
 using YourNeighbour.Domain.Entities.Definitions;
@@ -25,6 +25,7 @@ namespace YourNeighbour.EntityFramework
 
         public DbSet<Advertisement> Advertisements { get; set; }
         public DbSet<Category> Categories { get; set; }
+        public DbSet<Localization> Localizations { get; set; }
 
         public DbSet<AdvertisementDefinition> AdvertisementDefinitions { get; set; }
         public DbSet<CategoryDefinition> CategoryDefinitions { get; set; }

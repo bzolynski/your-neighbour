@@ -11,6 +11,7 @@ namespace YourNeighbour.Domain.Entities
         public DateTime DateCreated { get; set; }
         public Category Category { get; set; }
         public AdvertisementDefinition Definition { get; set; }
+        public Localization Localization { get; set; }
 
         public int UserId { get; set; }
         public int CategoryId { get; set; }
