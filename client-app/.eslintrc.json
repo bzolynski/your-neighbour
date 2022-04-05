@@ -64,6 +64,8 @@
                         "ignoreRestSiblings": false
                     }
                 ],
+                "no-empty-function": "off",
+                "@typescript-eslint/no-empty-function": ["error", { "allow": ["private-constructors"] }],
                 "no-multiple-empty-lines": ["error", { "max": 1, "maxBOF": 1 }],
                 "max-len":"off",
                 "prefer-arrow-callback": "error",
