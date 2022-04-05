@@ -14,7 +14,7 @@ export class HeaderComponent implements OnDestroy {
     user: IUser | null = null;
     unsubscriber$: Subject<boolean> = new Subject<boolean>();
     constructor(private authenticationService: AuthenticationService, private router: Router) {
-        authenticationService.currentUser.pipe(takeUntil(this.unsubscriber$)).subscribe((user) => (this.user = user));
+        authenticationService.currentUserChanged.pipe(takeUntil(this.unsubscriber$)).subscribe((user) => (this.user = user));
     }
     logout = () => {
         this.authenticationService.logout().subscribe((response) => {

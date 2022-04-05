@@ -11,28 +11,36 @@ import { AuthenticationApiService } from './authentication-api.service';
 })
 export class AuthenticationService {
     constructor(private authenticationApiService: AuthenticationApiService) {}
-    currentUser: ReplaySubject<IUser | null> = new ReplaySubject<IUser | null>(1);
-
+    get currentUser(): IUser | undefined {
+        const jsonUser = localStorage.getItem('user');
+        if (jsonUser) return JSON.parse(jsonUser);
+        return undefined;
+    }
+    currentUserChanged: ReplaySubject<IUser | null> = new ReplaySubject<IUser | null>(1);
+    /*
     getCurrentUser = (): ObservableResponse<IUser> => {
         return this.authenticationApiService.getCurrentUser().pipe(
             map((value) => {
-                this.currentUser.next(value.responseObject);
+                this.currentUserChanged.next(value.responseObject);
+                this.saveUserToLocalstorage(value.responseObject);
                 return value;
             })
         );
     };
-
+    */
     login = (login: string, password: string): ObservableResponse<IUser> => {
         return this.authenticationApiService.login(login, password).pipe(
             map((response) => {
-                this.currentUser.next(response.responseObject);
+                this.currentUserChanged.next(response.responseObject);
+                this.saveUserToLocalstorage(response.responseObject);
                 return response;
             })
         );
     };
 
     logout = (): ObservableResponse<boolean> => {
-        this.currentUser.next(null);
+        this.currentUserChanged.next(null);
+        this.removeUserFromLocalstorage();
         return this.authenticationApiService.logout();
     };
 
@@ -42,5 +50,12 @@ export class AuthenticationService {
 
     register = (register: IRegister): ObservableResponse<boolean> => {
         return this.authenticationApiService.register(register);
+    };
+
+    saveUserToLocalstorage = (user: IUser) => {
+        localStorage.setItem('user', JSON.stringify(user));
+    };
+    removeUserFromLocalstorage = () => {
+        localStorage.removeItem('user');
     };
 }

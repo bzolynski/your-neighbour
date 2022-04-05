@@ -41,7 +41,7 @@ namespace YourNeighbour.Api.Controllers
             AuthenticationDto authenticationResult = await Mediator.Send(new LoginCommand(login));
             SetAccessTokenCookie(authenticationResult.AccessToken);
             SetRefreshTokenCookie(authenticationResult.RefreshToken);
-            return Models.Response.Success(new { UserInfo = authenticationResult.UserInfo });
+            return Models.Response.Success(authenticationResult.User);
         }
         [HttpPost("logout")]
         public async Task<ActionResult<Response>> Logout()

@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Options;
-using System;
+﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Options;
 using YourNeighbour.Application.Abstractions;
 using YourNeighbour.Application.Features.Authentication.Dtos;
 using YourNeighbour.Domain.Entities;
@@ -17,17 +17,20 @@ namespace YourNeighbour.Application.Features.Authentication.Commands.Login
         private readonly UserManager<User> userManager;
         private readonly ITokenManager tokenService;
         private readonly IApplicationDbContext applicationDbContext;
+        private readonly IMapper mapper;
         private readonly AuthorizationOptions authorizationOptions;
 
         public LoginHandler(UserManager<User> userManager,
             ITokenManager tokenService,
             IApplicationDbContext applicationDbContext,
-            IOptions<AuthorizationOptions> authorizationOptions
+            IOptions<AuthorizationOptions> authorizationOptions,
+            IMapper mapper
             )
         {
             this.userManager = userManager;
             this.tokenService = tokenService;
             this.applicationDbContext = applicationDbContext;
+            this.mapper = mapper;
             this.authorizationOptions = authorizationOptions.Value;
         }
         public async Task<AuthenticationDto> Handle(LoginCommand request, CancellationToken cancellationToken)
@@ -53,7 +56,7 @@ namespace YourNeighbour.Application.Features.Authentication.Commands.Login
             {
                 AccessToken = tokenService.CreateAccessToken(user),
                 RefreshToken = token,
-                UserInfo = user.Email
+                User = mapper.Map<UserDto>(user),
             };
         }
     }
