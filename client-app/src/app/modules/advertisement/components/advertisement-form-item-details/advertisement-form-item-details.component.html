@@ -1,0 +1,32 @@
+<div [formGroup]="formGroup">
+    <app-text-input
+        [label]="'Nazwa'"
+        [type]="'text'"
+        [formControlName]="'name'"
+        [errorMessage]="nameErrorMessage">
+    </app-text-input>
+    <!-- Move select to custom component -->
+    <mat-form-field appearance="outline">
+        <mat-label>Kategoria</mat-label>
+        <mat-select formControlName="categoryId" name="categoryId">
+            <mat-option
+                *ngFor="let category of categories"
+                [value]="category.id">
+                {{ category.name }}
+            </mat-option>
+        </mat-select>
+        <mat-error>
+            {{ categoryIdErrorMessage }}
+        </mat-error>
+    </mat-form-field>
+    <!--  -->
+    <app-text-area-input
+        [rows]="5"
+        [label]="'Opis'"
+        [formControlName]="'description'"
+        [errorMessage]="descriptionErrorMessage">
+    </app-text-area-input>
+    <mat-checkbox formControlName="save" name="save">
+        Zapisz przedmiot</mat-checkbox
+    >
+</div>

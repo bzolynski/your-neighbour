@@ -13,52 +13,16 @@
         </mat-expansion-panel>
     </mat-accordion>
 
-    <div class="section add-photo-container" appElevatedSection>
-        <div class="add-photo-outline">
-            <div class="add-photo-info">
-                <button mat-stroked-button color="accent">
-                    Przeciągnij i upuść tutaj
-                </button>
-                <span>lub</span>
-                <button mat-flat-button color="accent">
-                    Wybierz zdjęcia z dysku
-                </button>
-            </div>
-        </div>
-    </div>
-    <div class="section form-group" appElevatedSection>
-        <app-text-input
-            [label]="'Nazwa'"
-            [type]="'text'"
-            [formControlName]="'name'"
-            [errorMessage]="nameErrorMessage">
-        </app-text-input>
-        <!-- Move select to custom component -->
-        <mat-form-field appearance="outline">
-            <mat-label>Kategoria</mat-label>
-            <mat-select formControlName="categoryId" name="categoryId">
-                <mat-option
-                    *ngFor="let category of categories"
-                    [value]="category.id">
-                    {{ category.name }}
-                </mat-option>
-            </mat-select>
-            <mat-error>
-                {{ categoryIdErrorMessage }}
-            </mat-error>
-        </mat-form-field>
-        <!--  -->
-        <app-text-area-input
-            [rows]="5"
-            [label]="'Opis'"
-            [formControlName]="'description'"
-            [errorMessage]="descriptionErrorMessage">
-        </app-text-area-input>
-        <mat-checkbox formControlName="saveItem" name="saveItem">
-            Zapisz przedmiot</mat-checkbox
-        >
-    </div>
-    <mat-accordion>
+    <app-advertisement-form-item
+        [formGroup]="itemFormGroup"></app-advertisement-form-item>
+
+    <app-advertisement-form-existing-location-select
+        *ngIf="localizations$ | async as localizations"
+        [localizations]="localizations"
+        (changeLocalization)="
+            changeLocalization($event)
+        "></app-advertisement-form-existing-location-select>
+    <!-- <mat-accordion>
         <mat-expansion-panel
             (opened)="itemSelectPanelOpen = true"
             (closed)="itemSelectPanelOpen = false">
@@ -71,16 +35,17 @@
             <mat-list>
                 <mat-list-item
                     class="list-item"
-                    *ngFor="let localization of localizations"
+                    *ngFor="let localization of localizations$ | async"
                     (click)="changeLocalization(localization)">
                     <mat-icon mat-list-icon>location_on</mat-icon>
                     <div mat-line>{{ localization.address }}</div>
                 </mat-list-item>
             </mat-list>
         </mat-expansion-panel>
-    </mat-accordion>
-    <div class="section form-group map-section" appElevatedSection>
+    </mat-accordion> -->
+
+    <div class="section map-section" appElevatedSection>
         <app-map></app-map>
     </div>
-    <div class="section form-group" appElevatedSection>darmo? odpłatnie?</div>
+    <div class="section" appElevatedSection>darmo? odpłatnie?</div>
 </form>

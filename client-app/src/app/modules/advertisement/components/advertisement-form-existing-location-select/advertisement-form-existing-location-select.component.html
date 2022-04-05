@@ -1,0 +1,21 @@
+<mat-accordion>
+    <mat-expansion-panel
+        (opened)="itemSelectPanelOpen = true"
+        (closed)="itemSelectPanelOpen = false">
+        <mat-expansion-panel-header>
+            <mat-panel-title> Wybierz adres </mat-panel-title>
+            <mat-panel-description class="panel-description">
+                Zapisane wcześniej adresy
+            </mat-panel-description>
+        </mat-expansion-panel-header>
+        <mat-list>
+            <mat-list-item
+                class="list-item"
+                *ngFor="let localization of localizations"
+                (click)="changeLocalization.next(localization)">
+                <mat-icon mat-list-icon>location_on</mat-icon>
+                <div mat-line>{{ localization.address }}</div>
+            </mat-list-item>
+        </mat-list>
+    </mat-expansion-panel>
+</mat-accordion>

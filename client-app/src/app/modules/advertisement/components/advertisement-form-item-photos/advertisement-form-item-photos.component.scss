@@ -1,0 +1,17 @@
+.add-photo-container {
+    height: 15rem;
+    width: 100%;
+
+    .add-photo-outline {
+        height: 100%;
+        width: 100%;
+        border: 1px dashed black;
+        .add-photo-info {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            align-items: center;
+        }
+    }
+}
