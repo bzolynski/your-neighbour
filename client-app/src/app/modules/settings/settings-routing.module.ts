@@ -9,17 +9,17 @@ import {
     CategoryFormComponent,
 } from './components';
 import { CategoryConnectionsEditComponent } from './components/category/category-connections-edit/category-connections-edit.component';
-import { CategoryDefinitionSettingsComponent, CategorySettingsComponent, SettingsComponent } from './pages';
+import { SettingsCategoryDefinitionComponent, SettingsCategoryComponent, SettingsRootComponent } from './pages';
 
 const routes: Routes = [
     {
         path: '',
         canActivate: [AuthGuard],
-        component: SettingsComponent,
+        component: SettingsRootComponent,
         children: [
             {
                 path: 'category-definition',
-                component: CategoryDefinitionSettingsComponent,
+                component: SettingsCategoryDefinitionComponent,
                 children: [
                     {
                         path: 'new',
@@ -38,7 +38,7 @@ const routes: Routes = [
             },
             {
                 path: 'category',
-                component: CategorySettingsComponent,
+                component: SettingsCategoryComponent,
                 children: [
                     {
                         path: 'connections',

@@ -1,3 +1,3 @@
-export * from './category-definition-settings/category-definition-settings.component';
-export * from './category-settings/category-settings.component';
-export * from './settings/settings.component';
+export * from './settings-category-definition/settings-category-definition.component';
+export * from './settings-category/settings-category.component';
+export * from './settings-root/settings-root.component';

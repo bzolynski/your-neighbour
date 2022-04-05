@@ -13,7 +13,7 @@ import {
     SettingsLayoutComponent,
     SettingsSideBarComponent,
 } from './components';
-import { CategoryDefinitionSettingsComponent, CategorySettingsComponent, SettingsComponent } from './pages';
+import { SettingsCategoryDefinitionComponent, SettingsCategoryComponent, SettingsRootComponent } from './pages';
 import { CategoryDetailsComponent } from './components/category/category-details/category-details.component';
 import { CategoryFormComponent } from './components/category/category-form/category-form.component';
 import { SharedModule } from '../shared/shared.module';
@@ -25,14 +25,14 @@ import { CoreModule } from '../core/core.module';
 
 @NgModule({
     declarations: [
-        SettingsComponent,
+        SettingsRootComponent,
         SettingsSideBarComponent,
-        CategoryDefinitionSettingsComponent,
+        SettingsCategoryDefinitionComponent,
         CategoryDefinitionFormComponent,
         CategoryDefinitionListComponent,
         CategoryDefinitionListItemComponent,
         CategoryDefinitionDetailsComponent,
-        CategorySettingsComponent,
+        SettingsCategoryComponent,
         SettingsLayoutComponent,
         CategoryListComponent,
         CategoryListItemComponent,

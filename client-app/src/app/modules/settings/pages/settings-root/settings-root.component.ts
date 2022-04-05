@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { MatDrawerMode } from '@angular/material/sidenav';
 
 @Component({
-    selector: 'app-settings',
-    templateUrl: './settings.component.html',
-    styleUrls: ['./settings.component.scss'],
+    selector: 'app-settings-root',
+    templateUrl: './settings-root.component.html',
+    styleUrls: ['./settings-root.component.scss'],
 })
-export class SettingsComponent implements OnInit {
+export class SettingsRootComponent implements OnInit {
     drawerMode: MatDrawerMode = 'side';
     hasBackdrop: boolean = false;
     opened: boolean = true;
