@@ -2,8 +2,11 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { AuthenticationService } from 'src/app/modules/core/authentication/authentication.service';
 import { ICategory } from 'src/app/modules/core/models';
+import { ILocalization } from 'src/app/modules/core/models/localization.model';
 import { CategoryService } from 'src/app/modules/core/services';
+import { LocalizationService } from 'src/app/modules/core/services/localization.service';
 
 @Component({
     selector: 'app-advertisement-form',
@@ -13,6 +16,7 @@ import { CategoryService } from 'src/app/modules/core/services';
 export class AdvertisementFormComponent implements OnInit, OnDestroy {
     itemSelectPanelOpen: boolean = false;
     categories: Array<ICategory> = [] as Array<ICategory>;
+    localizations: Array<ILocalization> = [] as Array<ILocalization>;
     form: FormGroup = new FormGroup({
         name: new FormControl('', [Validators.required, Validators.minLength(3)]),
         categoryId: new FormControl(null, [Validators.required]),
@@ -39,7 +43,11 @@ export class AdvertisementFormComponent implements OnInit, OnDestroy {
     // Private members
     unsubscriber$: Subject<boolean> = new Subject();
 
-    constructor(private categoryService: CategoryService) {}
+    constructor(
+        private categoryService: CategoryService,
+        private localizationService: LocalizationService,
+        private authenticationService: AuthenticationService
+    ) {}
 
     ngOnInit(): void {
         this.categoryService
@@ -48,12 +56,29 @@ export class AdvertisementFormComponent implements OnInit, OnDestroy {
             .subscribe((response) => {
                 this.categories = response.responseObject;
             });
+        console.log(this.authenticationService.currentUser);
+        if (this.authenticationService.currentUser)
+            this.localizationService
+                .getManyByUser(this.authenticationService.currentUser.id)
+                .pipe(takeUntil(this.unsubscriber$))
+                .subscribe(
+                    (response) => {
+                        this.localizations = response.responseObject;
+                    },
+                    (error) => {
+                        console.log(error);
+                    }
+                );
     }
 
     ngOnDestroy(): void {
         this.unsubscriber$.next(true);
         this.unsubscriber$.unsubscribe();
     }
+
+    changeLocalization = (localization: ILocalization) => {
+        console.log(localization);
+    };
 
     onSubmit = () => {
         console.log(this.categories);

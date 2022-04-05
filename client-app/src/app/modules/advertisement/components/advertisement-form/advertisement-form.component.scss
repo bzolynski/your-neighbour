@@ -33,6 +33,14 @@
         }
     }
 
+    .list-item {
+        cursor: pointer;
+        &:hover {
+            transform: scale(1.01);
+        }
+        transition: 0.08s ease-in-out;
+    }
+
     .form-group {
         width: 100%;
     }
