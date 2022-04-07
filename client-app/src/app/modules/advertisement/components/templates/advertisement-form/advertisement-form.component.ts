@@ -5,7 +5,7 @@ import { map } from 'rxjs/operators';
 import { AuthenticationService } from 'src/app/modules/core/authentication/authentication.service';
 import { ILocalization } from 'src/app/modules/core/models/localization.model';
 import { LocalizationService } from 'src/app/modules/core/services/localization.service';
-import { ItemFormGroup } from '../advertisement-form-item/advertisement-form-item.component';
+import { ItemFormGroup } from '../../organisms/advertisement-form-item/advertisement-form-item.component';
 
 // TODO: split this into multiple components. move observable logic to advert-creation
 // https://stackoverflow.com/questions/43270564/dividing-a-form-into-multiple-components-with-validation
@@ -20,10 +20,13 @@ export class AdvertisementFormComponent implements OnInit {
     itemSelectPanelOpen: boolean = false;
     form: FormGroup = new FormGroup({
         item: new ItemFormGroup({
-            name: new FormControl('', [Validators.required, Validators.minLength(3)]),
-            categoryId: new FormControl(null, [Validators.required]),
-            description: new FormControl('', [Validators.required]),
-            save: new FormControl(true),
+            details: new FormGroup({
+                name: new FormControl('', [Validators.required, Validators.minLength(3)]),
+                categoryId: new FormControl(null, [Validators.required]),
+                description: new FormControl('', [Validators.required]),
+                save: new FormControl(true),
+            }),
+            images: new FormControl(null, [Validators.required]),
         }),
     });
 

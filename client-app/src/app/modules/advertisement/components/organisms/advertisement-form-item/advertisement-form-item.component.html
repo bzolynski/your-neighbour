@@ -1,12 +1,13 @@
 <div class="container">
     <app-advertisement-form-item-photos
         class="section photo-form"
+        [imagesControl]="imagesFormControl"
         appElevatedSection></app-advertisement-form-item-photos>
 
     <app-advertisement-form-item-details
         class="section"
         appElevatedSection
-        [formGroup]="formGroup"
+        [formGroup]="itemDetailsFormGroup"
         *ngIf="categories$ | async as categories"
         [categories]="categories"></app-advertisement-form-item-details>
 </div>

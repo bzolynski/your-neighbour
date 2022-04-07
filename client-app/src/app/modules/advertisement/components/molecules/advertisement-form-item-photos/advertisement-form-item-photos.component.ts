@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
 
 @Component({
     selector: 'app-advertisement-form-item-photos',
@@ -6,7 +7,9 @@ import { Component, OnInit } from '@angular/core';
     styleUrls: ['./advertisement-form-item-photos.component.scss'],
 })
 export class AdvertisementFormItemPhotosComponent implements OnInit {
-    constructor() {}
+    @Input() imagesControl!: FormControl;
 
-    ngOnInit(): void {}
+    ngOnInit(): void {
+        if (!this.imagesControl) throw new Error('Provide control for images!');
+    }
 }

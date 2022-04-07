@@ -1,6 +1,18 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { ICategory } from 'src/app/modules/core/models';
+
+export class ItemDetailsFormGroup extends FormGroup {
+    value!: {
+        name: string;
+        categoryId: number;
+        description: string;
+        save: boolean;
+    };
+    constructor(controls: { name: FormControl; categoryId: FormControl; description: FormControl; save: FormControl }) {
+        super(controls);
+    }
+}
 
 @Component({
     selector: 'app-advertisement-form-item-details',
@@ -8,7 +20,7 @@ import { ICategory } from 'src/app/modules/core/models';
     styleUrls: ['./advertisement-form-item-details.component.scss'],
 })
 export class AdvertisementFormItemDetailsComponent implements OnInit {
-    @Input() formGroup!: FormGroup;
+    @Input() formGroup!: ItemDetailsFormGroup;
     @Input() categories!: ICategory[];
 
     get nameErrorMessage() {
