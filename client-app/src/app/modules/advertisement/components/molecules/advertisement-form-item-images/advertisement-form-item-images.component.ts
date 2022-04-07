@@ -2,9 +2,9 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
 @Component({
-    selector: 'app-advertisement-form-item-photos',
-    templateUrl: './advertisement-form-item-photos.component.html',
-    styleUrls: ['./advertisement-form-item-photos.component.scss'],
+    selector: 'app-advertisement-form-item-images',
+    templateUrl: './advertisement-form-item-images.component.html',
+    styleUrls: ['./advertisement-form-item-images.component.scss'],
 })
 export class AdvertisementFormItemPhotosComponent implements OnInit {
     @Input() imagesControl!: FormControl;

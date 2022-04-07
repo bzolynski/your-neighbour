@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AdvertisementFormItemPhotosComponent } from './advertisement-form-item-photos.component';
+import { AdvertisementFormItemPhotosComponent } from './advertisement-form-item-images.component';
 
 describe('AdvertisementFormItemPhotosComponent', () => {
     let component: AdvertisementFormItemPhotosComponent;
