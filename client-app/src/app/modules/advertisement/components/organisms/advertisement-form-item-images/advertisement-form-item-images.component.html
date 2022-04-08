@@ -1,0 +1,27 @@
+<div class="add-photo-container">
+    <div class="add-photo-outline clickable" (click)="fileInput.click()">
+        <div class="add-photo-preview-container" #previewContainer>
+            <app-advertisement-form-item-images-image
+                *ngFor="let image of images"
+                [image]="image"></app-advertisement-form-item-images-image>
+        </div>
+        <div class="add-photo-info">
+            <button mat-stroked-button color="accent" disabled type="button">
+                Przeciągnij i upuść tutaj (not working)
+            </button>
+            <span>lub</span>
+            <input
+                [name]="'images[]'"
+                multiple
+                #fileInput
+                hidden="true"
+                type="file"
+                accept="image/*"
+                onclick="this.value=null"
+                (change)="handleFileChange(fileInput)" />
+            <button mat-flat-button color="accent" type="button">
+                Wybierz zdjęcia z dysku
+            </button>
+        </div>
+    </div>
+</div>

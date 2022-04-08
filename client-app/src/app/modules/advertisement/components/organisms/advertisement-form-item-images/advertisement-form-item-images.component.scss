@@ -6,6 +6,16 @@
         height: 100%;
         width: 100%;
         border: 1px dashed black;
+        position: relative;
+
+        .add-photo-preview-container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: grid;
+            grid-template-columns: repeat(5, calc(100% / 5));
+            box-sizing: border-box;
+        }
         .add-photo-info {
             height: 100%;
             display: flex;
@@ -14,4 +24,8 @@
             align-items: center;
         }
     }
+}
+
+.clickable {
+    cursor: pointer;
 }
