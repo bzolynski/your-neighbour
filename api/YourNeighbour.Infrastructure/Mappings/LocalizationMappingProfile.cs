@@ -9,6 +9,7 @@ namespace YourNeighbour.Infrastructure.Mappings
         public LocalizationMappingProfile()
         {
             CreateMap<LocalizationCreateDto, Localization>();
+            CreateMap<Localization, LocalizationDto>();
         }
     }
 }

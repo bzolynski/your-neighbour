@@ -18,7 +18,6 @@
 
   <ItemGroup>
     <Folder Include="Features\AdvertisementDefinitions\Queries\" />
-    <Folder Include="Features\Localizations\Queries\" />
   </ItemGroup>
 
 </Project>
