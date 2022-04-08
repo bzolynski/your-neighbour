@@ -30,6 +30,9 @@ namespace YourNeighbour.EntityFramework
         public DbSet<AdvertisementDefinition> AdvertisementDefinitions { get; set; }
         public DbSet<CategoryDefinition> CategoryDefinitions { get; set; }
 
+        public DbSet<Item> Items { get; set; }
+        public DbSet<ItemImage> ItemImages { get; set; }
+
         public DbSet<RefreshToken> RefreshTokens { get; set; }
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
