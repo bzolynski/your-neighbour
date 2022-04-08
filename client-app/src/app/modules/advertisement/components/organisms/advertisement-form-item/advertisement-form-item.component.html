@@ -1,8 +1,13 @@
-<div class="container">
-    <app-advertisement-form-item-photos
+<form
+    #form
+    class="container"
+    [formGroup]="itemForm"
+    (ngSubmit)="handleSubmit(form)"
+    enctype="multipart/form-data">
+    <app-advertisement-form-item-images
         class="section photo-form"
         [imagesControl]="imagesFormControl"
-        appElevatedSection></app-advertisement-form-item-photos>
+        appElevatedSection></app-advertisement-form-item-images>
 
     <app-advertisement-form-item-details
         class="section"
@@ -10,4 +15,6 @@
         [formGroup]="itemDetailsFormGroup"
         *ngIf="categories$ | async as categories"
         [categories]="categories"></app-advertisement-form-item-details>
-</div>
+
+    <button mat-raised-button type="none">TEST</button>
+</form>
