@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { AbstractControlOptions, AsyncValidatorFn, FormControl, ValidatorFn } from '@angular/forms';
 import { IImage } from 'src/app/modules/core/models/image.model';
 
@@ -18,9 +18,9 @@ export class ImagesFormControl extends FormControl {
     templateUrl: './advertisement-form-item-images.component.html',
     styleUrls: ['./advertisement-form-item-images.component.scss'],
 })
-export class AdvertisementFormItemPhotosComponent implements OnInit {
+export class AdvertisementFormItemImagesComponent implements OnInit {
     @Input() imagesControl!: ImagesFormControl;
-    @ViewChild('previewContainer', { static: true }) previewContainer!: ElementRef<HTMLElement>;
+    @Input() isPreviewVisible: boolean = true;
     images: IImage[] = [] as IImage[];
 
     ngOnInit(): void {
@@ -36,7 +36,7 @@ export class AdvertisementFormItemPhotosComponent implements OnInit {
                         'load',
                         (e) => {
                             if (e.target?.result) {
-                                const image: IImage = { name: file.name, content: e.target.result.toString() };
+                                const image: IImage = { name: file.name, dataUrl: e.target.result.toString() };
                                 this.imagesControl.patchValue([image, ...this.imagesControl.value]);
 
                                 this.images.push(image);

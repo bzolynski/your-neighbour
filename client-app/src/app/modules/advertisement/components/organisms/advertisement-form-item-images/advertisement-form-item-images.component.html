@@ -1,10 +1,5 @@
 <div class="add-photo-container">
     <div class="add-photo-outline clickable" (click)="fileInput.click()">
-        <div class="add-photo-preview-container" #previewContainer>
-            <app-advertisement-form-item-images-image
-                *ngFor="let image of images"
-                [image]="image"></app-advertisement-form-item-images-image>
-        </div>
         <div class="add-photo-info">
             <button mat-stroked-button color="accent" disabled type="button">
                 Przeciągnij i upuść tutaj (not working)
@@ -25,3 +20,4 @@
         </div>
     </div>
 </div>
+

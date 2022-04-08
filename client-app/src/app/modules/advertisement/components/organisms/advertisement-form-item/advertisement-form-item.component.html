@@ -5,10 +5,17 @@
     (ngSubmit)="handleSubmit(form)"
     enctype="multipart/form-data">
     <app-advertisement-form-item-images
+        #imageForm
         class="section photo-form"
         [imagesControl]="imagesFormControl"
         appElevatedSection></app-advertisement-form-item-images>
-
+    <app-advertisement-form-item-selected-images
+        appElevatedSection
+        class="section selected-images"
+        *ngIf="imageForm.isPreviewVisible"
+        [imageInputContainer]="
+            imageForm
+        "></app-advertisement-form-item-selected-images>
     <app-advertisement-form-item-details
         class="section"
         appElevatedSection

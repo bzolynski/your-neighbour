@@ -11,12 +11,13 @@ import {
     AdvertisementSidePanelComponent,
     AdvertisementFormComponent,
     AdvertisementFormItemComponent,
-    AdvertisementFormItemPhotosComponent,
+    AdvertisementFormItemImagesComponent,
     AdvertisementFormItemDetailsComponent,
     AdvertisementFormExistingLocationSelectComponent,
+    AdvertisementFormItemSelectedImagesComponent,
+    AdvertisementFormItemSelectComponent,
 } from './components';
-import { AdvertisementFormItemImagesImageComponent } from './components/atoms/advertisement-form-item-images-image/advertisement-form-item-images-image.component';
-import { AdvertisementFormItemSelectComponent } from './components/molecules/advertisement-form-item-select/advertisement-form-item-select.component';
+import { AdvertisementFormItemImagesImageComponent } from './components/atoms';
 
 @NgModule({
     declarations: [
@@ -27,11 +28,12 @@ import { AdvertisementFormItemSelectComponent } from './components/molecules/adv
         AdvertisementSidePanelComponent,
         AdvertisementFormComponent,
         AdvertisementFormItemComponent,
-        AdvertisementFormItemPhotosComponent,
+        AdvertisementFormItemImagesComponent,
         AdvertisementFormItemDetailsComponent,
         AdvertisementFormExistingLocationSelectComponent,
         AdvertisementFormItemImagesImageComponent,
         AdvertisementFormItemSelectComponent,
+        AdvertisementFormItemSelectedImagesComponent,
     ],
     imports: [CommonModule, AdvertisementRoutingModule, SharedModule, AngularMaterialModule, CoreModule, ReactiveFormsModule],
 })
