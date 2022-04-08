@@ -15,6 +15,8 @@ import {
     AdvertisementFormItemDetailsComponent,
     AdvertisementFormExistingLocationSelectComponent,
 } from './components';
+import { AdvertisementFormItemImagesImageComponent } from './components/atoms/advertisement-form-item-images-image/advertisement-form-item-images-image.component';
+import { AdvertisementFormItemSelectComponent } from './components/molecules/advertisement-form-item-select/advertisement-form-item-select.component';
 
 @NgModule({
     declarations: [
@@ -28,6 +30,8 @@ import {
         AdvertisementFormItemPhotosComponent,
         AdvertisementFormItemDetailsComponent,
         AdvertisementFormExistingLocationSelectComponent,
+        AdvertisementFormItemImagesImageComponent,
+        AdvertisementFormItemSelectComponent,
     ],
     imports: [CommonModule, AdvertisementRoutingModule, SharedModule, AngularMaterialModule, CoreModule, ReactiveFormsModule],
 })

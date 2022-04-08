@@ -7,8 +7,17 @@ import { ILocalization } from 'src/app/modules/core/models/localization.model';
 import { LocalizationService } from 'src/app/modules/core/services/localization.service';
 import { ItemFormGroup } from '../../organisms/advertisement-form-item/advertisement-form-item.component';
 
-// TODO: split this into multiple components. move observable logic to advert-creation
-// https://stackoverflow.com/questions/43270564/dividing-a-form-into-multiple-components-with-validation
+export class Item extends FormGroup {
+    value!: {
+        name: string;
+        categoryId: number;
+        description: string;
+    };
+    constructor(controls: { name: FormControl; categoryId: FormControl; description: FormControl }) {
+        super(controls);
+    }
+}
+
 @Component({
     selector: 'app-advertisement-form',
     templateUrl: './advertisement-form.component.html',
@@ -24,9 +33,8 @@ export class AdvertisementFormComponent implements OnInit {
                 name: new FormControl('', [Validators.required, Validators.minLength(3)]),
                 categoryId: new FormControl(null, [Validators.required]),
                 description: new FormControl('', [Validators.required]),
-                save: new FormControl(true),
             }),
-            images: new FormControl(null, [Validators.required]),
+            images: new FormControl(new FormData(), [Validators.required]),
         }),
     });
 
