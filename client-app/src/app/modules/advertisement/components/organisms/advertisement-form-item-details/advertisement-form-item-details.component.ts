@@ -2,14 +2,14 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ICategory } from 'src/app/modules/core/models';
 
+export interface IItemDetailsFormValues {
+    name: string;
+    categoryId: number;
+    description: string;
+}
 export class ItemDetailsFormGroup extends FormGroup {
-    value!: {
-        name: string;
-        categoryId: number;
-        description: string;
-        save: boolean;
-    };
-    constructor(controls: { name: FormControl; categoryId: FormControl; description: FormControl; save: FormControl }) {
+    value!: IItemDetailsFormValues;
+    constructor(controls: { name: FormControl; categoryId: FormControl; description: FormControl }) {
         super(controls);
     }
 }
