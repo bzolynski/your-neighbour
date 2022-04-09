@@ -12,6 +12,7 @@ namespace YourNeighbour.Infrastructure.Mappings
             CreateMap<ItemCreateDto, Item>();
             CreateMap<ItemImage, ImageDto>()
                 .ReverseMap();
+            CreateMap<Item, ItemDto>();
         }
     }
 }

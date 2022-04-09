@@ -9,12 +9,14 @@ namespace YourNeighbour.Domain.Entities.Identity
         public User()
         {
             UserRoles = new HashSet<UserRole>();
+            Items = new HashSet<Item>();
             Localizations = new HashSet<Localization>();
         }
         public Guid Guid { get; set; } = Guid.NewGuid();
         public bool RequiresData { get; set; } = true;
 
         public ICollection<UserRole> UserRoles { get; private set; }
+        public ICollection<Item> Items { get; private set; }
         public ICollection<Localization> Localizations { get; private set; }
     }
 }
