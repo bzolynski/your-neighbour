@@ -13,6 +13,8 @@ namespace YourNeighbour.Infrastructure.Mappings
             CreateMap<ItemImage, ImageDto>()
                 .ReverseMap();
             CreateMap<Item, ItemDto>();
+            CreateMap<Item, ItemListingDto>();
+            CreateMap<Item, ItemDetailsDto>();
         }
     }
 }

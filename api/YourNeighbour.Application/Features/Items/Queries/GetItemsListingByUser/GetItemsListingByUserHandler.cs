@@ -6,27 +6,26 @@ using Microsoft.EntityFrameworkCore;
 using YourNeighbour.Application.Abstractions;
 using YourNeighbour.Application.Extensions;
 using YourNeighbour.Application.Features.Items.Dtos;
-using YourNeighbour.Application.Features.Items.Queries.GetManyByUser;
 using YourNeighbour.Domain.Entities;
 
-namespace YourNeighbour.Application.Features.Items.Queries.GetManyItemsByUser
+namespace YourNeighbour.Application.Features.Items.Queries.GetItemsListingByUser
 {
-    public sealed class GetManyItemsByUserHandler : IQueryHandler<GetManyItemsByUserQuery, IEnumerable<ItemDto>>
+    public sealed class GetItemsListingByUserHandler : IQueryHandler<GetItemsListingByUser, IEnumerable<ItemListingDto>>
     {
         private readonly IApplicationDbContext applicationDbContext;
         private readonly IMapper mapper;
 
-        public GetManyItemsByUserHandler(IApplicationDbContext applicationDbContext, IMapper mapper)
+        public GetItemsListingByUserHandler(IApplicationDbContext applicationDbContext, IMapper mapper)
         {
             this.applicationDbContext = applicationDbContext;
             this.mapper = mapper;
         }
-        public async Task<IEnumerable<ItemDto>> Handle(GetManyItemsByUserQuery request, CancellationToken cancellationToken)
+
+        public async Task<IEnumerable<ItemListingDto>> Handle(GetItemsListingByUser request, CancellationToken cancellationToken)
         {
             return await applicationDbContext.Set<Item>()
                 .Where(x => x.UserId == request.UserId)
-                .Include(x => x.Images)
-                .ProjectTo<ItemDto>(mapper)
+                .ProjectTo<ItemListingDto>(mapper)
                 .ToListAsync();
         }
     }
