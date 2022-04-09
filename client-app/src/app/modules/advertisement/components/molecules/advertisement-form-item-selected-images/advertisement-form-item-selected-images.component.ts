@@ -1,5 +1,4 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { IImage } from 'src/app/modules/core/models/image.model';
 import { AdvertisementFormItemImagesComponent } from '../../organisms';
 
 @Component({
@@ -9,7 +8,6 @@ import { AdvertisementFormItemImagesComponent } from '../../organisms';
 })
 export class AdvertisementFormItemSelectedImagesComponent implements OnInit {
     @Input() imageInputContainer!: AdvertisementFormItemImagesComponent;
-    @Input() images: IImage[] = [] as IImage[];
 
     ngOnInit(): void {
         if (!this.imageInputContainer) throw new Error('Provide reference to FormImageComponent');

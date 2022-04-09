@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { AbstractControlOptions, AsyncValidatorFn, FormControl, ValidatorFn } from '@angular/forms';
 import { IImage } from 'src/app/modules/core/models/image.model';
 
@@ -18,7 +18,7 @@ export class ImagesFormControl extends FormControl {
     templateUrl: './advertisement-form-item-images.component.html',
     styleUrls: ['./advertisement-form-item-images.component.scss'],
 })
-export class AdvertisementFormItemImagesComponent implements OnInit {
+export class AdvertisementFormItemImagesComponent implements OnInit, OnChanges {
     @Input() imagesControl!: ImagesFormControl;
     @Input() isPreviewVisible: boolean = true;
     images: IImage[] = [] as IImage[];
@@ -27,7 +27,6 @@ export class AdvertisementFormItemImagesComponent implements OnInit {
         if (!this.imagesControl) throw new Error('Provide control for images!');
     }
     handleFileChange = (input: HTMLInputElement) => {
-        this.imagesControl.reset([]);
         if (input.files) {
             for (const file of input.files) {
                 if (/\.(jpe?g|png|gif)$/i.test(file.name)) {
@@ -37,9 +36,9 @@ export class AdvertisementFormItemImagesComponent implements OnInit {
                         (e) => {
                             if (e.target?.result) {
                                 const image: IImage = { name: file.name, dataUrl: e.target.result.toString() };
-                                this.imagesControl.patchValue([image, ...this.imagesControl.value]);
+                                console.log();
 
-                                this.images.push(image);
+                                this.imagesControl.patchValue([image, ...this.imagesControl.value]);
                             }
                         },
                         false
@@ -50,4 +49,9 @@ export class AdvertisementFormItemImagesComponent implements OnInit {
         }
         console.log(this.imagesControl.value);
     };
+
+    ngOnChanges(changes: SimpleChanges): void {
+        console.log('IMAGE COMONENT');
+        console.log(changes);
+    }
 }

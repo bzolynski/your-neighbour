@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { AuthenticationService } from 'src/app/modules/core/authentication/authentication.service';
+import { IItem } from 'src/app/modules/core/models/item.model';
 import { ILocalization } from 'src/app/modules/core/models/localization.model';
+import { ItemService } from 'src/app/modules/core/services/item.service';
 import { LocalizationService } from 'src/app/modules/core/services/localization.service';
 import { ItemFormGroup } from '../../organisms/advertisement-form-item/advertisement-form-item.component';
 
@@ -24,8 +26,7 @@ export class Item extends FormGroup {
     styleUrls: ['./advertisement-form.component.scss'],
 })
 export class AdvertisementFormComponent implements OnInit {
-    localizations$!: Observable<ILocalization[]>;
-    localization$: Observable<ILocalization> = new Observable();
+    itemClicked: Subject<IItem> = new Subject<IItem>();
     itemSelectPanelOpen: boolean = false;
     form: FormGroup = new FormGroup({
         item: new ItemFormGroup({
@@ -42,20 +43,29 @@ export class AdvertisementFormComponent implements OnInit {
         return this.form.get('item') as ItemFormGroup;
     }
 
-    constructor(private localizationService: LocalizationService, private authenticationService: AuthenticationService) {}
+    // observables
+    selectedItem$: Observable<IItem> = this.itemClicked.asObservable();
+    localizations$!: Observable<ILocalization[]>;
+    items$!: Observable<IItem[]>;
+
+    constructor(
+        private localizationService: LocalizationService,
+        private authenticationService: AuthenticationService,
+        private itemService: ItemService
+    ) {}
 
     ngOnInit(): void {
-        this.localizations$ = this.localizationService
-            .getManyByUser(this.authenticationService.currentUser!.id)
-            .pipe(map((resp) => resp.responseObject));
-        this.localization$.subscribe((x) => {
-            console.log(x);
-        });
+        const userId = this.authenticationService.currentUser?.id;
+        if (!userId) throw new Error('User not logged in!');
+        this.localizations$ = this.localizationService.getManyByUser(userId).pipe(map((resp) => resp.responseObject));
+        this.items$ = this.itemService.getByUser(userId).pipe(map((resp) => resp.responseObject));
     }
 
     changeLocalization = (localization: ILocalization) => {
         console.log(localization);
     };
 
-    onSubmit = () => {};
+    onSubmit = () => {
+        console.log();
+    };
 }
