@@ -13,6 +13,12 @@ export class ImagesFormControl extends FormControl {
     }
 }
 
+export interface Test<T> {
+    value: T;
+    error: any;
+    liading: boolean;
+}
+
 @Component({
     selector: 'app-advertisement-form-item-images',
     templateUrl: './advertisement-form-item-images.component.html',
@@ -21,8 +27,8 @@ export class ImagesFormControl extends FormControl {
 export class AdvertisementFormItemImagesComponent implements OnInit, OnChanges {
     @Input() imagesControl!: ImagesFormControl;
     @Input() isPreviewVisible: boolean = true;
-    images: IImage[] = [] as IImage[];
-
+    @Input() images: IImage[] | null = [] as IImage[];
+    @Input() testImages!: Test<IImage[] | null>;
     ngOnInit(): void {
         if (!this.imagesControl) throw new Error('Provide control for images!');
     }
@@ -51,7 +57,9 @@ export class AdvertisementFormItemImagesComponent implements OnInit, OnChanges {
     };
 
     ngOnChanges(changes: SimpleChanges): void {
-        console.log('IMAGE COMONENT');
-        console.log(changes);
+        if (changes.images && changes.images.currentValue) {
+            const images = changes.images.currentValue as Array<IImage>;
+            this.imagesControl.setValue([...images]);
+        }
     }
 }

@@ -8,3 +8,16 @@ export interface IItem {
     description: string;
     images: IImage[];
 }
+
+export interface IItemListing {
+    id: number;
+    name: string;
+    category: ICategory;
+}
+
+export interface IItemDetails {
+    id: number;
+    name: string;
+    category: ICategory;
+    description: string;
+}

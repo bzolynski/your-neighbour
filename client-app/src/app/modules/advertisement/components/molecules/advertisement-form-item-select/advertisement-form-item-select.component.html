@@ -1,4 +1,4 @@
-<mat-accordion *ngIf="items">
+<mat-accordion *ngIf="itemsListing">
     <mat-expansion-panel
         (opened)="itemSelectPanelOpen = true"
         (closed)="itemSelectPanelOpen = false">
@@ -8,7 +8,7 @@
                 Zapisane wcześniej przedmioty
             </mat-panel-description>
         </mat-expansion-panel-header>
-        <p *ngFor="let item of items" (click)="itemClicked.next(item)">
+        <p *ngFor="let item of itemsListing" (click)="itemClicked.next(item.id)">
             {{ item.name }}
         </p>
     </mat-expansion-panel>

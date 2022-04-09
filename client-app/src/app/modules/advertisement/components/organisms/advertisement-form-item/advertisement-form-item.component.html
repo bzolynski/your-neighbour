@@ -4,8 +4,10 @@
     [formGroup]="itemForm"
     (ngSubmit)="handleSubmit(form)"
     enctype="multipart/form-data">
+
     <app-advertisement-form-item-images
         #imageForm
+        [images]="images$ | async"
         class="section photo-form"
         [imagesControl]="imagesFormControl"
         appElevatedSection></app-advertisement-form-item-images>
@@ -19,7 +21,8 @@
     <app-advertisement-form-item-details
         class="section"
         appElevatedSection
-        [formGroup]="itemDetailsFormGroup"
+        [detailsFormGroup]="itemDetailsFormGroup"
+        [itemDetails]="itemDetails$ | async"
         *ngIf="categories$ | async as categories"
         [categories]="categories"></app-advertisement-form-item-details>
 

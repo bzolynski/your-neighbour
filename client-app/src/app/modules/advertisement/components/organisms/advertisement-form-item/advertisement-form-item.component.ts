@@ -1,12 +1,12 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
 import { AuthenticationService } from 'src/app/modules/core/authentication/authentication.service';
 import { ItemCreateDto } from 'src/app/modules/core/dtos/item.dto';
 import { ICategory } from 'src/app/modules/core/models';
 import { IImage } from 'src/app/modules/core/models/image.model';
-import { IItem } from 'src/app/modules/core/models/item.model';
+import { IItemDetails } from 'src/app/modules/core/models/item.model';
 import { CategoryService } from 'src/app/modules/core/services';
 import { ItemService } from 'src/app/modules/core/services/item.service';
 import { MessageService } from 'src/app/modules/core/services/message.service';
@@ -34,8 +34,12 @@ export class ItemFormGroup extends FormGroup {
     styleUrls: ['./advertisement-form-item.component.scss'],
 })
 export class AdvertisementFormItemComponent implements OnInit, OnChanges {
-    @Input() item: IItem | null = null;
+    @Input() itemId: number | null = null;
 
+    loadingImages$ = new BehaviorSubject(false);
+    loadingDetails$ = new BehaviorSubject(false);
+    images$!: Observable<IImage[]>;
+    itemDetails$!: Observable<IItemDetails>;
     categories$!: Observable<ICategory[]>;
 
     itemForm: ItemFormGroup = new ItemFormGroup({
@@ -67,17 +71,20 @@ export class AdvertisementFormItemComponent implements OnInit, OnChanges {
     }
 
     ngOnChanges(changes: SimpleChanges): void {
-        if (changes.item && changes.item.currentValue) {
-            const item = changes.item.currentValue as IItem;
-            const x: IItemFormValues = {
-                details: {
-                    categoryId: item.category.id,
-                    description: item.description,
-                    name: item.name,
-                },
-                images: item.images,
-            };
-            this.itemForm.setValue(x);
+        if (changes.itemId && changes.itemId.currentValue && changes.itemId.currentValue !== changes.itemId.previousValue) {
+            const itemId: number = changes.itemId.currentValue as number;
+
+            this.loadingImages$.next(true);
+            this.images$ = this.itemService.getImagesByItem(itemId).pipe(
+                tap(() => this.loadingImages$.next(false)),
+                map((resp) => resp.responseObject)
+            );
+
+            this.loadingDetails$.next(true);
+            this.itemDetails$ = this.itemService.getDetails(itemId).pipe(
+                tap(() => this.loadingDetails$.next(false)),
+                map((resp) => resp.responseObject)
+            );
         }
     }
 

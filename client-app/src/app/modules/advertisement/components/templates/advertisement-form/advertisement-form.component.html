@@ -1,11 +1,11 @@
 <form class="container" [formGroup]="form" (ngSubmit)="onSubmit()">
     <app-advertisement-form-item-select
         (itemClicked)="itemClicked.next($event)"
-        *ngIf="{ items: items$ | async } as model"
-        [items]="model.items"></app-advertisement-form-item-select>
+        *ngIf="{ itemsListing: itemsListing$ | async } as model"
+        [itemsListing]="model.itemsListing"></app-advertisement-form-item-select>
     <app-advertisement-form-item
-        *ngIf="{ item: selectedItem$ | async } as model"
-        [item]="model.item"></app-advertisement-form-item>
+        *ngIf="{ itemId: selectedItemId$ | async } as model"
+        [itemId]="model.itemId"></app-advertisement-form-item>
     <app-advertisement-form-existing-location-select
         *ngIf="localizations$ | async as localizations"
         [localizations]="localizations"

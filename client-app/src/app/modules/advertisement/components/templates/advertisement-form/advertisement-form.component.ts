@@ -3,7 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { AuthenticationService } from 'src/app/modules/core/authentication/authentication.service';
-import { IItem } from 'src/app/modules/core/models/item.model';
+import { IItemListing } from 'src/app/modules/core/models/item.model';
 import { ILocalization } from 'src/app/modules/core/models/localization.model';
 import { ItemService } from 'src/app/modules/core/services/item.service';
 import { LocalizationService } from 'src/app/modules/core/services/localization.service';
@@ -26,7 +26,7 @@ export class Item extends FormGroup {
     styleUrls: ['./advertisement-form.component.scss'],
 })
 export class AdvertisementFormComponent implements OnInit {
-    itemClicked: Subject<IItem> = new Subject<IItem>();
+    itemClicked: Subject<number> = new Subject<number>();
     itemSelectPanelOpen: boolean = false;
     form: FormGroup = new FormGroup({
         item: new ItemFormGroup({
@@ -44,9 +44,9 @@ export class AdvertisementFormComponent implements OnInit {
     }
 
     // observables
-    selectedItem$: Observable<IItem> = this.itemClicked.asObservable();
+    selectedItemId$: Observable<number> = this.itemClicked.asObservable();
     localizations$!: Observable<ILocalization[]>;
-    items$!: Observable<IItem[]>;
+    itemsListing$!: Observable<IItemListing[]>;
 
     constructor(
         private localizationService: LocalizationService,
@@ -58,7 +58,7 @@ export class AdvertisementFormComponent implements OnInit {
         const userId = this.authenticationService.currentUser?.id;
         if (!userId) throw new Error('User not logged in!');
         this.localizations$ = this.localizationService.getManyByUser(userId).pipe(map((resp) => resp.responseObject));
-        this.items$ = this.itemService.getByUser(userId).pipe(map((resp) => resp.responseObject));
+        this.itemsListing$ = this.itemService.getListingByUser(userId).pipe(map((resp) => resp.responseObject));
     }
 
     changeLocalization = (localization: ILocalization) => {
