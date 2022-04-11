@@ -7,7 +7,7 @@ import { SnackBarContentComponent } from './components/snack-bar-content/snack-b
 import { ContainerComponent } from './components/layout/container/container.component';
 import { ConfirmationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.component';
 import { BackdropLoadingComponent } from './components/backdrop-loading/backdrop-loading.component';
-import { ElevatedSectionDirective } from './directives';
+import { AbsoluteDirective, ElevatedSectionDirective, RelativeDirective } from './directives';
 import { MapComponent, TextAreaInputComponent, TextInputComponent } from './components';
 
 @NgModule({
@@ -20,6 +20,8 @@ import { MapComponent, TextAreaInputComponent, TextInputComponent } from './comp
         BackdropLoadingComponent,
         ElevatedSectionDirective,
         MapComponent,
+        RelativeDirective,
+        AbsoluteDirective,
     ],
     imports: [CommonModule, RouterModule, AngularMaterialModule, ReactiveFormsModule],
     exports: [
@@ -31,6 +33,8 @@ import { MapComponent, TextAreaInputComponent, TextInputComponent } from './comp
         BackdropLoadingComponent,
         ElevatedSectionDirective,
         MapComponent,
+        RelativeDirective,
+        AbsoluteDirective,
     ],
 })
 export class SharedModule {}
