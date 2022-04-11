@@ -1,12 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Observable, Subject } from 'rxjs';
+import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { Observable, Subject, throwError } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { AuthenticationService } from 'src/app/modules/core/authentication/authentication.service';
 import { IItemListing } from 'src/app/modules/core/models/item.model';
 import { ILocalization } from 'src/app/modules/core/models/localization.model';
 import { ItemService } from 'src/app/modules/core/services/item.service';
 import { LocalizationService } from 'src/app/modules/core/services/localization.service';
+import { MessageService } from 'src/app/modules/core/services/message.service';
+import { selectUser } from 'src/app/store/authentication/authentication.selectors';
 import { ItemFormGroup } from '../../organisms';
 
 export class Item extends FormGroup {
@@ -47,18 +51,42 @@ export class AdvertisementFormComponent implements OnInit {
     selectedItemId$: Observable<number> = this.itemClicked.asObservable();
     localizations$!: Observable<ILocalization[]>;
     itemsListing$!: Observable<IItemListing[]>;
+    user$ = this.store.select(selectUser);
 
     constructor(
         private localizationService: LocalizationService,
         private authenticationService: AuthenticationService,
-        private itemService: ItemService
+        private itemService: ItemService,
+        private store: Store,
+        private messageService: MessageService,
+        private router: Router
     ) {}
 
     ngOnInit(): void {
-        const userId = this.authenticationService.currentUser?.id;
-        if (!userId) throw new Error('User not logged in!');
-        this.localizations$ = this.localizationService.getManyByUser(userId).pipe(map((resp) => resp.responseObject));
-        this.itemsListing$ = this.itemService.getListingByUser(userId).pipe(map((resp) => resp.responseObject));
+        this.user$.subscribe((resp) => {
+            if (resp == null) {
+                this.messageService.showMessage('Nie jesteś zalogowany!', 'error');
+                this.router.navigate(['welcome'], { queryParams: { returnUrl: this.router.routerState.snapshot.url } });
+                throwError(new Error('User is not logged in'));
+            } else {
+                this.localizations$ = this.localizationService.getManyByUser(resp.id).pipe(map((resp) => resp.responseObject));
+                this.itemsListing$ = this.itemService.getListingByUser(resp.id).pipe(map((resp) => resp.responseObject));
+            }
+        });
+        // this.user$.pipe(
+        //     tap((resp) => {
+        //         if (resp == null) {
+        //             this.messageService.showMessage('Nie jesteś zalogowany!', 'error');
+        //             this.router.navigate(['welcome'], { queryParams: { returnUrl: this.router.routerState.snapshot.url } });
+        //             throwError(new Error('User is not logged in'));
+        //         } else {
+        //             this.localizations$ = this.localizationService
+        //                 .getManyByUser(resp.id)
+        //                 .pipe(map((resp) => resp.responseObject));
+        //             this.itemsListing$ = this.itemService.getListingByUser(resp.id).pipe(map((resp) => resp.responseObject));
+        //         }
+        //     })
+        // );
     }
 
     changeLocalization = (localization: ILocalization) => {

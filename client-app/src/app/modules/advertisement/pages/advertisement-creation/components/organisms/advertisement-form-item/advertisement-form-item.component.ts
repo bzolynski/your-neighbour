@@ -1,8 +1,9 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, throwError } from 'rxjs';
+import { concatMap, map } from 'rxjs/operators';
 import { AuthenticationService } from 'src/app/modules/core/authentication/authentication.service';
 import { ItemCreateDto } from 'src/app/modules/core/dtos/item.dto';
 import { ICategory } from 'src/app/modules/core/models';
@@ -11,7 +12,7 @@ import { IItemDetails } from 'src/app/modules/core/models/item.model';
 import { CategoryService } from 'src/app/modules/core/services';
 import { ItemService } from 'src/app/modules/core/services/item.service';
 import { MessageService } from 'src/app/modules/core/services/message.service';
-import { AdvertisementCreationState } from '../../../../../pages/advertisement-creation/store/advertisement-creation.state';
+import { selectUser } from 'src/app/store/authentication/authentication.selectors';
 import { loadItemDetails } from '../../../../../pages/advertisement-creation/store/item-details/item-details.action';
 import { loadItemImages } from '../../../../../pages/advertisement-creation/store/item-images/item-images.action';
 import {
@@ -43,6 +44,7 @@ export class AdvertisementFormItemComponent implements OnInit, OnChanges {
     images$!: Observable<IImage[]>;
     itemDetails$!: Observable<IItemDetails>;
     categories$!: Observable<ICategory[]>;
+    user$ = this.store.select(selectUser);
 
     itemForm: ItemFormGroup = new ItemFormGroup({
         details: new FormGroup({
@@ -66,7 +68,8 @@ export class AdvertisementFormItemComponent implements OnInit, OnChanges {
         private itemService: ItemService,
         private authenticationService: AuthenticationService,
         private messageService: MessageService,
-        private store: Store<AdvertisementCreationState>
+        private store: Store,
+        private router: Router
     ) {}
 
     ngOnInit(): void {
@@ -83,21 +86,31 @@ export class AdvertisementFormItemComponent implements OnInit, OnChanges {
     }
 
     handleSubmit = (form: HTMLFormElement) => {
-        if (!this.authenticationService.currentUser) throw new Error('No logged in user!');
+        this.user$
+            .pipe(
+                concatMap((resp) => {
+                    if (resp == null) {
+                        this.messageService.showMessage('Nie jesteś zalogowany!', 'error');
+                        this.router.navigate(['welcome'], { queryParams: { returnUrl: this.router.routerState.snapshot.url } });
+                        return throwError(new Error('User is not logged in'));
+                    } else {
+                        const { name, description, categoryId } = this.itemForm.value.details;
 
-        const { name, description, categoryId } = this.itemForm.value.details;
+                        const itemCreateDto = new ItemCreateDto(resp.id, name, description, categoryId, [
+                            ...this.itemForm.value.images,
+                        ]);
 
-        const itemCreateDto = new ItemCreateDto(this.authenticationService.currentUser.id, name, description, categoryId, [
-            ...this.itemForm.value.images,
-        ]);
-
-        this.itemService.create(itemCreateDto).subscribe(
-            (response) => {
-                this.messageService.showMessage(response.responseObject, 'success');
-            },
-            (error) => {
-                console.log(error);
-            }
-        );
+                        return this.itemService.create(itemCreateDto);
+                    }
+                })
+            )
+            .subscribe(
+                (response) => {
+                    this.messageService.showMessage(response.responseObject, 'success');
+                },
+                (error) => {
+                    console.log(error);
+                }
+            );
     };
 }

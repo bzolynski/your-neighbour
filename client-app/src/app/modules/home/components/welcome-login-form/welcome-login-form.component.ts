@@ -1,15 +1,18 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subject } from 'rxjs';
-import { AuthenticationService } from 'src/app/modules/core/authentication/authentication.service';
+import { Store } from '@ngrx/store';
+import { tap } from 'rxjs/operators';
+import { MessageService } from 'src/app/modules/core/services/message.service';
+import { signIn } from 'src/app/store/authentication/authentication.action';
+import { selectAuthenticationError, selectAuthenticationStatus } from 'src/app/store/authentication/authentication.selectors';
 
 @Component({
     selector: 'app-welcome-login-form',
     templateUrl: './welcome-login-form.component.html',
     styleUrls: ['./welcome-login-form.component.scss'],
 })
-export class WelcomeLoginFormComponent implements OnDestroy {
+export class WelcomeLoginFormComponent {
     // Public properties
     form: FormGroup = new FormGroup({
         login: new FormControl('', [Validators.required]),
@@ -27,26 +30,23 @@ export class WelcomeLoginFormComponent implements OnDestroy {
         return '';
     }
 
-    // Private members
-    destroy$: Subject<boolean> = new Subject<boolean>();
+    status$ = this.store.select(selectAuthenticationStatus).pipe(
+        tap((status) => {
+            if (status === 'success') this.router.navigateByUrl(this.activatedRoute.snapshot.queryParams['returnUrl'] ?? '/');
+        })
+    );
+    error$ = this.store.select(selectAuthenticationError).pipe(tap((error) => this.messageService.showMessage(error, 'error')));
 
     constructor(
-        private authenticationService: AuthenticationService,
+        private messageService: MessageService,
         private router: Router,
-        private activatedRoute: ActivatedRoute
+        private activatedRoute: ActivatedRoute,
+        private store: Store
     ) {}
-    ngOnDestroy(): void {
-        this.destroy$.next(true);
-        this.destroy$.unsubscribe;
-    }
 
     onSubmit = () => {
         if (this.form.valid) {
-            this.authenticationService
-                .login(this.form.get('login')?.value, this.form.get('password')?.value)
-                .subscribe((response) => {
-                    this.router.navigateByUrl(this.activatedRoute.snapshot.queryParams['returnUrl'] ?? '/');
-                });
+            this.store.dispatch(signIn({ login: this.form.get('login')?.value, password: this.form.get('password')?.value }));
         }
     };
 }

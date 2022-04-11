@@ -12,28 +12,30 @@
             </button>
             <div class="auth-button-section">
                 <button
-                    *ngIf="user"
+                    *ngIf="user$ | async; else notLoggedIn"
                     class="logout-button"
                     (click)="logout()"
                     mat-raised-button>
                     Logout
                 </button>
-                <div *ngIf="!user" class="logged-in-section">
-                    <button
-                        class="register-button"
-                        [routerLink]="'welcome'"
-                        [fragment]="'register'"
-                        mat-raised-button>
-                        Register
-                    </button>
-                    <button
-                        class="login-button"
-                        [routerLink]="'welcome'"
-                        [fragment]="'login'"
-                        mat-raised-button>
-                        Login
-                    </button>
-                </div>
+                <ng-template #notLoggedIn>
+                    <div class="logged-in-section">
+                        <button
+                            class="register-button"
+                            [routerLink]="'welcome'"
+                            [fragment]="'register'"
+                            mat-raised-button>
+                            Register
+                        </button>
+                        <button
+                            class="login-button"
+                            [routerLink]="'welcome'"
+                            [fragment]="'login'"
+                            mat-raised-button>
+                            Login
+                        </button>
+                    </div>
+                </ng-template>
             </div>
             <button mat-icon-button [routerLink]="'settings'">
                 <mat-icon>settings</mat-icon>

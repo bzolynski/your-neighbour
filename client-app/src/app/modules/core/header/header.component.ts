@@ -1,9 +1,8 @@
 import { Component, OnDestroy } from '@angular/core';
-import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
-import { AuthenticationService } from '../authentication/authentication.service';
-import { IUser } from '../models/user.model';
+import { signOut } from 'src/app/store/authentication/authentication.action';
+import { selectUser } from 'src/app/store/authentication/authentication.selectors';
 
 @Component({
     selector: 'app-header',
@@ -11,15 +10,11 @@ import { IUser } from '../models/user.model';
     styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent implements OnDestroy {
-    user: IUser | null = null;
+    user$ = this.store.select(selectUser);
     unsubscriber$: Subject<boolean> = new Subject<boolean>();
-    constructor(private authenticationService: AuthenticationService, private router: Router) {
-        authenticationService.currentUserChanged.pipe(takeUntil(this.unsubscriber$)).subscribe((user) => (this.user = user));
-    }
+    constructor(private store: Store) {}
     logout = () => {
-        this.authenticationService.logout().subscribe((response) => {
-            this.router.navigateByUrl('welcome');
-        });
+        this.store.dispatch(signOut());
     };
     ngOnDestroy(): void {
         this.unsubscriber$.next(true);
