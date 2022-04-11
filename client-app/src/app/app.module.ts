@@ -10,10 +10,14 @@ import { SettingsModule } from './modules/settings/settings.module';
 import { SharedModule } from './modules/shared/shared.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AdvertisementModule } from './modules/advertisement/advertisement.module';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
 
 @NgModule({
     declarations: [AppComponent],
     imports: [
+        StoreModule.forRoot({}),
+        EffectsModule.forRoot(),
         AppRoutingModule,
         BrowserModule,
         CoreModule,
