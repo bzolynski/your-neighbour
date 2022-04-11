@@ -22,9 +22,9 @@ export class MessageService {
     private durationInSeconds: number = 4;
     constructor(private snackBar: MatSnackBar, private dialog: MatDialog) {}
 
-    showMessage = (message: string, messageType: SnackBarMessageType) => {
+    showMessage = (message: string | null, messageType: SnackBarMessageType = 'info') => {
         const data: ISnackBarContentData = {
-            message: message,
+            message: message ?? 'Unexpected error',
             messageType: messageType,
         };
 

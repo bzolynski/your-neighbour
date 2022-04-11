@@ -8,9 +8,13 @@
               color="secondary"
               aria-label="warning">warning_amber</mat-icon>
     <mat-icon *ngIf="data.messageType == 'success'"
-              aria-hidden="false"
-              color="primary"
-              aria-label="success">check_circle_outlined</mat-icon>
+            aria-hidden="false"
+            color="primary"
+            aria-label="success">check_circle_outlined</mat-icon>
+    <mat-icon *ngIf="data.messageType == 'info'"
+                aria-hidden="false"
+                color="primary"
+                aria-label="info">info</mat-icon>
 
     <p [ngClass]="['content', data.messageType]">
         {{data.message}}
