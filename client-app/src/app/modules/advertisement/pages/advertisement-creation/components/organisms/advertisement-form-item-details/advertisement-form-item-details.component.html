@@ -1,4 +1,6 @@
-<div [formGroup]="detailsFormGroup">
+<div
+    *ngIf="{ itemDetails: itemDetails$ | async }"
+    [formGroup]="detailsFormGroup">
     <app-text-input
         [label]="'Nazwa'"
         [type]="'text'"
@@ -27,3 +29,6 @@
         [errorMessage]="descriptionErrorMessage">
     </app-text-area-input>
 </div>
+<app-backdrop-loading
+    *ngIf="(status$ | async) === 'loading'"
+    [backdropColor]="'hsla(0, 0%, 0%, 0.3)'"></app-backdrop-loading>

@@ -6,6 +6,7 @@
             </button>
             <span>lub</span>
             <input
+                [disabled]="(status$ | async) === 'loading'"
                 [name]="'images[]'"
                 multiple
                 #fileInput
@@ -14,10 +15,13 @@
                 accept="image/*"
                 onclick="this.value=null"
                 (change)="handleFileChange(fileInput)" />
-            <button mat-flat-button color="accent" type="button">
+            <button
+                mat-flat-button
+                color="accent"
+                type="button"
+                [disabled]="(status$ | async) === 'loading'">
                 Wybierz zdjęcia z dysku
             </button>
         </div>
     </div>
 </div>
-

@@ -7,7 +7,7 @@ import { IItemListing } from 'src/app/modules/core/models/item.model';
 import { ILocalization } from 'src/app/modules/core/models/localization.model';
 import { ItemService } from 'src/app/modules/core/services/item.service';
 import { LocalizationService } from 'src/app/modules/core/services/localization.service';
-import { ItemFormGroup } from '../../organisms/advertisement-form-item/advertisement-form-item.component';
+import { ItemFormGroup } from '../../organisms';
 
 export class Item extends FormGroup {
     value!: {

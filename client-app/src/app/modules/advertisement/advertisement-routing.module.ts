@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AdvertisementRootComponent, AdvertisementCreationComponent, AdvertisementListComponent } from './pages';
+import { AdvertisementRootComponent, AdvertisementListComponent } from './pages';
 
 const routes: Routes = [
     {
@@ -14,7 +14,10 @@ const routes: Routes = [
             },
             {
                 path: 'new',
-                component: AdvertisementCreationComponent,
+                loadChildren: () =>
+                    import('./pages/advertisement-creation/advertisement-creation.module').then(
+                        (m) => m.AdvertisementCreationModule
+                    ),
             },
         ],
     },

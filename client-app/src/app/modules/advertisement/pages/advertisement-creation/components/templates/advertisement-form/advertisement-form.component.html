@@ -2,7 +2,9 @@
     <app-advertisement-form-item-select
         (itemClicked)="itemClicked.next($event)"
         *ngIf="{ itemsListing: itemsListing$ | async } as model"
-        [itemsListing]="model.itemsListing"></app-advertisement-form-item-select>
+        [itemsListing]="
+            model.itemsListing
+        "></app-advertisement-form-item-select>
     <app-advertisement-form-item
         *ngIf="{ itemId: selectedItemId$ | async } as model"
         [itemId]="model.itemId"></app-advertisement-form-item>

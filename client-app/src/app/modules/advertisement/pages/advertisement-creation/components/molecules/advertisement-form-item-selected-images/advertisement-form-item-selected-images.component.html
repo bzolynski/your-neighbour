@@ -1,0 +1,9 @@
+<div class="root images-container snap">
+    <app-advertisement-form-item-images-image
+        class="image"
+        *ngFor="let image of images$ | async"
+        [image]="image"></app-advertisement-form-item-images-image>
+</div>
+<app-backdrop-loading
+    *ngIf="(status$ | async) === 'loading'"
+    [backdropColor]="'hsl(0, 0%,0%, 0.3)'"></app-backdrop-loading>

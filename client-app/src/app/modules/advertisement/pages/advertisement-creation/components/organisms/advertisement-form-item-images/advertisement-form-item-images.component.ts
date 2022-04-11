@@ -1,6 +1,13 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { AbstractControlOptions, AsyncValidatorFn, FormControl, ValidatorFn } from '@angular/forms';
+import { Store } from '@ngrx/store';
+import { tap } from 'rxjs/operators';
 import { IImage } from 'src/app/modules/core/models/image.model';
+import { addItemImage } from '../../../../../pages/advertisement-creation/store/item-images/item-images.action';
+import {
+    selectItemImages,
+    selectItemImagesStatus,
+} from '../../../../../pages/advertisement-creation/store/item-images/item-images.selectors';
 
 export class ImagesFormControl extends FormControl {
     value!: IImage[];
@@ -24,11 +31,12 @@ export interface Test<T> {
     templateUrl: './advertisement-form-item-images.component.html',
     styleUrls: ['./advertisement-form-item-images.component.scss'],
 })
-export class AdvertisementFormItemImagesComponent implements OnInit, OnChanges {
+export class AdvertisementFormItemImagesComponent implements OnInit {
     @Input() imagesControl!: ImagesFormControl;
-    @Input() isPreviewVisible: boolean = true;
-    @Input() images: IImage[] | null = [] as IImage[];
-    @Input() testImages!: Test<IImage[] | null>;
+    images$ = this.store.select(selectItemImages).pipe(tap((resp) => this.setUpForm(resp)));
+    status$ = this.store.select(selectItemImagesStatus);
+
+    constructor(private store: Store) {}
     ngOnInit(): void {
         if (!this.imagesControl) throw new Error('Provide control for images!');
     }
@@ -42,9 +50,7 @@ export class AdvertisementFormItemImagesComponent implements OnInit, OnChanges {
                         (e) => {
                             if (e.target?.result) {
                                 const image: IImage = { name: file.name, dataUrl: e.target.result.toString() };
-                                console.log();
-
-                                this.imagesControl.patchValue([image, ...this.imagesControl.value]);
+                                this.addItemImage(image);
                             }
                         },
                         false
@@ -56,10 +62,12 @@ export class AdvertisementFormItemImagesComponent implements OnInit, OnChanges {
         console.log(this.imagesControl.value);
     };
 
-    ngOnChanges(changes: SimpleChanges): void {
-        if (changes.images && changes.images.currentValue) {
-            const images = changes.images.currentValue as Array<IImage>;
-            this.imagesControl.setValue([...images]);
-        }
-    }
+    addItemImage = (image: IImage) => {
+        this.imagesControl.patchValue([...this.imagesControl.value, image]);
+        this.store.dispatch(addItemImage({ image }));
+    };
+
+    setUpForm = (images: IImage[]) => {
+        this.imagesControl.setValue([...images]);
+    };
 }

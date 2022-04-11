@@ -4,25 +4,22 @@
     [formGroup]="itemForm"
     (ngSubmit)="handleSubmit(form)"
     enctype="multipart/form-data">
-
     <app-advertisement-form-item-images
-        #imageForm
-        [images]="images$ | async"
+        appPosRelative
+        appElevatedSection
         class="section photo-form"
-        [imagesControl]="imagesFormControl"
-        appElevatedSection></app-advertisement-form-item-images>
+        [imagesControl]="
+            imagesFormControl
+        "></app-advertisement-form-item-images>
     <app-advertisement-form-item-selected-images
+        appPosRelative
         appElevatedSection
-        class="section selected-images"
-        *ngIf="imageForm.isPreviewVisible"
-        [imageInputContainer]="
-            imageForm
-        "></app-advertisement-form-item-selected-images>
+        class="section selected-images"></app-advertisement-form-item-selected-images>
     <app-advertisement-form-item-details
-        class="section"
+        appPosRelative
         appElevatedSection
+        class="section"
         [detailsFormGroup]="itemDetailsFormGroup"
-        [itemDetails]="itemDetails$ | async"
         *ngIf="categories$ | async as categories"
         [categories]="categories"></app-advertisement-form-item-details>
 

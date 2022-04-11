@@ -1,7 +1,8 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { AuthenticationService } from 'src/app/modules/core/authentication/authentication.service';
 import { ItemCreateDto } from 'src/app/modules/core/dtos/item.dto';
 import { ICategory } from 'src/app/modules/core/models';
@@ -10,6 +11,9 @@ import { IItemDetails } from 'src/app/modules/core/models/item.model';
 import { CategoryService } from 'src/app/modules/core/services';
 import { ItemService } from 'src/app/modules/core/services/item.service';
 import { MessageService } from 'src/app/modules/core/services/message.service';
+import { AdvertisementCreationState } from '../../../../../pages/advertisement-creation/store/advertisement-creation.state';
+import { loadItemDetails } from '../../../../../pages/advertisement-creation/store/item-details/item-details.action';
+import { loadItemImages } from '../../../../../pages/advertisement-creation/store/item-images/item-images.action';
 import {
     IItemDetailsFormValues,
     ItemDetailsFormGroup,
@@ -36,8 +40,6 @@ export class ItemFormGroup extends FormGroup {
 export class AdvertisementFormItemComponent implements OnInit, OnChanges {
     @Input() itemId: number | null = null;
 
-    loadingImages$ = new BehaviorSubject(false);
-    loadingDetails$ = new BehaviorSubject(false);
     images$!: Observable<IImage[]>;
     itemDetails$!: Observable<IItemDetails>;
     categories$!: Observable<ICategory[]>;
@@ -63,7 +65,8 @@ export class AdvertisementFormItemComponent implements OnInit, OnChanges {
         private categoryService: CategoryService,
         private itemService: ItemService,
         private authenticationService: AuthenticationService,
-        private messageService: MessageService
+        private messageService: MessageService,
+        private store: Store<AdvertisementCreationState>
     ) {}
 
     ngOnInit(): void {
@@ -74,23 +77,12 @@ export class AdvertisementFormItemComponent implements OnInit, OnChanges {
         if (changes.itemId && changes.itemId.currentValue && changes.itemId.currentValue !== changes.itemId.previousValue) {
             const itemId: number = changes.itemId.currentValue as number;
 
-            this.loadingImages$.next(true);
-            this.images$ = this.itemService.getImagesByItem(itemId).pipe(
-                tap(() => this.loadingImages$.next(false)),
-                map((resp) => resp.responseObject)
-            );
-
-            this.loadingDetails$.next(true);
-            this.itemDetails$ = this.itemService.getDetails(itemId).pipe(
-                tap(() => this.loadingDetails$.next(false)),
-                map((resp) => resp.responseObject)
-            );
+            this.store.dispatch(loadItemDetails({ id: itemId }));
+            this.store.dispatch(loadItemImages({ id: itemId }));
         }
     }
 
     handleSubmit = (form: HTMLFormElement) => {
-        console.log('HANDLE XD');
-
         if (!this.authenticationService.currentUser) throw new Error('No logged in user!');
 
         const { name, description, categoryId } = this.itemForm.value.details;
