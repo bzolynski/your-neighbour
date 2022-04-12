@@ -5,7 +5,11 @@ import { Store } from '@ngrx/store';
 import { tap } from 'rxjs/operators';
 import { MessageService } from 'src/app/modules/core/services/message.service';
 import { signIn } from 'src/app/store/authentication/authentication.action';
-import { selectAuthenticationError, selectAuthenticationStatus } from 'src/app/store/authentication/authentication.selectors';
+import {
+    selectAuthenticationError,
+    selectAuthenticationIsBusy,
+    selectUser,
+} from 'src/app/store/authentication/authentication.selectors';
 
 @Component({
     selector: 'app-welcome-login-form',
@@ -30,11 +34,12 @@ export class WelcomeLoginFormComponent {
         return '';
     }
 
-    status$ = this.store.select(selectAuthenticationStatus).pipe(
-        tap((status) => {
-            if (status === 'success') this.router.navigateByUrl(this.activatedRoute.snapshot.queryParams['returnUrl'] ?? '/');
+    user$ = this.store.select(selectUser).pipe(
+        tap((user) => {
+            if (user) this.router.navigateByUrl(this.activatedRoute.snapshot.queryParams['returnUrl'] ?? '/');
         })
     );
+    isBusy$ = this.store.select(selectAuthenticationIsBusy);
     error$ = this.store.select(selectAuthenticationError).pipe(tap((error) => this.messageService.showMessage(error, 'error')));
 
     constructor(

@@ -5,7 +5,7 @@ import { MessageService } from 'src/app/modules/core/services/message.service';
 import {
     selectItemImages,
     selectItemImagesError,
-    selectItemImagesStatus,
+    selectItemImagesIsBusy,
 } from '../../../../../pages/advertisement-creation/store/item-images/item-images.selectors';
 
 @Component({
@@ -15,7 +15,7 @@ import {
 })
 export class AdvertisementFormItemSelectedImagesComponent {
     images$ = this.store.select(selectItemImages);
-    status$ = this.store.select(selectItemImagesStatus);
+    isBusy$ = this.store.select(selectItemImagesIsBusy);
     error$ = this.store.select(selectItemImagesError).pipe(tap((resp) => this.messageService.showMessage(resp, 'error')));
 
     constructor(private store: Store, private messageService: MessageService) {}

@@ -9,7 +9,7 @@ import { AdvertisementCreationState } from '../../../../../pages/advertisement-c
 import {
     selectItemDetails,
     selectItemDetailsError,
-    selectItemDetailsStatus,
+    selectItemDetailsIsBusy,
 } from '../../../../../pages/advertisement-creation/store/item-details/item-details.selectors';
 
 export interface IItemDetailsFormValues {
@@ -34,7 +34,7 @@ export class AdvertisementFormItemDetailsComponent implements OnInit {
         distinctUntilChanged((item1, item2) => item1?.id == item2?.id),
         tap((resp) => this.setUpForm(resp))
     );
-    status$ = this.store.select(selectItemDetailsStatus);
+    isBusy$ = this.store.select(selectItemDetailsIsBusy);
     error$ = this.store.select(selectItemDetailsError).pipe(tap((resp) => this.messageService.showMessage(resp, 'error')));
 
     @Input() detailsFormGroup!: ItemDetailsFormGroup;

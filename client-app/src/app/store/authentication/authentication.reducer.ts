@@ -1,24 +1,24 @@
-import { createReducer, on } from '@ngrx/store';
-import { signIn, signInError, signInSuccess, signOut } from './authentication.action';
-import { initialState } from './authentication.state';
+import { Action, ActionReducer, createReducer, on } from '@ngrx/store';
+import { signIn, signInError, signInSuccess, signOutSuccess } from './authentication.action';
+import { AuthenticationState, initialState } from './authentication.state';
 
-export const authenticationReducer = createReducer(
+export const authenticationReducer: ActionReducer<AuthenticationState, Action> = createReducer(
     initialState,
     on(signIn, (state) => ({
         ...state,
-        status: 'loading',
+        isBusy: true,
     })),
     on(signInSuccess, (state, { user }) => ({
         ...state,
         user: user,
-        status: 'success',
+        isBusy: false,
     })),
     on(signInError, (state, { error }) => ({
         ...state,
         error: error,
-        status: 'error',
+        isBusy: false,
     })),
-    on(signOut, (state) => ({
+    on(signOutSuccess, (state) => ({
         ...state,
         user: null,
     }))

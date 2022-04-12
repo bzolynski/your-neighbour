@@ -6,7 +6,7 @@ import { IImage } from 'src/app/modules/core/models/image.model';
 import { addItemImage } from '../../../../../pages/advertisement-creation/store/item-images/item-images.action';
 import {
     selectItemImages,
-    selectItemImagesStatus,
+    selectItemImagesIsBusy,
 } from '../../../../../pages/advertisement-creation/store/item-images/item-images.selectors';
 
 export class ImagesFormControl extends FormControl {
@@ -34,7 +34,7 @@ export interface Test<T> {
 export class AdvertisementFormItemImagesComponent implements OnInit {
     @Input() imagesControl!: ImagesFormControl;
     images$ = this.store.select(selectItemImages).pipe(tap((resp) => this.setUpForm(resp)));
-    status$ = this.store.select(selectItemImagesStatus);
+    isBusy$ = this.store.select(selectItemImagesIsBusy);
 
     constructor(private store: Store) {}
     ngOnInit(): void {

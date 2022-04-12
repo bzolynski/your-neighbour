@@ -5,5 +5,5 @@
         [image]="image"></app-advertisement-form-item-images-image>
 </div>
 <app-backdrop-loading
-    *ngIf="(status$ | async) === 'loading'"
+    *ngIf="isBusy$ | async"
     [backdropColor]="'hsl(0, 0%,0%, 0.3)'"></app-backdrop-loading>

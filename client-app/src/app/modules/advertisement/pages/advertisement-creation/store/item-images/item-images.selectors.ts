@@ -4,5 +4,5 @@ import { AdvertisementCreationState, ADVERTISEMENT_CREATION_STATE_NAME } from '.
 const getAdvertisementCreationState = createFeatureSelector<AdvertisementCreationState>(ADVERTISEMENT_CREATION_STATE_NAME);
 
 export const selectItemImages = createSelector(getAdvertisementCreationState, (state) => state.itemImages.images);
-export const selectItemImagesStatus = createSelector(getAdvertisementCreationState, (state) => state.itemImages.status);
+export const selectItemImagesIsBusy = createSelector(getAdvertisementCreationState, (state) => state.itemImages.isBusy);
 export const selectItemImagesError = createSelector(getAdvertisementCreationState, (state) => state.itemImages.error);

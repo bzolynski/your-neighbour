@@ -6,3 +6,4 @@ export const signInSuccess = createAction('[Authentication] Sign In Success', pr
 export const signInError = createAction('[Authentication] Sign In Error', props<{ error: string }>());
 
 export const signOut = createAction('[Authentication] Sign Out');
+export const signOutSuccess = createAction('[Authentication] Sign Out Success');

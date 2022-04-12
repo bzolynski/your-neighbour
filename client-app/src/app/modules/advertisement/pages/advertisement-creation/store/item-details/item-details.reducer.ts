@@ -6,16 +6,16 @@ export const advertisementItemDetailsReducer = createReducer(
     initialState,
     on(loadItemDetails, (state) => ({
         ...state,
-        status: 'loading',
+        isBusy: true,
     })),
     on(loadItemDetailsSuccess, (state, { itemDetails }) => ({
         ...state,
         itemDetails: itemDetails,
-        status: 'success',
+        isBusy: false,
     })),
     on(loadItemDetailsError, (state, { error }) => ({
         ...state,
         error: error,
-        status: 'error',
+        isBusy: false,
     }))
 );

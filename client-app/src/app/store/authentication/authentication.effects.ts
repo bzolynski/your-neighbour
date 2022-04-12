@@ -1,14 +1,15 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { from, of, throwError } from 'rxjs';
-import { catchError, map, switchMap } from 'rxjs/operators';
+import { catchError, map, switchMap, tap } from 'rxjs/operators';
 import { AuthenticationService } from 'src/app/modules/core/authentication/authentication.service';
 import { ResponseStatus } from 'src/app/modules/core/models';
-import { signIn, signInError, signInSuccess } from './authentication.action';
+import { signIn, signInError, signInSuccess, signOut, signOutSuccess } from './authentication.action';
 
 @Injectable()
 export class AuthenticationEffects {
-    constructor(private actions$: Actions, private authenticationService: AuthenticationService) {}
+    constructor(private actions$: Actions, private authenticationService: AuthenticationService, private router: Router) {}
 
     signIn$ = createEffect(() =>
         this.actions$.pipe(
@@ -27,6 +28,16 @@ export class AuthenticationEffects {
                     catchError((error) => of(signInError({ error: error })))
                 )
             )
+        )
+    );
+
+    signOut$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(signOut),
+            switchMap(() => of(signOutSuccess())),
+            tap(() => {
+                this.router.navigate(['welcome']);
+            })
         )
     );
 }

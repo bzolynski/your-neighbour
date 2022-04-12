@@ -11,16 +11,16 @@ export const itemImagesReducer = createReducer(
     on(loadItemImages, (state) => ({
         ...state,
         images: [],
-        status: 'loading',
+        isBusy: true,
     })),
     on(loadItemImagesSuccess, (state, { images }) => ({
         ...state,
         images: images,
-        status: 'success',
+        isBusy: false,
     })),
     on(loadItemImagesError, (state, { error }) => ({
         ...state,
         error: error,
-        status: 'error',
+        isBusy: false,
     }))
 );
