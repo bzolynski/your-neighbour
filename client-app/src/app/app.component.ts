@@ -1,6 +1,5 @@
 import { Component, OnDestroy } from '@angular/core';
 import { Subject } from 'rxjs';
-import { AuthenticationService } from './modules/core/authentication/authentication.service';
 import { MessageService } from './modules/core/services/message.service';
 
 @Component({
@@ -14,7 +13,7 @@ export class AppComponent implements OnDestroy {
     isBusy = false;
     unsubscriber$: Subject<boolean> = new Subject();
 
-    constructor(authenticationService: AuthenticationService, private messageService: MessageService) {
+    constructor(private messageService: MessageService) {
         /*
         authenticationService
             .getCurrentUser()

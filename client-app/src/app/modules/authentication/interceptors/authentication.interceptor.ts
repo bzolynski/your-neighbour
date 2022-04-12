@@ -1,28 +1,17 @@
-import {
-    HttpEvent,
-    HttpHandler,
-    HttpInterceptor,
-    HttpRequest,
-} from '@angular/common/http';
+import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, throwError } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
-import { AuthenticationService } from './authentication.service';
+import { AuthenticationService } from '../services/authentication.service';
 
 @Injectable({
     providedIn: 'root',
 })
 export class AuthentiacionInterceptor implements HttpInterceptor {
-    constructor(
-        private authenticationService: AuthenticationService,
-        private router: Router
-    ) {}
+    constructor(private authenticationService: AuthenticationService, private router: Router) {}
 
-    intercept(
-        req: HttpRequest<any>,
-        next: HttpHandler
-    ): Observable<HttpEvent<any>> {
+    intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         req = req.clone({
             setHeaders: {
                 'Content-Type': 'application/json',
@@ -49,11 +38,7 @@ export class AuthentiacionInterceptor implements HttpInterceptor {
         return throwError(error);
     };
 
-    private handleUnauthorized = (
-        req: HttpRequest<any>,
-        next: HttpHandler,
-        firstError: any
-    ): Observable<HttpEvent<any>> => {
+    private handleUnauthorized = (req: HttpRequest<any>, next: HttpHandler, firstError: any): Observable<HttpEvent<any>> => {
         return this.authenticationService.refreshToken().pipe(
             switchMap(() => {
                 return next.handle(req);

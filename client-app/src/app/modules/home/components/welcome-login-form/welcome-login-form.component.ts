@@ -3,14 +3,13 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { tap } from 'rxjs/operators';
-import { MessageService } from 'src/app/modules/core/services/message.service';
-import { signIn } from 'src/app/store/authentication/authentication.action';
+import { signIn } from 'src/app/modules/authentication/store/authentication.action';
 import {
     selectAuthenticationError,
     selectAuthenticationIsBusy,
     selectUser,
-} from 'src/app/store/authentication/authentication.selectors';
-
+} from 'src/app/modules/authentication/store/authentication.selectors';
+import { MessageService } from 'src/app/modules/core/services/message.service';
 @Component({
     selector: 'app-welcome-login-form',
     templateUrl: './welcome-login-form.component.html',

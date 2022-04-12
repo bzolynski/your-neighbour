@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable, throwError } from 'rxjs';
 import { concatMap, map } from 'rxjs/operators';
-import { AuthenticationService } from 'src/app/modules/core/authentication/authentication.service';
+import { selectUser } from 'src/app/modules/authentication/store/authentication.selectors';
 import { ItemCreateDto } from 'src/app/modules/core/dtos/item.dto';
 import { ICategory } from 'src/app/modules/core/models';
 import { IImage } from 'src/app/modules/core/models/image.model';
@@ -12,7 +12,6 @@ import { IItemDetails } from 'src/app/modules/core/models/item.model';
 import { CategoryService } from 'src/app/modules/core/services';
 import { ItemService } from 'src/app/modules/core/services/item.service';
 import { MessageService } from 'src/app/modules/core/services/message.service';
-import { selectUser } from 'src/app/store/authentication/authentication.selectors';
 import { loadItemDetails } from '../../../../../pages/advertisement-creation/store/item-details/item-details.action';
 import { loadItemImages } from '../../../../../pages/advertisement-creation/store/item-images/item-images.action';
 import {
@@ -66,7 +65,6 @@ export class AdvertisementFormItemComponent implements OnInit, OnChanges {
     constructor(
         private categoryService: CategoryService,
         private itemService: ItemService,
-        private authenticationService: AuthenticationService,
         private messageService: MessageService,
         private store: Store,
         private router: Router
@@ -85,7 +83,7 @@ export class AdvertisementFormItemComponent implements OnInit, OnChanges {
         }
     }
 
-    handleSubmit = (form: HTMLFormElement) => {
+    handleSubmit = () => {
         this.user$
             .pipe(
                 concatMap((resp) => {

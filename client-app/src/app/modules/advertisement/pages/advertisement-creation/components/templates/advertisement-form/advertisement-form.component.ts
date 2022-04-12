@@ -4,13 +4,13 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable, Subject, throwError } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { AuthenticationService } from 'src/app/modules/core/authentication/authentication.service';
+import { AuthenticationService } from 'src/app/modules/authentication/services/authentication.service';
+import { selectUser } from 'src/app/modules/authentication/store/authentication.selectors';
 import { IItemListing } from 'src/app/modules/core/models/item.model';
 import { ILocalization } from 'src/app/modules/core/models/localization.model';
 import { ItemService } from 'src/app/modules/core/services/item.service';
 import { LocalizationService } from 'src/app/modules/core/services/localization.service';
 import { MessageService } from 'src/app/modules/core/services/message.service';
-import { selectUser } from 'src/app/store/authentication/authentication.selectors';
 import { ItemFormGroup } from '../../organisms';
 
 export class Item extends FormGroup {
@@ -73,20 +73,6 @@ export class AdvertisementFormComponent implements OnInit {
                 this.itemsListing$ = this.itemService.getListingByUser(resp.id).pipe(map((resp) => resp.responseObject));
             }
         });
-        // this.user$.pipe(
-        //     tap((resp) => {
-        //         if (resp == null) {
-        //             this.messageService.showMessage('Nie jesteś zalogowany!', 'error');
-        //             this.router.navigate(['welcome'], { queryParams: { returnUrl: this.router.routerState.snapshot.url } });
-        //             throwError(new Error('User is not logged in'));
-        //         } else {
-        //             this.localizations$ = this.localizationService
-        //                 .getManyByUser(resp.id)
-        //                 .pipe(map((resp) => resp.responseObject));
-        //             this.itemsListing$ = this.itemService.getListingByUser(resp.id).pipe(map((resp) => resp.responseObject));
-        //         }
-        //     })
-        // );
     }
 
     changeLocalization = (localization: ILocalization) => {

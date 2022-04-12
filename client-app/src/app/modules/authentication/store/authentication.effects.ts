@@ -3,8 +3,8 @@ import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { from, of, throwError } from 'rxjs';
 import { catchError, map, switchMap, tap } from 'rxjs/operators';
-import { AuthenticationService } from 'src/app/modules/core/authentication/authentication.service';
 import { ResponseStatus } from 'src/app/modules/core/models';
+import { AuthenticationService } from '../services/authentication.service';
 import { signIn, signInError, signInSuccess, signOut, signOutSuccess } from './authentication.action';
 
 @Injectable()

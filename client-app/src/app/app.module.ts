@@ -12,13 +12,14 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AdvertisementModule } from './modules/advertisement/advertisement.module';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
-import { RootEffects, rootReducer } from './store/app.state';
+import { rootReducer } from './store/app.state';
+import { AuthenticationModule } from './modules/authentication/authentication.module';
 
 @NgModule({
     declarations: [AppComponent],
     imports: [
         StoreModule.forRoot(rootReducer),
-        EffectsModule.forRoot(RootEffects),
+        EffectsModule.forRoot(),
         AppRoutingModule,
         BrowserModule,
         CoreModule,
@@ -28,6 +29,7 @@ import { RootEffects, rootReducer } from './store/app.state';
         SettingsModule,
         AdvertisementModule,
         BrowserAnimationsModule,
+        AuthenticationModule,
     ],
     bootstrap: [AppComponent],
     exports: [AppComponent],

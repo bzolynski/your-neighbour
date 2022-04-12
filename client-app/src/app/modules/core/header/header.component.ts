@@ -1,8 +1,8 @@
 import { Component, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Subject } from 'rxjs';
-import { signOut } from 'src/app/store/authentication/authentication.action';
-import { selectUser } from 'src/app/store/authentication/authentication.selectors';
+import { signOut } from '../../authentication/store/authentication.action';
+import { selectUser } from '../../authentication/store/authentication.selectors';
 
 @Component({
     selector: 'app-header',

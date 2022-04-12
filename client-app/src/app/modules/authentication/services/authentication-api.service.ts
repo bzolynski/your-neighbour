@@ -3,10 +3,10 @@ import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
-import { HttpError } from '../models';
-import { IRegister } from '../models/authentication.model';
-import { IUser } from '../models/user.model';
-import { ObservableResponse } from '../types/observable-response';
+import { HttpError } from '../../core/models';
+import { IRegister } from '../../core/models/authentication.model';
+import { IUser } from '../../core/models/user.model';
+import { ObservableResponse } from '../../core/types';
 
 @Injectable({
     providedIn: 'root',

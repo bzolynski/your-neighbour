@@ -1,9 +1,6 @@
 import { Component, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
-import { AuthenticationService } from 'src/app/modules/core/authentication/authentication.service';
-import { HttpError, Response } from 'src/app/modules/core/models';
-import { IRegister } from 'src/app/modules/core/models/authentication.model';
 import { MessageService } from 'src/app/modules/core/services/message.service';
 import { FormGroupValidators } from 'src/app/modules/shared/validators';
 
@@ -44,14 +41,15 @@ export class WelcomeRegisterFormComponent implements OnDestroy {
     // Private members
     destroy$: Subject<boolean> = new Subject<boolean>();
 
-    constructor(private authenticationService: AuthenticationService, private messageService: MessageService) {}
+    constructor(/*private authenticationService: AuthenticationService, */ private messageService: MessageService) {}
     ngOnDestroy(): void {
         this.destroy$.next(true);
         this.destroy$.unsubscribe;
     }
 
     onSubmit = () => {
-        console.log(this.form.valid);
+        throw new Error('Implement this with ngrx');
+        /*console.log(this.form.valid);
 
         if (this.form.valid) {
             const register: IRegister = Object.assign(this.form.value);
@@ -63,6 +61,6 @@ export class WelcomeRegisterFormComponent implements OnDestroy {
                     this.messageService.showMessage(errorResponse.error?.errorMessages[0] ?? 'Error', 'error');
                 }
             );
-        }
+        }*/
     };
 }

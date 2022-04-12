@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { IRegister } from '../models/authentication.model';
-import { IUser } from '../models/user.model';
-import { ObservableResponse } from '../types';
+import { IRegister } from '../../core/models/authentication.model';
+import { IUser } from '../../core/models/user.model';
+import { ObservableResponse } from '../../core/types';
 import { AuthenticationApiService } from './authentication-api.service';
 
 @Injectable({
