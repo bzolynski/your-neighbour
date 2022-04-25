@@ -1,4 +1,4 @@
-import { ICoordinates, ILocalization } from '../models/localization.model';
+import { ICoordinates, ILocalization } from 'src/app/shared/data-access/models';
 import { IResponseDtoBase } from '.';
 
 // interfaces

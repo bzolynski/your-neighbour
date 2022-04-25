@@ -8,7 +8,7 @@ export const environment = {
     authentiaction_api_url: 'https://localhost:5001/api',
     site_url: 'http://localhost:4200',
     mapbox: {
-        accessToken: 'TOKEN',
+        accessToken: 'pk.eyJ1Ijoia2xhcG91c3playIsImEiOiJjbDFrYnhtbjgweGJ4M2NxbHo3eHBqZmtnIn0.vcjSPKSRTibeq0xFBl0O8Q',
     },
 };
 

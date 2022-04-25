@@ -1,0 +1,27 @@
+<div
+    class="add-photo-outline"
+    [class.clickable]="areaClickable"
+    (click)="areaClickable ? input.click() : undefined">
+    <div class="add-photo-info">
+        <button mat-stroked-button color="accent" disabled type="button">
+            Przeciągnij i upuść tutaj (not working)
+        </button>
+        <span>lub</span>
+        <input
+            #input
+            type="file"
+            [multiple]="multiple"
+            hidden="true"
+            [accept]="accept"
+            onclick="this.value=null"
+            (change)="onChange(input!.files)" />
+        <button
+            class="clickable"
+            mat-flat-button
+            color="accent"
+            type="button"
+            (click)="input.click()">
+            Wybierz zdjęcia z dysku
+        </button>
+    </div>
+</div>

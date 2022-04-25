@@ -1,6 +1,8 @@
 <app-header></app-header>
 <app-container>
-    <router-outlet></router-outlet>
+    <div class="router-wrapper">
+        <router-outlet></router-outlet>
+    </div>
 </app-container>
 <app-footer></app-footer>
 <app-backdrop-loading *ngIf="isBusy"></app-backdrop-loading>

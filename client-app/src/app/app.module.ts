@@ -9,16 +9,15 @@ import { HomeModule } from './modules/home/home.module';
 import { SettingsModule } from './modules/settings/settings.module';
 import { SharedModule } from './modules/shared/shared.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { AdvertisementModule } from './modules/advertisement/advertisement.module';
+import { authenticationInterceptionProvider } from './shared/authentication/util';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
-import { rootReducer } from './store/app.state';
-import { AuthenticationModule } from './modules/authentication/authentication.module';
+import { AdvertisementShellModule } from './advertisements/feature/advertisement-shell/advertisement-shell.module';
 
 @NgModule({
     declarations: [AppComponent],
     imports: [
-        StoreModule.forRoot(rootReducer),
+        StoreModule.forRoot({}),
         EffectsModule.forRoot(),
         AppRoutingModule,
         BrowserModule,
@@ -27,11 +26,11 @@ import { AuthenticationModule } from './modules/authentication/authentication.mo
         RouterModule,
         SharedModule,
         SettingsModule,
-        AdvertisementModule,
         BrowserAnimationsModule,
-        AuthenticationModule,
+        AdvertisementShellModule,
     ],
     bootstrap: [AppComponent],
     exports: [AppComponent],
+    providers: [authenticationInterceptionProvider],
 })
 export class AppModule {}

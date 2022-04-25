@@ -1,15 +1,9 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Store } from '@ngrx/store';
 import { tap } from 'rxjs/operators';
-import { signIn } from 'src/app/modules/authentication/store/authentication.action';
-import {
-    selectAuthenticationError,
-    selectAuthenticationIsBusy,
-    selectUser,
-} from 'src/app/modules/authentication/store/authentication.selectors';
 import { MessageService } from 'src/app/modules/core/services/message.service';
+import { AuthenticationStore } from 'src/app/shared/authentication/data-access';
 @Component({
     selector: 'app-welcome-login-form',
     templateUrl: './welcome-login-form.component.html',
@@ -33,24 +27,24 @@ export class WelcomeLoginFormComponent {
         return '';
     }
 
-    user$ = this.store.select(selectUser).pipe(
+    user$ = this.authenticationStore.user$.pipe(
         tap((user) => {
             if (user) this.router.navigateByUrl(this.activatedRoute.snapshot.queryParams['returnUrl'] ?? '/');
         })
     );
-    isBusy$ = this.store.select(selectAuthenticationIsBusy);
-    error$ = this.store.select(selectAuthenticationError).pipe(tap((error) => this.messageService.showMessage(error, 'error')));
+    isBusy$ = this.authenticationStore.isLoading$;
+    error$ = this.authenticationStore.error$.pipe(tap((error) => this.messageService.showMessage(error, 'error')));
 
     constructor(
         private messageService: MessageService,
         private router: Router,
         private activatedRoute: ActivatedRoute,
-        private store: Store
+        private authenticationStore: AuthenticationStore
     ) {}
 
     onSubmit = () => {
         if (this.form.valid) {
-            this.store.dispatch(signIn({ login: this.form.get('login')?.value, password: this.form.get('password')?.value }));
+            this.authenticationStore.signIn({ login: this.form.get('login')?.value, password: this.form.get('password')?.value });
         }
     };
 }

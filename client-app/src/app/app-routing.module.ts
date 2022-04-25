@@ -12,7 +12,10 @@ const routes: Routes = [
     },
     {
         path: 'advertisements',
-        loadChildren: () => import('./modules/advertisement/advertisement.module').then((m) => m.AdvertisementModule),
+        loadChildren: () =>
+            import('./advertisements/feature/advertisement-shell/advertisement-shell.module').then(
+                (m) => m.AdvertisementShellModule
+            ),
     },
 ];
 

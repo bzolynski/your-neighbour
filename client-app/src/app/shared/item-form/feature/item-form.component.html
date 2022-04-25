@@ -1,0 +1,72 @@
+<form
+    #form
+    class="container"
+    [formGroup]="itemForm"
+    (ngSubmit)="handleSubmit()"
+    enctype="multipart/form-data">
+    <div class="section" appElevatedSection>
+        <app-file-input
+            class="add-photo-input"
+            [areaClickable]="true"
+            (fileChanged)="handleImageChange($event)"
+            [multiple]="true"
+            [accept]="'image/*'"></app-file-input>
+        <app-backdrop-loading
+            *ngIf="
+                (itemImages$ | async) === null && (itemImagesLoading$ | async)
+            "
+            style="border-radius: inherit"
+            [backdropColor]="'hsl(0, 0%,0%, 0.3)'"></app-backdrop-loading>
+    </div>
+
+    <app-selected-images
+        appPosRelative
+        appElevatedSection
+        class="section selected-images">
+        <app-selected-image
+            *ngFor="let image of itemImages$ | async"
+            class="image"
+            (deleteButtonClick)="handleImageDeleteButtonClick($event)"
+            [image]="image"></app-selected-image
+    ></app-selected-images>
+
+    <div class="section" appElevatedSection>
+        <app-text-input
+            [label]="'Nazwa'"
+            [type]="'text'"
+            [formControlName]="'name'"
+            [errorMessage]="nameErrorMessage">
+        </app-text-input>
+        <div *ngIf="!(categoriesLoading$ | async)">
+            <!-- Move select to custom component -->
+            <mat-form-field appearance="outline">
+                <mat-label>Kategoria</mat-label>
+                <mat-select formControlName="categoryId" name="categoryId">
+                    <mat-option
+                        *ngFor="let category of categories$ | async"
+                        [value]="category.id">
+                        {{ category.name }}
+                    </mat-option>
+                </mat-select>
+                <mat-error>
+                    {{ categoryIdErrorMessage }}
+                </mat-error>
+            </mat-form-field>
+            <!--  -->
+        </div>
+        <app-text-area-input
+            [rows]="5"
+            [label]="'Opis'"
+            [formControlName]="'description'"
+            [errorMessage]="descriptionErrorMessage">
+        </app-text-area-input>
+        <app-backdrop-loading
+            *ngIf="
+                (itemDetails$ | async) === null && (itemDetailsLoading$ | async)
+            "
+            style="border-radius: inherit"
+            [backdropColor]="'hsl(0, 0%,0%, 0.3)'"></app-backdrop-loading>
+    </div>
+
+    <button mat-raised-button type="none" color="accent">Zapisz</button>
+</form>
