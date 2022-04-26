@@ -5,7 +5,7 @@ using YourNeighbour.Domain.Entities.Definitions;
 
 namespace YourNeighbour.Domain.Entities
 {
-    public class Category : EntityCustom
+    public class Category : EntityBase
     {
         public static readonly Guid RootCategoryGuid = new Guid("00000000-0000-0000-0000-000000000000");
         public Category()
@@ -20,6 +20,7 @@ namespace YourNeighbour.Domain.Entities
         public Category Parent { get; set; }
         public ICollection<Category> Subcategories { get; }
         public ICollection<Advertisement> Advertisements { get; }
+        public bool Basic { get; set; } = false;
 
         public int DefinitionId { get; set; }
         public int? ParentId { get; set; }

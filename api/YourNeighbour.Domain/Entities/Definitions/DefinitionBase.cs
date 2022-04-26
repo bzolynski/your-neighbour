@@ -2,7 +2,7 @@
 
 namespace YourNeighbour.Domain.Entities.Definitions
 {
-    public class DefinitionBase : EntityCustom
+    public class DefinitionBase : EntityBase
     {
         public string Name { get; set; }
         public string DisplayName { get; set; }

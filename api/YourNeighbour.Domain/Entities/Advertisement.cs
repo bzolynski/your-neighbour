@@ -5,7 +5,7 @@ using YourNeighbour.Domain.Entities.Identity;
 
 namespace YourNeighbour.Domain.Entities
 {
-    public class Advertisement : EntityCustom
+    public class Advertisement : EntityBase
     {
         public User User { get; set; }
         public DateTime DateCreated { get; set; }

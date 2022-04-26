@@ -10,6 +10,7 @@ namespace YourNeighbour.Domain.Entities.Definitions
         {
             Categories = new HashSet<Category>();
         }
+        public bool Basic { get; set; } = false;
         public ICollection<Category> Categories { get; private set; }
     }
 }
