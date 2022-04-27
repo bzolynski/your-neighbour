@@ -1,11 +1,12 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output } from '@angular/core';
 import * as MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
 import * as mapboxgl from 'mapbox-gl';
 import { environment } from 'src/environments/environment';
-import { Feature } from 'src/app/modules/core/models/map-response.model';
 import { ICoordinates } from 'src/app/modules/core/models/localization.model';
+import { MarkerFeature } from '../../data-access/models/api/map-response.model';
+import { Subject } from 'rxjs';
 
 @Component({
     selector: 'app-map',
@@ -13,11 +14,15 @@ import { ICoordinates } from 'src/app/modules/core/models/localization.model';
     styleUrls: ['./map.component.scss'],
 })
 export class MapComponent implements OnInit {
-    @Input() coordinates?: ICoordinates;
+    @Output() markerMoved = new Subject<MarkerFeature>();
+    @Input()
+    set coordinates(value: ICoordinates | null) {
+        if (value) this.queryCoordinates(value.latitude, value.longitude);
+    }
     map!: mapboxgl.Map;
     geocoder!: MapboxGeocoder;
     marker!: mapboxgl.Marker;
-    selectedPoint?: Feature;
+    selectedPoint?: MarkerFeature;
 
     ngOnInit(): void {
         this.marker = new mapboxgl.Marker();
@@ -26,7 +31,7 @@ export class MapComponent implements OnInit {
         this.initializeEvents();
     }
 
-    initializeMap = () => {
+    private initializeMap = () => {
         this.map = new mapboxgl.Map({
             container: 'map',
             zoom: 5,
@@ -36,7 +41,7 @@ export class MapComponent implements OnInit {
         });
     };
 
-    initializeGeocoder = () => {
+    private initializeGeocoder = () => {
         this.geocoder = new MapboxGeocoder({
             accessToken: environment.mapbox.accessToken,
             marker: false,
@@ -48,18 +53,21 @@ export class MapComponent implements OnInit {
         this.map.addControl(this.geocoder);
     };
 
-    initializeEvents = () => {
+    private initializeEvents = () => {
         this.map.on('click', (e) => {
-            this.geocoder.query(`${e.lngLat.lat},${e.lngLat.lng}`);
+            this.queryCoordinates(e.lngLat.lat, e.lngLat.lng);
         });
-        this.geocoder.on('result', (obj: { result: Feature }) => {
+        this.geocoder.on('result', (obj: { result: MarkerFeature }) => {
             this.selectedPoint = obj.result ?? null;
             this.moveMarker(new mapboxgl.LngLat(obj.result.center[0], obj.result.center[1]));
+            this.markerMoved.next(this.selectedPoint);
         });
     };
 
-    moveMarker = (coordinates: mapboxgl.LngLat) => {
+    private queryCoordinates = (lat: number, lng: number) => {
+        this.geocoder.query(`${lat},${lng}`);
+    };
+    private moveMarker = (coordinates: mapboxgl.LngLat) => {
         this.marker.setLngLat(coordinates).addTo(this.map);
-        console.log(this.selectedPoint);
     };
 }

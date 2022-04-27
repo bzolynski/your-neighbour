@@ -1,7 +1,7 @@
 export interface MapBoxResponse {
     type: string;
     query: string[];
-    features: Feature[];
+    features: MarkerFeature[];
     attribution: string;
 }
 
@@ -13,7 +13,7 @@ export interface Properties {
     category: string;
 }
 
-export interface Feature {
+export interface MarkerFeature {
     id: string;
     type: string;
     place_type: string[];

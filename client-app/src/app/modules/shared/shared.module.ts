@@ -8,7 +8,7 @@ import { ContainerComponent } from './components/layout/container/container.comp
 import { ConfirmationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.component';
 import { BackdropLoadingComponent } from './components/backdrop-loading/backdrop-loading.component';
 import { AbsoluteDirective, ElevatedSectionDirective, RelativeDirective } from './directives';
-import { MapComponent, TextAreaInputComponent, TextInputComponent } from './components';
+import { TextAreaInputComponent, TextInputComponent } from './components';
 
 @NgModule({
     declarations: [
@@ -19,7 +19,6 @@ import { MapComponent, TextAreaInputComponent, TextInputComponent } from './comp
         ConfirmationDialogComponent,
         BackdropLoadingComponent,
         ElevatedSectionDirective,
-        MapComponent,
         RelativeDirective,
         AbsoluteDirective,
     ],
@@ -32,7 +31,6 @@ import { MapComponent, TextAreaInputComponent, TextInputComponent } from './comp
         ConfirmationDialogComponent,
         BackdropLoadingComponent,
         ElevatedSectionDirective,
-        MapComponent,
         RelativeDirective,
         AbsoluteDirective,
     ],

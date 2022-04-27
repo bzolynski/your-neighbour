@@ -8,7 +8,7 @@ import { IItemListing } from '../../data-access/models';
     styleUrls: ['./item-select.component.scss'],
 })
 export class ItemSelectComponent {
-    @Output() itemClicked: Subject<number> = new Subject<number>();
+    @Output() itemSelected: Subject<number> = new Subject<number>();
     @Input() itemsListing: IItemListing[] | null = null;
     itemSelectPanelOpen: boolean = false;
 }

@@ -12,7 +12,7 @@
             <mat-list-item
                 class="list-item"
                 *ngFor="let localization of localizations"
-                (click)="changeLocalization.next(localization)">
+                (click)="localizationSelected.next(localization)">
                 <mat-icon mat-list-icon>location_on</mat-icon>
                 <div mat-line>{{ localization.address }}</div>
             </mat-list-item>

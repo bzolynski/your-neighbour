@@ -8,7 +8,9 @@
                 Zapisane wcześniej przedmioty
             </mat-panel-description>
         </mat-expansion-panel-header>
-        <p *ngFor="let item of itemsListing" (click)="itemClicked.next(item.id)">
+        <p
+            *ngFor="let item of itemsListing"
+            (click)="itemSelected.next(item.id)">
             {{ item.name }}
         </p>
     </mat-expansion-panel>

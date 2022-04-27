@@ -9,6 +9,7 @@ import { ItemFormModule } from 'src/app/shared/item-form/feature/item-form.modul
 import { ItemSelectModule } from 'src/app/shared/ui/item-select/item-select.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { LocalizationSelectModule } from 'src/app/shared/ui/localization-select/localization-select.module';
+import { MapModule } from 'src/app/shared/ui/map/map.module';
 
 // ng g m advertisements/feature/advertisement-add --route add --module advertisements/feature/advertisement-shell
 
@@ -23,6 +24,7 @@ import { LocalizationSelectModule } from 'src/app/shared/ui/localization-select/
         ItemSelectModule,
         ReactiveFormsModule,
         LocalizationSelectModule,
+        MapModule,
     ],
     declarations: [AdvertisementAddComponent],
 })

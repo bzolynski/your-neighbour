@@ -2,21 +2,26 @@
     <div class="left">
         <form class="container" [formGroup]="form" (ngSubmit)="onSubmit()">
             <app-item-select
-                (itemClicked)="itemClicked.next($event)"
+                (itemSelected)="handleItemSelected($event)"
                 *ngIf="{ itemsListing: itemsListing$ | async } as model"
                 [itemsListing]="model.itemsListing"></app-item-select>
-            <app-item-form
+            <!-- <app-item-form
                 *ngIf="{ itemId: selectedItemId$ | async } as model"
-                [itemId]="model.itemId"></app-item-form>
+                [itemId]="model.itemId"></app-item-form> -->
             <app-localization-select
-                *ngIf="localizations$ | async as localizations2"
-                [localizations]="localizations2"
-                (changeLocalization)="
-                    changeLocalization($event)
+                *ngIf="localizations$ | async as localizations"
+                [localizations]="localizations"
+                (localizationSelected)="
+                    handleLocalizationSelected($event)
                 "></app-localization-select>
-            <app-map class="section map-section" appElevatedSection></app-map>
+            <app-map
+                *ngIf="{ coordinates: coordinates$ | async } as vm"
+                [coordinates]="vm.coordinates"
+                class="section map-section"
+                (markerMoved)="handleMarkerMoved($event)"
+                appElevatedSection></app-map>
             <div class="section" appElevatedSection>darmo? odpłatnie?</div>
         </form>
     </div>
-    <div appElevatedSection class="right"></div>
+    <div appElevatedSection class="right">TODO: Item preview</div>
 </div>

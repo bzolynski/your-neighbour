@@ -10,7 +10,7 @@ import { ILocalization } from '../../data-access/models';
 export class LocalizationSelectComponent implements OnInit {
     @Input() localizations!: ILocalization[];
     itemSelectPanelOpen: boolean = false;
-    @Output() changeLocalization = new Subject<ILocalization>();
+    @Output() localizationSelected = new Subject<ILocalization>();
 
     ngOnInit(): void {
         if (!this.localizations) throw new Error('Provide localizations!');

@@ -7,7 +7,8 @@ import { ItemService } from 'src/app/modules/core/services/item.service';
 import { LocalizationService } from 'src/app/modules/core/services/localization.service';
 import { MessageService } from 'src/app/modules/core/services/message.service';
 import { AuthenticationStore } from 'src/app/shared/authentication/data-access';
-import { IImage, IItemListing, ILocalization } from 'src/app/shared/data-access/models';
+import { ICoordinates, IItemListing, ILocalization } from 'src/app/shared/data-access/models';
+import { MarkerFeature } from 'src/app/shared/data-access/models/api/map-response.model';
 import { GenericFormControl } from 'src/app/shared/utils';
 
 @Component({
@@ -16,21 +17,16 @@ import { GenericFormControl } from 'src/app/shared/utils';
     styleUrls: ['./advertisement-add.component.scss'],
 })
 export class AdvertisementAddComponent implements OnInit {
-    itemClicked: Subject<number> = new Subject<number>();
     itemSelectPanelOpen: boolean = false;
     form: FormGroup = new FormGroup({
-        item: new FormGroup({
-            name: new GenericFormControl<string>('', [Validators.required, Validators.minLength(3)]),
-            categoryId: new GenericFormControl<number>(undefined, [Validators.required]),
-            description: new GenericFormControl<string>('', [Validators.required]),
-            images: new GenericFormControl<IImage[]>([], [Validators.required]),
-        }),
+        itemId: new GenericFormControl<number>(undefined, [Validators.required]),
+        localization: new GenericFormControl<ILocalization>(undefined, [Validators.required]),
+        dateCreated: new GenericFormControl<Date>(new Date(), [Validators.required]),
     });
     // observables
-    selectedItemId$: Observable<number> = this.itemClicked.asObservable();
     localizations$!: Observable<ILocalization[]>;
     itemsListing$!: Observable<IItemListing[]>;
-
+    coordinates$ = new Subject<ICoordinates>();
     constructor(
         private localizationService: LocalizationService,
         private itemService: ItemService,
@@ -52,8 +48,23 @@ export class AdvertisementAddComponent implements OnInit {
         });
     }
 
-    changeLocalization = (localization: any) => {
-        console.log(localization);
+    handleMarkerMoved = (marker: MarkerFeature) => {
+        const localization: ILocalization = {
+            address: marker.place_name,
+            coordinates: {
+                longitude: marker.center[0],
+                latitude: marker.center[1],
+            },
+        };
+        this.form.get('localization')?.patchValue(localization);
+    };
+
+    handleItemSelected = (itemId: number) => {
+        this.form.get('itemId')?.patchValue(itemId);
+    };
+
+    handleLocalizationSelected = (localization: ILocalization) => {
+        this.coordinates$.next(localization.coordinates);
     };
 
     onSubmit = () => {
