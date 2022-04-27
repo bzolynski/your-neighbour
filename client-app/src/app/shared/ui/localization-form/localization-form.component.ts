@@ -11,6 +11,7 @@ import { GenericFormControl, GenericFormGroup } from '../../utils';
 })
 export class LocalizationFormComponent {
     @Output() localizationSubmited = new Subject<ILocalization>();
+    @Output() cancelButtonPressed = new Subject();
     @Input() set localization(value: ILocalization | null) {
         if (value) {
             this.form.patchValue({ name: value.name, coordinates: value.coordinates });
