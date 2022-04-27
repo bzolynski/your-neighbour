@@ -8,18 +8,17 @@
             <!-- <app-item-form
                 *ngIf="{ itemId: selectedItemId$ | async } as model"
                 [itemId]="model.itemId"></app-item-form> -->
-            <app-localization-select
-                *ngIf="localizations$ | async as localizations"
-                [localizations]="localizations"
+            <app-user-localizations-select
                 (localizationSelected)="
                     handleLocalizationSelected($event)
-                "></app-localization-select>
+                "></app-user-localizations-select>
             <app-map
                 *ngIf="{ coordinates: coordinates$ | async } as vm"
                 [coordinates]="vm.coordinates"
                 class="section map-section"
                 (markerMoved)="handleMarkerMoved($event)"
                 appElevatedSection></app-map>
+
             <div class="section" appElevatedSection>darmo? odpłatnie?</div>
         </form>
     </div>

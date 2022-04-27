@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ILocalizationCreateDto, ILocalizationDto } from '../dtos';
+import { ILocalization } from 'src/app/shared/data-access/models';
 import { ObservableResponse } from '../types';
 import { ApiService } from './api.service';
 
@@ -9,11 +9,11 @@ import { ApiService } from './api.service';
 export class LocalizationService {
     constructor(private apiService: ApiService) {}
 
-    getManyByUser = (userId: number): ObservableResponse<Array<ILocalizationDto>> => {
-        return this.apiService.get<Array<ILocalizationDto>>(`localization/get-many-by-user/${userId}`);
+    getManyByUser = (userId: number): ObservableResponse<Array<ILocalization>> => {
+        return this.apiService.get<Array<ILocalization>>(`localization/get-many-by-user/${userId}`);
     };
 
-    create = (body: ILocalizationCreateDto): ObservableResponse<ILocalizationDto> => {
-        return this.apiService.put<ILocalizationDto>('localization/create-for-user', body);
+    create = (body: ILocalization, userId: number): ObservableResponse<ILocalization> => {
+        return this.apiService.put<ILocalization>(`localization/create-for-user/${userId}`, body);
     };
 }

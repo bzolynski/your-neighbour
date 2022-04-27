@@ -5,5 +5,5 @@ export interface ICoordinates {
 
 export interface ILocalization {
     coordinates: ICoordinates;
-    address: string;
+    name: string;
 }

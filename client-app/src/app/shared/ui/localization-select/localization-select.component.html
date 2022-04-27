@@ -14,7 +14,7 @@
                 *ngFor="let localization of localizations"
                 (click)="localizationSelected.next(localization)">
                 <mat-icon mat-list-icon>location_on</mat-icon>
-                <div mat-line>{{ localization.address }}</div>
+                <div mat-line>{{ localization.name }}</div>
             </mat-list-item>
         </mat-list>
     </mat-expansion-panel>

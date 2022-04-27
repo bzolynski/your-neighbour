@@ -8,8 +8,8 @@ import { AngularMaterialModule } from 'src/app/modules/angular-material/angular-
 import { ItemFormModule } from 'src/app/shared/item-form/feature/item-form.module';
 import { ItemSelectModule } from 'src/app/shared/ui/item-select/item-select.module';
 import { ReactiveFormsModule } from '@angular/forms';
-import { LocalizationSelectModule } from 'src/app/shared/ui/localization-select/localization-select.module';
 import { MapModule } from 'src/app/shared/ui/map/map.module';
+import { UserLocalizationsSelectModule } from 'src/app/shared/user-localizations-select/feature/user-localizations-select.module';
 
 // ng g m advertisements/feature/advertisement-add --route add --module advertisements/feature/advertisement-shell
 
@@ -23,8 +23,8 @@ import { MapModule } from 'src/app/shared/ui/map/map.module';
         ItemFormModule,
         ItemSelectModule,
         ReactiveFormsModule,
-        LocalizationSelectModule,
         MapModule,
+        UserLocalizationsSelectModule,
     ],
     declarations: [AdvertisementAddComponent],
 })

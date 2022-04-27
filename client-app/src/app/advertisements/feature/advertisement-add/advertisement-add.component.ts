@@ -4,7 +4,6 @@ import { Router } from '@angular/router';
 import { Observable, Subject, throwError } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ItemService } from 'src/app/modules/core/services/item.service';
-import { LocalizationService } from 'src/app/modules/core/services/localization.service';
 import { MessageService } from 'src/app/modules/core/services/message.service';
 import { AuthenticationStore } from 'src/app/shared/authentication/data-access';
 import { ICoordinates, IItemListing, ILocalization } from 'src/app/shared/data-access/models';
@@ -24,11 +23,11 @@ export class AdvertisementAddComponent implements OnInit {
         dateCreated: new GenericFormControl<Date>(new Date(), [Validators.required]),
     });
     // observables
-    localizations$!: Observable<ILocalization[]>;
     itemsListing$!: Observable<IItemListing[]>;
     coordinates$ = new Subject<ICoordinates>();
+    localization$ = new Subject<ILocalization>();
+
     constructor(
-        private localizationService: LocalizationService,
         private itemService: ItemService,
         private authenticationStore: AuthenticationStore,
         private messageService: MessageService,
@@ -42,7 +41,6 @@ export class AdvertisementAddComponent implements OnInit {
                 this.router.navigate(['welcome'], { queryParams: { returnUrl: this.router.routerState.snapshot.url } });
                 throwError(new Error('User is not logged in'));
             } else {
-                this.localizations$ = this.localizationService.getManyByUser(resp.id).pipe(map((resp) => resp.responseObject));
                 this.itemsListing$ = this.itemService.getListingByUser(resp.id).pipe(map((resp) => resp.responseObject));
             }
         });
@@ -50,13 +48,14 @@ export class AdvertisementAddComponent implements OnInit {
 
     handleMarkerMoved = (marker: MarkerFeature) => {
         const localization: ILocalization = {
-            address: marker.place_name,
+            name: marker.place_name,
             coordinates: {
                 longitude: marker.center[0],
                 latitude: marker.center[1],
             },
         };
         this.form.get('localization')?.patchValue(localization);
+        this.localization$.next(localization);
     };
 
     handleItemSelected = (itemId: number) => {

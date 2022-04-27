@@ -1,0 +1,14 @@
+<form [formGroup]="form" (ngSubmit)="handleSubmit()">
+    <app-text-input
+        [label]="'Nazwa'"
+        [errorMessage]="nameErrorMessage"
+        [formControlName]="'name'"></app-text-input>
+    <button
+        type="button"
+        style="margin-right: 10px"
+        mat-raised-button
+        color="accent">
+        Anuluj
+    </button>
+    <button type="none" mat-raised-button color="primary">Zapisz adres</button>
+</form>

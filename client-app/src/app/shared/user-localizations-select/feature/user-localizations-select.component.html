@@ -1,0 +1,3 @@
+<app-localization-select
+(localizationSelected)="localizationSelected.next($event)"
+    [localizations]="(localizations$ | async) ?? []"></app-localization-select>
