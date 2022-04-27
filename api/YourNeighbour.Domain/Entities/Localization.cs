@@ -5,7 +5,7 @@ namespace YourNeighbour.Domain.Entities
 {
     public sealed class Localization : EntityBase
     {
-        public string Address { get; set; }
+        public string Name { get; set; }
         public Coordinates Coordinates { get; set; }
         public User User { get; set; }
 
