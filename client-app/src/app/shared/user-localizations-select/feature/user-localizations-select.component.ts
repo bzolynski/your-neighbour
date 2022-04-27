@@ -11,8 +11,8 @@ import { UserLocalizationsStore } from '../data-access/store/user-localizations-
 })
 export class UserLocalizationsSelectComponent implements OnInit {
     @Output() localizationSelected = new Subject<ILocalization>();
-    @Input() set addLocalization(value: ILocalization) {
-        this.userLocalizationStore.addLocalization(value);
+    @Input() set addLocalization(value: ILocalization | null) {
+        if (value) this.userLocalizationStore.addLocalization(value);
     }
     localizations$ = this.userLocalizationStore.localizations$;
     constructor(private userLocalizationStore: UserLocalizationsStore) {}
