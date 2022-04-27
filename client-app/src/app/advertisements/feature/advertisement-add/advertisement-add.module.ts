@@ -11,6 +11,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MapModule } from 'src/app/shared/ui/map/map.module';
 import { UserLocalizationsSelectModule } from 'src/app/shared/user-localizations-select/feature/user-localizations-select.module';
 import { LocalizationFormModule } from 'src/app/shared/ui/localization-form/localization-form.module';
+import { ParentWidthModule } from 'src/app/shared/directives/parent-width/parent-width.module';
 
 // ng g m advertisements/feature/advertisement-add --route add --module advertisements/feature/advertisement-shell
 
@@ -27,6 +28,7 @@ import { LocalizationFormModule } from 'src/app/shared/ui/localization-form/loca
         MapModule,
         UserLocalizationsSelectModule,
         LocalizationFormModule,
+        ParentWidthModule,
     ],
     declarations: [AdvertisementAddComponent],
 })
