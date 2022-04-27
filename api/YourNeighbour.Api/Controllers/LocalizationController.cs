@@ -16,10 +16,10 @@ namespace YourNeighbour.Api.Controllers
             IEnumerable<LocalizationDto> localizations = await Mediator.Send(new GetLocalizationsByUserQuery(id));
             return Models.Response.Success(localizations);
         }
-        [HttpPut("create-for-user")]
-        public async Task<ActionResult<Response>> CreateForUser(LocalizationCreateDto localizationCreate)
+        [HttpPut("create-for-user/{id}")]
+        public async Task<ActionResult<Response>> CreateForUser(LocalizationCreateDto localizationCreate, int id)
         {
-            LocalizationDto localization = await Mediator.Send(new CreateLocalizationCommand(localizationCreate));
+            LocalizationDto localization = await Mediator.Send(new CreateLocalizationCommand(localizationCreate, id));
             return Models.Response.Success(localization);
         }
     }

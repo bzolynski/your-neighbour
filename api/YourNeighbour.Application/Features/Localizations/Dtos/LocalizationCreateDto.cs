@@ -2,7 +2,6 @@
 {
     public sealed class LocalizationCreateDto
     {
-        public int UserId { get; set; }
         public string Address { get; set; }
         public CoordinatesDto Coordinates { get; set; }
     }

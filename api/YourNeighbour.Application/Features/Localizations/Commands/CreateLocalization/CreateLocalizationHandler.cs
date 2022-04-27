@@ -20,6 +20,7 @@ namespace YourNeighbour.Application.Features.Localizations.Commands.CreateLocali
         public async Task<LocalizationDto> Handle(CreateLocalizationCommand request, CancellationToken cancellationToken)
         {
             Localization localization = mapper.Map<Localization>(request.LocalizationCreate);
+            localization.UserId = request.UserId;
             EntityEntry<Localization> result = await applicationDbContext.Set<Localization>().AddAsync(localization);
             await applicationDbContext.SaveChangesAsync(cancellationToken);
             return mapper.Map<LocalizationDto>(result.Entity);
