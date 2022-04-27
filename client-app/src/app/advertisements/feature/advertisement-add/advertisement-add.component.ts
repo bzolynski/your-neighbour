@@ -25,7 +25,8 @@ export class AdvertisementAddComponent implements OnInit {
     // observables
     itemsListing$!: Observable<IItemListing[]>;
     coordinates$ = new Subject<ICoordinates>();
-    localization$ = new Subject<ILocalization>();
+    localization$ = new Subject<ILocalization | null>();
+    submitedLocalization$ = new Subject<ILocalization>();
 
     constructor(
         private itemService: ItemService,
@@ -62,8 +63,9 @@ export class AdvertisementAddComponent implements OnInit {
         this.form.get('itemId')?.patchValue(itemId);
     };
 
-    handleLocalizationSelected = (localization: ILocalization) => {
-        this.coordinates$.next(localization.coordinates);
+    handleLocalizationSubmited = (localization: ILocalization) => {
+        this.submitedLocalization$.next(localization);
+        this.localization$.next(undefined);
     };
 
     onSubmit = () => {

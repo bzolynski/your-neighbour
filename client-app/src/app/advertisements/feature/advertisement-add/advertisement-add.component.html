@@ -9,8 +9,9 @@
                 *ngIf="{ itemId: selectedItemId$ | async } as model"
                 [itemId]="model.itemId"></app-item-form> -->
             <app-user-localizations-select
+                [addLocalization]="submitedLocalization$ | async"
                 (localizationSelected)="
-                    handleLocalizationSelected($event)
+                    this.coordinates$.next($event.coordinates)
                 "></app-user-localizations-select>
             <app-map
                 *ngIf="{ coordinates: coordinates$ | async } as vm"
@@ -19,7 +20,15 @@
                 (markerMoved)="handleMarkerMoved($event)"
                 appElevatedSection></app-map>
 
-            <div class="section" appElevatedSection>darmo? odpłatnie?</div>
+            <div
+                class="section"
+                appElevatedSection
+                *ngIf="localization$ | async as localization">
+                <app-localization-form
+                    (cancelButtonPressed)="localization$.next(undefined)"
+                    (localizationSubmited)="handleLocalizationSubmited($event)"
+                    [localization]="localization"></app-localization-form>
+            </div>
         </form>
     </div>
     <div appElevatedSection class="right">TODO: Item preview</div>
