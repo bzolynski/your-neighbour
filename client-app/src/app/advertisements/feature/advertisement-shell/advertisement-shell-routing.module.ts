@@ -12,7 +12,6 @@ const routes: Routes = [
         pathMatch: 'full',
         loadChildren: async () => (await import('../advertisement-add/advertisement-add.module')).AdvertisementAddModule,
     },
-    { path: '', redirectTo: '/list', pathMatch: 'full' },
 ];
 
 @NgModule({
