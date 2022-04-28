@@ -9,12 +9,10 @@ namespace YourNeighbour.Infrastructure.Mappings
     {
         public ItemMappingProfile()
         {
+            CreateMap<Item, ItemDto>();
             CreateMap<ItemCreateDto, Item>();
             CreateMap<ItemImage, ImageDto>()
                 .ReverseMap();
-            CreateMap<Item, ItemDto>();
-            CreateMap<Item, ItemListingDto>();
-            CreateMap<Item, ItemDetailsDto>();
         }
     }
 }

@@ -7,8 +7,6 @@ using YourNeighbour.Application.Features.Items.Command.CreateItem;
 using YourNeighbour.Application.Features.Items.Dtos;
 using YourNeighbour.Application.Features.Items.Queries;
 using YourNeighbour.Application.Features.Items.Queries.GetItem;
-using YourNeighbour.Application.Features.Items.Queries.GetItemDetails;
-using YourNeighbour.Application.Features.Items.Queries.GetItemsListingByUser;
 using YourNeighbour.Application.Features.Items.Queries.GetManyByUser;
 using YourNeighbour.Application.Features.Items.Queries.GetManyImagesByItem;
 
@@ -30,24 +28,10 @@ namespace YourNeighbour.Api.Controllers
             return Models.Response.Success(result);
         }
 
-        [HttpGet("get-listing-by-user/{id}")]
-        public async Task<ActionResult<Response>> GetListingByUser(int id)
-        {
-            IEnumerable<ItemListingDto> result = await Mediator.Send(new GetItemsListingByUser(id));
-            return Models.Response.Success(result);
-        }
-
         [HttpGet("get-many-images-by-item/{id}")]
         public async Task<ActionResult<Response>> GetManyImagesByItem(int id)
         {
             IEnumerable<ImageDto> result = await Mediator.Send(new GetManyImagesByItemQuery(id));
-            return Models.Response.Success(result);
-        }
-
-        [HttpGet("get-details/{id}")]
-        public async Task<ActionResult<Response>> GetDetails(int id)
-        {
-            ItemDetailsDto result = await Mediator.Send(new GetItemDetailsQuery(id));
             return Models.Response.Success(result);
         }
 
