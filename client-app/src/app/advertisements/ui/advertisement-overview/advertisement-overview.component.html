@@ -1,1 +1,60 @@
-<p>advertisement-overview works!</p>
+<!-- <div *ngIf="item" class="container">
+    <img
+        class="image"
+        [src]="item.images[0].dataUrl"
+        [name]="item.images[0].name" />
+    {{ item.name }}
+    {{ item.category.name }}
+</div> -->
+<div class="container">
+    <ng-container *ngIf="item; else skeleton">
+        <img
+            *ngIf="item.images[0]; else imageSkeleton"
+            class="image"
+            [src]="item.images[0].dataUrl"
+            [name]="item.images[0].name" />
+        <ng-template #imageSkeleton>
+            <app-skeleton-box
+                class="skeleton image"
+                [animate]="loading"></app-skeleton-box>
+        </ng-template>
+
+        <h1>{{ item.name }}</h1>
+        <h2>{{ item.category.name }}</h2>
+
+        <p>
+            {{ item.description }}
+        </p>
+    </ng-container>
+    <h3 style="margin-block-end: 0px">Lokalizacja:</h3>
+    <h4 *ngIf="localization; else localizationSkeleton">
+        {{ localization.name }}
+    </h4>
+    <ng-template #localizationSkeleton>
+        <app-skeleton-text
+            class="skeleton skeleton-h3"
+            [rows]="1"
+            [rowHeight]="'16px'"></app-skeleton-text>
+    </ng-template>
+    <ng-template #skeleton>
+        <app-skeleton-box
+            class="skeleton image"
+            [animate]="loading"></app-skeleton-box>
+        <app-skeleton-text
+            class="skeleton skeleton-h1"
+            [animate]="loading"
+            [rows]="1"
+            [rowHeight]="'24px'"></app-skeleton-text>
+        <app-skeleton-text
+            class="skeleton skeleton-h2"
+            [animate]="loading"
+            [rows]="1"
+            [rowHeight]="'20px'"></app-skeleton-text>
+        <app-skeleton-text
+            class="skeleton skeleton-p"
+            [animate]="loading"
+            [rows]="6"
+            [rowHeight]="'14px'"></app-skeleton-text>
+    </ng-template>
+    <button mat-stroked-button color="primary">Utwórz</button>
+</div>

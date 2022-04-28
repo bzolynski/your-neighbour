@@ -7,6 +7,7 @@ import { IItem, ILocalization } from 'src/app/shared/data-access/models';
     styleUrls: ['./advertisement-overview.component.scss'],
 })
 export class AdvertisementOverviewComponent {
-    @Input() item?: IItem;
-    @Input() localization?: ILocalization;
+    @Input() loading: boolean = false;
+    @Input() item?: IItem | null;
+    @Input() localization?: ILocalization | null;
 }
