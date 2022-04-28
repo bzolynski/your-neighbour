@@ -2,18 +2,20 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable, Subject, throwError } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, mergeMap, tap } from 'rxjs/operators';
 import { ItemService } from 'src/app/modules/core/services/item.service';
 import { MessageService } from 'src/app/modules/core/services/message.service';
 import { AuthenticationStore } from 'src/app/shared/authentication/data-access';
-import { ICoordinates, IItem, IItemListing, ILocalization } from 'src/app/shared/data-access/models';
+import { IItem, IItemListing, ILocalization } from 'src/app/shared/data-access/models';
 import { MarkerFeature } from 'src/app/shared/data-access/models/api/map-response.model';
 import { GenericFormControl } from 'src/app/shared/utils';
+import { AdvertisementAddStore } from '../../data-access';
 
 @Component({
     selector: 'app-advertisement-add',
     templateUrl: './advertisement-add.component.html',
     styleUrls: ['./advertisement-add.component.scss'],
+    providers: [AdvertisementAddStore],
 })
 export class AdvertisementAddComponent implements OnInit {
     itemSelectPanelOpen: boolean = false;
@@ -24,18 +26,19 @@ export class AdvertisementAddComponent implements OnInit {
     });
     // observables
     itemsListing$!: Observable<IItemListing[]>;
-    coordinates$ = new Subject<ICoordinates>();
-    localization$ = new Subject<ILocalization | null>();
+    markeredLocalization$ = new Subject<ILocalization | null>();
     submitedLocalization$ = new Subject<ILocalization>();
 
-    selectedItem$ = new Observable<IItem | undefined>(undefined);
+    selectedItem$ = new BehaviorSubject<IItem | undefined>(undefined);
+    itemLoading$ = new BehaviorSubject<boolean>(false);
     selectedLocalization$ = new BehaviorSubject<ILocalization | undefined>(undefined);
 
     constructor(
         private itemService: ItemService,
         private authenticationStore: AuthenticationStore,
         private messageService: MessageService,
-        private router: Router
+        private router: Router,
+        private advertisementAddStore: AdvertisementAddStore
     ) {}
 
     ngOnInit(): void {
@@ -48,6 +51,33 @@ export class AdvertisementAddComponent implements OnInit {
                 this.itemsListing$ = this.itemService.getByUser(resp.id).pipe(map((resp) => resp.responseObject));
             }
         });
+        this.advertisementAddStore.itemIdChanged(
+            this.form.get('itemId')!.valueChanges.pipe(
+                tap(() => {
+                    this.itemLoading$.next(true);
+                    this.selectedItem$.next(undefined);
+                }),
+                map((itemId) => +itemId),
+                mergeMap((itemId) =>
+                    this.itemService.get(itemId, { includeCategory: true, includeImages: true, maxImages: 1 }).pipe(
+                        map((response) => response.responseObject),
+                        tap(
+                            (item) => {
+                                this.itemLoading$.next(false);
+                                this.selectedItem$.next(item);
+                            },
+                            (error) => this.itemLoading$.next(false)
+                        )
+                    )
+                )
+            )
+        );
+        this.advertisementAddStore.localizationChanged(
+            this.form.get('localization')!.valueChanges.pipe(
+                map((localization) => <ILocalization>localization),
+                tap((localization) => this.selectedLocalization$.next(localization))
+            )
+        );
     }
 
     handleMarkerMoved = (marker: MarkerFeature) => {
@@ -59,23 +89,12 @@ export class AdvertisementAddComponent implements OnInit {
             },
         };
         this.form.get('localization')?.patchValue(localization);
-        this.localization$.next(localization);
-    };
-
-    handleItemSelected = (itemId: number) => {
-        this.form.get('itemId')?.patchValue(itemId);
-
-        this.itemService
-            .get(itemId)
-            .pipe(map((response) => response.responseObject))
-            .subscribe((x) => {
-                console.log(x);
-            });
+        this.markeredLocalization$.next(localization);
     };
 
     handleLocalizationSubmited = (localization: ILocalization) => {
         this.submitedLocalization$.next(localization);
-        this.localization$.next(undefined);
+        this.markeredLocalization$.next(undefined);
     };
 
     onSubmit = () => {

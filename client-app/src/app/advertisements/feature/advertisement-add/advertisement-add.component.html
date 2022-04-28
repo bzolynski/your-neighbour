@@ -2,7 +2,7 @@
     <div class="left">
         <form class="container" [formGroup]="form" (ngSubmit)="onSubmit()">
             <app-item-select
-                (itemSelected)="handleItemSelected($event)"
+                (itemSelected)="form.get('itemId')?.patchValue($event)"
                 [itemsListing]="
                     (itemsListing$ | async) ?? []
                 "></app-item-select>
@@ -12,11 +12,11 @@
             <app-user-localizations-select
                 [addLocalization]="submitedLocalization$ | async"
                 (localizationSelected)="
-                    this.coordinates$.next($event.coordinates)
+                    this.selectedLocalization$.next($event)
                 "></app-user-localizations-select>
             <app-map
-                *ngIf="{ coordinates: coordinates$ | async } as vm"
-                [coordinates]="vm.coordinates"
+                *ngIf="{ localization: selectedLocalization$ | async } as vm"
+                [coordinates]="vm.localization?.coordinates"
                 class="section map-section"
                 (markerMoved)="handleMarkerMoved($event)"
                 appElevatedSection></app-map>
@@ -24,9 +24,9 @@
             <div
                 class="section"
                 appElevatedSection
-                *ngIf="localization$ | async as localization">
+                *ngIf="markeredLocalization$ | async as localization">
                 <app-localization-form
-                    (cancelButtonPressed)="localization$.next(undefined)"
+                    (cancelButtonPressed)="markeredLocalization$.next(undefined)"
                     (localizationSubmited)="handleLocalizationSubmited($event)"
                     [localization]="localization"></app-localization-form>
             </div>
@@ -35,7 +35,11 @@
 
     <div class="right">
         <div appElevatedSection [appParentWidth]="100" class="right-content">
-            <app-advertisement-overview></app-advertisement-overview>
+            <app-advertisement-overview
+                *ngIf="{ item: selectedItem$ | async } as vm"
+                [localization]="selectedLocalization$ | async"
+                [loading]="(itemLoading$ | async)!"
+                [item]="vm.item"></app-advertisement-overview>
         </div>
     </div>
 </div>
