@@ -88,7 +88,7 @@ export class ItemFormStore extends ComponentStore<ItemFormState> {
                 this.patchState({ itemDetailsStatus: 'loading' });
             }),
             switchMap((itemId) =>
-                this.itemService.getDetails(itemId).pipe(
+                this.itemService.get(itemId, { includeCategory: true }).pipe(
                     tapResponse(
                         (response) => {
                             this.patchState({ itemDetailsStatus: 'success', itemDetails: response.responseObject });

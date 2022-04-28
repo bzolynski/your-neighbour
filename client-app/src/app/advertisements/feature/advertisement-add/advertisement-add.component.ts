@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Observable, Subject, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, throwError } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ItemService } from 'src/app/modules/core/services/item.service';
 import { MessageService } from 'src/app/modules/core/services/message.service';
 import { AuthenticationStore } from 'src/app/shared/authentication/data-access';
-import { ICoordinates, IItemListing, ILocalization } from 'src/app/shared/data-access/models';
+import { ICoordinates, IItem, IItemListing, ILocalization } from 'src/app/shared/data-access/models';
 import { MarkerFeature } from 'src/app/shared/data-access/models/api/map-response.model';
 import { GenericFormControl } from 'src/app/shared/utils';
 
@@ -28,6 +28,9 @@ export class AdvertisementAddComponent implements OnInit {
     localization$ = new Subject<ILocalization | null>();
     submitedLocalization$ = new Subject<ILocalization>();
 
+    selectedItem$ = new Observable<IItem | undefined>(undefined);
+    selectedLocalization$ = new BehaviorSubject<ILocalization | undefined>(undefined);
+
     constructor(
         private itemService: ItemService,
         private authenticationStore: AuthenticationStore,
@@ -42,7 +45,7 @@ export class AdvertisementAddComponent implements OnInit {
                 this.router.navigate(['welcome'], { queryParams: { returnUrl: this.router.routerState.snapshot.url } });
                 throwError(new Error('User is not logged in'));
             } else {
-                this.itemsListing$ = this.itemService.getListingByUser(resp.id).pipe(map((resp) => resp.responseObject));
+                this.itemsListing$ = this.itemService.getByUser(resp.id).pipe(map((resp) => resp.responseObject));
             }
         });
     }
@@ -61,6 +64,13 @@ export class AdvertisementAddComponent implements OnInit {
 
     handleItemSelected = (itemId: number) => {
         this.form.get('itemId')?.patchValue(itemId);
+
+        this.itemService
+            .get(itemId)
+            .pipe(map((response) => response.responseObject))
+            .subscribe((x) => {
+                console.log(x);
+            });
     };
 
     handleLocalizationSubmited = (localization: ILocalization) => {
