@@ -10,8 +10,8 @@ namespace YourNeighbour.Domain.Entities.Definitions
     {
         public AdvertisementDefinition()
         {
-            Advertisemens = new HashSet<Advertisement>();
+            Advertisements = new HashSet<Advertisement>();
         }
-        public ICollection<Advertisement> Advertisemens { get; private set; }
+        public ICollection<Advertisement> Advertisements { get; private set; }
     }
 }
