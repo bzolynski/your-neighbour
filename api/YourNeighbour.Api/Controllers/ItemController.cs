@@ -5,6 +5,8 @@ using YourNeighbour.Api.Models;
 using YourNeighbour.Application.Features.Common.Dtos;
 using YourNeighbour.Application.Features.Items.Command.CreateItem;
 using YourNeighbour.Application.Features.Items.Dtos;
+using YourNeighbour.Application.Features.Items.Queries;
+using YourNeighbour.Application.Features.Items.Queries.GetItem;
 using YourNeighbour.Application.Features.Items.Queries.GetItemDetails;
 using YourNeighbour.Application.Features.Items.Queries.GetItemsListingByUser;
 using YourNeighbour.Application.Features.Items.Queries.GetManyByUser;
@@ -22,9 +24,9 @@ namespace YourNeighbour.Api.Controllers
         }
 
         [HttpGet("get-many-by-user/{id}")]
-        public async Task<ActionResult<Response>> GetManyByUser(int id)
+        public async Task<ActionResult<Response>> GetManyByUser(int id, [FromQuery] ItemQueryParams queryParams)
         {
-            IEnumerable<ItemDto> result = await Mediator.Send(new GetManyItemsByUserQuery(id));
+            IEnumerable<ItemDto> result = await Mediator.Send(new GetManyItemsByUserQuery(id, queryParams));
             return Models.Response.Success(result);
         }
 
@@ -46,6 +48,13 @@ namespace YourNeighbour.Api.Controllers
         public async Task<ActionResult<Response>> GetDetails(int id)
         {
             ItemDetailsDto result = await Mediator.Send(new GetItemDetailsQuery(id));
+            return Models.Response.Success(result);
+        }
+
+        [HttpGet("get/{id}")]
+        public async Task<ActionResult<Response>> Get(int id, [FromQuery] ItemQueryParams queryParams)
+        {
+            ItemDto result = await Mediator.Send(new GetItemQuery(id, queryParams));
             return Models.Response.Success(result);
         }
     }

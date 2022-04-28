@@ -23,11 +23,13 @@ namespace YourNeighbour.Application.Features.Items.Queries.GetManyItemsByUser
         }
         public async Task<IEnumerable<ItemDto>> Handle(GetManyItemsByUserQuery request, CancellationToken cancellationToken)
         {
-            return await applicationDbContext.Set<Item>()
-                .Where(x => x.UserId == request.UserId)
-                .Include(x => x.Images)
-                .ProjectTo<ItemDto>(mapper)
-                .ToListAsync();
+            IQueryable<Item> query = applicationDbContext.Set<Item>()
+                .IncludeIf(i => i.User, request.QueryParams.IncludeUser)
+                .IncludeIf(i => i.Category, request.QueryParams.IncludeCategory)
+                .IncludeIf(i => i.Images.TakeNullable(request.QueryParams.MaxImages), request.QueryParams.IncludeImages);
+
+            IEnumerable<Item> items = await query.Where(x => x.UserId == request.UserId).ToListAsync();
+            return mapper.Map<IEnumerable<ItemDto>>(items);
         }
     }
 }

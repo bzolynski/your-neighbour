@@ -4,5 +4,5 @@ using YourNeighbour.Application.Features.Items.Dtos;
 
 namespace YourNeighbour.Application.Features.Items.Queries.GetManyByUser
 {
-    public sealed record GetManyItemsByUserQuery(int UserId) : IQuery<IEnumerable<ItemDto>>;
+    public sealed record GetManyItemsByUserQuery(int UserId, ItemQueryParams QueryParams) : IQuery<IEnumerable<ItemDto>>;
 }
