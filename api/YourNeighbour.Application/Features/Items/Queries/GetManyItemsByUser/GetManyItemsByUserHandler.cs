@@ -26,7 +26,7 @@ namespace YourNeighbour.Application.Features.Items.Queries.GetManyItemsByUser
             IQueryable<Item> query = applicationDbContext.Set<Item>()
                 .IncludeIf(i => i.User, request.QueryParams.IncludeUser)
                 .IncludeIf(i => i.Category, request.QueryParams.IncludeCategory)
-                .IncludeIf(i => i.Images.TakeNullable(request.QueryParams.MaxImages), request.QueryParams.IncludeImages);
+                .IncludeIf(i => i.Images.Take(request.QueryParams.MaxImages ?? int.MaxValue), request.QueryParams.IncludeImages);
 
             IEnumerable<Item> items = await query.Where(x => x.UserId == request.UserId).ToListAsync();
             return mapper.Map<IEnumerable<ItemDto>>(items);
