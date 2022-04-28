@@ -16,7 +16,7 @@ import { Subject } from 'rxjs';
 export class MapComponent implements OnInit {
     @Output() markerMoved = new Subject<MarkerFeature>();
     @Input()
-    set coordinates(value: ICoordinates | null) {
+    set coordinates(value: ICoordinates | null | undefined) {
         if (value) this.queryCoordinates(value.latitude, value.longitude);
     }
     map!: mapboxgl.Map;
