@@ -12,6 +12,7 @@ import { MapModule } from 'src/app/shared/ui/map/map.module';
 import { UserLocalizationsSelectModule } from 'src/app/shared/user-localizations-select/feature/user-localizations-select.module';
 import { LocalizationFormModule } from 'src/app/shared/ui/localization-form/localization-form.module';
 import { ParentWidthModule } from 'src/app/shared/directives/parent-width/parent-width.module';
+import { AdvertisementOverviewModule } from '../../ui/advertisement-overview/advertisement-overview.module';
 
 // ng g m advertisements/feature/advertisement-add --route add --module advertisements/feature/advertisement-shell
 
@@ -29,6 +30,7 @@ import { ParentWidthModule } from 'src/app/shared/directives/parent-width/parent
         UserLocalizationsSelectModule,
         LocalizationFormModule,
         ParentWidthModule,
+        AdvertisementOverviewModule,
     ],
     declarations: [AdvertisementAddComponent],
 })

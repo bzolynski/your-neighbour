@@ -3,8 +3,9 @@
         <form class="container" [formGroup]="form" (ngSubmit)="onSubmit()">
             <app-item-select
                 (itemSelected)="handleItemSelected($event)"
-                *ngIf="{ itemsListing: itemsListing$ | async } as model"
-                [itemsListing]="model.itemsListing"></app-item-select>
+                [itemsListing]="
+                    (itemsListing$ | async) ?? []
+                "></app-item-select>
             <!-- <app-item-form
                 *ngIf="{ itemId: selectedItemId$ | async } as model"
                 [itemId]="model.itemId"></app-item-form> -->
@@ -34,7 +35,7 @@
 
     <div class="right">
         <div appElevatedSection [appParentWidth]="100" class="right-content">
-            content
+            <app-advertisement-overview></app-advertisement-overview>
         </div>
     </div>
 </div>
