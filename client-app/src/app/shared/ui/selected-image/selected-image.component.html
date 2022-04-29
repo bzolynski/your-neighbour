@@ -1,0 +1,11 @@
+<div class="wrapper">
+    <img class="image" [src]="image.dataUrl" [name]="image.name" />
+    <button
+        class="button"
+        mat-icon-button
+        color="warn"
+        type="button"
+        (click)="deleteButtonClick.next(image)">
+        <mat-icon class="icon">delete_forever</mat-icon>
+    </button>
+</div>
