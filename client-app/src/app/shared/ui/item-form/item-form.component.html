@@ -1,0 +1,55 @@
+<form
+    #form
+    class="container"
+    [formGroup]="itemForm"
+    (ngSubmit)="formSubmited.next(itemForm)"
+    enctype="multipart/form-data">
+    <div class="section">
+        <app-file-input
+            class="add-photo-input"
+            [areaClickable]="true"
+            (fileChanged)="handleImageChange($event)"
+            [multiple]="true"
+            [accept]="'image/*'"></app-file-input>
+    </div>
+
+    <app-selected-images appPosRelative class="section selected-images">
+        <app-selected-image
+            *ngFor="let image of itemForm.controls['images'].value ?? []"
+            class="image"
+            (deleteButtonClick)="handleImageDeleteButtonClick($event)"
+            [image]="image"></app-selected-image
+    ></app-selected-images>
+
+    <div class="section">
+        <app-text-input
+            [label]="'Nazwa'"
+            [type]="'text'"
+            [formControlName]="'name'"
+            [errorMessage]="nameErrorMessage">
+        </app-text-input>
+        <!-- Move select to custom component -->
+        <mat-form-field appearance="outline">
+            <mat-label>Kategoria</mat-label>
+            <mat-select formControlName="categoryId" name="categoryId">
+                <mat-option
+                    *ngFor="let category of categories"
+                    [value]="category.id">
+                    {{ category.name }}
+                </mat-option>
+            </mat-select>
+            <mat-error>
+                {{ categoryIdErrorMessage }}
+            </mat-error>
+        </mat-form-field>
+        <!--  -->
+        <app-text-area-input
+            [rows]="5"
+            [label]="'Opis'"
+            [formControlName]="'description'"
+            [errorMessage]="descriptionErrorMessage">
+        </app-text-area-input>
+    </div>
+
+    <button mat-raised-button type="none" color="accent">Zapisz</button>
+</form>
