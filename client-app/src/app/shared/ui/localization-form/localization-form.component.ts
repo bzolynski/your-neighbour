@@ -1,7 +1,7 @@
 import { Component, Input, Output } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
-import { ICoordinates, ILocalization } from '../../data-access/models';
+import { Localization } from '../../data-access/models';
 import { GenericFormControl, GenericFormGroup } from '../../utils';
 
 @Component({
@@ -10,16 +10,15 @@ import { GenericFormControl, GenericFormGroup } from '../../utils';
     styleUrls: ['./localization-form.component.scss'],
 })
 export class LocalizationFormComponent {
-    @Output() localizationSubmited = new Subject<ILocalization>();
+    @Output() localizationSubmited = new Subject<Localization>();
     @Output() cancelButtonPressed = new Subject();
-    @Input() set localization(value: ILocalization | null) {
+    @Input() set localization(value: Localization | null) {
         if (value) {
-            this.form.patchValue({ name: value.name, coordinates: value.coordinates });
+            this.form.patchValue({ name: value.name });
         }
     }
     form = new GenericFormGroup({
         name: new GenericFormControl<string>('', [Validators.required, Validators.minLength(3)]),
-        coordinates: new GenericFormControl<ICoordinates>(),
     });
 
     get nameErrorMessage() {

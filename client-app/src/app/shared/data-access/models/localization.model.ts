@@ -1,9 +1,9 @@
-export interface ICoordinates {
-    longitude: number;
-    latitude: number;
-}
-
-export interface ILocalization {
-    coordinates: ICoordinates;
+export interface Localization {
+    id: number;
     name: string;
+    postCode: string;
+    address: string;
+    houseNumber: string;
+    flatNumber: string;
+    city: string;
 }

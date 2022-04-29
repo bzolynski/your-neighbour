@@ -6,7 +6,7 @@ import { map, mergeMap, tap } from 'rxjs/operators';
 import { ItemService } from 'src/app/modules/core/services/item.service';
 import { MessageService } from 'src/app/modules/core/services/message.service';
 import { AuthenticationStore } from 'src/app/shared/authentication/data-access';
-import { IItem, IItemListing, ILocalization } from 'src/app/shared/data-access/models';
+import { IItem, IItemListing, Localization } from 'src/app/shared/data-access/models';
 import { GenericFormControl } from 'src/app/shared/utils';
 import { AdvertisementAddStore } from '../../data-access';
 
@@ -20,16 +20,16 @@ export class AdvertisementAddComponent implements OnInit {
     itemSelectPanelOpen: boolean = false;
     form: FormGroup = new FormGroup({
         itemId: new GenericFormControl<number>(undefined, [Validators.required]),
-        localization: new GenericFormControl<ILocalization>(undefined, [Validators.required]),
+        localization: new GenericFormControl<Localization>(undefined, [Validators.required]),
         dateCreated: new GenericFormControl<Date>(new Date(), [Validators.required]),
     });
     // observables
     itemsListing$!: Observable<IItemListing[]>;
-    userLocalizations$: Observable<ILocalization[]> = this.advertisementAddStore.userLocalizations$;
+    userLocalizations$: Observable<Localization[]> = this.advertisementAddStore.userLocalizations$;
 
     selectedItem$ = new BehaviorSubject<IItem | undefined>(undefined);
     itemLoading$ = new BehaviorSubject<boolean>(false);
-    selectedLocalization$ = new BehaviorSubject<ILocalization | undefined>(undefined);
+    selectedLocalization$ = new BehaviorSubject<Localization | undefined>(undefined);
 
     constructor(
         private itemService: ItemService,
@@ -73,7 +73,7 @@ export class AdvertisementAddComponent implements OnInit {
         );
         this.advertisementAddStore.localizationChanged(
             this.form.get('localization')!.valueChanges.pipe(
-                map((localization) => <ILocalization>localization),
+                map((localization) => <Localization>localization),
                 tap((localization) => this.selectedLocalization$.next(localization))
             )
         );

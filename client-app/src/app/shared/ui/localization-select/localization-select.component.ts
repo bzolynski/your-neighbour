@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, Output } from '@angular/core';
 import { Subject } from 'rxjs';
-import { ILocalization } from '../../data-access/models';
+import { Localization } from '../../data-access/models';
 
 @Component({
     selector: 'app-localization-select',
@@ -8,9 +8,9 @@ import { ILocalization } from '../../data-access/models';
     styleUrls: ['./localization-select.component.scss'],
 })
 export class LocalizationSelectComponent implements OnInit {
-    @Input() localizations!: ILocalization[];
+    @Input() localizations!: Localization[];
     itemSelectPanelOpen: boolean = false;
-    @Output() localizationSelected = new Subject<ILocalization>();
+    @Output() localizationSelected = new Subject<Localization>();
 
     ngOnInit(): void {
         if (!this.localizations) throw new Error('Provide localizations!');

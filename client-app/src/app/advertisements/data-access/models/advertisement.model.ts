@@ -1,10 +1,10 @@
-import { ICategory, IItem, ILocalization, IModelBase } from 'src/app/shared/data-access/models';
+import { ICategory, IItem, Localization, IModelBase } from 'src/app/shared/data-access/models';
 
 export interface Advertisement extends IModelBase {
     //user
     dateCreated: Date;
     category: ICategory;
     //definition :
-    localization: ILocalization;
+    localization: Localization;
     item: IItem;
 }

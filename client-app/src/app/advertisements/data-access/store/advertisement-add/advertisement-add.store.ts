@@ -1,4 +1,4 @@
-import { GenericState, IItem, ILocalization } from 'src/app/shared/data-access/models';
+import { GenericState, IItem, Localization } from 'src/app/shared/data-access/models';
 import { Advertisement } from '../../models/advertisement.model';
 import { Injectable } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
 import { MessageService } from 'src/app/modules/core/services/message.service';
 
 interface AdvertisementAddState extends GenericState<Advertisement> {
-    userLocalizations: ILocalization[];
+    userLocalizations: Localization[];
 }
 
 @Injectable()
@@ -20,7 +20,7 @@ export class AdvertisementAddStore extends ComponentStore<AdvertisementAddState>
     readonly userLocalizations$ = this.select((state) => state.userLocalizations);
 
     readonly itemIdChanged = this.effect<IItem>(($) => $);
-    readonly localizationChanged = this.effect<ILocalization>(($) => $);
+    readonly localizationChanged = this.effect<Localization>(($) => $);
 
     readonly loadUserLocalizations = this.effect(($) =>
         $.pipe(

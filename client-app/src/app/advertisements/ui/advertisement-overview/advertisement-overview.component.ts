@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { IItem, ILocalization } from 'src/app/shared/data-access/models';
+import { IItem, Localization } from 'src/app/shared/data-access/models';
 
 @Component({
     selector: 'app-advertisement-overview',
@@ -9,5 +9,5 @@ import { IItem, ILocalization } from 'src/app/shared/data-access/models';
 export class AdvertisementOverviewComponent {
     @Input() loading: boolean = false;
     @Input() item?: IItem | null;
-    @Input() localization?: ILocalization | null;
+    @Input() localization?: Localization | null;
 }

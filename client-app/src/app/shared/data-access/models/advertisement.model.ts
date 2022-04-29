@@ -1,4 +1,4 @@
-import { ICategory, IUser, ILocalization, IItem } from './';
+import { ICategory, IUser, Localization, IItem } from './';
 import { AdvertisementDefinition } from './advertisement-definition.model';
 
 export interface Advertisement {
@@ -6,6 +6,6 @@ export interface Advertisement {
     dateCreated: Date;
     category: ICategory;
     definition: AdvertisementDefinition;
-    localization: ILocalization;
+    localization: Localization;
     item: IItem;
 }
