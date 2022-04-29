@@ -1,0 +1,11 @@
+<div
+    class="container"
+    (click)="selectComponent.updateValue(value)"
+    [class.selected]="selectComponent.isSelected(value)">
+    <input
+        *ngIf="selectComponent.multiple"
+        type="checkbox"
+        class="checkbox"
+        [checked]="selectComponent.isSelected(value)" />
+    <ng-content></ng-content>
+</div>
