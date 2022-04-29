@@ -6,3 +6,4 @@ export * from './image.model';
 export * from './item-response.model';
 export * from './observable-response';
 export * from './http-error.model';
+export * from './user';
