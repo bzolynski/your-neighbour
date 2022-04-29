@@ -1,13 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { BehaviorSubject, Observable, Subject, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { map, mergeMap, tap } from 'rxjs/operators';
 import { ItemService } from 'src/app/modules/core/services/item.service';
 import { MessageService } from 'src/app/modules/core/services/message.service';
 import { AuthenticationStore } from 'src/app/shared/authentication/data-access';
 import { IItem, IItemListing, ILocalization } from 'src/app/shared/data-access/models';
-import { MarkerFeature } from 'src/app/shared/data-access/models/api/map-response.model';
 import { GenericFormControl } from 'src/app/shared/utils';
 import { AdvertisementAddStore } from '../../data-access';
 
@@ -27,8 +26,6 @@ export class AdvertisementAddComponent implements OnInit {
     // observables
     itemsListing$!: Observable<IItemListing[]>;
     userLocalizations$: Observable<ILocalization[]> = this.advertisementAddStore.userLocalizations$;
-    markeredLocalization$ = new Subject<ILocalization | null>();
-    submitedLocalization$ = new Subject<ILocalization>();
 
     selectedItem$ = new BehaviorSubject<IItem | undefined>(undefined);
     itemLoading$ = new BehaviorSubject<boolean>(false);
@@ -81,24 +78,6 @@ export class AdvertisementAddComponent implements OnInit {
             )
         );
     }
-
-    handleMarkerMoved = (marker: MarkerFeature) => {
-        const localization: ILocalization = {
-            name: marker.place_name,
-            coordinates: {
-                longitude: marker.center[0],
-                latitude: marker.center[1],
-            },
-        };
-        this.form.get('localization')?.patchValue(localization);
-        this.markeredLocalization$.next(localization);
-    };
-
-    handleLocalizationSubmited = (localization: ILocalization) => {
-        this.submitedLocalization$.next(localization);
-        this.markeredLocalization$.next(undefined);
-    };
-
     onSubmit = () => {
         console.log();
     };

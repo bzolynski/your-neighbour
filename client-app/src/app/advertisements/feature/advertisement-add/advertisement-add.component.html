@@ -11,9 +11,6 @@
                 >
                 <button type="button" mat-flat-button>Dodaj przedmiot</button>
             </app-accordion-select>
-            <!-- <app-item-form
-                *ngIf="{ itemId: selectedItemId$ | async } as model"
-                [itemId]="model.itemId"></app-item-form> -->
             <app-accordion-select
                 label="Wybierz adres"
                 [formControlName]="'localization'">
@@ -24,17 +21,6 @@
                 >
                 <button type="button" mat-flat-button>Dodaj lokalizację</button>
             </app-accordion-select>
-            <div
-                class="section"
-                appElevatedSection
-                *ngIf="markeredLocalization$ | async as localization">
-                <app-localization-form
-                    (cancelButtonPressed)="
-                        markeredLocalization$.next(undefined)
-                    "
-                    (localizationSubmited)="handleLocalizationSubmited($event)"
-                    [localization]="localization"></app-localization-form>
-            </div>
         </form>
     </div>
 
