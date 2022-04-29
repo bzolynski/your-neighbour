@@ -19,11 +19,15 @@
                     *ngFor="let localization of userLocalizations$ | async"
                     >{{ localization.name }}</app-accordion-select-item
                 >
-                <button type="button" mat-flat-button>Dodaj lokalizację</button>
+                <button
+                    type="button"
+                    (click)="dialog.open(localizationForm)"
+                    mat-flat-button>
+                    Dodaj lokalizację
+                </button>
             </app-accordion-select>
         </form>
     </div>
-
     <div class="right">
         <div appElevatedSection [appParentWidth]="100" class="right-content">
             <app-advertisement-overview
@@ -34,3 +38,6 @@
         </div>
     </div>
 </div>
+<ng-template #localizationForm>
+    <app-localization-form (canceled)="dialog.closeAll()" (formSubmited)="localizationFormSubmited($event)"></app-localization-form>
+</ng-template>

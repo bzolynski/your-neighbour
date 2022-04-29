@@ -12,6 +12,7 @@ import { ParentWidthModule } from 'src/app/shared/directives/parent-width/parent
 import { AdvertisementOverviewModule } from '../../ui/advertisement-overview/advertisement-overview.module';
 import { AccordionSelectModule } from 'src/app/shared/ui/accordion-select/accordion-select.module';
 import { AccordionSelectItemModule } from 'src/app/shared/ui/accordion-select-item/accordion-select-item.module';
+import { MatDialogModule } from '@angular/material/dialog';
 
 // ng g m advertisements/feature/advertisement-add --route add --module advertisements/feature/advertisement-shell
 
@@ -29,6 +30,7 @@ import { AccordionSelectItemModule } from 'src/app/shared/ui/accordion-select-it
         AdvertisementOverviewModule,
         AccordionSelectModule,
         AccordionSelectItemModule,
+        MatDialogModule,
     ],
     declarations: [AdvertisementAddComponent],
 })

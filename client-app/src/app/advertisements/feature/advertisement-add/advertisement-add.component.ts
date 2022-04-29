@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { map, mergeMap, tap } from 'rxjs/operators';
@@ -36,7 +37,8 @@ export class AdvertisementAddComponent implements OnInit {
         private authenticationStore: AuthenticationStore,
         private messageService: MessageService,
         private router: Router,
-        private advertisementAddStore: AdvertisementAddStore
+        private advertisementAddStore: AdvertisementAddStore,
+        public dialog: MatDialog
     ) {}
 
     ngOnInit(): void {
@@ -77,6 +79,13 @@ export class AdvertisementAddComponent implements OnInit {
                 tap((localization) => this.selectedLocalization$.next(localization))
             )
         );
+    }
+    localizationFormSubmited(form: FormGroup) {
+        if (form.valid) {
+            const localization: Localization = { ...form.value };
+            console.log(localization);
+            this.dialog.closeAll();
+        }
     }
     onSubmit = () => {
         console.log();
