@@ -6,13 +6,13 @@ import { RouterModule } from '@angular/router';
 import { SharedModule } from 'src/app/modules/shared/shared.module';
 import { AngularMaterialModule } from 'src/app/modules/angular-material/angular-material.module';
 import { ItemFormModule } from 'src/app/shared/item-form/feature/item-form.module';
-import { ItemSelectModule } from 'src/app/shared/ui/item-select/item-select.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MapModule } from 'src/app/shared/ui/map/map.module';
-import { UserLocalizationsSelectModule } from 'src/app/shared/user-localizations-select/feature/user-localizations-select.module';
 import { LocalizationFormModule } from 'src/app/shared/ui/localization-form/localization-form.module';
 import { ParentWidthModule } from 'src/app/shared/directives/parent-width/parent-width.module';
 import { AdvertisementOverviewModule } from '../../ui/advertisement-overview/advertisement-overview.module';
+import { AccordionSelectModule } from 'src/app/shared/ui/accordion-select/accordion-select.module';
+import { AccordionSelectItemModule } from 'src/app/shared/ui/accordion-select-item/accordion-select-item.module';
 
 // ng g m advertisements/feature/advertisement-add --route add --module advertisements/feature/advertisement-shell
 
@@ -24,13 +24,13 @@ import { AdvertisementOverviewModule } from '../../ui/advertisement-overview/adv
         SharedModule,
         AngularMaterialModule,
         ItemFormModule,
-        ItemSelectModule,
         ReactiveFormsModule,
         MapModule,
-        UserLocalizationsSelectModule,
         LocalizationFormModule,
         ParentWidthModule,
         AdvertisementOverviewModule,
+        AccordionSelectModule,
+        AccordionSelectItemModule,
     ],
     declarations: [AdvertisementAddComponent],
 })

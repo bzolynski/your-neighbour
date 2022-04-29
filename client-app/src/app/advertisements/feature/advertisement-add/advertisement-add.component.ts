@@ -26,6 +26,7 @@ export class AdvertisementAddComponent implements OnInit {
     });
     // observables
     itemsListing$!: Observable<IItemListing[]>;
+    userLocalizations$: Observable<ILocalization[]> = this.advertisementAddStore.userLocalizations$;
     markeredLocalization$ = new Subject<ILocalization | null>();
     submitedLocalization$ = new Subject<ILocalization>();
 
@@ -42,6 +43,7 @@ export class AdvertisementAddComponent implements OnInit {
     ) {}
 
     ngOnInit(): void {
+        this.advertisementAddStore.loadUserLocalizations();
         this.authenticationStore.user$.subscribe((resp) => {
             if (resp == null) {
                 this.messageService.showMessage('Nie jesteś zalogowany!', 'error');
