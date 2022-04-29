@@ -1,5 +1,5 @@
 import { Component, Input, Output } from '@angular/core';
-import { Validators } from '@angular/forms';
+import { FormGroup, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { Localization } from '../../data-access/models';
 import { GenericFormControl, GenericFormGroup } from '../../utils';
@@ -10,8 +10,8 @@ import { GenericFormControl, GenericFormGroup } from '../../utils';
     styleUrls: ['./localization-form.component.scss'],
 })
 export class LocalizationFormComponent {
-    @Output() localizationSubmited = new Subject<Localization>();
-    @Output() cancelButtonPressed = new Subject();
+    @Output() formSubmited = new Subject<FormGroup>();
+    @Output() canceled = new Subject();
     @Input() set localization(value: Localization | null) {
         if (value) {
             this.form.patchValue({ name: value.name });
@@ -19,6 +19,11 @@ export class LocalizationFormComponent {
     }
     form = new GenericFormGroup({
         name: new GenericFormControl<string>('', [Validators.required, Validators.minLength(3)]),
+        street: new GenericFormControl<string>('', [Validators.required, Validators.minLength(3)]),
+        city: new GenericFormControl<string>('', [Validators.required, Validators.minLength(3)]),
+        postCode: new GenericFormControl<string>('', [Validators.required, Validators.minLength(3)]),
+        houseNumber: new GenericFormControl<string>('', [Validators.required]),
+        flatNumber: new GenericFormControl<string>(''),
     });
 
     get nameErrorMessage() {
@@ -28,7 +33,4 @@ export class LocalizationFormComponent {
 
         return '';
     }
-    handleSubmit = () => {
-        this.localizationSubmited.next({ ...this.form.value });
-    };
 }

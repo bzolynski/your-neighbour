@@ -1,14 +1,43 @@
-<form [formGroup]="form" (ngSubmit)="handleSubmit()">
+<form [formGroup]="form" (ngSubmit)="this.formSubmited.next(this.form)">
     <app-text-input
         [label]="'Nazwa'"
         [errorMessage]="nameErrorMessage"
         [formControlName]="'name'"></app-text-input>
+    <div class="row">
+        <app-text-input
+            class="col-10"
+            [label]="'Ulica'"
+            [errorMessage]="nameErrorMessage"
+            [formControlName]="'street'"></app-text-input>
+        <app-text-input
+            class="col-1"
+            [label]="'Numer domu'"
+            [errorMessage]="nameErrorMessage"
+            [formControlName]="'houseNumber'"></app-text-input>
+        <app-text-input
+            class="col-1"
+            [label]="'Numer mieszkania'"
+            [errorMessage]="nameErrorMessage"
+            [formControlName]="'flatNumber'"></app-text-input>
+    </div>
+    <div class="row">
+        <app-text-input
+            class="col-2"
+            [label]="'Kod pocztowy'"
+            [errorMessage]="nameErrorMessage"
+            [formControlName]="'postCode'"></app-text-input>
+        <app-text-input
+            class="col-10"
+            [label]="'Miejscowość'"
+            [errorMessage]="nameErrorMessage"
+            [formControlName]="'city'"></app-text-input>
+    </div>
     <button
         type="button"
         style="margin-right: 10px"
         mat-raised-button
         color="accent"
-        (click)="cancelButtonPressed.next()">
+        (click)="canceled.next()">
         Anuluj
     </button>
     <button type="none" mat-raised-button color="primary">Zapisz adres</button>
