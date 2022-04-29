@@ -24,14 +24,6 @@
                 >
                 <button type="button" mat-flat-button>Dodaj lokalizację</button>
             </app-accordion-select>
-
-            <app-map
-                *ngIf="{ localization: selectedLocalization$ | async } as vm"
-                [coordinates]="vm.localization?.coordinates"
-                class="section map-section"
-                (markerMoved)="handleMarkerMoved($event)"
-                appElevatedSection></app-map>
-
             <div
                 class="section"
                 appElevatedSection

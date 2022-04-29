@@ -7,7 +7,6 @@ import { SharedModule } from 'src/app/modules/shared/shared.module';
 import { AngularMaterialModule } from 'src/app/modules/angular-material/angular-material.module';
 import { ItemFormModule } from 'src/app/shared/item-form/feature/item-form.module';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MapModule } from 'src/app/shared/ui/map/map.module';
 import { LocalizationFormModule } from 'src/app/shared/ui/localization-form/localization-form.module';
 import { ParentWidthModule } from 'src/app/shared/directives/parent-width/parent-width.module';
 import { AdvertisementOverviewModule } from '../../ui/advertisement-overview/advertisement-overview.module';
@@ -25,7 +24,6 @@ import { AccordionSelectItemModule } from 'src/app/shared/ui/accordion-select-it
         AngularMaterialModule,
         ItemFormModule,
         ReactiveFormsModule,
-        MapModule,
         LocalizationFormModule,
         ParentWidthModule,
         AdvertisementOverviewModule,
