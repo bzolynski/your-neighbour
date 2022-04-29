@@ -26,6 +26,10 @@
                     Dodaj lokalizację
                 </button>
             </app-accordion-select>
+            <div class="section" appElevatedSection>
+                <app-item-form
+                    [categories]="categories$ | async"></app-item-form>
+            </div>
         </form>
     </div>
     <div class="right">
@@ -39,5 +43,9 @@
     </div>
 </div>
 <ng-template #localizationForm>
-    <app-localization-form (canceled)="dialog.closeAll()" (formSubmited)="localizationFormSubmited($event)"></app-localization-form>
+    <app-localization-form
+        (canceled)="dialog.closeAll()"
+        (formSubmited)="
+            localizationFormSubmited($event)
+        "></app-localization-form>
 </ng-template>

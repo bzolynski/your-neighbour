@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { map, mergeMap, tap } from 'rxjs/operators';
+import { CategoryService } from 'src/app/modules/core/services';
 import { ItemService } from 'src/app/modules/core/services/item.service';
 import { MessageService } from 'src/app/modules/core/services/message.service';
 import { AuthenticationStore } from 'src/app/shared/authentication/data-access';
@@ -32,13 +33,17 @@ export class AdvertisementAddComponent implements OnInit {
     itemLoading$ = new BehaviorSubject<boolean>(false);
     selectedLocalization$ = new BehaviorSubject<Localization | undefined>(undefined);
 
+    /*************************/
+    categories$ = this.categoryService.getAll().pipe(map((x) => x.responseObject));
+    /*************************/
     constructor(
         private itemService: ItemService,
         private authenticationStore: AuthenticationStore,
         private messageService: MessageService,
         private router: Router,
         private advertisementAddStore: AdvertisementAddStore,
-        public dialog: MatDialog
+        public dialog: MatDialog,
+        private categoryService: CategoryService
     ) {}
 
     ngOnInit(): void {
