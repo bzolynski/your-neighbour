@@ -12,11 +12,6 @@ namespace YourNeighbour.EntityFramework.Configuration
                 .WithOne(c => c.Parent)
                 .HasForeignKey(c => c.ParentId)
                 .OnDelete(DeleteBehavior.NoAction);
-
-            builder.HasMany(c => c.Advertisements)
-                .WithOne(a => a.Category)
-                .HasForeignKey(a => a.CategoryId)
-                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }
