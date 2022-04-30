@@ -85,13 +85,20 @@ export class AdvertisementAddComponent implements OnInit {
             )
         );
     }
-    localizationFormSubmited(form: FormGroup) {
+    localizationFormSubmited = (form: FormGroup) => {
         if (form.valid) {
             const localization: Localization = { ...form.value };
             console.log(localization);
             this.dialog.closeAll();
         }
-    }
+    };
+    itemFormSubmited = (form: FormGroup) => {
+        if (form.valid) {
+            const item: IItem = { ...form.value };
+            console.log(item);
+            this.dialog.closeAll();
+        }
+    };
     onSubmit = () => {
         console.log();
     };

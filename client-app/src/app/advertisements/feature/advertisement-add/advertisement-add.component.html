@@ -9,7 +9,12 @@
                     *ngFor="let item of itemsListing$ | async"
                     >{{ item.name }}</app-accordion-select-item
                 >
-                <button type="button" mat-flat-button>Dodaj przedmiot</button>
+                <button
+                    type="button"
+                    (click)="dialog.open(itemForm)"
+                    mat-flat-button>
+                    Dodaj przedmiot
+                </button>
             </app-accordion-select>
             <app-accordion-select
                 label="Wybierz adres"
@@ -26,10 +31,6 @@
                     Dodaj lokalizację
                 </button>
             </app-accordion-select>
-            <div class="section" appElevatedSection>
-                <app-item-form
-                    [categories]="categories$ | async"></app-item-form>
-            </div>
         </form>
     </div>
     <div class="right">
@@ -43,9 +44,20 @@
     </div>
 </div>
 <ng-template #localizationForm>
-    <app-localization-form
-        (canceled)="dialog.closeAll()"
-        (formSubmited)="
-            localizationFormSubmited($event)
-        "></app-localization-form>
+    <mat-dialog-content>
+        <app-localization-form
+            (canceled)="dialog.closeAll()"
+            (formSubmited)="
+                localizationFormSubmited($event)
+            "></app-localization-form>
+    </mat-dialog-content>
+</ng-template>
+
+<ng-template #itemForm>
+    <mat-dialog-content>
+        <app-item-form
+            [categories]="categories$ | async"
+            (canceled)="dialog.closeAll()"
+            (formSubmited)="itemFormSubmited($event)"></app-item-form>
+    </mat-dialog-content>
 </ng-template>
