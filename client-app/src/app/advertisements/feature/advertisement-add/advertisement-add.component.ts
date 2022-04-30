@@ -8,7 +8,7 @@ import { CategoryService } from 'src/app/modules/core/services';
 import { ItemService } from 'src/app/modules/core/services/item.service';
 import { MessageService } from 'src/app/modules/core/services/message.service';
 import { AuthenticationStore } from 'src/app/shared/authentication/data-access';
-import { IItem, IItemListing, Localization } from 'src/app/shared/data-access/models';
+import { AdvertisementDefinition, IItem, IItemListing, Localization } from 'src/app/shared/data-access/models';
 import { GenericFormControl } from 'src/app/shared/utils';
 import { AdvertisementAddStore } from '../../data-access';
 
@@ -22,13 +22,15 @@ export class AdvertisementAddComponent implements OnInit {
     itemSelectPanelOpen: boolean = false;
     form: FormGroup = new FormGroup({
         itemId: new GenericFormControl<number>(undefined, [Validators.required]),
-        localization: new GenericFormControl<Localization>(undefined, [Validators.required]),
+        localizationId: new GenericFormControl<number>(undefined, [Validators.required]),
         dateCreated: new GenericFormControl<Date>(new Date(), [Validators.required]),
+        definitionId: new GenericFormControl<number>(undefined, [Validators.required]),
         description: new GenericFormControl<string>('', [Validators.required]),
     });
     // observables
     itemsListing$!: Observable<IItemListing[]>;
     userLocalizations$: Observable<Localization[]> = this.advertisementAddStore.userLocalizations$;
+    advertisementDefinitions$: Observable<AdvertisementDefinition[]> = this.advertisementAddStore.advertisementDefinitions$;
 
     selectedItem$ = new BehaviorSubject<IItem | undefined>(undefined);
     itemLoading$ = new BehaviorSubject<boolean>(false);
@@ -46,17 +48,18 @@ export class AdvertisementAddComponent implements OnInit {
     }
 
     constructor(
+        public dialog: MatDialog,
         private itemService: ItemService,
         private authenticationStore: AuthenticationStore,
         private messageService: MessageService,
         private router: Router,
         private advertisementAddStore: AdvertisementAddStore,
-        public dialog: MatDialog,
         private categoryService: CategoryService
     ) {}
 
     ngOnInit(): void {
         this.advertisementAddStore.loadUserLocalizations();
+        this.advertisementAddStore.loadAdvertisementDefinitions();
         this.authenticationStore.user$.subscribe((resp) => {
             if (resp == null) {
                 this.messageService.showMessage('Nie jesteś zalogowany!', 'error');
@@ -87,12 +90,7 @@ export class AdvertisementAddComponent implements OnInit {
                 )
             )
         );
-        this.advertisementAddStore.localizationChanged(
-            this.form.controls['localization'].valueChanges.pipe(
-                map((localization) => <Localization>localization),
-                tap((localization) => this.selectedLocalization$.next(localization))
-            )
-        );
+
         this.advertisementAddStore.descriptionChanged(
             this.form.controls['description'].valueChanges.pipe(
                 map((description) => <string>description),
@@ -115,6 +113,8 @@ export class AdvertisementAddComponent implements OnInit {
         }
     };
     onSubmit = () => {
-        console.log();
+        if (this.form.valid) {
+            this.advertisementAddStore.createAdvertisement(this.form.value);
+        }
     };
 }

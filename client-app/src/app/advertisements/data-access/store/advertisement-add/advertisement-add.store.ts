@@ -1,4 +1,4 @@
-import { GenericState, IItem, Localization } from 'src/app/shared/data-access/models';
+import { AdvertisementDefinition, GenericState, IItem, Localization } from 'src/app/shared/data-access/models';
 import { Advertisement } from '../../models/advertisement.model';
 import { Injectable } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
@@ -10,18 +10,64 @@ import { AuthenticationStore } from 'src/app/shared/authentication/data-access';
 import { LocalizationService } from 'src/app/modules/core/services/localization.service';
 import { Router } from '@angular/router';
 import { MessageService } from 'src/app/modules/core/services/message.service';
+import { AdvertisementDefinitionService } from 'src/app/shared/data-access/api';
+import { AdvertisementService } from '../advertisement.service';
 
 interface AdvertisementAddState extends GenericState<Advertisement> {
     userLocalizations: Localization[];
+    advertisementDefinitions: AdvertisementDefinition[];
 }
 
 @Injectable()
 export class AdvertisementAddStore extends ComponentStore<AdvertisementAddState> {
     readonly userLocalizations$ = this.select((state) => state.userLocalizations);
+    readonly advertisementDefinitions$ = this.select((state) => state.advertisementDefinitions);
 
     readonly itemIdChanged = this.effect<IItem>(($) => $);
-    readonly localizationChanged = this.effect<Localization>(($) => $);
     readonly descriptionChanged = this.effect<string>(($) => $);
+
+    readonly createAdvertisement = this.effect<Advertisement>((params$) =>
+        params$.pipe(
+            tap((advertisement) => {
+                this.patchState({ status: 'loading' });
+            }),
+            switchMap((advertisement) =>
+                this.authStore.user$.pipe(
+                    tap(this.checkUserLoggedIn),
+                    filter((user): user is IUser => user !== null),
+                    switchMap((user) => this.advertisementService.create(advertisement, user.id))
+                )
+            ),
+            tapResponse(
+                (response) => {
+                    // TODO: redirect to advertisement page
+                    this.router.navigate(['']);
+                },
+                (error: HttpError<Response>) => {
+                    this.messageService.showMessage(error.error?.errorMessages[0] ?? '', 'error');
+                }
+            )
+        )
+    );
+    readonly loadAdvertisementDefinitions = this.effect(($) =>
+        $.pipe(
+            tap(() => {
+                this.patchState({ status: 'loading' });
+            }),
+            switchMap(() =>
+                this.advertisementDefinitionService.getMany().pipe(
+                    tapResponse(
+                        (response) => {
+                            this.patchState({ advertisementDefinitions: response.responseObject });
+                        },
+                        (error: HttpError<Response>) => {
+                            this.messageService.showMessage(error.error?.errorMessages[0] ?? '', 'error');
+                        }
+                    )
+                )
+            )
+        )
+    );
 
     readonly loadUserLocalizations = this.effect(($) =>
         $.pipe(
@@ -58,8 +104,10 @@ export class AdvertisementAddStore extends ComponentStore<AdvertisementAddState>
     constructor(
         private authStore: AuthenticationStore,
         private localizationService: LocalizationService,
+        private advertisementDefinitionService: AdvertisementDefinitionService,
         private router: Router,
-        private messageService: MessageService
+        private messageService: MessageService,
+        private advertisementService: AdvertisementService
     ) {
         super(<AdvertisementAddState>{});
     }

@@ -18,9 +18,10 @@
             </app-accordion-select>
             <app-accordion-select
                 label="Wybierz adres"
-                [formControlName]="'localization'">
+                [formControlName]="'localizationId'">
                 <app-accordion-select-item
-                    [value]="localization"
+                    (click)="selectedLocalization$.next(localization)"
+                    [value]="localization.id"
                     *ngFor="let localization of userLocalizations$ | async"
                     >{{ localization.name }}</app-accordion-select-item
                 >
@@ -34,11 +35,16 @@
             <div class="section" appElevatedSection>
                 <mat-form-field appearance="outline">
                     <mat-label>Definicja ogłoszenia</mat-label>
-                    <mat-select>
-                        <mat-option>
-                            <!-- *ngFor="let category of categories"
-                            [value]="category.id" -->
-                            TEMP OPTION
+                    <mat-select
+                        [formControlName]="'definitionId'"
+                        name="definitionId">
+                        <mat-option
+                            *ngFor="
+                                let definition of advertisementDefinitions$
+                                    | async
+                            "
+                            [value]="definition.id">
+                            {{ definition.displayName }}
                         </mat-option>
                     </mat-select>
                     <mat-error> Temp error </mat-error>
@@ -50,6 +56,7 @@
                     [label]="'Opis'">
                 </app-text-area-input>
             </div>
+            <button mat-raised-button color="accent">Utwórz</button>
         </form>
     </div>
     <div class="right">

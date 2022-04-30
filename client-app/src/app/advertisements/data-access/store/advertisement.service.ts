@@ -6,10 +6,10 @@ import { Advertisement } from '../models/advertisement.model';
 @Injectable({
     providedIn: 'root',
 })
-export class AdvertisementsService {
+export class AdvertisementService {
     constructor(private apiService: ApiService) {}
 
-    create = (advertisement: Advertisement): ObservableResponse<number> => {
-        return this.apiService.post<number>('advertisement/create', advertisement);
+    create = (advertisement: Advertisement, userId: number): ObservableResponse<number> => {
+        return this.apiService.post<number>(`advertisement/create/${userId}`, advertisement);
     };
 }
