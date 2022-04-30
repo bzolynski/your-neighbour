@@ -8,10 +8,10 @@ namespace YourNeighbour.Api.Controllers
 {
     public class AdvertisementController : BaseController
     {
-        [HttpPost("create")]
-        public async Task<ActionResult<Response>> Create(CreateAdvertisementDto createDto)
+        [HttpPost("create/{userId}")]
+        public async Task<ActionResult<Response>> Create(CreateAdvertisementDto createDto, int userId)
         {
-            int result = await Mediator.Send(new CreateAdvertisementCommand(createDto));
+            int result = await Mediator.Send(new CreateAdvertisementCommand(createDto, userId));
             return Models.Response.Success(result);
         }
     }

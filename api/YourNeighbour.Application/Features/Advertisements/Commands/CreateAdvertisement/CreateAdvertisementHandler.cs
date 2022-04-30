@@ -19,6 +19,7 @@ namespace YourNeighbour.Application.Features.Advertisements.Commands.CreateAdver
         public async Task<int> Handle(CreateAdvertisementCommand request, CancellationToken cancellationToken)
         {
             Advertisement advertisement = mapper.Map<Advertisement>(request.CreateDto);
+            advertisement.UserId = request.UserId;
             EntityEntry<Advertisement> response = await applicationDbContext.Set<Advertisement>().AddAsync(advertisement, cancellationToken);
             await applicationDbContext.SaveChangesAsync(cancellationToken);
             return response.Entity.Id;
