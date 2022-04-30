@@ -20,41 +20,57 @@
         </ng-template>
 
         <h1>{{ item.name }}</h1>
-        <h2>{{ item.category.name }}</h2>
+        <h2>Kategoria: {{ item.category.name }}</h2>
 
+        <h3 class="h3-title">Opis przedmiotu:</h3>
         <p>
             {{ item.description }}
         </p>
     </ng-container>
-    <h3 style="margin-block-end: 0px">Lokalizacja:</h3>
+    <h3 class="h3-title">Opis ogłoszenia:</h3>
+    <p *ngIf="advertisementDescription; else advertisementDescriptionSkeleton">
+        {{ advertisementDescription }}
+    </p>
+    <h3 class="h3-title">Lokalizacja:</h3>
     <h4 *ngIf="localization; else localizationSkeleton">
         {{ localization.name }}
     </h4>
-    <ng-template #localizationSkeleton>
-        <app-skeleton-text
-            class="skeleton skeleton-h3"
-            [rows]="1"
-            [rowHeight]="'16px'"></app-skeleton-text>
-    </ng-template>
-    <ng-template #skeleton>
-        <app-skeleton-box
-            class="skeleton image"
-            [animate]="loading"></app-skeleton-box>
-        <app-skeleton-text
-            class="skeleton skeleton-h1"
-            [animate]="loading"
-            [rows]="1"
-            [rowHeight]="'24px'"></app-skeleton-text>
-        <app-skeleton-text
-            class="skeleton skeleton-h2"
-            [animate]="loading"
-            [rows]="1"
-            [rowHeight]="'20px'"></app-skeleton-text>
-        <app-skeleton-text
-            class="skeleton skeleton-p"
-            [animate]="loading"
-            [rows]="6"
-            [rowHeight]="'14px'"></app-skeleton-text>
-    </ng-template>
+
     <button mat-stroked-button color="primary">Utwórz</button>
 </div>
+
+<ng-template #skeleton>
+    <app-skeleton-box
+        class="skeleton image"
+        [animate]="loading"></app-skeleton-box>
+    <app-skeleton-text
+        class="skeleton skeleton-h1"
+        [animate]="loading"
+        [rows]="1"
+        [rowHeight]="'24px'"></app-skeleton-text>
+    <app-skeleton-text
+        class="skeleton skeleton-h2"
+        [animate]="loading"
+        [rows]="1"
+        [rowHeight]="'20px'"></app-skeleton-text>
+
+    <h3 class="h3-title">Opis przedmiotu:</h3>
+    <app-skeleton-text
+        class="skeleton skeleton-p"
+        [animate]="loading"
+        [rows]="6"
+        [rowHeight]="'14px'"></app-skeleton-text>
+</ng-template>
+<ng-template #advertisementDescriptionSkeleton>
+    <app-skeleton-text
+        class="skeleton skeleton-p"
+        [animate]="loading"
+        [rows]="6"
+        [rowHeight]="'14px'"></app-skeleton-text>
+</ng-template>
+<ng-template #localizationSkeleton>
+    <app-skeleton-text
+        class="skeleton skeleton-h3"
+        [rows]="1"
+        [rowHeight]="'16px'"></app-skeleton-text>
+</ng-template>

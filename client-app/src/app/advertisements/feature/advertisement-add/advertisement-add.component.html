@@ -31,6 +31,25 @@
                     Dodaj lokalizację
                 </button>
             </app-accordion-select>
+            <div class="section" appElevatedSection>
+                <mat-form-field appearance="outline">
+                    <mat-label>Definicja ogłoszenia</mat-label>
+                    <mat-select>
+                        <mat-option>
+                            <!-- *ngFor="let category of categories"
+                            [value]="category.id" -->
+                            TEMP OPTION
+                        </mat-option>
+                    </mat-select>
+                    <mat-error> Temp error </mat-error>
+                </mat-form-field>
+                <app-text-area-input
+                    [formControlName]="'description'"
+                    [rows]="5"
+                    [errorMessage]="descriptionErrorMessage"
+                    [label]="'Opis'">
+                </app-text-area-input>
+            </div>
         </form>
     </div>
     <div class="right">
@@ -39,6 +58,7 @@
                 *ngIf="{ item: selectedItem$ | async } as vm"
                 [localization]="selectedLocalization$ | async"
                 [loading]="(itemLoading$ | async)!"
+                [advertisementDescription]="description$ | async"
                 [item]="vm.item"></app-advertisement-overview>
         </div>
     </div>

@@ -21,6 +21,7 @@ export class AdvertisementAddStore extends ComponentStore<AdvertisementAddState>
 
     readonly itemIdChanged = this.effect<IItem>(($) => $);
     readonly localizationChanged = this.effect<Localization>(($) => $);
+    readonly descriptionChanged = this.effect<string>(($) => $);
 
     readonly loadUserLocalizations = this.effect(($) =>
         $.pipe(

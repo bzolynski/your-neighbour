@@ -10,4 +10,5 @@ export class AdvertisementOverviewComponent {
     @Input() loading: boolean = false;
     @Input() item?: IItem | null;
     @Input() localization?: Localization | null;
+    @Input() advertisementDescription?: string | null;
 }

@@ -24,6 +24,7 @@ export class AdvertisementAddComponent implements OnInit {
         itemId: new GenericFormControl<number>(undefined, [Validators.required]),
         localization: new GenericFormControl<Localization>(undefined, [Validators.required]),
         dateCreated: new GenericFormControl<Date>(new Date(), [Validators.required]),
+        description: new GenericFormControl<string>('', [Validators.required]),
     });
     // observables
     itemsListing$!: Observable<IItemListing[]>;
@@ -32,10 +33,18 @@ export class AdvertisementAddComponent implements OnInit {
     selectedItem$ = new BehaviorSubject<IItem | undefined>(undefined);
     itemLoading$ = new BehaviorSubject<boolean>(false);
     selectedLocalization$ = new BehaviorSubject<Localization | undefined>(undefined);
+    description$ = new BehaviorSubject<string | undefined>(undefined);
 
     /*************************/
     categories$ = this.categoryService.getAll().pipe(map((x) => x.responseObject));
     /*************************/
+
+    get descriptionErrorMessage() {
+        const control = this.form.controls['description'];
+        if (control.errors?.required) return 'Pole jest wymagane';
+        return '';
+    }
+
     constructor(
         private itemService: ItemService,
         private authenticationStore: AuthenticationStore,
@@ -58,7 +67,7 @@ export class AdvertisementAddComponent implements OnInit {
             }
         });
         this.advertisementAddStore.itemIdChanged(
-            this.form.get('itemId')!.valueChanges.pipe(
+            this.form.controls['itemId'].valueChanges.pipe(
                 tap(() => {
                     this.itemLoading$.next(true);
                     this.selectedItem$.next(undefined);
@@ -79,9 +88,15 @@ export class AdvertisementAddComponent implements OnInit {
             )
         );
         this.advertisementAddStore.localizationChanged(
-            this.form.get('localization')!.valueChanges.pipe(
+            this.form.controls['localization'].valueChanges.pipe(
                 map((localization) => <Localization>localization),
                 tap((localization) => this.selectedLocalization$.next(localization))
+            )
+        );
+        this.advertisementAddStore.descriptionChanged(
+            this.form.controls['description'].valueChanges.pipe(
+                map((description) => <string>description),
+                tap((description) => this.description$.next(description))
             )
         );
     }
