@@ -24,6 +24,20 @@ namespace YourNeighbour.Api.Tasks
                 IApplicationDbContext dbContext = scope.ServiceProvider.GetService<IApplicationDbContext>();
                 using (Microsoft.EntityFrameworkCore.Storage.IDbContextTransaction transaction = await dbContext.Database.BeginTransactionAsync())
                 {
+                    AdvertisementDefinition rootAdvertisementDefinition = await dbContext.Set<AdvertisementDefinition>().FirstOrDefaultAsync(x => x.Guid == AdvertisementDefinition.RootAdvertisementDefinitionGuid);
+                    if (rootAdvertisementDefinition is null)
+                    {
+                        rootAdvertisementDefinition = new AdvertisementDefinition
+                        {
+                            Guid = AdvertisementDefinition.RootAdvertisementDefinitionGuid,
+                            Basic = true,
+                            DisplayName = "Podstawowe ogłoszenie",
+                            Name = "Podstawowe",
+                            IsActive = true,
+                        };
+                        await dbContext.Set<AdvertisementDefinition>().AddAsync(rootAdvertisementDefinition);
+                    }
+
                     CategoryDefinition rootCategoryDefinition = await dbContext.Set<CategoryDefinition>().FirstOrDefaultAsync(x => x.Guid == CategoryDefinition.RootCategoryDefinitionGuid);
                     if (rootCategoryDefinition is null)
                     {
