@@ -1,4 +1,4 @@
-import { AdvertisementDefinition, GenericState, ICategory, IItem, Localization } from 'src/app/shared/data-access/models';
+import { AdvertisementDefinition, ICategory, IItem, Localization } from 'src/app/shared/data-access/models';
 import { Advertisement } from '../../models/advertisement.model';
 import { Injectable } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
@@ -15,7 +15,7 @@ import { AdvertisementService } from '../advertisement.service';
 import { ItemService } from 'src/app/modules/core/services/item.service';
 import { CategoryService } from 'src/app/modules/core/services';
 
-interface AdvertisementAddState extends GenericState<Advertisement> {
+interface AdvertisementAddState {
     userLocalizations: Localization[];
     advertisementDefinitions: AdvertisementDefinition[];
     itemListing: IItem[];
@@ -44,7 +44,7 @@ export class AdvertisementAddStore extends ComponentStore<AdvertisementAddState>
             tapResponse(
                 (response) => {
                     // TODO: redirect to advertisement page
-                    this.router.navigate(['']);
+                    this.router.navigate(['advertisements', response.responseObject]);
                 },
                 (error: HttpError<Response>) => {
                     this.messageService.showMessage(error.error?.errorMessages[0] ?? '', 'error');
@@ -126,7 +126,6 @@ export class AdvertisementAddStore extends ComponentStore<AdvertisementAddState>
         if (user === null) {
             this.messageService.showMessage('Nie jesteś zalogowany!', 'error');
             this.router.navigate(['welcome'], { queryParams: { returnUrl: this.router.routerState.snapshot.url } });
-            this.patchState({ status: 'error', error: 'Użytkownik nie zalogowany' });
 
             throwError(new Error('User is not logged in'));
         }
