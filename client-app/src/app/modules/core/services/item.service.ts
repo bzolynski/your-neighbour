@@ -1,12 +1,12 @@
-import { HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { IItem } from 'src/app/shared/data-access/models';
+import { HttpHelperMethods, QueryParams } from 'src/app/shared/utils';
 import { ItemCreateDto, ItemDto } from '../dtos/item.dto';
 import { IImage } from '../models/image.model';
 import { ObservableResponse } from '../types';
 import { ApiService } from './api.service';
 
-export interface GetItemQueryParams {
+export interface GetItemQueryParams extends QueryParams {
     includeCategory?: boolean;
     includeUser?: boolean;
     includeImages?: boolean;
@@ -24,12 +24,7 @@ export class ItemService {
     };
 
     getByUser = (userId: number, queryParams?: GetItemQueryParams): ObservableResponse<ItemDto[]> => {
-        let params = new HttpParams();
-        if (queryParams) {
-            for (const [key, value] of Object.entries(queryParams)) {
-                params = params.set(key, value);
-            }
-        }
+        const params = HttpHelperMethods.mapToHttpParams(queryParams);
         return this.apiService.get<ItemDto[]>(`item/get-many-by-user/${userId}`, params);
     };
 
@@ -38,12 +33,7 @@ export class ItemService {
     };
 
     get = (itemId: number, queryParams?: GetItemQueryParams): ObservableResponse<IItem> => {
-        let params = new HttpParams();
-        if (queryParams) {
-            for (const [key, value] of Object.entries(queryParams)) {
-                params = params.set(key, value);
-            }
-        }
+        const params = HttpHelperMethods.mapToHttpParams(queryParams);
         return this.apiService.get<IItem>(`item/get/${itemId}`, params);
     };
 }
