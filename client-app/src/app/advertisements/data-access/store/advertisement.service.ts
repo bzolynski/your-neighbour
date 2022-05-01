@@ -12,4 +12,7 @@ export class AdvertisementService {
     create = (advertisement: Advertisement, userId: number): ObservableResponse<number> => {
         return this.apiService.post<number>(`advertisement/create/${userId}`, advertisement);
     };
+    get = (id: number): ObservableResponse<Advertisement> => {
+        return this.apiService.get<Advertisement>(`advertisement/get/${id}`);
+    };
 }
