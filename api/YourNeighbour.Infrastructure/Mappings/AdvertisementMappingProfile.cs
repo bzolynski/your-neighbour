@@ -8,8 +8,8 @@ namespace YourNeighbour.Infrastructure.Mappings
     {
         public AdvertisementMappingProfile()
         {
-            CreateMap<Advertisement, CreateAdvertisementDto>()
-                .ReverseMap();
+            CreateMap<CreateAdvertisementDto, Advertisement>();
+            CreateMap<Advertisement, AdvertisementDto>();
         }
     }
 }

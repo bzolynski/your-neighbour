@@ -16,8 +16,4 @@
     <ProjectReference Include="..\YourNeighbour.Domain\YourNeighbour.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Features\Advertisements\Queries\" />
-  </ItemGroup>
-
 </Project>

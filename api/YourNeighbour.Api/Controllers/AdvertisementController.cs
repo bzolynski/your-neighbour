@@ -1,13 +1,30 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using YourNeighbour.Api.Models;
 using YourNeighbour.Application.Features.Advertisements.Commands.CreateAdvertisement;
 using YourNeighbour.Application.Features.Advertisements.Dtos;
+using YourNeighbour.Application.Features.Advertisements.Queries.GetAdvertisement;
+using YourNeighbour.Application.Features.Advertisements.Queries.GetManyAdvertisements;
 
 namespace YourNeighbour.Api.Controllers
 {
     public class AdvertisementController : BaseController
     {
+        [HttpGet("get")]
+        public async Task<ActionResult<Response>> Get()
+        {
+            IEnumerable<AdvertisementDto> result = await Mediator.Send(new GetManyAdvertisementsQuery());
+            return Models.Response.Success(result);
+        }
+
+        [HttpGet("get/{id}")]
+        public async Task<ActionResult<Response>> Get(int id)
+        {
+            AdvertisementDto result = await Mediator.Send(new GetAdvertisementQuery(id));
+            return Models.Response.Success(result);
+        }
+
         [HttpPost("create/{userId}")]
         public async Task<ActionResult<Response>> Create(CreateAdvertisementDto createDto, int userId)
         {
