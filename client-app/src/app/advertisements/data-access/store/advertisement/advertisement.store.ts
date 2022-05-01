@@ -18,16 +18,25 @@ export class AdvertisementStore extends ComponentStore<AdvertisementState> {
         params$.pipe(
             tap(() => this.patchState({ status: 'loading', error: undefined, data: undefined })),
             switchMap((id) =>
-                this.advertisementService.get(id).pipe(
-                    tapResponse(
-                        (response) => {
-                            this.patchState({ status: 'success', data: response.responseObject });
-                        },
-                        (error: HttpError<Response>) => {
-                            this.patchState({ status: 'error', error: error.error?.errorMessages[0] ?? '' });
-                        }
+                this.advertisementService
+                    .get(id, {
+                        includeCategory: true,
+                        includeImages: true,
+                        maxImages: 1,
+                        includeDefinition: true,
+                        includeLocalization: true,
+                        includeUser: true,
+                    })
+                    .pipe(
+                        tapResponse(
+                            (response) => {
+                                this.patchState({ status: 'success', data: response.responseObject });
+                            },
+                            (error: HttpError<Response>) => {
+                                this.patchState({ status: 'error', error: error.error?.errorMessages[0] ?? '' });
+                            }
+                        )
                     )
-                )
             )
         )
     );
