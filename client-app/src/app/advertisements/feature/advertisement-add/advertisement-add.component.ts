@@ -1,14 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
-import { BehaviorSubject, Observable, throwError } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { map, mergeMap, tap } from 'rxjs/operators';
-import { CategoryService } from 'src/app/modules/core/services';
 import { ItemService } from 'src/app/modules/core/services/item.service';
-import { MessageService } from 'src/app/modules/core/services/message.service';
-import { AuthenticationStore } from 'src/app/shared/authentication/data-access';
-import { AdvertisementDefinition, IItem, IItemListing, Localization } from 'src/app/shared/data-access/models';
+import { AdvertisementDefinition, ICategory, IItem, Localization } from 'src/app/shared/data-access/models';
 import { GenericFormControl } from 'src/app/shared/utils';
 import { AdvertisementAddStore } from '../../data-access';
 import { Advertisement } from '../../data-access/models/advertisement.model';
@@ -30,15 +26,11 @@ export class AdvertisementAddComponent implements OnInit {
     advertisement: Advertisement = {} as Advertisement;
 
     // observables
-    itemsListing$!: Observable<IItemListing[]>;
+    categories$: Observable<ICategory[]> = this.advertisementAddStore.categories$;
+    itemsListing$: Observable<IItem[]> = this.advertisementAddStore.itemListing$;
     userLocalizations$: Observable<Localization[]> = this.advertisementAddStore.userLocalizations$;
     advertisementDefinitions$: Observable<AdvertisementDefinition[]> = this.advertisementAddStore.advertisementDefinitions$;
-
     itemLoading$ = new BehaviorSubject<boolean>(false);
-
-    /*************************/
-    categories$ = this.categoryService.getAll().pipe(map((x) => x.responseObject));
-    /*************************/
 
     get descriptionErrorMessage() {
         const control = this.form.controls['description'];
@@ -49,26 +41,13 @@ export class AdvertisementAddComponent implements OnInit {
     constructor(
         public dialog: MatDialog,
         private itemService: ItemService,
-        private authenticationStore: AuthenticationStore,
-        private messageService: MessageService,
-        private router: Router,
-        private advertisementAddStore: AdvertisementAddStore,
-        private categoryService: CategoryService
+        private advertisementAddStore: AdvertisementAddStore
     ) {}
 
     ngOnInit(): void {
         this.advertisementAddStore.loadUserLocalizations();
         this.advertisementAddStore.loadAdvertisementDefinitions();
-
-        this.authenticationStore.user$.subscribe((resp) => {
-            if (resp == null) {
-                this.messageService.showMessage('Nie jesteś zalogowany!', 'error');
-                this.router.navigate(['welcome'], { queryParams: { returnUrl: this.router.routerState.snapshot.url } });
-                throwError(new Error('User is not logged in'));
-            } else {
-                this.itemsListing$ = this.itemService.getByUser(resp.id).pipe(map((resp) => resp.responseObject));
-            }
-        });
+        this.advertisementAddStore.loadItemListing();
 
         this.advertisementAddStore.itemIdChanged(
             this.form.controls['itemId'].valueChanges.pipe(
