@@ -3,14 +3,18 @@ import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
     {
-        path: 'list',
+        path: '',
         pathMatch: 'full',
-        loadChildren: async () => (await import('../advertisement-list/advertisement-list.module')).AdvertisementListModule,
+        loadChildren: () => import('../advertisement-list/advertisement-list.module').then((m) => m.AdvertisementListModule),
     },
     {
         path: 'add',
         pathMatch: 'full',
-        loadChildren: async () => (await import('../advertisement-add/advertisement-add.module')).AdvertisementAddModule,
+        loadChildren: () => import('../advertisement-add/advertisement-add.module').then((m) => m.AdvertisementAddModule),
+    },
+    {
+        path: ':id',
+        loadChildren: () => import('../advertisement/advertisement.module').then((m) => m.AdvertisementModule),
     },
 ];
 
