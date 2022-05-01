@@ -1,39 +1,31 @@
-<!-- <div *ngIf="item" class="container">
-    <img
-        class="image"
-        [src]="item.images[0].dataUrl"
-        [name]="item.images[0].name" />
-    {{ item.name }}
-    {{ item.category.name }}
-</div> -->
 <div class="container">
-    <ng-container *ngIf="item; else skeleton">
+    <ng-container *ngIf="advertisement && advertisement.item; else skeleton">
         <img
-            *ngIf="item.images[0]; else imageSkeleton"
+            *ngIf="advertisement.item.images[0]; else imageSkeleton"
             class="image"
-            [src]="item.images[0].dataUrl"
-            [name]="item.images[0].name" />
+            [src]="advertisement.item.images[0].dataUrl"
+            [name]="advertisement.item.images[0].name" />
         <ng-template #imageSkeleton>
             <app-skeleton-box
                 class="skeleton image"
                 [animate]="loading"></app-skeleton-box>
         </ng-template>
 
-        <h1>{{ item.name }}</h1>
-        <h2>Kategoria: {{ item.category.name }}</h2>
+        <h1>{{ advertisement.item.name }}</h1>
+        <h2>Kategoria: {{ advertisement.item.category.name }}</h2>
 
         <h3 class="h3-title">Opis przedmiotu:</h3>
         <p>
-            {{ item.description }}
+            {{ advertisement.item.description }}
         </p>
     </ng-container>
     <h3 class="h3-title">Opis ogłoszenia:</h3>
-    <p *ngIf="advertisementDescription; else advertisementDescriptionSkeleton">
-        {{ advertisementDescription }}
+    <p *ngIf="advertisement && advertisement.description; else descriptionSkeleton">
+        {{ advertisement.description }}
     </p>
     <h3 class="h3-title">Lokalizacja:</h3>
-    <h4 *ngIf="localization; else localizationSkeleton">
-        {{ localization.name }}
+    <h4 *ngIf="advertisement && advertisement.localization; else localizationSkeleton">
+        {{ advertisement.localization.name }}
     </h4>
 </div>
 
@@ -59,7 +51,7 @@
         [rows]="6"
         [rowHeight]="'14px'"></app-skeleton-text>
 </ng-template>
-<ng-template #advertisementDescriptionSkeleton>
+<ng-template #descriptionSkeleton>
     <app-skeleton-text
         class="skeleton skeleton-p"
         [animate]="loading"

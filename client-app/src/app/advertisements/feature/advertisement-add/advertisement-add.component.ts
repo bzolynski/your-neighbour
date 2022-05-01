@@ -11,6 +11,7 @@ import { AuthenticationStore } from 'src/app/shared/authentication/data-access';
 import { AdvertisementDefinition, IItem, IItemListing, Localization } from 'src/app/shared/data-access/models';
 import { GenericFormControl } from 'src/app/shared/utils';
 import { AdvertisementAddStore } from '../../data-access';
+import { Advertisement } from '../../data-access/models/advertisement.model';
 
 @Component({
     selector: 'app-advertisement-add',
@@ -19,7 +20,6 @@ import { AdvertisementAddStore } from '../../data-access';
     providers: [AdvertisementAddStore],
 })
 export class AdvertisementAddComponent implements OnInit {
-    itemSelectPanelOpen: boolean = false;
     form: FormGroup = new FormGroup({
         itemId: new GenericFormControl<number>(undefined, [Validators.required]),
         localizationId: new GenericFormControl<number>(undefined, [Validators.required]),
@@ -27,15 +27,14 @@ export class AdvertisementAddComponent implements OnInit {
         definitionId: new GenericFormControl<number>(undefined, [Validators.required]),
         description: new GenericFormControl<string>('', [Validators.required]),
     });
+    advertisement: Advertisement = {} as Advertisement;
+
     // observables
     itemsListing$!: Observable<IItemListing[]>;
     userLocalizations$: Observable<Localization[]> = this.advertisementAddStore.userLocalizations$;
     advertisementDefinitions$: Observable<AdvertisementDefinition[]> = this.advertisementAddStore.advertisementDefinitions$;
 
-    selectedItem$ = new BehaviorSubject<IItem | undefined>(undefined);
     itemLoading$ = new BehaviorSubject<boolean>(false);
-    selectedLocalization$ = new BehaviorSubject<Localization | undefined>(undefined);
-    description$ = new BehaviorSubject<string | undefined>(undefined);
 
     /*************************/
     categories$ = this.categoryService.getAll().pipe(map((x) => x.responseObject));
@@ -60,6 +59,7 @@ export class AdvertisementAddComponent implements OnInit {
     ngOnInit(): void {
         this.advertisementAddStore.loadUserLocalizations();
         this.advertisementAddStore.loadAdvertisementDefinitions();
+
         this.authenticationStore.user$.subscribe((resp) => {
             if (resp == null) {
                 this.messageService.showMessage('Nie jesteś zalogowany!', 'error');
@@ -69,11 +69,12 @@ export class AdvertisementAddComponent implements OnInit {
                 this.itemsListing$ = this.itemService.getByUser(resp.id).pipe(map((resp) => resp.responseObject));
             }
         });
+
         this.advertisementAddStore.itemIdChanged(
             this.form.controls['itemId'].valueChanges.pipe(
                 tap(() => {
                     this.itemLoading$.next(true);
-                    this.selectedItem$.next(undefined);
+                    this.advertisement.item = undefined!;
                 }),
                 map((itemId) => +itemId),
                 mergeMap((itemId) =>
@@ -82,7 +83,7 @@ export class AdvertisementAddComponent implements OnInit {
                         tap(
                             (item) => {
                                 this.itemLoading$.next(false);
-                                this.selectedItem$.next(item);
+                                this.advertisement.item = item;
                             },
                             (error) => this.itemLoading$.next(false)
                         )
@@ -94,10 +95,17 @@ export class AdvertisementAddComponent implements OnInit {
         this.advertisementAddStore.descriptionChanged(
             this.form.controls['description'].valueChanges.pipe(
                 map((description) => <string>description),
-                tap((description) => this.description$.next(description))
+                tap((description) => {
+                    this.advertisement.description = description;
+                })
             )
         );
     }
+
+    assignLocalization = (localization: Localization) => {
+        this.advertisement.localization = localization;
+    };
+
     localizationFormSubmited = (form: FormGroup) => {
         if (form.valid) {
             const localization: Localization = { ...form.value };

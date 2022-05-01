@@ -20,9 +20,9 @@
                 label="Wybierz adres"
                 [formControlName]="'localizationId'">
                 <app-accordion-select-item
-                    (click)="selectedLocalization$.next(localization)"
-                    [value]="localization.id"
                     *ngFor="let localization of userLocalizations$ | async"
+                    (click)="assignLocalization(localization)"
+                    [value]="localization.id"
                     >{{ localization.name }}</app-accordion-select-item
                 >
                 <button
@@ -62,11 +62,10 @@
     <div class="right">
         <div appElevatedSection [appParentWidth]="100" class="right-content">
             <app-advertisement-overview
-                *ngIf="{ item: selectedItem$ | async } as vm"
-                [localization]="selectedLocalization$ | async"
-                [loading]="(itemLoading$ | async)!"
-                [advertisementDescription]="description$ | async"
-                [item]="vm.item"></app-advertisement-overview>
+                [advertisement]="advertisement"
+                [loading]="
+                    (itemLoading$ | async)!
+                "></app-advertisement-overview>
         </div>
     </div>
 </div>

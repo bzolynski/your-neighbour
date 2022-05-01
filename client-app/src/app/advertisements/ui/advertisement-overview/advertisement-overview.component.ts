@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { IItem, Localization } from 'src/app/shared/data-access/models';
+import { Advertisement } from '../../data-access/models/advertisement.model';
 
 @Component({
     selector: 'app-advertisement-overview',
@@ -7,8 +7,6 @@ import { IItem, Localization } from 'src/app/shared/data-access/models';
     styleUrls: ['./advertisement-overview.component.scss'],
 })
 export class AdvertisementOverviewComponent {
+    @Input() advertisement?: Advertisement | null;
     @Input() loading: boolean = false;
-    @Input() item?: IItem | null;
-    @Input() localization?: Localization | null;
-    @Input() advertisementDescription?: string | null;
 }
