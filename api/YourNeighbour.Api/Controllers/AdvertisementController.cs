@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using YourNeighbour.Api.Models;
 using YourNeighbour.Application.Features.Advertisements.Commands.CreateAdvertisement;
 using YourNeighbour.Application.Features.Advertisements.Dtos;
+using YourNeighbour.Application.Features.Advertisements.Queries;
 using YourNeighbour.Application.Features.Advertisements.Queries.GetAdvertisement;
 using YourNeighbour.Application.Features.Advertisements.Queries.GetManyAdvertisements;
 
@@ -12,16 +13,16 @@ namespace YourNeighbour.Api.Controllers
     public class AdvertisementController : BaseController
     {
         [HttpGet("get")]
-        public async Task<ActionResult<Response>> Get()
+        public async Task<ActionResult<Response>> Get([FromQuery] AdvertisementQueryParams queryParams)
         {
-            IEnumerable<AdvertisementDto> result = await Mediator.Send(new GetManyAdvertisementsQuery());
+            IEnumerable<AdvertisementDto> result = await Mediator.Send(new GetManyAdvertisementsQuery(queryParams));
             return Models.Response.Success(result);
         }
 
         [HttpGet("get/{id}")]
-        public async Task<ActionResult<Response>> Get(int id)
+        public async Task<ActionResult<Response>> Get(int id, [FromQuery] AdvertisementQueryParams queryParams)
         {
-            AdvertisementDto result = await Mediator.Send(new GetAdvertisementQuery(id));
+            AdvertisementDto result = await Mediator.Send(new GetAdvertisementQuery(id, queryParams));
             return Models.Response.Success(result);
         }
 

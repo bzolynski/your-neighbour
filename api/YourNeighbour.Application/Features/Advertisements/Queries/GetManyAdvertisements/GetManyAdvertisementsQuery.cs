@@ -4,5 +4,5 @@ using YourNeighbour.Application.Features.Advertisements.Dtos;
 
 namespace YourNeighbour.Application.Features.Advertisements.Queries.GetManyAdvertisements
 {
-    public sealed record GetManyAdvertisementsQuery() : IQuery<IEnumerable<AdvertisementDto>>;
+    public sealed record GetManyAdvertisementsQuery(AdvertisementQueryParams QueryParams) : IQuery<IEnumerable<AdvertisementDto>>;
 }
