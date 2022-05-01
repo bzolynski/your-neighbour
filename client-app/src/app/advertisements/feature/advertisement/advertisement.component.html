@@ -1,4 +1,13 @@
-<app-advertisement-overview
-    style="width: 100%; height: 100%"
-    [advertisement]="advertisement$ | async"
-    [loading]="(isLoading$ | async) ?? false"></app-advertisement-overview>
+<div class="wrapper">
+    <div class="left" appElevatedSection>
+        <app-advertisement-overview
+            style="width: 100%; height: 100%"
+            [advertisement]="advertisement$ | async"
+            [loading]="
+                (isLoading$ | async) ?? false
+            "></app-advertisement-overview>
+    </div>
+    <div class="right">
+        <div appElevatedSection>TODO: Owner info</div>
+    </div>
+</div>

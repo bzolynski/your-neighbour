@@ -1,0 +1,11 @@
+.wrapper {
+    display: grid;
+    grid-template: 1fr / 1fr 2fr;
+    gap: 1rem;
+    .left {
+        grid-column: 1 / 2;
+    }
+    .right {
+        grid-column: 2 / 3;
+    }
+}
