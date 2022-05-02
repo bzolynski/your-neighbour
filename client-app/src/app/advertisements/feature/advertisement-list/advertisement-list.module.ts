@@ -6,8 +6,16 @@ import { AdvertisementListComponent } from './advertisement-list.component';
 import { ListSidePanelModule } from '../../ui/list-side-panel/list-side-panel.module';
 import { ListTopBarModule } from '../../ui/list-top-bar/list-top-bar.module';
 import { SharedModule } from 'src/app/modules/shared/shared.module';
+import { AdvertisementCardModule } from '../../ui/advertisement-card/advertisement-card.module';
 @NgModule({
-    imports: [CommonModule, AdvertisementListRoutingModule, ListSidePanelModule, ListTopBarModule, SharedModule],
+    imports: [
+        CommonModule,
+        AdvertisementListRoutingModule,
+        ListSidePanelModule,
+        ListTopBarModule,
+        SharedModule,
+        AdvertisementCardModule,
+    ],
     declarations: [AdvertisementListComponent],
 })
 export class AdvertisementListModule {}

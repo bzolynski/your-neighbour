@@ -1,5 +1,12 @@
 <div class="container">
     <app-list-top-bar appElevatedSection class="top-bar"></app-list-top-bar>
     <app-list-side-panel appElevatedSection></app-list-side-panel>
-    <router-outlet appElevatedSection></router-outlet>
+    <!-- <router-outlet appElevatedSection></router-outlet> -->
+    <div class="content">
+        <app-advertisement-card
+            appElevatedSection
+            *ngFor="let advertisement of advertisements$ | async"
+            (click)="openAdvertisement(advertisement.id)"
+            [advertisement]="advertisement"></app-advertisement-card>
+    </div>
 </div>

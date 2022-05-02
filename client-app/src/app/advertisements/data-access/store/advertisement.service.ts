@@ -25,4 +25,8 @@ export class AdvertisementService {
         const params = HttpHelperMethods.mapToHttpParams(queryParams);
         return this.apiService.get<Advertisement>(`advertisement/get/${id}`, params);
     };
+    getMany = (queryParams?: GetAdvertisementQueryParams): ObservableResponse<Advertisement[]> => {
+        const params = HttpHelperMethods.mapToHttpParams(queryParams);
+        return this.apiService.get<Advertisement[]>(`advertisement/get`, params);
+    };
 }
