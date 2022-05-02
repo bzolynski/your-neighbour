@@ -32,6 +32,34 @@ export class AdvertisementAddStore extends ComponentStore<AdvertisementAddState>
     readonly itemIdChanged = this.effect<IItem>(($) => $);
     readonly descriptionChanged = this.effect<string>(($) => $);
 
+    readonly createItem = this.effect<IItem>((params$) =>
+        params$.pipe(
+            switchMap((item) =>
+                this.authStore.user$.pipe(
+                    tap(this.checkUserLoggedIn),
+                    filter((user): user is IUser => user !== null),
+                    switchMap((user) =>
+                        this.itemService
+                            .create(item, user.id)
+                            .pipe(switchMap((response) => this.itemService.get(response.responseObject)))
+                    )
+                )
+            ),
+            tapResponse(
+                (response) => {
+                    this.addItem(response.responseObject);
+                },
+                (error: HttpError<Response>) => {
+                    this.messageService.showMessage(error.error?.errorMessages[0] ?? '', 'error');
+                }
+            )
+        )
+    );
+
+    private readonly addItem = this.updater((state, item: IItem) => {
+        return { ...state, itemListing: [...state.itemListing, item] };
+    });
+
     readonly createLocalization = this.effect<Localization>((params$) =>
         params$.pipe(
             switchMap((localization) =>

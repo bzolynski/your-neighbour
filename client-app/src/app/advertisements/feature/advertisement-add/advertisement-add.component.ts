@@ -45,6 +45,7 @@ export class AdvertisementAddComponent implements OnInit {
     ) {}
 
     ngOnInit(): void {
+        this.advertisementAddStore.loadCategories();
         this.advertisementAddStore.loadUserLocalizations();
         this.advertisementAddStore.loadAdvertisementDefinitions();
         this.advertisementAddStore.loadItemListing();
@@ -95,7 +96,7 @@ export class AdvertisementAddComponent implements OnInit {
     itemFormSubmited = (form: FormGroup) => {
         if (form.valid) {
             const item: IItem = { ...form.value };
-            console.log(item);
+            this.advertisementAddStore.createItem(item);
             this.dialog.closeAll();
         }
     };
