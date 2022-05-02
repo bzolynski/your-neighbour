@@ -3,5 +3,5 @@ using YourNeighbour.Application.Features.Localizations.Dtos;
 
 namespace YourNeighbour.Application.Features.Localizations.Commands.CreateLocalization
 {
-    public sealed record CreateLocalizationCommand(LocalizationCreateDto LocalizationCreate, int UserId) : ICommand<LocalizationDto>;
+    public sealed record CreateLocalizationCommand(LocalizationCreateDto LocalizationCreate, int UserId) : ICommand<int>;
 }

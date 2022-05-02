@@ -19,8 +19,8 @@ namespace YourNeighbour.Api.Controllers
         [HttpPut("create-for-user/{id}")]
         public async Task<ActionResult<Response>> CreateForUser(LocalizationCreateDto localizationCreate, int id)
         {
-            LocalizationDto localization = await Mediator.Send(new CreateLocalizationCommand(localizationCreate, id));
-            return Models.Response.Success(localization);
+            int result = await Mediator.Send(new CreateLocalizationCommand(localizationCreate, id));
+            return Models.Response.Success(result);
         }
     }
 }

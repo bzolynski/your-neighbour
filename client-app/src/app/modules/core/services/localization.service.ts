@@ -13,7 +13,7 @@ export class LocalizationService {
         return this.apiService.get<Array<Localization>>(`localization/get-many-by-user/${userId}`);
     };
 
-    create = (body: Localization, userId: number): ObservableResponse<Localization> => {
-        return this.apiService.put<Localization>(`localization/create-for-user/${userId}`, body);
+    create = (body: Localization, userId: number): ObservableResponse<number> => {
+        return this.apiService.put<number>(`localization/create-for-user/${userId}`, body);
     };
 }
