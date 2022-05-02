@@ -17,7 +17,7 @@ namespace YourNeighbour.Api.Controllers
         [HttpPut("create")]
         public async Task<ActionResult<Response>> Create(ItemCreateDto itemCreate)
         {
-            string result = await Mediator.Send(new CreateItemCommand(itemCreate));
+            int result = await Mediator.Send(new CreateItemCommand(itemCreate));
             return Models.Response.Success(result);
         }
 

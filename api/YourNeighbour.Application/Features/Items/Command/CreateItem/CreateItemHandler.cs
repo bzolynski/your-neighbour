@@ -6,7 +6,7 @@ using YourNeighbour.Domain.Entities;
 
 namespace YourNeighbour.Application.Features.Items.Command.CreateItem
 {
-    public sealed class CreateItemHandler : ICommandHandler<CreateItemCommand, string>
+    public sealed class CreateItemHandler : ICommandHandler<CreateItemCommand, int>
     {
         private readonly IApplicationDbContext applicationDbContext;
         private readonly IMapper mapper;
@@ -16,12 +16,12 @@ namespace YourNeighbour.Application.Features.Items.Command.CreateItem
             this.applicationDbContext = applicationDbContext;
             this.mapper = mapper;
         }
-        public async Task<string> Handle(CreateItemCommand request, CancellationToken cancellationToken)
+        public async Task<int> Handle(CreateItemCommand request, CancellationToken cancellationToken)
         {
             Item item = mapper.Map<Item>(request.ItemCreate);
             EntityEntry<Item> result = await applicationDbContext.Set<Item>().AddAsync(item);
             await applicationDbContext.SaveChangesAsync(cancellationToken);
-            return "Successfully created item!";//result.Entity;
+            return result.Entity.Id;
         }
     }
 }
