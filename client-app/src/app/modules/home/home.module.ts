@@ -11,6 +11,7 @@ import {
 } from './components';
 import { HomeRoutingModule } from './home-routing.module';
 import { ReactiveFormsModule } from '@angular/forms';
+import { TextInputModule } from 'src/app/shared/ui/text-input/text-input.module';
 
 @NgModule({
     declarations: [
@@ -21,13 +22,7 @@ import { ReactiveFormsModule } from '@angular/forms';
         WelcomeRegisterFormComponent,
         HomeLandingPageComponent,
     ],
-    imports: [
-        CommonModule,
-        SharedModule,
-        AngularMaterialModule,
-        HomeRoutingModule,
-        ReactiveFormsModule,
-    ],
+    imports: [CommonModule, SharedModule, AngularMaterialModule, HomeRoutingModule, ReactiveFormsModule, TextInputModule],
     exports: [HomeComponent],
 })
 export class HomeModule {}

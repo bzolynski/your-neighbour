@@ -8,11 +8,11 @@ import { ContainerComponent } from './components/layout/container/container.comp
 import { ConfirmationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.component';
 import { BackdropLoadingComponent } from './components/backdrop-loading/backdrop-loading.component';
 import { AbsoluteDirective, ElevatedSectionDirective, RelativeDirective } from './directives';
-import { TextAreaInputComponent, TextInputComponent } from './components';
+import { TextAreaInputComponent } from './components';
+import { TextInputModule } from 'src/app/shared/ui/text-input/text-input.module';
 
 @NgModule({
     declarations: [
-        TextInputComponent,
         TextAreaInputComponent,
         SnackBarContentComponent,
         ContainerComponent,
@@ -22,9 +22,8 @@ import { TextAreaInputComponent, TextInputComponent } from './components';
         RelativeDirective,
         AbsoluteDirective,
     ],
-    imports: [CommonModule, RouterModule, AngularMaterialModule, ReactiveFormsModule],
+    imports: [CommonModule, RouterModule, AngularMaterialModule, ReactiveFormsModule, TextInputModule],
     exports: [
-        TextInputComponent,
         TextAreaInputComponent,
         ContainerComponent,
         SnackBarContentComponent,

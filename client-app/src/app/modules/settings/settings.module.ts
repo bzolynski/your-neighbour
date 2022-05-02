@@ -22,6 +22,7 @@ import { AngularMaterialModule } from '../angular-material/angular-material.modu
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { TreeViewModule } from '../tree-view/tree-view.module';
 import { CoreModule } from '../core/core.module';
+import { TextInputModule } from 'src/app/shared/ui/text-input/text-input.module';
 
 @NgModule({
     declarations: [
@@ -51,6 +52,7 @@ import { CoreModule } from '../core/core.module';
         FontAwesomeModule,
         TreeViewModule,
         CoreModule,
+        TextInputModule,
     ],
 })
 export class SettingsModule {}
