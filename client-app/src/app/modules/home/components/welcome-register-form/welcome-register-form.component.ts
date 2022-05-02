@@ -2,7 +2,7 @@ import { Component, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { MessageService } from 'src/app/modules/core/services/message.service';
-import { FormGroupValidators } from 'src/app/modules/shared/validators';
+import { FormGroupValidators } from 'src/app/shared/validators';
 
 @Component({
     selector: 'app-welcome-register-form',
