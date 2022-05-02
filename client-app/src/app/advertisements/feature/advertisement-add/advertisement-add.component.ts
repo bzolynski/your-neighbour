@@ -88,7 +88,7 @@ export class AdvertisementAddComponent implements OnInit {
     localizationFormSubmited = (form: FormGroup) => {
         if (form.valid) {
             const localization: Localization = { ...form.value };
-            console.log(localization);
+            this.advertisementAddStore.createLocalization(localization);
             this.dialog.closeAll();
         }
     };

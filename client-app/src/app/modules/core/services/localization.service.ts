@@ -9,8 +9,12 @@ import { ApiService } from './api.service';
 export class LocalizationService {
     constructor(private apiService: ApiService) {}
 
-    getManyByUser = (userId: number): ObservableResponse<Array<Localization>> => {
-        return this.apiService.get<Array<Localization>>(`localization/get-many-by-user/${userId}`);
+    getManyByUser = (userId: number): ObservableResponse<Localization[]> => {
+        return this.apiService.get<Localization[]>(`localization/get-many-by-user/${userId}`);
+    };
+
+    get = (id: number): ObservableResponse<Localization> => {
+        return this.apiService.get<Localization>(`localization/get/${id}`);
     };
 
     create = (body: Localization, userId: number): ObservableResponse<number> => {

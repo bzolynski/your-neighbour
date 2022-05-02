@@ -32,6 +32,34 @@ export class AdvertisementAddStore extends ComponentStore<AdvertisementAddState>
     readonly itemIdChanged = this.effect<IItem>(($) => $);
     readonly descriptionChanged = this.effect<string>(($) => $);
 
+    readonly createLocalization = this.effect<Localization>((params$) =>
+        params$.pipe(
+            switchMap((localization) =>
+                this.authStore.user$.pipe(
+                    tap(this.checkUserLoggedIn),
+                    filter((user): user is IUser => user !== null),
+                    switchMap((user) =>
+                        this.localizationService
+                            .create(localization, user.id)
+                            .pipe(switchMap((response) => this.localizationService.get(response.responseObject)))
+                    )
+                )
+            ),
+            tapResponse(
+                (response) => {
+                    this.addLocalization(response.responseObject);
+                },
+                (error: HttpError<Response>) => {
+                    this.messageService.showMessage(error.error?.errorMessages[0] ?? '', 'error');
+                }
+            )
+        )
+    );
+
+    private readonly addLocalization = this.updater((state, localization: Localization) => {
+        return { ...state, userLocalizations: [...state.userLocalizations, localization] };
+    });
+
     readonly createAdvertisement = this.effect<Advertisement>((params$) =>
         params$.pipe(
             switchMap((advertisement) =>
@@ -43,7 +71,6 @@ export class AdvertisementAddStore extends ComponentStore<AdvertisementAddState>
             ),
             tapResponse(
                 (response) => {
-                    // TODO: redirect to advertisement page
                     this.router.navigate(['advertisements', response.responseObject]);
                 },
                 (error: HttpError<Response>) => {
