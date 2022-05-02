@@ -1,0 +1,50 @@
+<div class="container">
+    <ng-container *ngIf="advertisement && advertisement.item; else skeleton">
+        <img
+            *ngIf="advertisement.item.images[0]; else imageSkeleton"
+            class="image"
+            [src]="advertisement.item.images[0].dataUrl"
+            [name]="advertisement.item.images[0].name" />
+
+        <div class="content">
+            <h1 class="name">{{ advertisement.item.name }}</h1>
+            <span class="category">Kategoria: {{ advertisement.item.category.name }}</span>
+
+            <div class="localization">
+                <mat-icon>place</mat-icon>
+                <span>
+                    {{ advertisement.localization.city }}
+                </span>
+            </div>
+        </div>
+    </ng-container>
+</div>
+
+<ng-template #imageSkeleton>
+    <app-skeleton-box
+        class="skeleton image"
+        [animate]="loading"></app-skeleton-box>
+</ng-template>
+
+<ng-template #skeleton>
+    <app-skeleton-box
+        class="skeleton image"
+        [animate]="loading"></app-skeleton-box>
+    <app-skeleton-text
+        class="skeleton skeleton-h1"
+        [animate]="loading"
+        [rows]="1"
+        [rowHeight]="'24px'"></app-skeleton-text>
+    <app-skeleton-text
+        class="skeleton skeleton-h2"
+        [animate]="loading"
+        [rows]="1"
+        [rowHeight]="'20px'"></app-skeleton-text>
+</ng-template>
+
+<ng-template #localizationSkeleton>
+    <app-skeleton-text
+        class="skeleton skeleton-h3"
+        [rows]="1"
+        [rowHeight]="'16px'"></app-skeleton-text>
+</ng-template>

@@ -1,0 +1,38 @@
+.container {
+    display: flex;
+    flex-direction: row;
+    border-radius: inherit;
+    .image {
+        width: 150px;
+        aspect-ratio: 1 / 1;
+        border-radius: inherit;
+        box-sizing: content-box;
+        object-fit: cover;
+        object-position: center;
+        pointer-events: none;
+    }
+
+    .content {
+        padding: 1rem;
+        width: 100%;
+        display: grid;
+        grid-template: auto auto 1fr auto / auto 1fr auto;
+
+        .name {
+            margin-bottom: 5px;
+            grid-column: 1 / 2;
+            grid-row: 1/2;
+        }
+        .category {
+            grid-column: 1 / 2;
+            grid-row: 2 / 3;
+        }
+        .localization {
+            grid-column: 3 / 4;
+            grid-row: 4 / 5;
+
+            display: flex;
+            align-items: center;
+        }
+    }
+}
