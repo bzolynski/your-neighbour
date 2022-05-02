@@ -19,7 +19,8 @@ namespace YourNeighbour.Application.Features.Items.Command.CreateItem
         public async Task<int> Handle(CreateItemCommand request, CancellationToken cancellationToken)
         {
             Item item = mapper.Map<Item>(request.ItemCreate);
-            EntityEntry<Item> result = await applicationDbContext.Set<Item>().AddAsync(item);
+            item.UserId = request.UserId;
+            EntityEntry<Item> result = await applicationDbContext.Set<Item>().AddAsync(item, cancellationToken);
             await applicationDbContext.SaveChangesAsync(cancellationToken);
             return result.Entity.Id;
         }

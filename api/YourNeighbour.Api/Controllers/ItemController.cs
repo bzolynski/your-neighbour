@@ -14,17 +14,17 @@ namespace YourNeighbour.Api.Controllers
 {
     public class ItemController : BaseController
     {
-        [HttpPut("create")]
-        public async Task<ActionResult<Response>> Create(ItemCreateDto itemCreate)
+        [HttpPut("create-for-user/{userId}")]
+        public async Task<ActionResult<Response>> CreateForUser(ItemCreateDto itemCreate, int userId)
         {
-            int result = await Mediator.Send(new CreateItemCommand(itemCreate));
+            int result = await Mediator.Send(new CreateItemCommand(itemCreate, userId));
             return Models.Response.Success(result);
         }
 
-        [HttpGet("get-many-by-user/{id}")]
-        public async Task<ActionResult<Response>> GetManyByUser(int id, [FromQuery] ItemQueryParams queryParams)
+        [HttpGet("get-many-by-user/{userId}")]
+        public async Task<ActionResult<Response>> GetManyByUser(int userId, [FromQuery] ItemQueryParams queryParams)
         {
-            IEnumerable<ItemDto> result = await Mediator.Send(new GetManyItemsByUserQuery(id, queryParams));
+            IEnumerable<ItemDto> result = await Mediator.Send(new GetManyItemsByUserQuery(userId, queryParams));
             return Models.Response.Success(result);
         }
 

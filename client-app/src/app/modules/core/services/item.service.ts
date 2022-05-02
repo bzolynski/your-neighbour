@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { IItem } from 'src/app/shared/data-access/models';
 import { HttpHelperMethods, QueryParams } from 'src/app/shared/utils';
-import { ItemCreateDto, ItemDto } from '../dtos/item.dto';
+import { ItemDto } from '../dtos/item.dto';
 import { IImage } from '../models/image.model';
 import { ObservableResponse } from '../types';
 import { ApiService } from './api.service';
@@ -19,8 +19,8 @@ export interface GetItemQueryParams extends QueryParams {
 export class ItemService {
     constructor(private apiService: ApiService) {}
 
-    create = (body: ItemCreateDto): ObservableResponse<string> => {
-        return this.apiService.put<string>('item/create', body);
+    create = (body: IItem, userId: number): ObservableResponse<number> => {
+        return this.apiService.put<number>(`item/create-for-user/${userId}`, body);
     };
 
     getByUser = (userId: number, queryParams?: GetItemQueryParams): ObservableResponse<ItemDto[]> => {
