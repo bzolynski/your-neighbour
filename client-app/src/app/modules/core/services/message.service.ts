@@ -2,16 +2,12 @@ import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition, MatSnackBar } from '@angular/material/snack-bar';
 import { Observable } from 'rxjs';
+import { ISnackBarContentData, SnackBarComponent, SnackBarMessageType } from 'src/app/shared/ui/snack-bar/snack-bar.component';
 import {
     ConfirmationDialogComponent,
     ConfirmationDialogData,
     ConfirmationDialogResult,
 } from '../../shared/components/confirmation-dialog/confirmation-dialog.component';
-import {
-    ISnackBarContentData,
-    SnackBarContentComponent,
-    SnackBarMessageType,
-} from '../../shared/components/snack-bar-content/snack-bar-content.component';
 
 @Injectable({
     providedIn: 'root',
@@ -28,7 +24,7 @@ export class MessageService {
             messageType: messageType,
         };
 
-        this.snackBar.openFromComponent(SnackBarContentComponent, {
+        this.snackBar.openFromComponent(SnackBarComponent, {
             horizontalPosition: this.horizontalPosition,
             verticalPosition: this.verticalPosition,
             data: data,

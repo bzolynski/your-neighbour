@@ -8,10 +8,11 @@ import { AngularMaterialModule } from '../angular-material/angular-material.modu
 import { SharedModule } from '../shared/shared.module';
 import './extensions';
 import { ErrorResponseInterceptor } from './interceptors/error-response.interceptor';
+import { SnackBarModule } from 'src/app/shared/ui/snack-bar/snack-bar.module';
 
 @NgModule({
+    imports: [CommonModule, RouterModule, HttpClientModule, AngularMaterialModule, SharedModule, SnackBarModule],
     declarations: [HeaderComponent, FooterComponent],
-    imports: [CommonModule, RouterModule, HttpClientModule, AngularMaterialModule, SharedModule],
     exports: [HeaderComponent, FooterComponent],
     providers: [
         {

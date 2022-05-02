@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { MatSnackBarRef, MAT_SNACK_BAR_DATA } from '@angular/material/snack-bar';
 
 export type SnackBarMessageType = 'info' | 'error' | 'warning' | 'success';
@@ -8,18 +8,15 @@ export interface ISnackBarContentData {
     messageType: SnackBarMessageType;
 }
 @Component({
-    selector: 'app-snack-bar-content',
-    templateUrl: './snack-bar-content.component.html',
-    styleUrls: ['./snack-bar-content.component.scss'],
+    selector: 'app-snack-bar',
+    templateUrl: './snack-bar.component.html',
+    styleUrls: ['./snack-bar.component.scss'],
 })
-export class SnackBarContentComponent implements OnInit {
+export class SnackBarComponent {
     constructor(
         @Inject(MAT_SNACK_BAR_DATA) public data: ISnackBarContentData,
-        private snackRef: MatSnackBarRef<SnackBarContentComponent>
+        private snackRef: MatSnackBarRef<SnackBarComponent>
     ) {}
-
-    ngOnInit(): void {}
-
     close = () => {
         this.snackRef.dismiss();
     };
