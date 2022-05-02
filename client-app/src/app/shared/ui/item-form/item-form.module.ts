@@ -10,6 +10,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { SelectedImageModule } from '../selected-image/selected-image.module';
 import { SelectedImagesModule } from '../selected-images/selected-images.module';
 import { TextInputModule } from '../text-input/text-input.module';
+import { TextAreaInputModule } from '../text-area-input/text-area-input.module';
 
 @NgModule({
     imports: [
@@ -23,6 +24,7 @@ import { TextInputModule } from '../text-input/text-input.module';
         MatOptionModule,
         MatSelectModule,
         TextInputModule,
+        TextAreaInputModule,
     ],
     declarations: [ItemFormComponent],
     exports: [ItemFormComponent],

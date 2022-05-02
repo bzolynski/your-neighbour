@@ -13,6 +13,7 @@ import { AccordionSelectModule } from 'src/app/shared/ui/accordion-select/accord
 import { AccordionSelectItemModule } from 'src/app/shared/ui/accordion-select-item/accordion-select-item.module';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ItemFormModule } from 'src/app/shared/ui/item-form/item-form.module';
+import { TextAreaInputModule } from 'src/app/shared/ui/text-area-input/text-area-input.module';
 
 // ng g m advertisements/feature/advertisement-add --route add --module advertisements/feature/advertisement-shell
 
@@ -31,6 +32,7 @@ import { ItemFormModule } from 'src/app/shared/ui/item-form/item-form.module';
         AccordionSelectModule,
         AccordionSelectItemModule,
         MatDialogModule,
+        TextAreaInputModule,
     ],
     declarations: [AdvertisementAddComponent],
 })
