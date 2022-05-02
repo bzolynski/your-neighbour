@@ -42,7 +42,7 @@
             [accept]="'image/*'"></app-file-input>
     </div>
 
-    <app-selected-images appPosRelative class="section selected-images">
+    <app-selected-images class="section selected-images">
         <app-selected-image
             *ngFor="let image of itemForm.controls['images'].value ?? []"
             class="image"
