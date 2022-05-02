@@ -14,6 +14,7 @@ import { AccordionSelectItemModule } from 'src/app/shared/ui/accordion-select-it
 import { MatDialogModule } from '@angular/material/dialog';
 import { ItemFormModule } from 'src/app/shared/ui/item-form/item-form.module';
 import { TextAreaInputModule } from 'src/app/shared/ui/text-area-input/text-area-input.module';
+import { ElevatedSectionModule } from 'src/app/shared/directives/elevated-section/elevated-section.module';
 
 // ng g m advertisements/feature/advertisement-add --route add --module advertisements/feature/advertisement-shell
 
@@ -33,6 +34,7 @@ import { TextAreaInputModule } from 'src/app/shared/ui/text-area-input/text-area
         AccordionSelectItemModule,
         MatDialogModule,
         TextAreaInputModule,
+        ElevatedSectionModule,
     ],
     declarations: [AdvertisementAddComponent],
 })

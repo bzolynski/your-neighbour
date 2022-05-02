@@ -23,8 +23,23 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { TreeViewModule } from '../tree-view/tree-view.module';
 import { CoreModule } from '../core/core.module';
 import { TextInputModule } from 'src/app/shared/ui/text-input/text-input.module';
+import { ElevatedSectionModule } from 'src/app/shared/directives/elevated-section/elevated-section.module';
 
 @NgModule({
+    imports: [
+        CommonModule,
+        RouterModule,
+        SettingsRoutingModule,
+        FormsModule,
+        ReactiveFormsModule,
+        SharedModule,
+        AngularMaterialModule,
+        FontAwesomeModule,
+        TreeViewModule,
+        CoreModule,
+        TextInputModule,
+        ElevatedSectionModule,
+    ],
     declarations: [
         SettingsRootComponent,
         SettingsSideBarComponent,
@@ -40,19 +55,6 @@ import { TextInputModule } from 'src/app/shared/ui/text-input/text-input.module'
         CategoryDetailsComponent,
         CategoryFormComponent,
         CategoryConnectionsEditComponent,
-    ],
-    imports: [
-        CommonModule,
-        RouterModule,
-        SettingsRoutingModule,
-        FormsModule,
-        ReactiveFormsModule,
-        SharedModule,
-        AngularMaterialModule,
-        FontAwesomeModule,
-        TreeViewModule,
-        CoreModule,
-        TextInputModule,
     ],
 })
 export class SettingsModule {}

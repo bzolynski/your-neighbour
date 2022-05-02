@@ -7,24 +7,11 @@ import { SnackBarContentComponent } from './components/snack-bar-content/snack-b
 import { ContainerComponent } from './components/layout/container/container.component';
 import { ConfirmationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.component';
 import { BackdropLoadingComponent } from './components/backdrop-loading/backdrop-loading.component';
-import { ElevatedSectionDirective } from './directives';
 import { TextInputModule } from 'src/app/shared/ui/text-input/text-input.module';
 
 @NgModule({
-    declarations: [
-        SnackBarContentComponent,
-        ContainerComponent,
-        ConfirmationDialogComponent,
-        BackdropLoadingComponent,
-        ElevatedSectionDirective,
-    ],
+    declarations: [SnackBarContentComponent, ContainerComponent, ConfirmationDialogComponent, BackdropLoadingComponent],
     imports: [CommonModule, RouterModule, AngularMaterialModule, ReactiveFormsModule, TextInputModule],
-    exports: [
-        ContainerComponent,
-        SnackBarContentComponent,
-        ConfirmationDialogComponent,
-        BackdropLoadingComponent,
-        ElevatedSectionDirective,
-    ],
+    exports: [ContainerComponent, SnackBarContentComponent, ConfirmationDialogComponent, BackdropLoadingComponent],
 })
 export class SharedModule {}
