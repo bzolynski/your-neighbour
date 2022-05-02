@@ -9,4 +9,5 @@ import { Advertisement } from '../../data-access/models/advertisement.model';
 export class AdvertisementCardComponent {
     @Input() advertisement?: Advertisement | null;
     @Input() loading: boolean = false;
+    @Input() horizontal: boolean = true;
 }

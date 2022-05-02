@@ -1,12 +1,18 @@
 <div class="container">
-    <app-list-top-bar appElevatedSection class="top-bar"></app-list-top-bar>
-    <app-list-side-panel appElevatedSection></app-list-side-panel>
-    <!-- <router-outlet appElevatedSection></router-outlet> -->
-    <div class="content">
+    <app-list-side-panel
+        class="side-panel"
+        appElevatedSection></app-list-side-panel>
+    <app-list-top-bar class="top-bar" appElevatedSection></app-list-top-bar>
+    <div
+        *ngIf="{ viewType: selectedListViewType$ | async } as vm"
+        class="content"
+        [ngClass]="vm.viewType === 'list' ? 'display-list' : 'display-card'">
         <app-advertisement-card
             appElevatedSection
             *ngFor="let advertisement of advertisements$ | async"
+            [horizontal]="vm.viewType === 'list'"
             (click)="openAdvertisement(advertisement.id)"
             [advertisement]="advertisement"></app-advertisement-card>
     </div>
 </div>
+<!-- selectedListViewType$ -->

@@ -1,9 +1,7 @@
 .container {
     display: flex;
-    flex-direction: row;
     border-radius: inherit;
     .image {
-        width: 150px;
         aspect-ratio: 1 / 1;
         border-radius: inherit;
         box-sizing: content-box;
@@ -13,15 +11,17 @@
     }
 
     .content {
+        box-sizing: border-box;
         padding: 1rem;
         width: 100%;
         display: grid;
-        grid-template: auto auto 1fr auto / auto 1fr auto;
 
         .name {
-            margin-bottom: 5px;
             grid-column: 1 / 2;
             grid-row: 1/2;
+            font-size: 20px;
+            line-height: 1.2;
+            margin-bottom: 5px;
         }
         .category {
             grid-column: 1 / 2;
@@ -33,6 +33,24 @@
 
             display: flex;
             align-items: center;
+        }
+    }
+    &.horizontal {
+        flex-direction: row;
+        .image {
+            width: 150px;
+        }
+        .content {
+            grid-template: auto auto 1fr auto / auto 1fr auto;
+        }
+    }
+    &.vertical {
+        flex-direction: column;
+        .image {
+            width: 100%;
+        }
+        .content {
+            grid-template: 1fr / 1fr;
         }
     }
 }

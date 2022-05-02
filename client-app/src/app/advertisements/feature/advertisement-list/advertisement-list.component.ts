@@ -12,6 +12,8 @@ export class AdvertisementListComponent implements OnInit {
     constructor(private advertisementListStore: AdvertisementListStore, private router: Router) {}
 
     advertisements$ = this.advertisementListStore.advertisements$;
+    selectedListViewType$ = this.advertisementListStore.listViewType$;
+
     ngOnInit(): void {
         this.advertisementListStore.loadAdvertisements();
     }

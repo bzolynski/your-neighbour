@@ -6,13 +6,22 @@ import { switchMap, tap } from 'rxjs/operators';
 import { HttpError, Response } from 'src/app/modules/core/models';
 import { AdvertisementService } from '..';
 
-type AdvertisementListState = GenericState<Advertisement[]>;
+export type ListViewType = 'list' | 'card';
+
+interface AdvertisementListState extends GenericState<Advertisement[]> {
+    listViewType: ListViewType;
+}
 
 @Injectable()
 export class AdvertisementListStore extends ComponentStore<AdvertisementListState> {
     readonly advertisements$ = this.select((state) => state.data);
     readonly isLoading$ = this.select((state) => state.status === 'loading');
     readonly error$ = this.select((state) => state.error);
+    readonly listViewType$ = this.select((state) => state.listViewType);
+
+    readonly changeListViewType = this.updater((state, listViewType: ListViewType) => {
+        return { ...state, listViewType: listViewType };
+    });
 
     readonly loadAdvertisements = this.effect(($) =>
         $.pipe(
@@ -43,6 +52,6 @@ export class AdvertisementListStore extends ComponentStore<AdvertisementListStat
     );
 
     constructor(private advertisementService: AdvertisementService) {
-        super(<AdvertisementListState>{});
+        super(<AdvertisementListState>{ listViewType: 'list' });
     }
 }
