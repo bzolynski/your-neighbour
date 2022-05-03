@@ -22,8 +22,9 @@ export class CategoryService {
         const params = HttpHelperMethods.mapToHttpParams(queryParams);
         return this.apiService.get<ICategory[]>('category/get-many', params);
     };
-    getById = (id: number): ObservableResponse<ICategory> => {
-        return this.apiService.get<ICategory>(`category/get/${id}`);
+    get = (id: number, queryParams?: CategoryQueryParams): ObservableResponse<ICategory> => {
+        const params = HttpHelperMethods.mapToHttpParams(queryParams);
+        return this.apiService.get<ICategory>(`category/get/${id}`, params);
     };
     create = (body: ICategory): ObservableResponse<ICategory> => {
         return this.apiService.put<ICategory>(`category/create/`, body);

@@ -66,7 +66,7 @@ export class CategoryFormComponent implements OnInit, OnDestroy {
                 const id: number = Number.parseInt(data['id']);
                 if (id) {
                     this.categoryService
-                        .getById(id)
+                        .get(id)
                         .pipe(takeUntil(this.destroy$))
                         .subscribe((response) => {
                             const { name, definition, isActive } =

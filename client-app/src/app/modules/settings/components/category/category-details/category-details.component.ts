@@ -27,7 +27,7 @@ export class CategoryDetailsComponent implements OnInit, OnDestroy {
 		this.activatedRoute.params.pipe(takeUntil(this.destroy$)).subscribe((data) => {
 			const id: number = Number.parseInt(data['id']);
 			if (id) {
-				this.categoryService.getById(id).pipe(takeUntil(this.destroy$)).subscribe(
+				this.categoryService.get(id).pipe(takeUntil(this.destroy$)).subscribe(
 					(response) => {
 						Object.assign(this.category, response.responseObject);
 						console.log(response.responseObject);
