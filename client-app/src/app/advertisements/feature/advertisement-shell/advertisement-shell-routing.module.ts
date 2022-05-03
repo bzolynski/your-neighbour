@@ -13,7 +13,7 @@ const routes: Routes = [
         loadChildren: () => import('../advertisement-add/advertisement-add.module').then((m) => m.AdvertisementAddModule),
     },
     {
-        path: ':id',
+        path: 'details/:id',
         loadChildren: () => import('../advertisement/advertisement.module').then((m) => m.AdvertisementModule),
     },
 ];

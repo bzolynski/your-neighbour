@@ -31,7 +31,7 @@ export class CategoryConnectionsEditComponent implements OnInit, OnDestroy, CanC
 
     ngOnInit(): void {
         this.categoryService
-            .getAll()
+            .getMany()
             .pipe(takeUntil(this.destroy$))
             .subscribe((response) => {
                 this.treeItem = response.responseObject
@@ -40,9 +40,7 @@ export class CategoryConnectionsEditComponent implements OnInit, OnDestroy, CanC
                         (x) => x,
                         (p, c) => p.id == c.parentId
                     )
-                    .toTree((lookup) => {
-                        return [...lookup].filter((val) => val[0].guid == ROOT_CATEGORY_GUID)[0];
-                    });
+                    .toTree((lookup) => [...lookup].filter((val) => val[0].guid == ROOT_CATEGORY_GUID)[0]);
             });
         this.categoryService
             .getUnassigned()

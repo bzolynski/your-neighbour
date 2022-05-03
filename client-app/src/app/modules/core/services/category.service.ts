@@ -1,9 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
+import { HttpHelperMethods, QueryParams } from 'src/app/shared/utils';
 import { ApiService } from '.';
 import { ICategory } from '../models';
 import { ObservableResponse } from '../types';
 import { IChildParentPair } from '../types/child-parent-pair.type';
+
+export interface CategoryQueryParams extends QueryParams {
+    includeDefinition: boolean;
+}
 
 @Injectable({
     providedIn: 'root',
@@ -13,8 +18,9 @@ export class CategoryService {
 
     changed: Subject<void> = new Subject<void>();
 
-    getAll = (): ObservableResponse<Array<ICategory>> => {
-        return this.apiService.get<Array<ICategory>>('category/getAll');
+    getMany = (queryParams?: CategoryQueryParams): ObservableResponse<ICategory[]> => {
+        const params = HttpHelperMethods.mapToHttpParams(queryParams);
+        return this.apiService.get<ICategory[]>('category/get-many', params);
     };
     getById = (id: number): ObservableResponse<ICategory> => {
         return this.apiService.get<ICategory>(`category/get/${id}`);

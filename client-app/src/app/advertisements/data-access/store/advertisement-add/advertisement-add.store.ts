@@ -99,7 +99,7 @@ export class AdvertisementAddStore extends ComponentStore<AdvertisementAddState>
             ),
             tapResponse(
                 (response) => {
-                    this.router.navigate(['advertisements', response.responseObject]);
+                    this.router.navigate(['advertisements', 'details', response.responseObject]);
                 },
                 (error: HttpError<Response>) => {
                     this.messageService.showMessage(error.error?.errorMessages[0] ?? '', 'error');
@@ -126,7 +126,7 @@ export class AdvertisementAddStore extends ComponentStore<AdvertisementAddState>
     readonly loadCategories = this.effect(($) =>
         $.pipe(
             switchMap(() =>
-                this.categoryService.getAll().pipe(
+                this.categoryService.getMany().pipe(
                     tapResponse(
                         (response) => {
                             this.patchState({ categories: response.responseObject });

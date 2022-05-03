@@ -18,6 +18,6 @@ export class AdvertisementListComponent implements OnInit {
         this.advertisementListStore.loadAdvertisements();
     }
     openAdvertisement = (id: number) => {
-        this.router.navigate(['advertisements', id]);
+        this.router.navigate(['advertisements', 'details', id]);
     };
 }

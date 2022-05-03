@@ -29,7 +29,7 @@ export class CategoryListComponent implements OnInit, OnDestroy {
 		this.destroy$.unsubscribe;
 	}
 	private fetchCategories = () => {
-		this.categoryService.getAll().pipe(takeUntil(this.destroy$)).subscribe(
+		this.categoryService.getMany().pipe(takeUntil(this.destroy$)).subscribe(
 			(response) => {
 				this.categories = response.responseObject;
 			},
