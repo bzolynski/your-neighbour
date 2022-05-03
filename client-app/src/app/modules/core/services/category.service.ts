@@ -20,7 +20,7 @@ export class CategoryService {
 
     getMany = (queryParams?: CategoryQueryParams): ObservableResponse<ICategory[]> => {
         const params = HttpHelperMethods.mapToHttpParams(queryParams);
-        return this.apiService.get<ICategory[]>('category/get-many', params);
+        return this.apiService.get<ICategory[]>('category/get', params);
     };
     get = (id: number, queryParams?: CategoryQueryParams): ObservableResponse<ICategory> => {
         const params = HttpHelperMethods.mapToHttpParams(queryParams);

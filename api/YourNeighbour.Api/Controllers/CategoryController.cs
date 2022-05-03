@@ -15,18 +15,18 @@ namespace YourNeighbour.Api.Controllers
 {
     public class CategoryController : BaseController
     {
+        [HttpGet("get")]
+        public async Task<ActionResult<Response>> Get([FromQuery] CategoryQueryParams queryParams)
+        {
+            IEnumerable<CategoryDto> categories = await Mediator.Send(new GetManyCategoriesQuery(queryParams));
+            return Models.Response.Success(categories);
+        }
+
         [HttpGet("get/{id}")]
         public async Task<ActionResult<Response>> Get(int id, [FromQuery] CategoryQueryParams queryParams)
         {
             CategoryDto category = await Mediator.Send(new GetCategoryQuery(id, queryParams));
             return Models.Response.Success(category);
-        }
-
-        [HttpGet("get-many")]
-        public async Task<ActionResult<Response>> GetMany([FromQuery] CategoryQueryParams queryParams)
-        {
-            IEnumerable<CategoryDto> categories = await Mediator.Send(new GetManyCategoriesQuery(queryParams));
-            return Models.Response.Success(categories);
         }
 
         [HttpGet("get-unassigned")]
