@@ -6,8 +6,9 @@ using YourNeighbour.Application.Features.Categories.Commands.ChangeParent;
 using YourNeighbour.Application.Features.Categories.Commands.CreateCategory;
 using YourNeighbour.Application.Features.Categories.Commands.DeleteCategory;
 using YourNeighbour.Application.Features.Categories.Dtos;
-using YourNeighbour.Application.Features.Categories.Queries.GetAllCategories;
-using YourNeighbour.Application.Features.Categories.Queries.GetCategoryById;
+using YourNeighbour.Application.Features.Categories.Queries;
+using YourNeighbour.Application.Features.Categories.Queries.GetCategory;
+using YourNeighbour.Application.Features.Categories.Queries.GetManyCategories;
 using YourNeighbour.Application.Features.Categories.Queries.GetUnassigned;
 
 namespace YourNeighbour.Api.Controllers
@@ -15,16 +16,16 @@ namespace YourNeighbour.Api.Controllers
     public class CategoryController : BaseController
     {
         [HttpGet("get/{id}")]
-        public async Task<ActionResult<Response>> GetById(int id)
+        public async Task<ActionResult<Response>> Get(int id, [FromQuery] CategoryQueryParams queryParams)
         {
-            CategoryDto category = await Mediator.Send(new GetCategoryByIdQuery(id));
+            CategoryDto category = await Mediator.Send(new GetCategoryQuery(id, queryParams));
             return Models.Response.Success(category);
         }
 
-        [HttpGet("getAll")]
-        public async Task<ActionResult<Response>> GetAll()
+        [HttpGet("get-many")]
+        public async Task<ActionResult<Response>> GetMany([FromQuery] CategoryQueryParams queryParams)
         {
-            IEnumerable<CategoryDto> categories = await Mediator.Send(new GetAllCategoriesQuery());
+            IEnumerable<CategoryDto> categories = await Mediator.Send(new GetManyCategoriesQuery(queryParams));
             return Models.Response.Success(categories);
         }
 
