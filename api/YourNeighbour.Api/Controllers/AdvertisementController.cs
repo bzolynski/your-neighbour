@@ -7,6 +7,7 @@ using YourNeighbour.Application.Features.Advertisements.Dtos;
 using YourNeighbour.Application.Features.Advertisements.Queries;
 using YourNeighbour.Application.Features.Advertisements.Queries.GetAdvertisement;
 using YourNeighbour.Application.Features.Advertisements.Queries.GetManyAdvertisements;
+using YourNeighbour.Application.Features.Advertisements.Queries.GetManyAdvertisementsByCategory;
 
 namespace YourNeighbour.Api.Controllers
 {
@@ -23,6 +24,13 @@ namespace YourNeighbour.Api.Controllers
         public async Task<ActionResult<Response>> Get(int id, [FromQuery] AdvertisementQueryParams queryParams)
         {
             AdvertisementDto result = await Mediator.Send(new GetAdvertisementQuery(id, queryParams));
+            return Models.Response.Success(result);
+        }
+
+        [HttpGet("get-by-category/{categoryId}")]
+        public async Task<ActionResult<Response>> GetByCategory(int categoryId, [FromQuery] AdvertisementQueryParams queryParams)
+        {
+            IEnumerable<AdvertisementDto> result = await Mediator.Send(new GetManyAdvertisementsByCategoryQuery(categoryId, queryParams));
             return Models.Response.Success(result);
         }
 
