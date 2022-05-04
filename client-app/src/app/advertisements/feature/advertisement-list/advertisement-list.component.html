@@ -1,5 +1,6 @@
 <div class="container">
     <app-list-side-panel
+        [category]="activeCategory$ | async"
         class="side-panel"
         appElevatedSection></app-list-side-panel>
     <app-list-top-bar class="top-bar" appElevatedSection></app-list-top-bar>
