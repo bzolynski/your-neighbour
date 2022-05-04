@@ -28,12 +28,34 @@ export class AdvertisementListStore extends ComponentStore<AdvertisementListStat
         return { ...state, listViewType: listViewType };
     });
 
-    readonly loadAdvertisements = this.effect(($) =>
-        $.pipe(
+    readonly loadCategoryAndAdvertisements = this.effect<number | undefined>((params$) =>
+        params$.pipe(
+            tap(() => this.patchState({ activeCategoryLoading: true, activeCategory: undefined })),
+            switchMap((categoryId) =>
+                categoryId
+                    ? this.categoryService.get(categoryId, { includeChildren: true, includeParent: true })
+                    : this.categoryService.getRoot({ includeChildren: true, includeParent: true })
+            ),
+            tapResponse(
+                (response) => {
+                    console.log(response);
+
+                    this.patchState({ activeCategoryLoading: false, activeCategory: response.responseObject });
+                    this.loadAdvertisementsByCategory(response.responseObject.id);
+                },
+                (error: HttpError<Response>) => {
+                    this.patchState({ activeCategoryLoading: false, error: error.error?.errorMessages[0] ?? '' });
+                }
+            )
+        )
+    );
+
+    private readonly loadAdvertisementsByCategory = this.effect<number>((params$) =>
+        params$.pipe(
             tap(() => this.patchState({ status: 'loading', error: undefined, data: undefined })),
-            switchMap(() =>
+            switchMap((categoryId) =>
                 this.advertisementService
-                    .getMany({
+                    .getManyByCategory(categoryId, {
                         includeCategory: true,
                         // TODO: turn images on
                         includeImages: false,
@@ -52,26 +74,6 @@ export class AdvertisementListStore extends ComponentStore<AdvertisementListStat
                             }
                         )
                     )
-            )
-        )
-    );
-    readonly loadCategory = this.effect<number | undefined>((params$) =>
-        params$.pipe(
-            tap(() => this.patchState({ activeCategoryLoading: true, activeCategory: undefined })),
-            switchMap((categoryId) =>
-                categoryId
-                    ? this.categoryService.get(categoryId, { includeChildren: true, includeParent: true })
-                    : this.categoryService.getRoot({ includeChildren: true, includeParent: true })
-            ),
-            tapResponse(
-                (response) => {
-                    console.log(response);
-
-                    this.patchState({ activeCategoryLoading: false, activeCategory: response.responseObject });
-                },
-                (error: HttpError<Response>) => {
-                    this.patchState({ activeCategoryLoading: false, error: error.error?.errorMessages[0] ?? '' });
-                }
             )
         )
     );

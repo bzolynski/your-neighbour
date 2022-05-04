@@ -17,8 +17,7 @@ export class AdvertisementListComponent implements OnInit {
     activeCategory$ = this.advertisementListStore.activeCategory$;
 
     ngOnInit(): void {
-        this.advertisementListStore.loadAdvertisements();
-        this.advertisementListStore.loadCategory(this.route.params.pipe(map((params) => params['id'])));
+        this.advertisementListStore.loadCategoryAndAdvertisements(this.route.params.pipe(map((params) => params['id'])));
     }
     openAdvertisement = (id: number) => {
         this.router.navigate(['advertisements', 'details', id]);
