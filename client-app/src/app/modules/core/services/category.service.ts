@@ -2,12 +2,14 @@ import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { HttpHelperMethods, QueryParams } from 'src/app/shared/utils';
 import { ApiService } from '.';
-import { ICategory } from '../models';
+import { ICategory, ROOT_CATEGORY_GUID } from '../models';
 import { ObservableResponse } from '../types';
 import { IChildParentPair } from '../types/child-parent-pair.type';
 
 export interface CategoryQueryParams extends QueryParams {
-    includeDefinition: boolean;
+    includeDefinition?: boolean;
+    includeParent?: boolean;
+    includeChildren?: boolean;
 }
 
 @Injectable({
@@ -25,6 +27,10 @@ export class CategoryService {
     get = (id: number, queryParams?: CategoryQueryParams): ObservableResponse<ICategory> => {
         const params = HttpHelperMethods.mapToHttpParams(queryParams);
         return this.apiService.get<ICategory>(`category/get/${id}`, params);
+    };
+    getRoot = (queryParams?: CategoryQueryParams): ObservableResponse<ICategory> => {
+        const params = HttpHelperMethods.mapToHttpParams(queryParams);
+        return this.apiService.get<ICategory>(`category/get-by-guid/${ROOT_CATEGORY_GUID}`, params);
     };
     create = (body: ICategory): ObservableResponse<ICategory> => {
         return this.apiService.put<ICategory>(`category/create/`, body);

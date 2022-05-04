@@ -7,6 +7,9 @@ export interface ICategory extends IModelBase {
     name: string;
     definition: ICategoryDefinition;
     isActive: boolean;
+    parent?: ICategory;
+    children?: ICategory[];
+
     parentId: number;
     parentGuid: string;
 }

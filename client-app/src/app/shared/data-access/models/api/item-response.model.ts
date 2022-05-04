@@ -1,4 +1,4 @@
-import { ICategory } from './category-response.model';
+import { ICategory } from './category.model';
 import { IImage } from './image.model';
 
 export interface IItem {
