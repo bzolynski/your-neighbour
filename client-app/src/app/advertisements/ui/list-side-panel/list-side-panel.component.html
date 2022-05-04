@@ -1,1 +1,44 @@
-<p>list-side-bar works!</p>
+<div class="wrapper">
+    <ng-container *ngIf="category; else categoryLoading">
+        <p class="selected-category">
+            {{ category.name }}
+        </p>
+        <div *ngIf="category.parent">
+            <span style="font-size: 14px">powrót do </span>
+            <a
+                class="back-to-previous"
+                [routerLink]="['/advertisements', category.parent.id]">
+                <u>
+                    {{ category.parent.name }}
+                </u>
+            </a>
+        </div>
+        <div *ngIf="category.children">
+            <div *ngFor="let child of category.children">
+                <a
+                    class="category-list-item"
+                    [routerLink]="['/advertisements', child.id]">
+                    {{ child.name }}
+                </a>
+            </div>
+        </div>
+    </ng-container>
+</div>
+
+<ng-template #categoryLoading>
+    <app-skeleton-text
+        class="skeleton selected-category"
+        [rows]="1"
+        [rowHeight]="'25px'"
+        [animate]="true"></app-skeleton-text>
+    <app-skeleton-text
+        class="skeleton back-to-previous"
+        [rows]="1"
+        [rowHeight]="'14px'"
+        [animate]="true"></app-skeleton-text>
+    <app-skeleton-text
+        *appRepeat="5"
+        class="skeleton category-list-item"
+        [rowHeight]="'14px'"
+        [animate]="true"></app-skeleton-text>
+</ng-template>
