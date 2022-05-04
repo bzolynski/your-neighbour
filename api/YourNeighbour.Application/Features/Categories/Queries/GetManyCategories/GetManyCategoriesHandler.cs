@@ -22,8 +22,10 @@ namespace YourNeighbour.Application.Features.Categories.Queries.GetManyCategorie
         public async Task<IEnumerable<CategoryDto>> Handle(GetManyCategoriesQuery request, CancellationToken cancellationToken)
         {
             IEnumerable<Category> categories = await applicationDbContext.Set<Category>()
-                 .IncludeIf(x => x.Definition, request.QueryParams.IncludeDefinition)
-                 .ToListAsync();
+                .IncludeIf(x => x.Definition, request.QueryParams.IncludeDefinition)
+                .IncludeIf(c => c.Parent, request.QueryParams.IncludeParent)
+                .IncludeIf(c => c.Children, request.QueryParams.IncludeChildren)
+                .ToListAsync();
 
             return mapper.Map<IEnumerable<CategoryDto>>(categories);
         }

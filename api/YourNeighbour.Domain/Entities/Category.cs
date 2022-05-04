@@ -10,7 +10,7 @@ namespace YourNeighbour.Domain.Entities
         public static readonly Guid RootCategoryGuid = new Guid("00000000-0000-0000-0000-000000000000");
         public Category()
         {
-            Subcategories = new HashSet<Category>();
+            Children = new HashSet<Category>();
             Advertisements = new HashSet<Advertisement>();
         }
 
@@ -18,7 +18,7 @@ namespace YourNeighbour.Domain.Entities
         public bool IsActive { get; set; }
         public CategoryDefinition Definition { get; set; }
         public Category Parent { get; set; }
-        public ICollection<Category> Subcategories { get; }
+        public ICollection<Category> Children { get; }
         public ICollection<Advertisement> Advertisements { get; }
         public bool Basic { get; set; } = false;
 

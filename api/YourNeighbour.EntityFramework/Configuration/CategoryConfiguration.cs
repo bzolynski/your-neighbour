@@ -8,7 +8,7 @@ namespace YourNeighbour.EntityFramework.Configuration
     {
         public void Configure(EntityTypeBuilder<Category> builder)
         {
-            builder.HasMany(c => c.Subcategories)
+            builder.HasMany(c => c.Children)
                 .WithOne(c => c.Parent)
                 .HasForeignKey(c => c.ParentId)
                 .OnDelete(DeleteBehavior.NoAction);

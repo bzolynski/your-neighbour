@@ -66,7 +66,7 @@ namespace YourNeighbour.EntityFramework.SqlServer.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Advertisements");
+                    b.ToTable("Advertisements", (string)null);
                 });
 
             modelBuilder.Entity("YourNeighbour.Domain.Entities.Category", b =>
@@ -101,7 +101,7 @@ namespace YourNeighbour.EntityFramework.SqlServer.Migrations
 
                     b.HasIndex("ParentId");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", (string)null);
                 });
 
             modelBuilder.Entity("YourNeighbour.Domain.Entities.Definitions.AdvertisementDefinition", b =>
@@ -129,7 +129,7 @@ namespace YourNeighbour.EntityFramework.SqlServer.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AdvertisementDefinitions");
+                    b.ToTable("AdvertisementDefinitions", (string)null);
                 });
 
             modelBuilder.Entity("YourNeighbour.Domain.Entities.Definitions.CategoryDefinition", b =>
@@ -157,7 +157,7 @@ namespace YourNeighbour.EntityFramework.SqlServer.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("CategoryDefinitions");
+                    b.ToTable("CategoryDefinitions", (string)null);
                 });
 
             modelBuilder.Entity("YourNeighbour.Domain.Entities.Identity.Role", b =>
@@ -403,7 +403,7 @@ namespace YourNeighbour.EntityFramework.SqlServer.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Items");
+                    b.ToTable("Items", (string)null);
                 });
 
             modelBuilder.Entity("YourNeighbour.Domain.Entities.ItemImage", b =>
@@ -427,7 +427,7 @@ namespace YourNeighbour.EntityFramework.SqlServer.Migrations
 
                     b.HasIndex("ItemId");
 
-                    b.ToTable("ItemImages");
+                    b.ToTable("ItemImages", (string)null);
                 });
 
             modelBuilder.Entity("YourNeighbour.Domain.Entities.Localization", b =>
@@ -466,7 +466,7 @@ namespace YourNeighbour.EntityFramework.SqlServer.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Localizations");
+                    b.ToTable("Localizations", (string)null);
                 });
 
             modelBuilder.Entity("YourNeighbour.Domain.Entities.RefreshToken", b =>
@@ -494,7 +494,7 @@ namespace YourNeighbour.EntityFramework.SqlServer.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("RefreshTokens");
+                    b.ToTable("RefreshTokens", (string)null);
                 });
 
             modelBuilder.Entity("YourNeighbour.Domain.Entities.Advertisement", b =>

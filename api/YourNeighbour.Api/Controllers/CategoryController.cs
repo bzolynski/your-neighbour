@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using YourNeighbour.Api.Models;
@@ -8,6 +9,7 @@ using YourNeighbour.Application.Features.Categories.Commands.DeleteCategory;
 using YourNeighbour.Application.Features.Categories.Dtos;
 using YourNeighbour.Application.Features.Categories.Queries;
 using YourNeighbour.Application.Features.Categories.Queries.GetCategory;
+using YourNeighbour.Application.Features.Categories.Queries.GetCategoryByGuid;
 using YourNeighbour.Application.Features.Categories.Queries.GetManyCategories;
 using YourNeighbour.Application.Features.Categories.Queries.GetUnassigned;
 
@@ -26,6 +28,13 @@ namespace YourNeighbour.Api.Controllers
         public async Task<ActionResult<Response>> Get(int id, [FromQuery] CategoryQueryParams queryParams)
         {
             CategoryDto category = await Mediator.Send(new GetCategoryQuery(id, queryParams));
+            return Models.Response.Success(category);
+        }
+
+        [HttpGet("get-by-guid/{guid}")]
+        public async Task<ActionResult<Response>> GetByGuid(Guid guid, [FromQuery] CategoryQueryParams queryParams)
+        {
+            CategoryDto category = await Mediator.Send(new GetCategoryByGuidQuery(guid, queryParams));
             return Models.Response.Success(category);
         }
 
