@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using YourNeighbour.Domain.Entities.Common;
 using YourNeighbour.Domain.Entities.Definitions;
+using YourNeighbour.Domain.Types;
 
 namespace YourNeighbour.Domain.Entities
 {
-    public class Category : EntityBase
+    public class Category : EntityBase, INode<Category>
     {
         public static readonly Guid RootCategoryGuid = new Guid("00000000-0000-0000-0000-000000000000");
         public Category()

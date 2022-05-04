@@ -22,8 +22,20 @@ namespace YourNeighbour.Application.Features.Advertisements.Queries.GetManyAdver
         }
         public async Task<IEnumerable<AdvertisementDto>> Handle(GetManyAdvertisementsByCategoryQuery request, CancellationToken cancellationToken)
         {
+            IQueryable<Category> categoriesQuery = applicationDbContext.Set<Category>().AsQueryable();
+            List<int> categoriesId = new();
+            foreach (Category category in categoriesQuery.ToArray())
+            {
+                if (category.Id == request.CategoryId)
+                {
+                    categoriesId.Add(category.Id);
+                    categoriesId.AddRange(category.Descendants().Select(x => x.Id));
+                    break;
+                }
+            }
+
             IEnumerable<Advertisement> advertisements = await applicationDbContext.Set<Advertisement>()
-                .Where(a => a.Item.CategoryId == request.CategoryId)
+                .Where(a => categoriesId.Any(c => c == a.Item.CategoryId))
                 .Include(a => a.Item)
                     .ThenIncludeIf(i => i.Category, request.QueryParams.IncludeCategory)
                 .Include(a => a.Item)
@@ -35,5 +47,6 @@ namespace YourNeighbour.Application.Features.Advertisements.Queries.GetManyAdver
 
             return mapper.Map<IEnumerable<AdvertisementDto>>(advertisements);
         }
+
     }
 }
