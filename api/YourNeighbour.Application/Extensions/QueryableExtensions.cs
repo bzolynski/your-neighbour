@@ -47,6 +47,7 @@ namespace YourNeighbour.Application.Extensions
         {
             return mapper.ProjectTo<T>(source);
         }
+
         public static IIncludableQueryable<TEntity, TProperty> IncludeIf<TEntity, TProperty>(this IQueryable<TEntity> source, Expression<Func<TEntity, TProperty>> navigationPropertyPath, bool condition) where TEntity : class
         {
             if (condition)
@@ -61,5 +62,11 @@ namespace YourNeighbour.Application.Extensions
             return new CustomIncludableQueryable<TEntity, TProperty>(source); ;
         }
 
+        public static IQueryable<TEntity> WhereIf<TEntity>(this IQueryable<TEntity> source, Expression<Func<TEntity, bool>> predicate, bool condition) where TEntity : class
+        {
+            if (condition)
+                return source.Where(predicate);
+            return source;
+        }
     }
 }
