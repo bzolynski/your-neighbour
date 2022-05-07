@@ -15,6 +15,12 @@
             >view_module</mat-icon
         >
     </div>
+
+    <div class="search-bar-container">
+        <app-advertisement-search
+            (searchSubmited)="submitSearch($event)"
+            [categories]="categories$ | async"></app-advertisement-search>
+    </div>
     <button
         mat-raised-button
         color="warn"
