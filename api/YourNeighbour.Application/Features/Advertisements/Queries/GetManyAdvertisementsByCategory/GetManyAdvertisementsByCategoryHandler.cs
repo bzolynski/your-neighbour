@@ -36,13 +36,7 @@ namespace YourNeighbour.Application.Features.Advertisements.Queries.GetManyAdver
 
             IEnumerable<Advertisement> advertisements = await applicationDbContext.Set<Advertisement>()
                 .Where(a => categoriesId.Any(c => c == a.Item.CategoryId))
-                .Include(a => a.Item)
-                    .ThenIncludeIf(i => i.Category, request.QueryParams.IncludeCategory)
-                .Include(a => a.Item)
-                    .ThenIncludeIf(i => i.Images.Take(request.QueryParams.MaxImages ?? int.MaxValue), request.QueryParams.IncludeImages)
-                .IncludeIf(a => a.User, request.QueryParams.IncludeUser)
-                .IncludeIf(a => a.Localization, request.QueryParams.IncludeLocalization)
-                .IncludeIf(a => a.Definition, request.QueryParams.IncludeDefinition)
+                .ApplySearchableQueryParams(request.QueryParams)
                 .ToListAsync(cancellationToken);
 
             return mapper.Map<IEnumerable<AdvertisementDto>>(advertisements);

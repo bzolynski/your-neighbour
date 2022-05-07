@@ -14,7 +14,7 @@ namespace YourNeighbour.Api.Controllers
     public class AdvertisementController : BaseController
     {
         [HttpGet("get")]
-        public async Task<ActionResult<Response>> Get([FromQuery] AdvertisementQueryParams queryParams)
+        public async Task<ActionResult<Response>> Get([FromQuery] AdvertisementSearchableQueryParams queryParams)
         {
             IEnumerable<AdvertisementDto> result = await Mediator.Send(new GetManyAdvertisementsQuery(queryParams));
             return Models.Response.Success(result);
@@ -28,7 +28,7 @@ namespace YourNeighbour.Api.Controllers
         }
 
         [HttpGet("get-by-category/{categoryId}")]
-        public async Task<ActionResult<Response>> GetByCategory(int categoryId, [FromQuery] AdvertisementQueryParams queryParams)
+        public async Task<ActionResult<Response>> GetByCategory(int categoryId, [FromQuery] AdvertisementSearchableQueryParams queryParams)
         {
             IEnumerable<AdvertisementDto> result = await Mediator.Send(new GetManyAdvertisementsByCategoryQuery(categoryId, queryParams));
             return Models.Response.Success(result);
