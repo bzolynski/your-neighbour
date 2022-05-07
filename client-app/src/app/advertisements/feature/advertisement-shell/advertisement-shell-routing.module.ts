@@ -3,11 +3,6 @@ import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
     {
-        path: ':id',
-        pathMatch: 'full',
-        loadChildren: () => import('../advertisement-list/advertisement-list.module').then((m) => m.AdvertisementListModule),
-    },
-    {
         path: 'add',
         pathMatch: 'full',
         loadChildren: () => import('../advertisement-add/advertisement-add.module').then((m) => m.AdvertisementAddModule),
@@ -15,6 +10,11 @@ const routes: Routes = [
     {
         path: 'details/:id',
         loadChildren: () => import('../advertisement/advertisement.module').then((m) => m.AdvertisementModule),
+    },
+    {
+        path: ':id',
+        pathMatch: 'full',
+        loadChildren: () => import('../advertisement-list/advertisement-list.module').then((m) => m.AdvertisementListModule),
     },
 ];
 
