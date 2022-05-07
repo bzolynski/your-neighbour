@@ -3,6 +3,7 @@ import { ApiService } from 'src/app/shared/data-access/api/api.service';
 import { ObservableResponse } from 'src/app/shared/data-access/models';
 import { HttpHelperMethods, QueryParams } from 'src/app/shared/utils';
 import { Advertisement } from '../models/advertisement.model';
+
 export interface GetAdvertisementQueryParams extends QueryParams {
     includeUser?: boolean;
     includeLocalization?: boolean;
@@ -10,6 +11,7 @@ export interface GetAdvertisementQueryParams extends QueryParams {
     includeCategory?: boolean;
     includeImages?: boolean;
     maxImages?: number;
+    search?: string;
 }
 
 @Injectable({

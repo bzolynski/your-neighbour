@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { map } from 'rxjs/operators';
+import { RoutingHelperMethods } from 'src/app/shared/utils';
 import { AdvertisementListStore } from '../../data-access/store/advertisement-list';
 
 @Component({
@@ -17,7 +17,7 @@ export class AdvertisementListComponent implements OnInit {
     activeCategory$ = this.advertisementListStore.activeCategory$;
 
     ngOnInit(): void {
-        this.advertisementListStore.loadCategoryAndAdvertisements(this.route.params.pipe(map((params) => params['id'])));
+        this.advertisementListStore.loadCategoryAndAdvertisements(RoutingHelperMethods.combineParams(this.route));
     }
     openAdvertisement = (id: number) => {
         this.router.navigate(['advertisements', 'details', id]);
