@@ -1,4 +1,4 @@
-import { AdvertisementDefinition, ICategory, IItem, Localization } from 'src/app/shared/data-access/models';
+import { AdvertisementDefinition, IItem, Localization } from 'src/app/shared/data-access/models';
 import { Advertisement } from '../../models/advertisement.model';
 import { Injectable } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
@@ -13,19 +13,18 @@ import { MessageService } from 'src/app/modules/core/services/message.service';
 import { AdvertisementDefinitionService } from 'src/app/shared/data-access/api';
 import { AdvertisementService } from '../advertisement.service';
 import { ItemService } from 'src/app/modules/core/services/item.service';
-import { CategoryService } from 'src/app/modules/core/services';
+import { CategoryStore } from 'src/app/shared/data-access/store/';
 
 interface AdvertisementAddState {
     userLocalizations: Localization[];
     advertisementDefinitions: AdvertisementDefinition[];
     itemListing: IItem[];
-    categories: ICategory[];
 }
 
 @Injectable()
 export class AdvertisementAddStore extends ComponentStore<AdvertisementAddState> {
     readonly itemListing$ = this.select((state) => state.itemListing);
-    readonly categories$ = this.select((state) => state.categories);
+    readonly categories$ = this.categoryStore.categories$;
     readonly userLocalizations$ = this.select((state) => state.userLocalizations);
     readonly advertisementDefinitions$ = this.select((state) => state.advertisementDefinitions);
 
@@ -123,22 +122,8 @@ export class AdvertisementAddStore extends ComponentStore<AdvertisementAddState>
             )
         )
     );
-    readonly loadCategories = this.effect(($) =>
-        $.pipe(
-            switchMap(() =>
-                this.categoryService.getMany().pipe(
-                    tapResponse(
-                        (response) => {
-                            this.patchState({ categories: response.responseObject });
-                        },
-                        (error: HttpError<Response>) => {
-                            this.messageService.showMessage(error.error?.errorMessages[0] ?? '', 'error');
-                        }
-                    )
-                )
-            )
-        )
-    );
+    readonly loadCategories = this.categoryStore.loadCategories;
+
     readonly loadItemListing = this.effect(($) =>
         $.pipe(
             switchMap(() => this.authStore.user$),
@@ -194,7 +179,7 @@ export class AdvertisementAddStore extends ComponentStore<AdvertisementAddState>
         private messageService: MessageService,
         private advertisementService: AdvertisementService,
         private itemService: ItemService,
-        private categoryService: CategoryService
+        private categoryStore: CategoryStore
     ) {
         super(<AdvertisementAddState>{});
     }
