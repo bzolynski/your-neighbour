@@ -1,0 +1,13 @@
+.wrapper {
+    display: grid;
+    grid-template: auto / 2fr 1fr auto;
+    gap: 0.5rem;
+
+    .button {
+        margin: auto;
+    }
+}
+
+:host ::ng-deep .hide-error .mat-form-field-wrapper {
+    padding: 0;
+}
