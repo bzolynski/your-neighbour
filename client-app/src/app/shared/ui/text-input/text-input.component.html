@@ -1,4 +1,7 @@
-<mat-form-field appearance="outline">
+<mat-form-field
+    [ngClass]="{ 'hide-error': hideError }"
+    class="disabled-error"
+    appearance="outline">
     <mat-label>{{ label }}</mat-label>
     <input
         matInput
