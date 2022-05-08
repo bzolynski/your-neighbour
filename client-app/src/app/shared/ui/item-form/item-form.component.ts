@@ -1,7 +1,7 @@
 import { Component, Input, OnDestroy, Output } from '@angular/core';
 import { FormGroup, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { mergeMap, takeUntil } from 'rxjs/operators';
 import { IImage } from 'src/app/modules/core/models/image.model';
 import { GenericFormControl, GenericFormGroup } from 'src/app/shared/utils';
 import { ICategory } from '../../data-access/models';
@@ -44,9 +44,12 @@ export class ItemFormComponent implements OnDestroy {
     }
 
     handleImageChange = (files: File[]) => {
-        console.log(files);
-        InputUtils.fileToImage$(files)
-            .pipe(takeUntil(this.destroy$))
+        InputUtils.filesToDataUrl$(files)
+            .pipe(
+                takeUntil(this.destroy$),
+                mergeMap((dataUrl) => InputUtils.resizeImages$([dataUrl], 400)),
+                mergeMap((dataUrl) => InputUtils.dataUrlToImage$([dataUrl]))
+            )
             .subscribe((item) => {
                 this.itemForm.patchValue({ images: [...(this.itemForm.controls['images'].value ?? []), item] });
             });
