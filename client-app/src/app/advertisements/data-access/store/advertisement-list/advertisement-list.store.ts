@@ -69,7 +69,7 @@ export class AdvertisementListStore extends ComponentStore<AdvertisementListStat
                         .getManyByCategory(params.categoryId, {
                             includeCategory: true,
                             // TODO: turn images on
-                            includeImages: false,
+                            includeImages: true,
                             maxImages: 1,
                             includeDefinition: true,
                             includeLocalization: true,

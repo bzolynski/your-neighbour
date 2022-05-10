@@ -1,6 +1,38 @@
+@use '@angular/material' as mat;
+
 .container {
     padding: 1rem;
 
+    .title {
+        font-size: 24px;
+        font-weight: 500;
+        padding-inline: 0.5rem;
+        position: absolute;
+        box-sizing: border-box;
+        bottom: 0;
+        text-decoration: underline;
+        text-underline-position: under;
+        width: 100%;
+        word-wrap: break-word;
+    }
+    .img-container {
+        position: relative;
+    }
+    .title2 {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        background: rgb(0, 0, 0);
+        background: linear-gradient(
+            0deg,
+            hsla(0, 0%, 100%, 0.9) 0%,
+            hsla(0, 0%, 100%, 0.8) 10%,
+            hsla(0, 0%, 100%, 0) 100%
+        );
+    }
     .image {
         box-sizing: content-box;
         width: 100%;
@@ -40,6 +72,6 @@
     margin-bottom: 12px;
 }
 
-.h3-title{
-    margin-block-end: 5px
+.h3-title {
+    margin-block-end: 5px;
 }

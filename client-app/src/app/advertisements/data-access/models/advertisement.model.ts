@@ -6,5 +6,6 @@ export interface Advertisement extends IModelBase {
     localization: Localization;
     item: IItem;
     dateCreated: Date;
+    title: string;
     description: string;
 }

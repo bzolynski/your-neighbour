@@ -11,7 +11,7 @@
                 >
                 <button
                     type="button"
-                    (click)="dialog.open(itemForm); "
+                    (click)="dialog.open(itemForm)"
                     mat-flat-button>
                     Dodaj przedmiot
                 </button>
@@ -49,11 +49,17 @@
                     </mat-select>
                     <mat-error> Temp error </mat-error>
                 </mat-form-field>
+                <app-text-input
+                    [formControlName]="'title'"
+                    [errorMessage]="titleErrorMessage"
+                    [label]="'Tytuł ogłoszenia'">
+                </app-text-input>
+
                 <app-text-area-input
                     [formControlName]="'description'"
                     [rows]="5"
                     [errorMessage]="descriptionErrorMessage"
-                    [label]="'Opis'">
+                    [label]="'Opis ogłoszenia'">
                 </app-text-area-input>
             </div>
             <button mat-raised-button color="accent">Utwórz</button>

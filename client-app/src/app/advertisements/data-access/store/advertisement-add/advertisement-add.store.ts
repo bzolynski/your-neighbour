@@ -30,6 +30,7 @@ export class AdvertisementAddStore extends ComponentStore<AdvertisementAddState>
 
     readonly itemIdChanged = this.effect<IItem>(($) => $);
     readonly descriptionChanged = this.effect<string>(($) => $);
+    readonly titleChanged = this.effect<string>(($) => $);
 
     readonly createItem = this.effect<IItem>((params$) =>
         params$.pipe(

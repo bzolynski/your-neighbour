@@ -7,10 +7,13 @@
             [name]="advertisement.item.images[0].name" />
 
         <div class="content">
-            <span class="name">{{ advertisement.item.name }}</span>
-            <span class="category"
-                >Kategoria: {{ advertisement.item.category.name }}</span
-            >
+            <span class="title">{{ advertisement.title }}</span>
+            <div class="item">
+                <span class="item-element">{{ advertisement.item.name }}</span>
+                <span class="item-element"
+                    >Kategoria: {{ advertisement.item.category.name }}</span
+                >
+            </div>
 
             <div class="localization">
                 <mat-icon>place</mat-icon>
@@ -42,11 +45,4 @@
         [animate]="loading"
         [rows]="1"
         [rowHeight]="'20px'"></app-skeleton-text>
-</ng-template>
-
-<ng-template #localizationSkeleton>
-    <app-skeleton-text
-        class="skeleton skeleton-h3"
-        [rows]="1"
-        [rowHeight]="'16px'"></app-skeleton-text>
 </ng-template>

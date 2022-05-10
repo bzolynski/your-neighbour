@@ -15,6 +15,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { ItemFormModule } from 'src/app/shared/ui/item-form/item-form.module';
 import { TextAreaInputModule } from 'src/app/shared/ui/text-area-input/text-area-input.module';
 import { ElevatedSectionModule } from 'src/app/shared/directives/elevated-section/elevated-section.module';
+import { TextInputModule } from 'src/app/shared/ui/text-input/text-input.module';
 
 // ng g m advertisements/feature/advertisement-add --route add --module advertisements/feature/advertisement-shell
 
@@ -35,6 +36,7 @@ import { ElevatedSectionModule } from 'src/app/shared/directives/elevated-sectio
         MatDialogModule,
         TextAreaInputModule,
         ElevatedSectionModule,
+        TextInputModule,
     ],
     declarations: [AdvertisementAddComponent],
 })

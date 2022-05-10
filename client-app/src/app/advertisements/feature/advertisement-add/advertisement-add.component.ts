@@ -21,6 +21,7 @@ export class AdvertisementAddComponent implements OnInit {
         localizationId: new GenericFormControl<number>(undefined, [Validators.required]),
         dateCreated: new GenericFormControl<Date>(new Date(), [Validators.required]),
         definitionId: new GenericFormControl<number>(undefined, [Validators.required]),
+        title: new GenericFormControl<string>('', [Validators.required]),
         description: new GenericFormControl<string>('', [Validators.required]),
     });
     advertisement: Advertisement = {} as Advertisement;
@@ -34,6 +35,11 @@ export class AdvertisementAddComponent implements OnInit {
 
     get descriptionErrorMessage() {
         const control = this.form.controls['description'];
+        if (control.errors?.required) return 'Pole jest wymagane';
+        return '';
+    }
+    get titleErrorMessage() {
+        const control = this.form.controls['title'];
         if (control.errors?.required) return 'Pole jest wymagane';
         return '';
     }
@@ -77,6 +83,15 @@ export class AdvertisementAddComponent implements OnInit {
                 map((description) => <string>description),
                 tap((description) => {
                     this.advertisement.description = description;
+                })
+            )
+        );
+
+        this.advertisementAddStore.titleChanged(
+            this.form.controls['title'].valueChanges.pipe(
+                map((title) => <string>title),
+                tap((title) => {
+                    this.advertisement.title = title;
                 })
             )
         );
