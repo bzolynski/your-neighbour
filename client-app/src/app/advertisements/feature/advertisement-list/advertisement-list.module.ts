@@ -8,6 +8,7 @@ import { ListTopBarModule } from '../../ui/list-top-bar/list-top-bar.module';
 import { SharedModule } from 'src/app/modules/shared/shared.module';
 import { AdvertisementCardModule } from '../../ui/advertisement-card/advertisement-card.module';
 import { ElevatedSectionModule } from 'src/app/shared/directives/elevated-section/elevated-section.module';
+import { ListContainerModule } from 'src/app/shared/ui/list-container/list-container.module';
 @NgModule({
     imports: [
         CommonModule,
@@ -17,6 +18,7 @@ import { ElevatedSectionModule } from 'src/app/shared/directives/elevated-sectio
         SharedModule,
         AdvertisementCardModule,
         ElevatedSectionModule,
+        ListContainerModule,
     ],
     declarations: [AdvertisementListComponent],
 })

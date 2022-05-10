@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import { ListViewType } from 'src/app/shared/ui/list-container/list-container.component';
 import { GenericFormControl, GenericFormGroup } from 'src/app/shared/utils';
-import { AdvertisementListStore, ListViewType } from '../../data-access';
+import { AdvertisementListStore } from '../../data-access';
 
 @Component({
     selector: 'app-list-top-bar',

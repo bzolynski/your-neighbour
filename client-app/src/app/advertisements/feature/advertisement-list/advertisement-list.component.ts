@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Observable } from 'rxjs';
+import { filter } from 'rxjs/operators';
+import { ListViewType } from 'src/app/shared/ui/list-container/list-container.component';
 import { RoutingHelperMethods } from 'src/app/shared/utils';
 import { AdvertisementListStore } from '../../data-access/store/advertisement-list';
 
@@ -13,7 +16,9 @@ export class AdvertisementListComponent implements OnInit {
     constructor(private advertisementListStore: AdvertisementListStore, private router: Router, private route: ActivatedRoute) {}
 
     advertisements$ = this.advertisementListStore.advertisements$;
-    selectedListViewType$ = this.advertisementListStore.listViewType$;
+    selectedListViewType$: Observable<ListViewType> = this.advertisementListStore.listViewType$.pipe(
+        filter((viewType): viewType is ListViewType => viewType != null)
+    );
     activeCategory$ = this.advertisementListStore.activeCategory$;
 
     ngOnInit(): void {

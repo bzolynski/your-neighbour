@@ -5,7 +5,6 @@ import { CategoryService } from 'src/app/modules/core/services';
 import { switchMap, tap } from 'rxjs/operators';
 import { HttpError } from '../models';
 import { Response } from '../models/api/response.model';
-export type ListViewType = 'list' | 'card';
 
 type CategoryState = GenericState<ICategory[]>;
 

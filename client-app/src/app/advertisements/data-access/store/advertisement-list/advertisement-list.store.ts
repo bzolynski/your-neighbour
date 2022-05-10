@@ -8,8 +8,7 @@ import { AdvertisementService } from '..';
 import { CategoryService } from 'src/app/modules/core/services';
 import { Params } from '@angular/router';
 import { CategoryStore } from 'src/app/shared/data-access/store';
-
-export type ListViewType = 'list' | 'card';
+import { ListViewType } from 'src/app/shared/ui/list-container/list-container.component';
 
 interface AdvertisementListState extends GenericState<Advertisement[]> {
     listViewType: ListViewType;
