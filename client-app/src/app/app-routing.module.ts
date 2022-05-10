@@ -8,8 +8,12 @@ const routes: Routes = [
     },
     {
         path: 'settings',
-        loadChildren: () => import('./modules/settings/settings.module').then((m) => m.SettingsModule),
+        loadChildren: () => import('./settings/feature/settings-shell/settings-shell.module').then((m) => m.SettingsShellModule),
     },
+    // {
+    //     path: 'settings',
+    //     loadChildren: () => import('./modules/settings/settings.module').then((m) => m.SettingsModule),
+    // },
     {
         path: 'advertisements',
         loadChildren: () =>

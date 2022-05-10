@@ -31,7 +31,6 @@ const options: SettingsOption[] = [
 export class SettingsSideBarComponent implements OnInit {
     treeControl = new NestedTreeControl<SettingsOption>((node) => node.children);
     dataSource = new MatTreeNestedDataSource<SettingsOption>();
-    constructor() {}
 
     ngOnInit(): void {
         this.dataSource.data = options;
