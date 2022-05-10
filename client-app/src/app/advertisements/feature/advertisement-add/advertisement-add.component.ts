@@ -28,7 +28,7 @@ export class AdvertisementAddComponent implements OnInit {
 
     // observables
     categories$: Observable<ICategory[] | null> = this.advertisementAddStore.categories$;
-    itemsListing$: Observable<IItem[]> = this.advertisementAddStore.itemListing$;
+    itemsListing$: Observable<IItem[] | null> = this.advertisementAddStore.itemListing$;
     userLocalizations$: Observable<Localization[]> = this.advertisementAddStore.userLocalizations$;
     advertisementDefinitions$: Observable<AdvertisementDefinition[]> = this.advertisementAddStore.advertisementDefinitions$;
     itemLoading$ = new BehaviorSubject<boolean>(false);

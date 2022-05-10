@@ -13,7 +13,7 @@ import { MessageService } from 'src/app/modules/core/services/message.service';
 import { AdvertisementDefinitionService } from 'src/app/shared/data-access/api';
 import { AdvertisementService } from '../advertisement.service';
 import { ItemService } from 'src/app/modules/core/services/item.service';
-import { CategoryStore } from 'src/app/shared/data-access/store/';
+import { CategoryStore, ItemStore } from 'src/app/shared/data-access/store/';
 
 interface AdvertisementAddState {
     userLocalizations: Localization[];
@@ -23,7 +23,7 @@ interface AdvertisementAddState {
 
 @Injectable()
 export class AdvertisementAddStore extends ComponentStore<AdvertisementAddState> {
-    readonly itemListing$ = this.select((state) => state.itemListing);
+    readonly itemListing$ = this.itemStore.items$;
     readonly categories$ = this.categoryStore.categories$;
     readonly userLocalizations$ = this.select((state) => state.userLocalizations);
     readonly advertisementDefinitions$ = this.select((state) => state.advertisementDefinitions);
@@ -125,25 +125,8 @@ export class AdvertisementAddStore extends ComponentStore<AdvertisementAddState>
     );
     readonly loadCategories = this.categoryStore.loadCategories;
 
-    readonly loadItemListing = this.effect(($) =>
-        $.pipe(
-            switchMap(() => this.authStore.user$),
-            tap(this.checkUserLoggedIn),
-            filter((user): user is IUser => user !== null),
-            switchMap((user) =>
-                this.itemService.getByUser(user.id).pipe(
-                    tapResponse(
-                        (response) => {
-                            this.patchState({ itemListing: response.responseObject });
-                        },
-                        (error: HttpError<Response>) => {
-                            this.messageService.showMessage(error.error?.errorMessages[0] ?? '', 'error');
-                        }
-                    )
-                )
-            )
-        )
-    );
+    readonly loadItemListing = () => this.itemStore.loadItemsForLoggedInUser({ includeImages: true, maxImages: 1 });
+
     readonly loadUserLocalizations = this.effect(($) =>
         $.pipe(
             switchMap(() => this.authStore.user$),
@@ -173,6 +156,7 @@ export class AdvertisementAddStore extends ComponentStore<AdvertisementAddState>
     };
 
     constructor(
+        private itemStore: ItemStore,
         private authStore: AuthenticationStore,
         private localizationService: LocalizationService,
         private advertisementDefinitionService: AdvertisementDefinitionService,
