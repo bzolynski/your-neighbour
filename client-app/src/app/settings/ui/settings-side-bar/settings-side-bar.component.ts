@@ -21,6 +21,20 @@ const options: SettingsOption[] = [
             },
         ],
     },
+    {
+        name: 'Moje',
+        link: 'my',
+        children: [
+            {
+                name: 'Definicje kategorii',
+                link: 'category-definition',
+            },
+            {
+                name: 'Kategorie',
+                link: 'category',
+            },
+        ],
+    },
 ];
 
 @Component({
