@@ -14,6 +14,7 @@ namespace YourNeighbour.Application.Features.Advertisements.Dtos
         public LocalizationDto Localization { get; set; }
         public ItemDto Item { get; set; }
         public DateTime DateCreated { get; set; }
+        public string Title { get; set; }
         public string Description { get; set; }
     }
 }
