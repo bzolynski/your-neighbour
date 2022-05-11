@@ -1,0 +1,13 @@
+:host {
+    border-radius: inherit;
+    display: inline-block;
+    height: 100%;
+}
+.img {
+    border-radius: inherit;
+    box-sizing: content-box;
+    object-fit: cover;
+    object-position: center;
+    pointer-events: none;
+    width: 100%;
+}
