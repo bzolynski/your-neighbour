@@ -1,21 +1,8 @@
 <div class="container">
-    <div
-        class="list-view-button-group"
-        *ngIf="{ viewType: selectedListViewType$ | async } as vm">
-        <mat-icon
-            class="list-view-button"
-            [class.active-icon]="vm.viewType === 'list'"
-            (click)="changeListViewType('list')"
-            >view_list</mat-icon
-        >
-        <mat-icon
-            class="list-view-button"
-            [class.active-icon]="vm.viewType === 'card'"
-            (click)="changeListViewType('card')"
-            >view_module</mat-icon
-        >
-    </div>
-
+    <app-list-container-toggle-buttons
+        (listViewTypeChanged)="
+            changeListViewType($event)
+        "></app-list-container-toggle-buttons>
     <div class="search-bar-container">
         <app-advertisement-search
             (searchSubmited)="submitSearch($event)"

@@ -1,0 +1,16 @@
+<div
+    class="list-view-button-group"
+    *ngIf="{ viewType: selectedlistViewType$ | async } as vm">
+    <mat-icon
+        class="list-view-button"
+        [class.active-icon]="vm.viewType === 'list'"
+        (click)="listViewTypeChanged.next('list')"
+        >view_list</mat-icon
+    >
+    <mat-icon
+        class="list-view-button"
+        [class.active-icon]="vm.viewType === 'card'"
+        (click)="listViewTypeChanged.next('card')"
+        >view_module</mat-icon
+    >
+</div>
