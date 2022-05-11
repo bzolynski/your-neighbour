@@ -1,5 +1,4 @@
-
-<app-card *ngIf="advertisement" class="card" [horizontal]="horizontal" appElevatedSection>
+<app-card *ngIf="advertisement" class="card" [horizontal]="horizontal">
     <app-card-img [src]="advertisement.item.images[0].dataUrl"></app-card-img>
     <app-card-content class="card-content">
         <span class="title">{{ advertisement.title }}</span>

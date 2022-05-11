@@ -8,7 +8,6 @@
         *ngIf="{ viewType: selectedListViewType$ | async } as vm"
         [listViewType]="$any(vm.viewType)">
         <app-advertisement-card
-            appElevatedSection
             *ngFor="let advertisement of advertisements$ | async"
             [horizontal]="vm.viewType === 'list'"
             (click)="openAdvertisement(advertisement.id)"
