@@ -1,48 +1,18 @@
-<div class="container" [ngClass]="horizontal ? 'horizontal' : 'vertical'">
-    <ng-container *ngIf="advertisement && advertisement.item; else skeleton">
-        <img
-            *ngIf="advertisement.item.images[0]; else imageSkeleton"
-            class="image"
-            [src]="advertisement.item.images[0].dataUrl"
-            [name]="advertisement.item.images[0].name" />
 
-        <div class="content">
-            <span class="title">{{ advertisement.title }}</span>
-            <div class="item">
-                <span class="item-element">{{ advertisement.item.name }}</span>
-                <span class="item-element"
-                    >Kategoria: {{ advertisement.item.category.name }}</span
-                >
-            </div>
-
-            <div class="localization">
-                <mat-icon>place</mat-icon>
-                <span>
-                    {{ advertisement.localization.city }}
-                </span>
-            </div>
+<app-card *ngIf="advertisement" class="card" [horizontal]="horizontal" appElevatedSection>
+    <app-card-img [src]="advertisement.item.images[0].dataUrl"></app-card-img>
+    <app-card-content class="card-content">
+        <span class="title">{{ advertisement.title }}</span>
+        <div class="item">
+            <span class="item-element">{{ advertisement.item.name }}</span>
+            <span class="item-element"
+                >Kategoria: {{ advertisement.item.category.name }}</span
+            >
         </div>
-    </ng-container>
-</div>
-
-<ng-template #imageSkeleton>
-    <app-skeleton-box
-        class="skeleton image"
-        [animate]="loading"></app-skeleton-box>
-</ng-template>
-
-<ng-template #skeleton>
-    <app-skeleton-box
-        class="skeleton image"
-        [animate]="loading"></app-skeleton-box>
-    <app-skeleton-text
-        class="skeleton skeleton-h1"
-        [animate]="loading"
-        [rows]="1"
-        [rowHeight]="'24px'"></app-skeleton-text>
-    <app-skeleton-text
-        class="skeleton skeleton-h2"
-        [animate]="loading"
-        [rows]="1"
-        [rowHeight]="'20px'"></app-skeleton-text>
-</ng-template>
+    </app-card-content>
+    <app-card-footer class="localization">
+        <span>
+            {{ advertisement.localization.city }}
+        </span>
+    </app-card-footer>
+</app-card>

@@ -1,59 +1,22 @@
-.container {
-    display: flex;
+.card {
     border-radius: inherit;
-    .image {
-        aspect-ratio: 1 / 1;
-        border-radius: inherit;
-        box-sizing: content-box;
-        object-fit: cover;
-        object-position: center;
-        pointer-events: none;
-    }
-
-    .content {
+    .card-content {
         box-sizing: border-box;
-        padding: 1rem;
         width: 100%;
-        display: grid;
-
+        display: inline-block;
         .title {
-            grid-column: 1 / 4;
-            grid-row: 1/2;
             font-size: 20px;
             line-height: 1.2;
-            margin-bottom: 5px;
         }
         .item {
-            grid-column: 1 / 2;
-            grid-row: 2 / 3;
+            margin-top: 0.25rem;
             .item-element {
                 display: block;
             }
         }
-        .localization {
-            grid-column: 3 / 4;
-            grid-row: 5 / 6;
-
-            display: flex;
-            align-items: center;
-        }
     }
-    &.horizontal {
-        flex-direction: row;
-        .image {
-            width: 150px;
-        }
-        .content {
-            grid-template: auto auto 1fr auto / auto 1fr auto;
-        }
-    }
-    &.vertical {
-        flex-direction: column;
-        .image {
-            width: 100%;
-        }
-        .content {
-            grid-template: 1fr / 1fr;
-        }
+    .localization {
+        display: flex;
+        justify-content: end;
     }
 }
