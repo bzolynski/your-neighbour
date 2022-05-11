@@ -1,0 +1,9 @@
+.wrapper {
+    display: grid;
+    grid-template: auto / 1fr auto;
+    gap: 0.5rem;
+
+    .button {
+        margin: auto;
+    }
+}

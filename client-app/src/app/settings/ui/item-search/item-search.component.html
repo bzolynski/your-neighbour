@@ -1,0 +1,15 @@
+<form [formGroup]="form" (ngSubmit)="searchSubmited.next(form)" class="wrapper">
+    <app-text-input
+        [label]="'Szukam...'"
+        [type]="'text'"
+        [hideError]="true"
+        [formControlName]="'search'"></app-text-input>
+
+    <button
+        mat-icon-button
+        color="primary"
+        class="button"
+        aria-label="Search icon">
+        <mat-icon>search</mat-icon>
+    </button>
+</form>
