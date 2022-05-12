@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using YourNeighbour.Api.Models;
 using YourNeighbour.Application.Features.Common.Dtos;
 using YourNeighbour.Application.Features.Items.Command.CreateItem;
+using YourNeighbour.Application.Features.Items.Command.DeleteItem;
+using YourNeighbour.Application.Features.Items.Command.UpdateItem;
 using YourNeighbour.Application.Features.Items.Dtos;
 using YourNeighbour.Application.Features.Items.Queries;
 using YourNeighbour.Application.Features.Items.Queries.GetItem;
@@ -39,6 +41,20 @@ namespace YourNeighbour.Api.Controllers
         public async Task<ActionResult<Response>> Get(int id, [FromQuery] ItemQueryParams queryParams)
         {
             ItemDto result = await Mediator.Send(new GetItemQuery(id, queryParams));
+            return Models.Response.Success(result);
+        }
+
+        [HttpPut("update/{id}")]
+        public async Task<ActionResult<Response>> Update(int id, UpdateItemDto itemDto)
+        {
+            int result = await Mediator.Send(new UpdateItemCommand(id, itemDto));
+            return Models.Response.Success(result);
+        }
+
+        [HttpDelete("delete/{id}")]
+        public async Task<ActionResult<Response>> Update(int id)
+        {
+            bool result = await Mediator.Send(new DeleteItemCommand(id));
             return Models.Response.Success(result);
         }
     }
