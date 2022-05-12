@@ -1,4 +1,5 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output } from '@angular/core';
+import { Subject } from 'rxjs';
 import { IItem } from 'src/app/shared/data-access/models';
 
 @Component({
@@ -9,4 +10,5 @@ import { IItem } from 'src/app/shared/data-access/models';
 export class ItemCardComponent {
     @Input() item?: IItem;
     @Input() horizontal: boolean = true;
+    @Output() deleteButtonClicked = new Subject<number>();
 }

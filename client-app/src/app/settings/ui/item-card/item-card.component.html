@@ -1,11 +1,20 @@
-<app-card *ngIf="item" class="card" [horizontal]="horizontal">
-    <app-card-img [src]="item.images[0].dataUrl"></app-card-img>
-    <app-card-content class="card-content">
-        <span class="title">{{ item.name }}</span>
-        <div class="item">
-            <span class="item-element"
-                >Kategoria: {{ item.category.name }}</span
+<div class="wrapper">
+    <app-card *ngIf="item" class="card" [horizontal]="horizontal">
+        <app-card-img [src]="item.images[0].dataUrl"></app-card-img>
+        <app-card-content class="card-content">
+            <mat-icon
+                class="icon"
+                (click)="deleteButtonClicked.next(item.id)"
+                appStopPropagation
+                >delete_forever</mat-icon
             >
-        </div>
-    </app-card-content>
-</app-card>
+
+            <span class="title">{{ item.name }}</span>
+            <div class="item">
+                <span class="item-element"
+                    >Kategoria: {{ item.category.name }}</span
+                >
+            </div>
+        </app-card-content>
+    </app-card>
+</div>
