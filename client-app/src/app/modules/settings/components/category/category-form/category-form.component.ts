@@ -1,19 +1,10 @@
-import { Component, DoCheck, OnDestroy, OnInit } from '@angular/core';
-import {
-    FormArray,
-    FormBuilder,
-    FormControl,
-    FormGroup,
-    Validators,
-} from '@angular/forms';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { ICategory, ICategoryDefinition } from 'src/app/modules/core/models';
-import {
-    CategoryDefinitionsService,
-    CategoryService,
-} from 'src/app/modules/core/services';
+import { CategoryDefinitionsService, CategoryService } from 'src/app/modules/core/services';
 
 @Component({
     selector: 'app-category-form',
@@ -27,10 +18,7 @@ export class CategoryFormComponent implements OnInit, OnDestroy {
     category: ICategory = {} as ICategory;
     definitions: Array<ICategoryDefinition> = [] as Array<ICategoryDefinition>;
     form: FormGroup = new FormGroup({
-        name: new FormControl('', [
-            Validators.required,
-            Validators.minLength(3),
-        ]),
+        name: new FormControl('', [Validators.required, Validators.minLength(3)]),
         definitionId: new FormControl(null, [Validators.required]),
         isActive: new FormControl(true),
     });
@@ -38,8 +26,7 @@ export class CategoryFormComponent implements OnInit, OnDestroy {
     get nameErrorMessage() {
         const nameControl = this.form.controls['name'];
         if (nameControl.errors?.required) return 'Pole jest wymagane';
-        if (nameControl.errors?.minlength)
-            return `Minimalna długość: ${nameControl.errors?.minlength?.requiredLength}`;
+        if (nameControl.errors?.minlength) return `Minimalna długość: ${nameControl.errors?.minlength?.requiredLength}`;
         return '';
     }
     get definitionIdErrorMessage() {
@@ -60,36 +47,30 @@ export class CategoryFormComponent implements OnInit, OnDestroy {
     ) {}
 
     ngOnInit(): void {
-        this.activatedRoute.params
-            .pipe(takeUntil(this.destroy$))
-            .subscribe((data) => {
-                const id: number = Number.parseInt(data['id']);
-                if (id) {
-                    this.categoryService
-                        .get(id)
-                        .pipe(takeUntil(this.destroy$))
-                        .subscribe((response) => {
-                            const { name, definition, isActive } =
-                                response.responseObject;
-                            const definitionId = definition.id;
-                            Object.assign(
-                                this.category,
-                                response.responseObject
-                            );
-                            this.form.setValue({
-                                name,
-                                definitionId,
-                                isActive,
-                            });
-                            this.editMode = true;
+        this.activatedRoute.params.pipe(takeUntil(this.destroy$)).subscribe((data) => {
+            const id: number = Number.parseInt(data['id']);
+            if (id) {
+                this.categoryService
+                    .get(id)
+                    .pipe(takeUntil(this.destroy$))
+                    .subscribe((response) => {
+                        const { name, definition, isActive } = response;
+                        const definitionId = definition.id;
+                        Object.assign(this.category, response);
+                        this.form.setValue({
+                            name,
+                            definitionId,
+                            isActive,
                         });
-                } else this.editMode = false;
-            });
+                        this.editMode = true;
+                    });
+            } else this.editMode = false;
+        });
         this.categoryDefinitionService
             .getAll()
             .pipe(takeUntil(this.destroy$))
             .subscribe((response) => {
-                this.definitions = response.responseObject;
+                this.definitions = response;
             });
     }
 
@@ -108,7 +89,7 @@ export class CategoryFormComponent implements OnInit, OnDestroy {
                 (response) => {
                     this.categoryService.changed.next();
                     this.loading = false;
-                    this.navigateToDetails(response.responseObject.id);
+                    this.navigateToDetails(response.id);
                 },
                 (error) => {
                     this.loading = false;

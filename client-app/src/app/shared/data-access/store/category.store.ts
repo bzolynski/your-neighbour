@@ -3,8 +3,7 @@ import { Injectable } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { CategoryService } from 'src/app/modules/core/services';
 import { switchMap, tap } from 'rxjs/operators';
-import { HttpError } from '../models';
-import { Response } from '../models/api/response.model';
+import { HttpErrorResponse } from '@angular/common/http';
 
 type CategoryState = GenericState<ICategory[]>;
 
@@ -23,10 +22,10 @@ export class CategoryStore extends ComponentStore<CategoryState> {
                 this.categoryService.getMany().pipe(
                     tapResponse(
                         (response) => {
-                            this.patchState({ data: response.responseObject, status: 'success' });
+                            this.patchState({ data: response, status: 'success' });
                         },
-                        (error: HttpError<Response>) => {
-                            this.patchState({ error: error.error?.errorMessages[0] ?? '', status: 'error' });
+                        (error: HttpErrorResponse) => {
+                            this.patchState({ error: error.message, status: 'error' });
                         }
                     )
                 )

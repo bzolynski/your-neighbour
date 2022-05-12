@@ -22,7 +22,7 @@ export class AppComponent implements OnDestroy {
                 (res) => {
                     this.isBusy = false;
                 },
-                (errorResponse: HttpErrorResponse) => {
+                (errorResponse) => {
                     console.log(errorResponse);
 
                     this.messageService.showMessage(errorResponse.message ?? 'Unexpected error', 'error');

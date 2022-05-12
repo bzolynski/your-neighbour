@@ -5,6 +5,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { map, mergeMap, tap } from 'rxjs/operators';
 import { ItemService } from 'src/app/modules/core/services/item.service';
 import { AdvertisementDefinition, ICategory, IItem, Localization } from 'src/app/shared/data-access/models';
+import { ItemStore } from 'src/app/shared/data-access/store';
 import { GenericFormControl } from 'src/app/shared/utils';
 import { AdvertisementAddStore } from '../../data-access';
 import { Advertisement } from '../../data-access/models/advertisement.model';
@@ -13,7 +14,7 @@ import { Advertisement } from '../../data-access/models/advertisement.model';
     selector: 'app-advertisement-add',
     templateUrl: './advertisement-add.component.html',
     styleUrls: ['./advertisement-add.component.scss'],
-    providers: [AdvertisementAddStore],
+    providers: [AdvertisementAddStore, ItemStore],
 })
 export class AdvertisementAddComponent implements OnInit {
     form: FormGroup = new FormGroup({
@@ -65,7 +66,6 @@ export class AdvertisementAddComponent implements OnInit {
                 map((itemId) => +itemId),
                 mergeMap((itemId) =>
                     this.itemService.get(itemId, { includeCategory: true, includeImages: true, maxImages: 1 }).pipe(
-                        map((response) => response.responseObject),
                         tap(
                             (item) => {
                                 this.itemLoading$.next(false);
@@ -111,7 +111,7 @@ export class AdvertisementAddComponent implements OnInit {
     itemFormSubmited = (form: FormGroup) => {
         if (form.valid) {
             const item: IItem = { ...form.value };
-            this.advertisementAddStore.createItem(item);
+            this.advertisementAddStore.createItem({ item: item });
             this.dialog.closeAll();
         }
     };

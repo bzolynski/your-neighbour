@@ -1,8 +1,8 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { map, switchMap, tap } from 'rxjs/operators';
-import { GenericState, HttpError } from 'src/app/shared/data-access/models';
-import { Response } from 'src/app/shared/data-access/models/api/response.model';
+import { GenericState } from 'src/app/shared/data-access/models';
 import { IUser } from 'src/app/shared/data-access/models/api/user';
 import { AuthenticationService } from './authentication.service';
 
@@ -35,12 +35,12 @@ export class AuthenticationStore extends ComponentStore<AuthenticationState> {
                 this.authenticationService.login(login, password).pipe(
                     tapResponse(
                         (response) => {
-                            this.saveToLocalStorage(response.responseObject);
-                            this.patchState({ status: 'success', data: response.responseObject });
+                            this.saveToLocalStorage(response);
+                            this.patchState({ status: 'success', data: response });
                         },
-                        (error: HttpError<Response>) => {
+                        (error: HttpErrorResponse) => {
                             this.removeFromLocalStorage();
-                            this.patchState({ status: 'error', error: error.error?.errorMessages[0] });
+                            this.patchState({ status: 'error', error: error.message });
                         }
                     )
                 )

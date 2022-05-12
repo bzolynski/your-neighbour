@@ -57,8 +57,8 @@ export class WelcomeRegisterFormComponent implements OnDestroy {
                 (response) => {
                     console.log(response);
                 },
-                (errorResponse: HttpError<Response>) => {
-                    this.messageService.showMessage(errorResponse.error?.errorMessages[0] ?? 'Error', 'error');
+                (error: HttpErrorResponse) => {
+                    this.messageService.showMessage(error.message, 'error');
                 }
             );
         }*/

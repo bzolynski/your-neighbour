@@ -2,14 +2,13 @@ import { GenericState } from 'src/app/shared/data-access/models';
 import { Injectable } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { filter, switchMap, tap } from 'rxjs/operators';
-import { HttpError } from '../models';
 import { IItem, IUser } from '../models/api';
-import { Response } from '../models/api/response.model';
 import { GetItemQueryParams, ItemService } from 'src/app/modules/core/services/item.service';
 import { AuthenticationStore } from '../../authentication/data-access';
 import { MessageService } from 'src/app/modules/core/services/message.service';
 import { Router } from '@angular/router';
 import { throwError } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
 
 type ItemState = GenericState<IItem[]>;
 
@@ -29,10 +28,10 @@ export class ItemStore extends ComponentStore<ItemState> {
                         this.itemService.getByUser(user.id, params).pipe(
                             tapResponse(
                                 (response) => {
-                                    this.patchState({ data: response.responseObject });
+                                    this.patchState({ data: response });
                                 },
-                                (error: HttpError<Response>) => {
-                                    this.messageService.showMessage(error.error?.errorMessages[0] ?? '', 'error');
+                                (error: HttpErrorResponse) => {
+                                    this.handleError(error);
                                 }
                             )
                         )
@@ -50,8 +49,8 @@ export class ItemStore extends ComponentStore<ItemState> {
                         () => {
                             this.removeItem(id);
                         },
-                        (error: HttpError<Response>) => {
-                            this.messageService.showMessage(error.error?.errorMessages[0] ?? '', 'error');
+                        (error: HttpErrorResponse) => {
+                            this.handleError(error);
                         }
                     )
                 )
@@ -64,14 +63,14 @@ export class ItemStore extends ComponentStore<ItemState> {
             switchMap((params) =>
                 this.itemService
                     .update(params.id, params.item)
-                    .pipe(switchMap((response) => this.itemService.get(response.responseObject, params.queryParams)))
+                    .pipe(switchMap((response) => this.itemService.get(response, params.queryParams)))
             ),
             tapResponse(
                 (response) => {
-                    this.updateItem(response.responseObject);
+                    this.updateItem(response);
                 },
-                (error: HttpError<Response>) => {
-                    this.messageService.showMessage(error.error?.errorMessages[0] ?? '', 'error');
+                (error: HttpErrorResponse) => {
+                    this.handleError(error);
                 }
             )
         )
@@ -80,16 +79,14 @@ export class ItemStore extends ComponentStore<ItemState> {
     readonly createAndGet = this.effect<{ item: IItem; queryParams?: GetItemQueryParams }>((params$) =>
         params$.pipe(
             switchMap((params) =>
-                this.createItem(params.item).pipe(
-                    switchMap((response) => this.itemService.get(response.responseObject, params.queryParams))
-                )
+                this.createItem(params.item).pipe(switchMap((response) => this.itemService.get(response, params.queryParams)))
             ),
             tapResponse(
                 (response) => {
-                    this.addItem(response.responseObject);
+                    this.addItem(response);
                 },
-                (error: HttpError<Response>) => {
-                    this.messageService.showMessage(error.error?.errorMessages[0] ?? '', 'error');
+                (error: HttpErrorResponse) => {
+                    this.handleError(error);
                 }
             )
         )
@@ -122,6 +119,10 @@ export class ItemStore extends ComponentStore<ItemState> {
         const items = (state.data ?? []).filter((value) => value.id != id);
         return { ...state, data: [...items] };
     });
+
+    private handleError = (error: HttpErrorResponse) => {
+        this.messageService.showMessage(error.error?.errorMessages[0] ?? '', 'error');
+    };
 
     constructor(
         private itemService: ItemService,

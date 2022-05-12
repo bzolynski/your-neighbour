@@ -3,12 +3,12 @@ import { Advertisement } from '../../models/advertisement.model';
 import { Injectable } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { switchMap, tap } from 'rxjs/operators';
-import { HttpError, Response } from 'src/app/modules/core/models';
 import { AdvertisementService } from '..';
 import { CategoryService } from 'src/app/modules/core/services';
 import { Params } from '@angular/router';
 import { CategoryStore } from 'src/app/shared/data-access/store';
 import { ListViewType } from 'src/app/shared/ui/list-container/list-container.component';
+import { HttpErrorResponse } from '@angular/common/http';
 
 interface AdvertisementListState extends GenericState<Advertisement[]> {
     listViewType: ListViewType;
@@ -42,14 +42,14 @@ export class AdvertisementListStore extends ComponentStore<AdvertisementListStat
                 ).pipe(
                     tapResponse(
                         (response) => {
-                            this.patchState({ activeCategoryLoading: false, activeCategory: response.responseObject });
+                            this.patchState({ activeCategoryLoading: false, activeCategory: response });
                             this.loadAdvertisementsByCategory({
-                                categoryId: response.responseObject.id,
+                                categoryId: response.id,
                                 searchQuery: params['search'],
                             });
                         },
-                        (error: HttpError<Response>) => {
-                            this.patchState({ activeCategoryLoading: false, error: error.error?.errorMessages[0] ?? '' });
+                        (error: HttpErrorResponse) => {
+                            this.patchState({ activeCategoryLoading: false, error: error.message });
                         }
                     )
                 )
@@ -78,17 +78,16 @@ export class AdvertisementListStore extends ComponentStore<AdvertisementListStat
                         .pipe(
                             tapResponse(
                                 (response) => {
-                                    this.patchState({ status: 'success', data: response.responseObject });
+                                    this.patchState({ status: 'success', data: response });
                                 },
-                                (error: HttpError<Response>) => {
-                                    this.patchState({ status: 'error', error: error.error?.errorMessages[0] ?? '' });
+                                (error: HttpErrorResponse) => {
+                                    this.patchState({ status: 'error', error: error.message });
                                 }
                             )
                         )
                 )
             )
     );
-
     constructor(
         private advertisementService: AdvertisementService,
         private categoryService: CategoryService,

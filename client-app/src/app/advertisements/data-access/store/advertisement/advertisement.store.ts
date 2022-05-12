@@ -3,8 +3,8 @@ import { Advertisement } from '../../models/advertisement.model';
 import { Injectable } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { switchMap, tap } from 'rxjs/operators';
-import { HttpError, Response } from 'src/app/modules/core/models';
 import { AdvertisementService } from '../';
+import { HttpErrorResponse } from '@angular/common/http';
 
 type AdvertisementState = GenericState<Advertisement>;
 
@@ -30,10 +30,10 @@ export class AdvertisementStore extends ComponentStore<AdvertisementState> {
                     .pipe(
                         tapResponse(
                             (response) => {
-                                this.patchState({ status: 'success', data: response.responseObject });
+                                this.patchState({ status: 'success', data: response });
                             },
-                            (error: HttpError<Response>) => {
-                                this.patchState({ status: 'error', error: error.error?.errorMessages[0] ?? '' });
+                            (error: HttpErrorResponse) => {
+                                this.patchState({ status: 'error', error: error.message });
                             }
                         )
                     )

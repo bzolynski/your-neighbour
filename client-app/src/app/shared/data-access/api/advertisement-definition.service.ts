@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { AdvertisementDefinition, ObservableResponse } from '../models';
+import { Observable } from 'rxjs';
+import { AdvertisementDefinition } from '../models';
 import { ApiService } from './api.service';
 
 @Injectable({
@@ -8,7 +9,7 @@ import { ApiService } from './api.service';
 export class AdvertisementDefinitionService {
     constructor(private apiService: ApiService) {}
 
-    getMany = (): ObservableResponse<AdvertisementDefinition[]> => {
+    getMany = (): Observable<AdvertisementDefinition[]> => {
         return this.apiService.get('advertisementdefinition/get');
     };
 }
