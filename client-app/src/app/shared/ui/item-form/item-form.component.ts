@@ -4,7 +4,7 @@ import { Subject } from 'rxjs';
 import { mergeMap, takeUntil } from 'rxjs/operators';
 import { IImage } from 'src/app/modules/core/models/image.model';
 import { GenericFormControl, GenericFormGroup } from 'src/app/shared/utils';
-import { ICategory } from '../../data-access/models';
+import { ICategory, IItem } from '../../data-access/models';
 import { InputUtils } from '../../utils/input-utils';
 
 @Component({
@@ -13,6 +13,15 @@ import { InputUtils } from '../../utils/input-utils';
     styleUrls: ['./item-form.component.scss'],
 })
 export class ItemFormComponent implements OnDestroy {
+    @Input() set item(item: IItem | undefined) {
+        if (item)
+            this.itemForm.patchValue({
+                name: item.name,
+                categoryId: item.category.id,
+                description: item.description,
+                images: item.images,
+            });
+    }
     @Output() formSubmited = new Subject<FormGroup>();
     @Output() canceled = new Subject();
     @Input() categories: ICategory[] | null = [];
