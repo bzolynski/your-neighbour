@@ -13,9 +13,7 @@ import { throwError } from 'rxjs';
 
 type ItemState = GenericState<IItem[]>;
 
-@Injectable({
-    providedIn: 'root',
-})
+@Injectable()
 export class ItemStore extends ComponentStore<ItemState> {
     readonly items$ = this.select((state) => state.data);
     readonly isLoading$ = this.select((state) => state.status === 'loading');
@@ -44,7 +42,67 @@ export class ItemStore extends ComponentStore<ItemState> {
         )
     );
 
-    private checkUserLoggedIn = (user: IUser | null) => {
+    readonly delete = this.effect<number>((params$) =>
+        params$.pipe(
+            switchMap((id) =>
+                this.itemService.delete(id).pipe(
+                    tapResponse(
+                        () => {
+                            this.removeItem(id);
+                        },
+                        (error: HttpError<Response>) => {
+                            this.messageService.showMessage(error.error?.errorMessages[0] ?? '', 'error');
+                        }
+                    )
+                )
+            )
+        )
+    );
+
+    readonly updateAndGet = this.effect<{ id: number; item: IItem; queryParams?: GetItemQueryParams }>((params$) =>
+        params$.pipe(
+            switchMap((params) =>
+                this.itemService
+                    .update(params.id, params.item)
+                    .pipe(switchMap((response) => this.itemService.get(response.responseObject, params.queryParams)))
+            ),
+            tapResponse(
+                (response) => {
+                    this.updateItem(response.responseObject);
+                },
+                (error: HttpError<Response>) => {
+                    this.messageService.showMessage(error.error?.errorMessages[0] ?? '', 'error');
+                }
+            )
+        )
+    );
+
+    readonly createAndGet = this.effect<{ item: IItem; queryParams?: GetItemQueryParams }>((params$) =>
+        params$.pipe(
+            switchMap((params) =>
+                this.createItem(params.item).pipe(
+                    switchMap((response) => this.itemService.get(response.responseObject, params.queryParams))
+                )
+            ),
+            tapResponse(
+                (response) => {
+                    this.addItem(response.responseObject);
+                },
+                (error: HttpError<Response>) => {
+                    this.messageService.showMessage(error.error?.errorMessages[0] ?? '', 'error');
+                }
+            )
+        )
+    );
+
+    private readonly createItem = (item: IItem) =>
+        this.authStore.user$.pipe(
+            tap(this.checkUserLoggedIn),
+            filter((user): user is IUser => user !== null),
+            switchMap((user) => this.itemService.create(item, user.id))
+        );
+
+    private readonly checkUserLoggedIn = (user: IUser | null) => {
         if (user === null) {
             this.messageService.showMessage('Nie jesteś zalogowany!', 'error');
             this.router.navigate(['welcome'], { queryParams: { returnUrl: this.router.routerState.snapshot.url } });
@@ -52,6 +110,18 @@ export class ItemStore extends ComponentStore<ItemState> {
             throwError(new Error('User is not logged in'));
         }
     };
+
+    private readonly addItem = this.updater((state, item: IItem) => {
+        return { ...state, data: [...(state.data ?? []), item] };
+    });
+    private readonly updateItem = this.updater((state, item: IItem) => {
+        const items = (state.data ?? []).map((value) => (value.id == item.id ? item : value));
+        return { ...state, data: [...items] };
+    });
+    private readonly removeItem = this.updater((state, id: number) => {
+        const items = (state.data ?? []).filter((value) => value.id != id);
+        return { ...state, data: [...items] };
+    });
 
     constructor(
         private itemService: ItemService,

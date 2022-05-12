@@ -35,4 +35,10 @@ export class ItemService {
         const params = HttpHelperMethods.mapToHttpParams(queryParams);
         return this.apiService.get<IItem>(`item/get/${itemId}`, params);
     };
+    update = (itemId: number, item: IItem): ObservableResponse<number> => {
+        return this.apiService.put<number>(`item/update/${itemId}`, item);
+    };
+    delete = (itemId: number): ObservableResponse<boolean> => {
+        return this.apiService.delete<boolean>(`item/delete/${itemId}`);
+    };
 }
