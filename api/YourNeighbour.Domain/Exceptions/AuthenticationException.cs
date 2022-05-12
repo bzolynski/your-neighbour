@@ -6,13 +6,9 @@ namespace YourNeighbour.Domain.Exceptions
     public sealed class AuthenticationException : Exception
     {
         public AuthenticationException() { }
-        public AuthenticationException(string error)
+        public AuthenticationException(string message) : base(message)
         {
-            Errors = new[] { error };
-        }
-        public AuthenticationException(IEnumerable<string> errors)
-        {
-            Errors = errors;
+            Errors = new[] { message };
         }
 
         public IEnumerable<string> Errors { get; }

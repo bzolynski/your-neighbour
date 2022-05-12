@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using YourNeighbour.Api.Models;
 using YourNeighbour.Application.Features.Authentication.Commands.Login;
 using YourNeighbour.Application.Features.Authentication.Commands.Logout;
 using YourNeighbour.Application.Features.Authentication.Commands.Refresh;
@@ -24,38 +23,38 @@ namespace YourNeighbour.Api.Controllers
             this.authenticationOptions = authenticationOptions.Value;
         }
         [HttpPost("register")]
-        public async Task<ActionResult<Response>> Register(RegisterDto register)
+        public async Task<IActionResult> Register(RegisterDto register)
         {
             bool succeded = await Mediator.Send(new RegisterCommand(register));
-            return Models.Response.Success(succeded);
+            return CreatedAtAction(nameof(Register), succeded);
         }
         [HttpGet("get-current-user")]
-        public async Task<ActionResult<Response>> GetCurrentUser()
+        public async Task<IActionResult> GetCurrentUser()
         {
             UserDto user = await Mediator.Send(new GetCurrentUserQuery());
-            return Models.Response.Success(user);
+            return Ok(user);
         }
         [HttpPost("login")]
-        public async Task<ActionResult<Response>> Login(LoginDto login)
+        public async Task<IActionResult> Login(LoginDto login)
         {
             AuthenticationDto authenticationResult = await Mediator.Send(new LoginCommand(login));
             SetAccessTokenCookie(authenticationResult.AccessToken);
             SetRefreshTokenCookie(authenticationResult.RefreshToken);
-            return Models.Response.Success(authenticationResult.User);
+            return Ok(authenticationResult.User);
         }
         [HttpPost("logout")]
-        public async Task<ActionResult<Response>> Logout()
+        public async Task<IActionResult> Logout()
         {
             if (!HttpContext.Request.Cookies.TryGetValue("refresh-token", out string refreshToken))
-                return Models.Response.Success(true);
+                return Ok(true);
 
             bool succeded = await Mediator.Send(new LogoutCommand(new LogoutDto { RefreshToken = refreshToken }));
             RemoveCookie("access-token");
             RemoveCookie("refresh-token");
-            return Models.Response.Success(succeded);
+            return Ok(succeded);
         }
         [HttpPost("refresh")]
-        public async Task<ActionResult<Response>> Refresh()
+        public async Task<IActionResult> Refresh()
         {
             if (!Request.Cookies.TryGetValue("refresh-token", out string refreshToken))
                 throw new AuthenticationException("Invalid token");
@@ -63,7 +62,7 @@ namespace YourNeighbour.Api.Controllers
             AuthenticationDto authenticationResult = await Mediator.Send(new RefreshCommand(new RefreshDto { RefreshToken = refreshToken }));
             SetRefreshTokenCookie(authenticationResult.RefreshToken);
             SetAccessTokenCookie(authenticationResult.AccessToken);
-            return Models.Response.Success(true);
+            return Ok(true);
         }
 
         private void SetRefreshTokenCookie(string value)
