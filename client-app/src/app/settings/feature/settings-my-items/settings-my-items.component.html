@@ -1,1 +1,38 @@
-<p>settings-my-items works!</p>
+<div class="container">
+    <div class="top-bar" appElevatedSection>
+        <app-list-container-toggle-buttons
+            (listViewTypeChanged)="
+                changeListViewType($event)
+            "></app-list-container-toggle-buttons>
+
+        <!-- <app-item-search
+                (searchSubmited)="filterItems($event)"></app-item-search> -->
+        <app-item-search (textChanged)="filterItems($event)"></app-item-search>
+
+        <button mat-raised-button color="warn" (click)="dialog.open(itemForm)">
+            Nowy przedmiot
+        </button>
+    </div>
+    <app-list-container
+        *ngIf="{ viewType: selectedListViewType$ | async } as vm"
+        [listViewType]="$any(vm.viewType)">
+        <app-item-card
+            *ngFor="let item of filteredItems$ | async"
+            (deleteButtonClicked)="deleteItem($event)"
+            [item]="item"
+            [horizontal]="vm.viewType === 'list'"
+            (click)="dialog.open(itemForm, { data: item })">
+            {{ item.name }}
+        </app-item-card>
+    </app-list-container>
+</div>
+
+<ng-template #itemForm let-item>
+    <mat-dialog-content>
+        <app-item-form
+            [item]="item"
+            [categories]="categories$ | async"
+            (canceled)="dialog.closeAll()"
+            (formSubmited)="itemFormSubmited(item?.id, $event)"></app-item-form>
+    </mat-dialog-content>
+</ng-template>
