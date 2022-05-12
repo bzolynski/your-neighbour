@@ -1,12 +1,12 @@
-﻿using FluentValidation;
-using FluentValidation.Results;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Logging;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using FluentValidation;
+using FluentValidation.Results;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 using YourNeighbour.Api.Models;
 using YourNeighbour.Domain.Exceptions;
 
@@ -40,6 +40,13 @@ namespace YourNeighbour.Api.Middleware
                 context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
                 context.Response.ContentType = "application/json";
                 await context.Response.WriteAsJsonAsync(response);
+            }
+            catch (StatusCodeException ex)
+            {
+                Response response = Response.Error(ex.Message);
+                context.Response.StatusCode = (int)ex.StatusCode;
+                context.Response.ContentType = "application/json";
+                await context.Response.WriteAsJsonAsync(ex.Message);
             }
             catch (Exception ex)
             {
