@@ -1,5 +1,4 @@
 import { Component, Output } from '@angular/core';
-import { FormGroup } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { GenericFormControl, GenericFormGroup } from 'src/app/shared/utils';
 
@@ -9,7 +8,8 @@ import { GenericFormControl, GenericFormGroup } from 'src/app/shared/utils';
     styleUrls: ['./item-search.component.scss'],
 })
 export class ItemSearchComponent {
-    @Output() searchSubmited = new Subject<FormGroup>();
+    //@Output() searchSubmited = new Subject<FormGroup>();
+    @Output() textChanged = new Subject<string>();
     form = new GenericFormGroup({
         search: new GenericFormControl(''),
     });

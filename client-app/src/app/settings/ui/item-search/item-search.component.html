@@ -1,15 +1,17 @@
-<form [formGroup]="form" (ngSubmit)="searchSubmited.next(form)" class="wrapper">
+<form [formGroup]="form" class="wrapper">
+    <!-- (ngSubmit)="searchSubmited.next(form)" -->
     <app-text-input
+        (ngModelChange)="textChanged.next($event)"
         [label]="'Szukam...'"
         [type]="'text'"
         [hideError]="true"
         [formControlName]="'search'"></app-text-input>
 
-    <button
+    <!-- <button
         mat-icon-button
         color="primary"
         class="button"
         aria-label="Search icon">
         <mat-icon>search</mat-icon>
-    </button>
+    </button> -->
 </form>
