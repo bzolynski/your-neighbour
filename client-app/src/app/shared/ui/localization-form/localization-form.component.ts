@@ -14,7 +14,7 @@ export class LocalizationFormComponent {
     @Output() canceled = new Subject();
     @Input() set localization(value: Localization | null) {
         if (value) {
-            this.form.patchValue({ name: value.name });
+            this.form.patchValue({ ...value });
         }
     }
     form = new GenericFormGroup({

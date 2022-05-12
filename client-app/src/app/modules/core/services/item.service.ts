@@ -41,4 +41,12 @@ export class ItemService {
     delete = (itemId: number): Observable<boolean> => {
         return this.apiService.delete<boolean>(`item/delete/${itemId}`);
     };
+
+    test = () => {
+        this.apiService.get(`item/weather-forecast/`).subscribe((x) => {
+            console.log('ŁEDERFORKAST');
+
+            console.log(x);
+        });
+    };
 }

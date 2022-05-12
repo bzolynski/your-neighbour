@@ -8,6 +8,11 @@ const routes: Routes = [
         path: 'items',
         loadChildren: () => import('../settings-my-items/settings-my-items.module').then((m) => m.SettingsMyItemsModule),
     },
+    {
+        path: 'localizations',
+        loadChildren: () =>
+            import('../settings-my-localizations/settings-my-localizations.module').then((m) => m.SettingsMyLocalizationsModule),
+    },
 ];
 
 @NgModule({

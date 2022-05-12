@@ -2,6 +2,8 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using YourNeighbour.Application.Features.Localizations.Commands.CreateLocalization;
+using YourNeighbour.Application.Features.Localizations.Commands.DeleteLocalization;
+using YourNeighbour.Application.Features.Localizations.Commands.UpdateLocalization;
 using YourNeighbour.Application.Features.Localizations.Dtos;
 using YourNeighbour.Application.Features.Localizations.Queries.GetLocalization;
 using YourNeighbour.Application.Features.Localizations.Queries.GetLocalizationsByUser;
@@ -22,11 +24,24 @@ namespace YourNeighbour.Api.Controllers
             IEnumerable<LocalizationDto> result = await Mediator.Send(new GetLocalizationsByUserQuery(id));
             return Ok(result);
         }
-        [HttpPut("create-for-user/{id}")]
+        [HttpPost("create-for-user/{id}")]
         public async Task<IActionResult> CreateForUser(LocalizationCreateDto localizationCreate, int id)
         {
             int result = await Mediator.Send(new CreateLocalizationCommand(localizationCreate, id));
             return CreatedAtAction(nameof(CreateForUser), result);
+        }
+
+        [HttpPut("update/{id}")]
+        public async Task<IActionResult> Update(int id, UpdateLocalizationDto localizationDto)
+        {
+            int result = await Mediator.Send(new UpdateLocalizationCommand(id, localizationDto));
+            return Ok(result);
+        }
+        [HttpDelete("delete/{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            await Mediator.Send(new DeleteLocalizationCommand(id));
+            return NoContent();
         }
     }
 }

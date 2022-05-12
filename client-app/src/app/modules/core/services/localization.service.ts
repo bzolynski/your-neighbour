@@ -18,6 +18,14 @@ export class LocalizationService {
     };
 
     create = (body: Localization, userId: number): Observable<number> => {
-        return this.apiService.put<number>(`localization/create-for-user/${userId}`, body);
+        return this.apiService.post<number>(`localization/create-for-user/${userId}`, body);
+    };
+
+    update = (id: number, body: Localization): Observable<number> => {
+        return this.apiService.put<number>(`localization/update/${id}`, body);
+    };
+
+    delete = (id: number): Observable<any> => {
+        return this.apiService.delete(`localization/delete/${id}`);
     };
 }
