@@ -11,6 +11,7 @@ import { SelectedImageModule } from '../selected-image/selected-image.module';
 import { SelectedImagesModule } from '../selected-images/selected-images.module';
 import { TextInputModule } from '../text-input/text-input.module';
 import { TextAreaInputModule } from '../text-area-input/text-area-input.module';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
     imports: [
@@ -25,6 +26,7 @@ import { TextAreaInputModule } from '../text-area-input/text-area-input.module';
         MatSelectModule,
         TextInputModule,
         TextAreaInputModule,
+        MatButtonModule,
     ],
     declarations: [ItemFormComponent],
     exports: [ItemFormComponent],
