@@ -23,15 +23,15 @@ const options: SettingsOption[] = [
     },
     {
         name: 'Moje',
-        link: 'my',
+        link: '/settings/my/',
         children: [
             {
-                name: 'Definicje kategorii',
-                link: 'category-definition',
+                name: 'Przedmioty',
+                link: '/settings/my/items',
             },
             {
-                name: 'Kategorie',
-                link: 'category',
+                name: 'Adresy',
+                link: '/settings/my/localizations',
             },
         ],
     },

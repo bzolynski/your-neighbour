@@ -1,6 +1,6 @@
 <mat-tree [dataSource]="dataSource" [treeControl]="treeControl" class="tree">
     <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle>
-        <a *ngIf="node.link" tuJestLink="true" [routerLink]="node.link">
+        <a *ngIf="node.link" tuJestLink="true" [routerLink]="[node.link]">
             {{ node.name }}
         </a>
     </mat-tree-node>
@@ -19,7 +19,7 @@
                 </mat-icon>
             </button>
             <a
-                [routerLink]="node.link"
+                [routerLink]="[node.link]"
                 matTreeNodeToggle
                 role="toggler"
                 [attr.aria-label]="'Toggle ' + node.name">
