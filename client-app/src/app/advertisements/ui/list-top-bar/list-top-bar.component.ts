@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import { AuthenticationStore } from 'src/app/shared/authentication/data-access';
 import { ListViewType } from 'src/app/shared/ui/list-container/list-container.component';
 import { GenericFormControl, GenericFormGroup } from 'src/app/shared/utils';
 import { AdvertisementListStore } from '../../data-access';
@@ -18,7 +19,12 @@ export class ListTopBarComponent implements OnInit {
 
     selectedListViewType$: Observable<ListViewType> = this.advertisementListStore.listViewType$;
     categories$ = this.advertisementListStore.categories$;
-    constructor(private advertisementListStore: AdvertisementListStore, private router: Router) {}
+    user$ = this.authStore.user$;
+    constructor(
+        private advertisementListStore: AdvertisementListStore,
+        private router: Router,
+        private authStore: AuthenticationStore
+    ) {}
 
     ngOnInit(): void {
         this.advertisementListStore.loadCategories();
