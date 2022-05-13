@@ -3,12 +3,17 @@ import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTr
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { AuthenticationStore } from 'src/app/shared/authentication/data-access';
+import { MessageService } from '../services/message.service';
 
 @Injectable({
     providedIn: 'root',
 })
 export class AuthGuard implements CanActivate {
-    constructor(private authenticationStore: AuthenticationStore, private router: Router) {}
+    constructor(
+        private authenticationStore: AuthenticationStore,
+        private router: Router,
+        private messageService: MessageService
+    ) {}
     canActivate(
         route: ActivatedRouteSnapshot,
         state: RouterStateSnapshot
@@ -17,6 +22,7 @@ export class AuthGuard implements CanActivate {
             map((user) => {
                 if (user) return true;
                 this.router.navigate(['welcome'], { queryParams: { returnUrl: state.url } });
+                this.messageService.showMessage('Musisz być zalogowany', 'warning');
                 return false;
             })
         );
