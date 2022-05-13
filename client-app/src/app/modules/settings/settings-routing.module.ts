@@ -14,7 +14,6 @@ import { SettingsCategoryDefinitionComponent, SettingsCategoryComponent, Setting
 const routes: Routes = [
     {
         path: '',
-        canActivate: [AuthGuard],
         component: SettingsRootComponent,
         children: [
             {

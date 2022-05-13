@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from './modules/core/guards/auth.guard';
 
 const routes: Routes = [
     {
@@ -8,6 +9,7 @@ const routes: Routes = [
     },
     {
         path: 'settings',
+        canActivate: [AuthGuard],
         loadChildren: () => import('./settings/feature/settings-shell/settings-shell.module').then((m) => m.SettingsShellModule),
     },
     // {
