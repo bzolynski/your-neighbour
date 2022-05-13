@@ -5,6 +5,7 @@
         appElevatedSection></app-list-side-panel>
     <app-list-top-bar class="top-bar" appElevatedSection></app-list-top-bar>
     <app-list-container
+        class="list-container"
         *ngIf="{ viewType: selectedListViewType$ | async } as vm"
         [listViewType]="$any(vm.viewType)">
         <app-advertisement-card
