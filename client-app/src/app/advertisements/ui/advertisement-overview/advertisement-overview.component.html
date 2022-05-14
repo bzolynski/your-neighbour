@@ -1,22 +1,12 @@
 <div class="container">
     <ng-container *ngIf="advertisement && advertisement.item; else skeleton">
-        <div class="img-container">
-            <div class="title2">
-                <h1 class="title" *ngIf="advertisement && advertisement.title">
-                    {{ advertisement.title }}
-                </h1>
-            </div>
-            <img
-                *ngIf="advertisement.item.images[0]; else imageSkeleton"
-                class="image"
-                [src]="advertisement.item.images[0].dataUrl"
-                [name]="advertisement.item.images[0].name" />
-        </div>
-        <ng-template #imageSkeleton>
-            <app-skeleton-box
-                class="skeleton image"
-                [animate]="loading"></app-skeleton-box>
-        </ng-template>
+        <app-image-carousel>
+            <app-image-carousel-item
+                appElevatedSection
+                class="carousel-item"
+                *ngFor="let image of advertisement.item.images"
+                [src]="image.dataUrl"></app-image-carousel-item>
+        </app-image-carousel>
 
         <h2 style="font-size: 22px">{{ advertisement.item.name }}</h2>
         <h2>Kategoria: {{ advertisement.item.category.name }}</h2>
@@ -45,11 +35,9 @@
 </div>
 
 <ng-template #skeleton>
-    <div class="img-container">
-        <app-skeleton-box
-            class="skeleton image"
-            [animate]="loading"></app-skeleton-box>
-    </div>
+    <app-skeleton-box
+        class="skeleton image"
+        [animate]="loading"></app-skeleton-box>
     <app-skeleton-text
         class="skeleton skeleton-h2"
         [animate]="loading"

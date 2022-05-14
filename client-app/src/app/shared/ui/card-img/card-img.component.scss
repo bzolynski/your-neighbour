@@ -1,6 +1,9 @@
 :host {
     border-radius: inherit;
     display: inline-block;
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
 }
 .img {
     border-radius: inherit;
@@ -8,5 +11,9 @@
     object-fit: cover;
     object-position: center;
     pointer-events: none;
+    width: 100%;
+}
+
+.skeleton {
     width: 100%;
 }

@@ -1,1 +1,4 @@
-<img [src]="src" class="img"/>
+<img *ngIf="src; else skeleton" [src]="src" class="img" />
+<ng-template #skeleton>
+    <app-skeleton-box class="skeleton" [animate]="true"></app-skeleton-box>
+</ng-template>

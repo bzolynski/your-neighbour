@@ -22,7 +22,6 @@ export class AdvertisementStore extends ComponentStore<AdvertisementState> {
                     .get(id, {
                         includeCategory: true,
                         includeImages: true,
-                        maxImages: 1,
                         includeDefinition: true,
                         includeLocalization: true,
                         includeUser: true,

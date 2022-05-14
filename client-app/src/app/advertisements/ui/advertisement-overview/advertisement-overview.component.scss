@@ -1,4 +1,7 @@
 @use '@angular/material' as mat;
+[carousel-item='0'] {
+    background-color: yellow;
+}
 
 .container {
     padding: 1rem;
@@ -15,9 +18,7 @@
         width: 100%;
         word-wrap: break-word;
     }
-    .img-container {
-        position: relative;
-    }
+
     .title2 {
         position: absolute;
         top: 0;
