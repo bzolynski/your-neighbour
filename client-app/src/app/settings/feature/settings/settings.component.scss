@@ -1,25 +1,18 @@
 .container {
     display: grid;
-    grid-template: 1fr / 300px 1fr;
+    grid-template: auto 1fr / 350px 1fr;
     gap: 1rem;
     margin: 1rem 0;
 
     .side-bar {
         grid-column: 1 / 2;
-        .sticky {
-            position: sticky;
-            top: 1rem;
-        }
+        grid-row: 1 / 2;
+        padding: 1rem;
+        position: sticky;
+        top: 1rem;
     }
     .content {
         grid-column: 2 / 3;
-    }
-}
-
-.drawer-container {
-    height: 100vh;
-    .drawer {
-        width: 15rem;
-        height: fit-content;
+        grid-row: 1 / 3;
     }
 }

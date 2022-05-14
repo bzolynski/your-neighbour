@@ -13,6 +13,13 @@ const routes: Routes = [
         loadChildren: () =>
             import('../settings-my-localizations/settings-my-localizations.module').then((m) => m.SettingsMyLocalizationsModule),
     },
+    {
+        path: 'advertisements',
+        loadChildren: () =>
+            import('../settings-my-advertisements/settings-my-advertisements.module').then(
+                (m) => m.SettingsMyAdvertisementsModule
+            ),
+    },
 ];
 
 @NgModule({

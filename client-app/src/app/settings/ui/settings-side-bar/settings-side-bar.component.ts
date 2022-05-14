@@ -33,6 +33,10 @@ const options: SettingsOption[] = [
                 name: 'Adresy',
                 link: '/settings/my/localizations',
             },
+            {
+                name: 'Ogłoszenia',
+                link: '/settings/my/advertisements',
+            },
         ],
     },
 ];

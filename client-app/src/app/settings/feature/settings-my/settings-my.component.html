@@ -1,9 +1,22 @@
 <div class="wrapper">
-    <div class="tile-wide" appElevatedSection>Jajaja</div>
+    <div
+        class="tile-wide"
+        appElevatedSection
+        *ngIf="{ user: user$ | async } as vm">
+        <span
+            >Witaj <strong>{{ vm.user!.userName }}</strong
+            >! Co chcesz zrobić?</span
+        >
+    </div>
     <div class="tile-basic link" appElevatedSection [routerLink]="['items']">
         Moje przedmioty
     </div>
-    <div class="tile-basic" appElevatedSection>Moje ogłoszenia</div>
+    <div
+        class="tile-basic link"
+        appElevatedSection
+        [routerLink]="['advertisements']">
+        Moje ogłoszenia
+    </div>
     <div
         class="tile-basic link"
         appElevatedSection

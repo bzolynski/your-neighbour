@@ -23,6 +23,9 @@ export class AdvertisementService {
     create = (advertisement: Advertisement, userId: number): Observable<number> => {
         return this.apiService.post<number>(`advertisement/create/${userId}`, advertisement);
     };
+    update = (id: number, advertisement: Advertisement): Observable<number> => {
+        return this.apiService.put<number>(`advertisement/update/${id}`, advertisement);
+    };
     get = (id: number, queryParams?: GetAdvertisementQueryParams): Observable<Advertisement> => {
         const params = HttpHelperMethods.mapToHttpParams(queryParams);
         return this.apiService.get<Advertisement>(`advertisement/get/${id}`, params);
@@ -34,5 +37,14 @@ export class AdvertisementService {
     getManyByCategory = (categoryId: number, queryParams?: GetAdvertisementQueryParams): Observable<Advertisement[]> => {
         const params = HttpHelperMethods.mapToHttpParams(queryParams);
         return this.apiService.get<Advertisement[]>(`advertisement/get-by-category/${categoryId}`, params);
+    };
+
+    getManyByUser = (userId: number, queryParams?: GetAdvertisementQueryParams): Observable<Advertisement[]> => {
+        const params = HttpHelperMethods.mapToHttpParams(queryParams);
+        return this.apiService.get<Advertisement[]>(`advertisement/get-by-user/${userId}`, params);
+    };
+
+    delete = (id: number): Observable<boolean> => {
+        return this.apiService.delete<boolean>(`advertisement/delete/${id}`);
     };
 }
