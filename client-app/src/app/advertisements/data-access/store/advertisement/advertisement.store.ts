@@ -1,10 +1,11 @@
-import { GenericState } from 'src/app/shared/data-access/models';
+import { GenericState, IImage } from 'src/app/shared/data-access/models';
 import { Advertisement } from '../../models/advertisement.model';
 import { Injectable } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { switchMap, tap } from 'rxjs/operators';
 import { AdvertisementService } from '../';
 import { HttpErrorResponse } from '@angular/common/http';
+import { ItemService } from 'src/app/modules/core/services/item.service';
 
 type AdvertisementState = GenericState<Advertisement>;
 
@@ -21,7 +22,7 @@ export class AdvertisementStore extends ComponentStore<AdvertisementState> {
                 this.advertisementService
                     .get(id, {
                         includeCategory: true,
-                        includeImages: true,
+                       // includeImages: true,
                         includeDefinition: true,
                         includeLocalization: true,
                         includeUser: true,
@@ -34,13 +35,21 @@ export class AdvertisementStore extends ComponentStore<AdvertisementState> {
                             (error: HttpErrorResponse) => {
                                 this.patchState({ status: 'error', error: error.message });
                             }
+                        ),
+                        switchMap((response) =>
+                            this.itemService.getImagesByItem(response.item.id).pipe(tap((images) => this.updateImages(images)))
                         )
                     )
             )
         )
     );
 
-    constructor(private advertisementService: AdvertisementService) {
+    private readonly updateImages = this.updater((state, images: IImage[]) => {
+        const advertisement = { ...state.data, item: { ...state.data?.item, images: images } } as Advertisement;
+        return { ...state, data: advertisement };
+    });
+
+    constructor(private advertisementService: AdvertisementService, private itemService: ItemService) {
         super(<AdvertisementState>{});
     }
 }

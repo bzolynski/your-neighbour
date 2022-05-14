@@ -1,10 +1,10 @@
 <div class="wrapper">
-    <div class="container snap-container hide-scrollbar" #wrapper>
+    <div class="container snap-container hide-scrollbar" #container>
         <div></div>
         <ng-content></ng-content>
         <div></div>
     </div>
-    <div class="button-container">
+    <div class="button-container" *ngIf="carouselItems.length > 0">
         <button class="arrow-button" mat-icon-button (click)="scrollLeft()">
             <mat-icon class="arrow-icon">keyboard_arrow_left</mat-icon>
         </button>
