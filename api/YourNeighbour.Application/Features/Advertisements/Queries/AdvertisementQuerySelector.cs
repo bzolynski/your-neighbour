@@ -9,7 +9,7 @@ namespace YourNeighbour.Application.Features.Advertisements.Queries
     {
         public static IQueryable<Advertisement> ApplySearchableQueryParams(this IQueryable<Advertisement> query, AdvertisementSearchableQueryParams queryParams)
         {
-            return query.WhereIf(a => a.Item.Name.Contains(queryParams.Search), !queryParams.Search.IsNullOrWhiteSpace())
+            return query.WhereIf(a => a.Item.Name.Contains(queryParams.Search) || a.Title.Contains(queryParams.Search), !queryParams.Search.IsNullOrWhiteSpace())
                 .ApplyQueryParams(queryParams);
         }
 
