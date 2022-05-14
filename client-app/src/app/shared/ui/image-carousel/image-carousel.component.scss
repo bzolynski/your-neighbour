@@ -1,0 +1,52 @@
+$arrow-buton-size: 40px;
+
+:host {
+    display: inline-block;
+}
+.wrapper {
+    position: relative;
+}
+.container {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 40%;
+    align-items: center;
+    overflow-y: hidden;
+    padding: 0.5rem;
+}
+
+.button-container {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.arrow-button {
+    height: $arrow-buton-size;
+    width: $arrow-buton-size;
+    .arrow-icon {
+        height: $arrow-buton-size;
+        width: $arrow-buton-size;
+        font-size: $arrow-buton-size;
+        line-height: $arrow-buton-size;
+    }
+}
+
+.snap-container {
+    scroll-snap-type: inline mandatory;
+    scroll-behavior: smooth;
+}
+
+.hide-scrollbar {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+    /* Hide scrollbar for Chrome, Safari and Opera */
+    &::-webkit-scrollbar {
+        display: none;
+    }
+}
