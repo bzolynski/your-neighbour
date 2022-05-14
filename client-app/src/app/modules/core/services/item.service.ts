@@ -12,6 +12,10 @@ export interface GetItemQueryParams extends QueryParams {
     maxImages?: number;
 }
 
+export interface GetImageQueryParams extends QueryParams {
+    maxImages?: number;
+}
+
 @Injectable({
     providedIn: 'root',
 })
@@ -27,8 +31,9 @@ export class ItemService {
         return this.apiService.get<IItem[]>(`item/get-many-by-user/${userId}`, params);
     };
 
-    getImagesByItem = (itemId: number): Observable<IImage[]> => {
-        return this.apiService.get<IImage[]>(`item/get-many-images-by-item/${itemId}`);
+    getImagesByItem = (itemId: number, queryParams?: GetImageQueryParams): Observable<IImage[]> => {
+        const params = HttpHelperMethods.mapToHttpParams(queryParams);
+        return this.apiService.get<IImage[]>(`item/get-many-images-by-item/${itemId}`, params);
     };
 
     get = (itemId: number, queryParams?: GetItemQueryParams): Observable<IItem> => {

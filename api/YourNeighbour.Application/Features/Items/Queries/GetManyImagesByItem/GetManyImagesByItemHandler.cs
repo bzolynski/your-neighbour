@@ -24,6 +24,7 @@ namespace YourNeighbour.Application.Features.Items.Queries.GetManyImagesByItem
         {
             return await applicationDbContext.Set<ItemImage>()
                 .Where(x => x.ItemId == request.Id)
+                .Take(request.QueryParams.MaxImages ?? int.MaxValue)
                 .ProjectTo<ImageDto>(mapper)
                 .ToListAsync();
         }

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using YourNeighbour.Application.Features.Common;
 using YourNeighbour.Application.Features.Common.Dtos;
 using YourNeighbour.Application.Features.Items.Command.CreateItem;
 using YourNeighbour.Application.Features.Items.Command.DeleteItem;
@@ -30,9 +31,9 @@ namespace YourNeighbour.Api.Controllers
         }
 
         [HttpGet("get-many-images-by-item/{id}")]
-        public async Task<IActionResult> GetManyImagesByItem(int id)
+        public async Task<IActionResult> GetManyImagesByItem(int id, [FromQuery] ImageQueryParams queryParams)
         {
-            IEnumerable<ImageDto> result = await Mediator.Send(new GetManyImagesByItemQuery(id));
+            IEnumerable<ImageDto> result = await Mediator.Send(new GetManyImagesByItemQuery(id, queryParams));
             return Ok(result);
         }
 
