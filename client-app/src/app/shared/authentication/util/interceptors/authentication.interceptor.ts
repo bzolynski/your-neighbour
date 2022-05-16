@@ -24,8 +24,7 @@ export class AuthentiacionInterceptor implements HttpInterceptor {
                 if (error.status == 401) {
                     return this.handleUnauthorized(req, next, error);
                 } else {
-                    console.log(error);
-                    return throwError(() => error);
+                    return throwError(error);
                 }
             })
         );

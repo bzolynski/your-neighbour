@@ -26,16 +26,20 @@ export class ItemStore extends ComponentStore<ItemState> {
                     tap(this.checkUserLoggedIn),
                     filter((user): user is IUser => user !== null),
                     switchMap((user) => this.itemService.create(item, user.id)),
-                    tapResponse(
-                        (response) => {
-                            item.id = response;
-                            this.patchState((state) => ({ ...state, data: [...(state.data ?? []), item] }));
-                        },
-                        (error: HttpErrorResponse) => {
-                            this.handleError(error);
-                        }
+                    switchMap((id) =>
+                        this.categoryService
+                            .get(item.categoryId)
+                            .pipe(map((category) => ({ ...item, id: id, category: category } as IItem)))
                     )
                 )
+            ),
+            tapResponse(
+                (item) => {
+                    this.patchState((state) => ({ ...state, data: [...(state.data ?? []), item] }));
+                },
+                (error: HttpErrorResponse) => {
+                    this.handleError(error);
+                }
             )
         )
     );
@@ -51,7 +55,7 @@ export class ItemStore extends ComponentStore<ItemState> {
                                 (response) => {
                                     this.patchState({ data: response });
                                 },
-                                (error: HttpErrorResponse) => {
+                                (error) => {
                                     this.handleError(error);
                                 }
                             )
@@ -84,8 +88,6 @@ export class ItemStore extends ComponentStore<ItemState> {
                     map((category) => ({ ...params.item, id: params.id, category: category } as IItem)),
                     tapResponse(
                         (item) => {
-                            console.log(item);
-
                             this.patchState((state) => ({
                                 ...state,
                                 data: [...(state.data ?? []).map((value) => (value.id == item.id ? item : value))],
@@ -127,8 +129,8 @@ export class ItemStore extends ComponentStore<ItemState> {
         }
     };
 
-    private handleError = (error: HttpErrorResponse) => {
-        this.messageService.showMessage(error.message, 'error');
+    private handleError = (error: any) => {
+        this.messageService.showMessage(error.error ?? error.message, 'error');
     };
 
     constructor(
