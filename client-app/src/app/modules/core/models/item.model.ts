@@ -5,6 +5,7 @@ export interface IItem {
     id: number;
     name: string;
     category: ICategory;
+    categoryId: number;
     description: string;
     images: IImage[];
 }

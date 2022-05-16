@@ -11,5 +11,7 @@ namespace YourNeighbour.Application.Features.Items.Dtos
         public string Description { get; set; }
         public CategoryDto Category { get; set; }
         public IEnumerable<ImageDto> Images { get; set; }
+
+        public int CategoryId { get; set; }
     }
 }

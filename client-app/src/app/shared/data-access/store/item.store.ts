@@ -1,7 +1,7 @@
 import { GenericState } from 'src/app/shared/data-access/models';
 import { Injectable } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
-import { filter, mergeMap, switchMap, tap } from 'rxjs/operators';
+import { filter, map, mergeMap, switchMap, tap } from 'rxjs/operators';
 import { IItem, IUser } from '../models/api';
 import { GetImageQueryParams, GetItemQueryParams, ItemService } from 'src/app/modules/core/services/item.service';
 import { AuthenticationStore } from '../../authentication/data-access';
@@ -9,6 +9,7 @@ import { MessageService } from 'src/app/modules/core/services/message.service';
 import { Router } from '@angular/router';
 import { from, throwError } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
+import { CategoryService } from 'src/app/modules/core/services';
 
 type ItemState = GenericState<IItem[]>;
 
@@ -79,16 +80,18 @@ export class ItemStore extends ComponentStore<ItemState> {
         params$.pipe(
             switchMap((params) =>
                 this.itemService.update(params.id, params.item).pipe(
+                    switchMap(() => this.categoryService.get(params.item.categoryId)),
+                    map((category) => ({ ...params.item, id: params.id, category: category } as IItem)),
                     tapResponse(
-                        () => {
+                        (item) => {
+                            console.log(item);
+
                             this.patchState((state) => ({
                                 ...state,
-                                data: [...(state.data ?? []).map((value) => (value.id == params.id ? params.item : value))],
+                                data: [...(state.data ?? []).map((value) => (value.id == item.id ? item : value))],
                             }));
                         },
-                        (error: HttpErrorResponse) => {
-                            this.handleError(error);
-                        }
+                        (error: HttpErrorResponse) => this.handleError(error)
                     )
                 )
             )
@@ -132,7 +135,8 @@ export class ItemStore extends ComponentStore<ItemState> {
         private itemService: ItemService,
         private authStore: AuthenticationStore,
         private messageService: MessageService,
-        private router: Router
+        private router: Router,
+        private categoryService: CategoryService
     ) {
         super({} as ItemState);
     }

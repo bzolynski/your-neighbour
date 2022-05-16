@@ -4,6 +4,7 @@ import { IImage } from './image.model';
 export interface IItem {
     id: number;
     name: string;
+    categoryId: number;
     category: ICategory;
     description: string;
     images: IImage[];
