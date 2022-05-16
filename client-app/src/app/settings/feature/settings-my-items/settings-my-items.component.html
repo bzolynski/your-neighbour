@@ -17,7 +17,7 @@
         *ngIf="{ viewType: selectedListViewType$ | async } as vm"
         [listViewType]="$any(vm.viewType)">
         <app-item-card
-            *ngFor="let item of filteredItems$ | async"
+            *ngFor="let item of items$ | async"
             (deleteButtonClicked)="deleteItem($event)"
             [item]="item"
             [horizontal]="vm.viewType === 'list'"

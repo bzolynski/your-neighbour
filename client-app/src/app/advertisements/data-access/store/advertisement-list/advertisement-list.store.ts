@@ -26,9 +26,6 @@ export class AdvertisementListStore extends ComponentStore<AdvertisementListStat
     readonly listViewType$ = this.select((state) => state.listViewType);
     readonly activeCategory$ = this.select((state) => state.activeCategory);
     readonly activeCategoryLoading$ = this.select((state) => state.activeCategoryLoading);
-    readonly categories$ = this.categoryStore.categories$;
-
-    readonly loadCategories = this.categoryStore.loadCategories;
 
     readonly changeListViewType = this.updater((state, listViewType: ListViewType) => {
         return { ...state, listViewType: listViewType };
@@ -107,7 +104,6 @@ export class AdvertisementListStore extends ComponentStore<AdvertisementListStat
     constructor(
         private advertisementService: AdvertisementService,
         private categoryService: CategoryService,
-        private categoryStore: CategoryStore,
         private itemService: ItemService
     ) {
         super(<AdvertisementListState>{ listViewType: 'list' });

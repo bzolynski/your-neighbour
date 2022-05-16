@@ -1,6 +1,6 @@
 <div class="wrapper">
     <app-card *ngIf="item" class="card" [horizontal]="horizontal">
-        <app-card-img [src]="item.images[0].dataUrl"></app-card-img>
+        <app-card-img [src]="item.images[0]?.dataUrl"></app-card-img>
         <app-card-content class="card-content">
             <mat-icon
                 class="icon"

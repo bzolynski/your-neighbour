@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
-import { filter, switchMap } from 'rxjs/operators';
+import { filter } from 'rxjs/operators';
 import { ICategory, IItem } from 'src/app/shared/data-access/models';
 import { ItemStore } from 'src/app/shared/data-access/store';
 import { ListViewType } from 'src/app/shared/ui/list-container/list-container.component';
@@ -15,10 +15,7 @@ import { SettingsMyItemsStore } from '../../data-access';
     providers: [SettingsMyItemsStore, ItemStore],
 })
 export class SettingsMyItemsComponent implements OnInit {
-    filteredItems$: Observable<IItem[] | null> = this.settingsItemStore.items$.pipe(
-        switchMap(() => this.settingsItemStore.filteredItems$)
-    );
-
+    items$: Observable<IItem[] | null> = this.itemStore.items$;
     selectedListViewType$: Observable<ListViewType> = this.settingsItemStore.listViewType$.pipe(
         filter((viewType): viewType is ListViewType => viewType != null)
     );
@@ -26,7 +23,7 @@ export class SettingsMyItemsComponent implements OnInit {
     constructor(private settingsItemStore: SettingsMyItemsStore, private itemStore: ItemStore, public dialog: MatDialog) {}
 
     ngOnInit(): void {
-        this.settingsItemStore.loadItems();
+        this.itemStore.loadForLoggedInUser({ itemQuery: { includeCategory: true }, imageQuery: { maxImages: 1 } });
         this.settingsItemStore.loadCategories();
     }
 
@@ -35,7 +32,7 @@ export class SettingsMyItemsComponent implements OnInit {
     };
 
     filterItems = (query: string) => {
-        this.settingsItemStore.filterItems(query);
+        // this.settingsItemStore.filterItems(query);
     };
 
     deleteItem = (id: number) => {
@@ -48,16 +45,12 @@ export class SettingsMyItemsComponent implements OnInit {
         if (form.valid) {
             const item: IItem = { ...form.value };
             if (id) {
-                this.itemStore.updateAndGet({
+                this.itemStore.update({
                     id: id,
                     item: item,
-                    queryParams: { includeImages: true, maxImages: 1, includeCategory: true },
                 });
             } else {
-                this.itemStore.createAndGet({
-                    item: item,
-                    queryParams: { includeImages: true, maxImages: 1, includeCategory: true },
-                });
+                this.itemStore.create(item);
             }
             this.dialog.closeAll();
         }

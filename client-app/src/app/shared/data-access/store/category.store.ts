@@ -7,9 +7,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 
 type CategoryState = GenericState<ICategory[]>;
 
-@Injectable({
-    providedIn: 'root',
-})
+@Injectable()
 export class CategoryStore extends ComponentStore<CategoryState> {
     readonly categories$ = this.select((state) => state.data);
     readonly isLoading$ = this.select((state) => state.status === 'loading');

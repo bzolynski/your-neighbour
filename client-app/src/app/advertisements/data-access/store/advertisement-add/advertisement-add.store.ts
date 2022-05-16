@@ -22,15 +22,12 @@ interface AdvertisementAddState {
 
 @Injectable()
 export class AdvertisementAddStore extends ComponentStore<AdvertisementAddState> {
-    readonly itemListing$ = this.itemStore.items$;
-    readonly categories$ = this.categoryStore.categories$;
     readonly userLocalizations$ = this.select((state) => state.userLocalizations);
     readonly advertisementDefinitions$ = this.select((state) => state.advertisementDefinitions);
 
     readonly itemIdChanged = this.effect<IItem>(($) => $);
     readonly descriptionChanged = this.effect<string>(($) => $);
     readonly titleChanged = this.effect<string>(($) => $);
-    readonly createItem = this.itemStore.createAndGet;
     readonly createLocalization = this.effect<Localization>((params$) =>
         params$.pipe(
             switchMap((localization) =>
@@ -88,10 +85,6 @@ export class AdvertisementAddStore extends ComponentStore<AdvertisementAddState>
             )
         )
     );
-    readonly loadCategories = this.categoryStore.loadCategories;
-
-    readonly loadItemListing = () => this.itemStore.loadItemsForLoggedInUser({ includeImages: true, maxImages: 1 });
-
     readonly loadUserLocalizations = this.effect(($) =>
         $.pipe(
             switchMap(() => this.authStore.user$),
@@ -123,15 +116,12 @@ export class AdvertisementAddStore extends ComponentStore<AdvertisementAddState>
     };
 
     constructor(
-        private itemStore: ItemStore,
         private authStore: AuthenticationStore,
         private localizationService: LocalizationService,
         private advertisementDefinitionService: AdvertisementDefinitionService,
         private router: Router,
         private messageService: MessageService,
-        private advertisementService: AdvertisementService,
-        private itemService: ItemService,
-        private categoryStore: CategoryStore
+        private advertisementService: AdvertisementService
     ) {
         super(<AdvertisementAddState>{});
     }

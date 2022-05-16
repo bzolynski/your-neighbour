@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
+import { CategoryStore } from 'src/app/shared/data-access/store';
 import { ListViewType } from 'src/app/shared/ui/list-container/list-container.component';
 import { RoutingHelperMethods } from 'src/app/shared/utils';
 import { AdvertisementListStore } from '../../data-access/store/advertisement-list';
@@ -10,7 +11,7 @@ import { AdvertisementListStore } from '../../data-access/store/advertisement-li
     selector: 'app-advertisement-list',
     templateUrl: './advertisement-list.component.html',
     styleUrls: ['./advertisement-list.component.scss'],
-    providers: [AdvertisementListStore],
+    providers: [AdvertisementListStore, CategoryStore],
 })
 export class AdvertisementListComponent implements OnInit {
     constructor(private advertisementListStore: AdvertisementListStore, private router: Router, private route: ActivatedRoute) {}
