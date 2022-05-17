@@ -1,2 +1,2 @@
 export * from './settings-my-items';
-export * from './settings-my-localizations';
+export * from './settings-my-advertisements';
