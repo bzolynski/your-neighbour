@@ -35,7 +35,7 @@ export class ItemStore extends ComponentStore<ItemState> {
             ),
             tapResponse(
                 (item) => {
-                    this.patchState((state) => ({ ...state, data: [...(state.data ?? []), item] }));
+                    this.patchState((state) => ({ data: [...(state.data ?? []), item] }));
                 },
                 (error: HttpErrorResponse) => {
                     this.handleError(error);
@@ -78,10 +78,7 @@ export class ItemStore extends ComponentStore<ItemState> {
                                         value.id === id ? { ...value, images: images } : value
                                     ),
                                 ];
-                                return {
-                                    ...state,
-                                    data: item,
-                                };
+                                return { data: item };
                             });
                         },
                         (error: HttpErrorResponse) => {
@@ -101,7 +98,6 @@ export class ItemStore extends ComponentStore<ItemState> {
                     tapResponse(
                         (item) => {
                             this.patchState((state) => ({
-                                ...state,
                                 data: [...(state.data ?? []).map((value) => (value.id == item.id ? item : value))],
                             }));
                         },
@@ -119,7 +115,6 @@ export class ItemStore extends ComponentStore<ItemState> {
                     tapResponse(
                         () => {
                             this.patchState((state) => ({
-                                ...state,
                                 data: [...(state.data ?? []).filter((value) => value.id != id)],
                             }));
                         },

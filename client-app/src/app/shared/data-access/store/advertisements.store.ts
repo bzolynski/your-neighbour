@@ -68,7 +68,6 @@ export class AdvertisementsStore extends ComponentStore<AdvertisementsState> {
                                     ...(state.data ?? []).map((value) => (value.id === id ? { ...value, item: item } : value)),
                                 ];
                                 return {
-                                    ...state,
                                     data: advertisements,
                                 };
                             });
@@ -95,7 +94,6 @@ export class AdvertisementsStore extends ComponentStore<AdvertisementsState> {
                                     ),
                                 ];
                                 return {
-                                    ...state,
                                     data: advertisements,
                                 };
                             });
@@ -115,8 +113,7 @@ export class AdvertisementsStore extends ComponentStore<AdvertisementsState> {
                 this.advertisementService.delete(id).pipe(
                     tapResponse(
                         () =>
-                            this.setState((state) => ({
-                                ...state,
+                            this.patchState((state) => ({
                                 data: [...(state.data ?? []).filter((x) => x.id !== id)],
                             })),
                         (error: HttpErrorResponse) => this.handleError(error)
