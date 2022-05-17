@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { Observable } from 'rxjs';
-import { filter } from 'rxjs/operators';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { filter, map, switchMap } from 'rxjs/operators';
 import { ICategory, IItem } from 'src/app/shared/data-access/models';
 import { CategoryStore, ItemStore } from 'src/app/shared/data-access/store';
 import { ListViewType } from 'src/app/shared/ui/list-container/list-container.component';
@@ -15,11 +15,21 @@ import { SettingsMyItemsStore } from '../../data-access';
     providers: [SettingsMyItemsStore, ItemStore, CategoryStore],
 })
 export class SettingsMyItemsComponent implements OnInit {
-    items$: Observable<IItem[] | null> = this.itemStore.items$;
     selectedListViewType$: Observable<ListViewType> = this.settingsItemStore.listViewType$.pipe(
         filter((viewType): viewType is ListViewType => viewType != null)
     );
     categories$: Observable<ICategory[] | null> = this.categoryStore.categories$;
+
+    filter$: BehaviorSubject<string> = new BehaviorSubject('');
+    filteredItems$ = this.filter$
+        .asObservable()
+        .pipe(
+            switchMap((search) =>
+                this.itemStore.items$.pipe(
+                    map((items) => items?.filter((value) => value.name.toUpperCase().includes(search.toUpperCase())))
+                )
+            )
+        );
     constructor(
         private settingsItemStore: SettingsMyItemsStore,
         private itemStore: ItemStore,
@@ -34,10 +44,6 @@ export class SettingsMyItemsComponent implements OnInit {
 
     changeListViewType = (listViewType: ListViewType) => {
         this.settingsItemStore.changeListViewType(listViewType);
-    };
-
-    filterItems = (query: string) => {
-        // this.settingsItemStore.filterItems(query);
     };
 
     deleteItem = (id: number) => {

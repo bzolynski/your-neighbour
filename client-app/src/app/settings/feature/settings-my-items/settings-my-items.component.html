@@ -7,7 +7,7 @@
 
         <!-- <app-item-search
                 (searchSubmited)="filterItems($event)"></app-item-search> -->
-        <app-item-search (textChanged)="filterItems($event)"></app-item-search>
+        <app-item-search (textChanged)="filter$.next($event)"></app-item-search>
 
         <button mat-raised-button color="warn" (click)="dialog.open(itemForm)">
             Nowy przedmiot
@@ -17,7 +17,7 @@
         *ngIf="{ viewType: selectedListViewType$ | async } as vm"
         [listViewType]="$any(vm.viewType)">
         <app-item-card
-            *ngFor="let item of items$ | async"
+            *ngFor="let item of filteredItems$ | async"
             (appTriggerOnScroll)="loadImages(item)"
             [appTriggerOnScrollUntill]="item.images.length > 0"
             (deleteButtonClicked)="deleteItem($event)"
