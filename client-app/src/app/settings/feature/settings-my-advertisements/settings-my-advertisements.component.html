@@ -14,7 +14,10 @@
     <app-list-container
         *ngIf="{ viewType: selectedListViewType$ | async } as vm"
         [listViewType]="$any(vm.viewType)">
-        <div class="card-wrapper"
+        <div
+            (appTriggerOnScroll)="loadImages(advertisement)"
+            [appTriggerOnScrollUntill]="advertisement.item.images.length > 0"
+            class="card-wrapper"
             *ngFor="let advertisement of advertisements$ | async">
             <app-advertisement-card
                 [horizontal]="vm.viewType === 'list'"

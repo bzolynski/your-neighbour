@@ -31,6 +31,11 @@ export class ItemService {
         return this.apiService.get<IItem[]>(`item/get-many-by-user/${userId}`, params);
     };
 
+    getByAdvertisement = (advertisementId: number, queryParams?: GetItemQueryParams): Observable<IItem> => {
+        const params = HttpHelperMethods.mapToHttpParams(queryParams);
+        return this.apiService.get<IItem>(`item/get-by-advertisement/${advertisementId}`, params);
+    };
+
     getImagesByItem = (itemId: number, queryParams?: GetImageQueryParams): Observable<IImage[]> => {
         const params = HttpHelperMethods.mapToHttpParams(queryParams);
         return this.apiService.get<IImage[]>(`item/get-many-images-by-item/${itemId}`, params);

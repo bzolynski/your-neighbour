@@ -13,6 +13,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { LocalizationFormModule } from 'src/app/shared/ui/localization-form/localization-form.module';
 import { StopPropagationModule } from 'src/app/shared/directives/stop-propagation/stop-propagation.module';
 import { AdvertisementCardModule } from 'src/app/advertisements/ui/advertisement-card/advertisement-card.module';
+import { TriggerOnScrollModule } from 'src/app/shared/directives/trigger-on-scroll/trigger-on-scroll.module';
 @NgModule({
     imports: [
         CommonModule,
@@ -28,6 +29,7 @@ import { AdvertisementCardModule } from 'src/app/advertisements/ui/advertisement
         MatIconModule,
         StopPropagationModule,
         AdvertisementCardModule,
+        TriggerOnScrollModule,
     ],
     declarations: [SettingsMyAdvertisementsComponent],
 })

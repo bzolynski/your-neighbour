@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { Advertisement } from 'src/app/advertisements/data-access/models/advertisement.model';
+import { AdvertisementsStore } from 'src/app/shared/data-access/store/advertisements.store';
 import { ListViewType } from 'src/app/shared/ui/list-container/list-container.component';
 import { SettingsMyAdvertisementsStore } from '../../data-access/store/settings-my-advertisements';
 
@@ -10,18 +11,22 @@ import { SettingsMyAdvertisementsStore } from '../../data-access/store/settings-
     selector: 'app-settings-my-advertisements',
     templateUrl: './settings-my-advertisements.component.html',
     styleUrls: ['./settings-my-advertisements.component.scss'],
-    providers: [SettingsMyAdvertisementsStore],
+    providers: [SettingsMyAdvertisementsStore, AdvertisementsStore],
 })
 export class SettingsMyAdvertisementsComponent implements OnInit {
-    advertisements$: Observable<Advertisement[] | null> = this.settingsAdvertisementStore.advertisements$;
+    advertisements$: Observable<Advertisement[] | null> = this.advertisementsStore.advertisements$;
 
     selectedListViewType$: Observable<ListViewType> = this.settingsAdvertisementStore.listViewType$.pipe(
         filter((viewType): viewType is ListViewType => viewType != null)
     );
-    constructor(private settingsAdvertisementStore: SettingsMyAdvertisementsStore, public dialog: MatDialog) {}
+    constructor(
+        private advertisementsStore: AdvertisementsStore,
+        private settingsAdvertisementStore: SettingsMyAdvertisementsStore,
+        public dialog: MatDialog
+    ) {}
 
     ngOnInit(): void {
-        this.settingsAdvertisementStore.loadAdvertisements();
+        this.advertisementsStore.loadByUser({ includeCategory: true, includeLocalization: true, includeItem: true });
     }
 
     changeListViewType = (listViewType: ListViewType) => {
@@ -29,6 +34,10 @@ export class SettingsMyAdvertisementsComponent implements OnInit {
     };
 
     deleteAdvertisement = (id: number) => {
-        this.settingsAdvertisementStore.delete(id);
+        this.advertisementsStore.delete(id);
+    };
+
+    loadImages = (advertisement: Advertisement) => {
+        this.advertisementsStore.loadImages({ id: advertisement.item.id, queryParams: { maxImages: 1 } });
     };
 }

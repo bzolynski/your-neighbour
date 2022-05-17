@@ -108,6 +108,24 @@ export class AdvertisementsStore extends ComponentStore<AdvertisementsState> {
             )
         )
     );
+
+    readonly delete = this.effect<number>((params$) =>
+        params$.pipe(
+            switchMap((id) =>
+                this.advertisementService.delete(id).pipe(
+                    tapResponse(
+                        () =>
+                            this.setState((state) => ({
+                                ...state,
+                                data: [...(state.data ?? []).filter((x) => x.id !== id)],
+                            })),
+                        (error: HttpErrorResponse) => this.handleError(error)
+                    )
+                )
+            )
+        )
+    );
+
     private checkUserLoggedIn = (user: IUser | null) => {
         if (user === null) {
             this.messageService.showMessage('Nie jesteś zalogowany!', 'error');
