@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using Microsoft.EntityFrameworkCore;
 using YourNeighbour.Application.Extensions;
 using YourNeighbour.Domain.Entities;
 
@@ -15,10 +14,10 @@ namespace YourNeighbour.Application.Features.Advertisements.Queries
 
         public static IQueryable<Advertisement> ApplyQueryParams(this IQueryable<Advertisement> query, AdvertisementQueryParams queryParams)
         {
-            return query.Include(a => a.Item)
-                    .ThenIncludeIf(i => i.Category, queryParams.IncludeCategory)
-                .Include(a => a.Item)
-                    .ThenIncludeIf(i => i.Images.Take(queryParams.MaxImages ?? int.MaxValue), queryParams.IncludeImages)
+            return query.IncludeIf(a => a.Item, queryParams.IncludeItem)
+                    .ThenIncludeIf(i => i.Category, queryParams.IncludeItem && queryParams.IncludeCategory)
+                .IncludeIf(a => a.Item, queryParams.IncludeItem)
+                    .ThenIncludeIf(i => i.Images.Take(queryParams.MaxImages ?? int.MaxValue), queryParams.IncludeItem && queryParams.IncludeImages)
                 .IncludeIf(a => a.User, queryParams.IncludeUser)
                 .IncludeIf(a => a.Localization, queryParams.IncludeLocalization)
                 .IncludeIf(a => a.Definition, queryParams.IncludeDefinition);

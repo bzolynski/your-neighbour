@@ -3,6 +3,7 @@
     public class AdvertisementQueryParams
     {
         public bool IncludeUser { get; set; }
+        public bool IncludeItem { get; set; }
         public bool IncludeLocalization { get; set; }
         public bool IncludeDefinition { get; set; }
         public bool IncludeCategory { get; set; }
