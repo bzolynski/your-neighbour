@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { filter, map, switchMap } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 import { ICategory, IItem } from 'src/app/shared/data-access/models';
 import { CategoryStore, ItemStore } from 'src/app/shared/data-access/store';
 import { ListViewType } from 'src/app/shared/ui/list-container/list-container.component';
@@ -15,9 +15,7 @@ import { SettingsMyItemsStore } from '../../data-access';
     providers: [SettingsMyItemsStore, ItemStore, CategoryStore],
 })
 export class SettingsMyItemsComponent implements OnInit {
-    selectedListViewType$: Observable<ListViewType> = this.settingsItemStore.listViewType$.pipe(
-        filter((viewType): viewType is ListViewType => viewType != null)
-    );
+    selectedListViewType$: Observable<ListViewType> = this.settingsItemStore.listViewType$;
     categories$: Observable<ICategory[] | null> = this.categoryStore.categories$;
 
     filter$: BehaviorSubject<string> = new BehaviorSubject('');
