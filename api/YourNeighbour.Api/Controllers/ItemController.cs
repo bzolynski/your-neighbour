@@ -9,6 +9,7 @@ using YourNeighbour.Application.Features.Items.Command.UpdateItem;
 using YourNeighbour.Application.Features.Items.Dtos;
 using YourNeighbour.Application.Features.Items.Queries;
 using YourNeighbour.Application.Features.Items.Queries.GetItem;
+using YourNeighbour.Application.Features.Items.Queries.GetItemByAdvertisement;
 using YourNeighbour.Application.Features.Items.Queries.GetManyByUser;
 using YourNeighbour.Application.Features.Items.Queries.GetManyImagesByItem;
 
@@ -21,6 +22,13 @@ namespace YourNeighbour.Api.Controllers
         {
             int result = await Mediator.Send(new CreateItemCommand(itemCreate, userId));
             return CreatedAtAction(nameof(CreateForUser), result);
+        }
+
+        [HttpGet("get-by-advertisement/{advertisementId}")]
+        public async Task<IActionResult> GetByAdvertisement(int advertisementId, [FromQuery] ItemQueryParams queryParams)
+        {
+            ItemDto result = await Mediator.Send(new GetItemByAdvertisementQuery(advertisementId, queryParams));
+            return Ok(result);
         }
 
         [HttpGet("get-many-by-user/{userId}")]
