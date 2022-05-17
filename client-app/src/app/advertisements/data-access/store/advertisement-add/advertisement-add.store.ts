@@ -11,8 +11,6 @@ import { Router } from '@angular/router';
 import { MessageService } from 'src/app/modules/core/services/message.service';
 import { AdvertisementDefinitionService } from 'src/app/shared/data-access/api';
 import { AdvertisementService } from '../advertisement.service';
-import { ItemService } from 'src/app/modules/core/services/item.service';
-import { CategoryStore, ItemStore } from 'src/app/shared/data-access/store/';
 import { HttpErrorResponse } from '@angular/common/http';
 
 interface AdvertisementAddState {

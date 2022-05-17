@@ -6,7 +6,6 @@ import { mergeMap, switchMap, tap } from 'rxjs/operators';
 import { AdvertisementService } from '..';
 import { CategoryService } from 'src/app/modules/core/services';
 import { Params } from '@angular/router';
-import { CategoryStore } from 'src/app/shared/data-access/store';
 import { ListViewType } from 'src/app/shared/ui/list-container/list-container.component';
 import { HttpErrorResponse } from '@angular/common/http';
 import { from } from 'rxjs';
@@ -69,6 +68,7 @@ export class AdvertisementListStore extends ComponentStore<AdvertisementListStat
                             includeDefinition: true,
                             includeLocalization: true,
                             includeUser: true,
+                            includeItem: true,
                             search: params.searchQuery ?? '',
                         })
                         .pipe((response$) =>

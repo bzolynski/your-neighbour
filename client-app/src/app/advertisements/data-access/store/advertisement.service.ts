@@ -6,6 +6,7 @@ import { Advertisement } from '../models/advertisement.model';
 
 export interface GetAdvertisementQueryParams extends QueryParams {
     includeUser?: boolean;
+    includeItem?: boolean;
     includeLocalization?: boolean;
     includeDefinition?: boolean;
     includeCategory?: boolean;
