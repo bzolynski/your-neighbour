@@ -7,7 +7,7 @@ import { GetImageQueryParams, GetItemQueryParams, ItemService } from 'src/app/mo
 import { AuthenticationStore } from '../../authentication/data-access';
 import { MessageService } from 'src/app/modules/core/services/message.service';
 import { Router } from '@angular/router';
-import { from, throwError } from 'rxjs';
+import { throwError } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { CategoryService } from 'src/app/modules/core/services';
 
@@ -43,35 +43,21 @@ export class ItemStore extends ComponentStore<ItemState> {
             )
         )
     );
-    readonly loadForLoggedInUser = this.effect<{ itemQuery?: GetItemQueryParams; imageQuery?: GetImageQueryParams }>((params$) =>
+    readonly loadForLoggedInUser = this.effect<GetItemQueryParams>((params$) =>
         params$.pipe(
-            switchMap((params) =>
+            switchMap((query) =>
                 this.authStore.user$.pipe(
                     tap(this.checkUserLoggedIn),
                     filter((user): user is IUser => user !== null),
                     switchMap((user) =>
-                        this.itemService.getByUser(user.id, params.itemQuery).pipe(
+                        this.itemService.getByUser(user.id, query).pipe(
                             tapResponse(
                                 (response) => {
                                     this.patchState({ data: response });
                                 },
-                                (error) => {
+                                (error: HttpErrorResponse) => {
                                     this.handleError(error);
                                 }
-                            )
-                        )
-                    ),
-                    filter(() => params.imageQuery !== undefined),
-                    switchMap((response) => from(response.map((x) => x.id))),
-                    mergeMap((id) =>
-                        this.itemService.getImagesByItem(id, params.imageQuery).pipe(
-                            tap((images) =>
-                                this.patchState((state) => ({
-                                    ...state,
-                                    data: (state.data ?? []).map((value) =>
-                                        value.id === id ? { ...value, images: images } : value
-                                    ),
-                                }))
                             )
                         )
                     )
@@ -80,6 +66,32 @@ export class ItemStore extends ComponentStore<ItemState> {
         )
     );
 
+    readonly loadImages = this.effect<{ id: number; queryParams?: GetImageQueryParams }>((params$) =>
+        params$.pipe(
+            mergeMap(({ id, queryParams }) =>
+                this.itemService.getImagesByItem(id, queryParams).pipe(
+                    tapResponse(
+                        (images) => {
+                            this.patchState((state) => {
+                                const item: IItem[] = [
+                                    ...(state.data ?? []).map((value) =>
+                                        value.id === id ? { ...value, images: images } : value
+                                    ),
+                                ];
+                                return {
+                                    ...state,
+                                    data: item,
+                                };
+                            });
+                        },
+                        (error: HttpErrorResponse) => {
+                            this.handleError(error);
+                        }
+                    )
+                )
+            )
+        )
+    );
     readonly update = this.effect<{ id: number; item: IItem }>((params$) =>
         params$.pipe(
             switchMap((params) =>
@@ -129,7 +141,7 @@ export class ItemStore extends ComponentStore<ItemState> {
         }
     };
 
-    private handleError = (error: any) => {
+    private handleError = (error: HttpErrorResponse) => {
         this.messageService.showMessage(error.error ?? error.message, 'error');
     };
 

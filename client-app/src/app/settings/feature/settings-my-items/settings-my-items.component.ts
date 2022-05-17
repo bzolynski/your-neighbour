@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { ICategory, IItem } from 'src/app/shared/data-access/models';
-import { ItemStore } from 'src/app/shared/data-access/store';
+import { CategoryStore, ItemStore } from 'src/app/shared/data-access/store';
 import { ListViewType } from 'src/app/shared/ui/list-container/list-container.component';
 import { SettingsMyItemsStore } from '../../data-access';
 
@@ -12,19 +12,24 @@ import { SettingsMyItemsStore } from '../../data-access';
     selector: 'app-settings-my-items',
     templateUrl: './settings-my-items.component.html',
     styleUrls: ['./settings-my-items.component.scss'],
-    providers: [SettingsMyItemsStore, ItemStore],
+    providers: [SettingsMyItemsStore, ItemStore, CategoryStore],
 })
 export class SettingsMyItemsComponent implements OnInit {
     items$: Observable<IItem[] | null> = this.itemStore.items$;
     selectedListViewType$: Observable<ListViewType> = this.settingsItemStore.listViewType$.pipe(
         filter((viewType): viewType is ListViewType => viewType != null)
     );
-    categories$: Observable<ICategory[] | null> = this.settingsItemStore.categories$;
-    constructor(private settingsItemStore: SettingsMyItemsStore, private itemStore: ItemStore, public dialog: MatDialog) {}
+    categories$: Observable<ICategory[] | null> = this.categoryStore.categories$;
+    constructor(
+        private settingsItemStore: SettingsMyItemsStore,
+        private itemStore: ItemStore,
+        private categoryStore: CategoryStore,
+        public dialog: MatDialog
+    ) {}
 
     ngOnInit(): void {
-        this.itemStore.loadForLoggedInUser({ itemQuery: { includeCategory: true }, imageQuery: { maxImages: 1 } });
-        this.settingsItemStore.loadCategories();
+        this.itemStore.loadForLoggedInUser({ includeCategory: true });
+        this.categoryStore.loadCategories();
     }
 
     changeListViewType = (listViewType: ListViewType) => {
@@ -54,5 +59,9 @@ export class SettingsMyItemsComponent implements OnInit {
             }
             this.dialog.closeAll();
         }
+    };
+
+    loadImages = (item: IItem) => {
+        this.itemStore.loadImages({ id: item.id, queryParams: { maxImages: 1 } });
     };
 }

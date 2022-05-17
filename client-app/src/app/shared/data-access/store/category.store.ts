@@ -4,6 +4,7 @@ import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { CategoryService } from 'src/app/modules/core/services';
 import { switchMap, tap } from 'rxjs/operators';
 import { HttpErrorResponse } from '@angular/common/http';
+import { MessageService } from 'src/app/modules/core/services/message.service';
 
 type CategoryState = GenericState<ICategory[]>;
 
@@ -23,7 +24,7 @@ export class CategoryStore extends ComponentStore<CategoryState> {
                             this.patchState({ data: response, status: 'success' });
                         },
                         (error: HttpErrorResponse) => {
-                            this.patchState({ error: error.message, status: 'error' });
+                            this.handleError(error);
                         }
                     )
                 )
@@ -31,7 +32,11 @@ export class CategoryStore extends ComponentStore<CategoryState> {
         )
     );
 
-    constructor(private categoryService: CategoryService) {
+    private handleError = (error: HttpErrorResponse) => {
+        this.messageService.showMessage(error.message, 'error');
+        this.patchState({ error: error.message, status: 'error' });
+    };
+    constructor(private categoryService: CategoryService, private messageService: MessageService) {
         super(<CategoryState>{});
     }
 }

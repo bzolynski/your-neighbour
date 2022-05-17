@@ -18,6 +18,8 @@
         [listViewType]="$any(vm.viewType)">
         <app-item-card
             *ngFor="let item of items$ | async"
+            (appTriggerOnScroll)="loadImages(item)"
+            [appTriggerOnScrollUntill]="item.images.length > 0"
             (deleteButtonClicked)="deleteItem($event)"
             [item]="item"
             [horizontal]="vm.viewType === 'list'"

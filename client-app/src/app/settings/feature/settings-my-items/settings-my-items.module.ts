@@ -11,6 +11,7 @@ import { ListContainerToggleButtonsModule } from 'src/app/shared/ui/list-contain
 import { MatDialogModule } from '@angular/material/dialog';
 import { ItemFormModule } from 'src/app/shared/ui/item-form/item-form.module';
 import { MatButtonModule } from '@angular/material/button';
+import { TriggerOnScrollModule } from 'src/app/shared/directives/trigger-on-scroll/trigger-on-scroll.module';
 @NgModule({
     imports: [
         CommonModule,
@@ -23,6 +24,7 @@ import { MatButtonModule } from '@angular/material/button';
         MatDialogModule,
         ItemFormModule,
         MatButtonModule,
+        TriggerOnScrollModule,
     ],
     declarations: [SettingsMyItemsComponent],
 })
