@@ -5,7 +5,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { map, mergeMap, tap } from 'rxjs/operators';
 import { ItemService } from 'src/app/modules/core/services/item.service';
 import { AdvertisementDefinition, ICategory, IItem, Localization } from 'src/app/shared/data-access/models';
-import { CategoryStore, ItemStore } from 'src/app/shared/data-access/store';
+import { CategoryStore, ItemsStore, LocalizationsStore } from 'src/app/shared/data-access/store';
 import { GenericFormControl } from 'src/app/shared/utils';
 import { AdvertisementAddStore } from '../../data-access';
 import { Advertisement } from '../../data-access/models/advertisement.model';
@@ -14,7 +14,7 @@ import { Advertisement } from '../../data-access/models/advertisement.model';
     selector: 'app-advertisement-add',
     templateUrl: './advertisement-add.component.html',
     styleUrls: ['./advertisement-add.component.scss'],
-    providers: [AdvertisementAddStore, ItemStore, CategoryStore],
+    providers: [AdvertisementAddStore, ItemsStore, CategoryStore, LocalizationsStore],
 })
 export class AdvertisementAddComponent implements OnInit {
     form: FormGroup = new FormGroup({
@@ -30,7 +30,7 @@ export class AdvertisementAddComponent implements OnInit {
     // observables
     categories$: Observable<ICategory[] | null> = this.categoryStore.categories$;
     itemsListing$: Observable<IItem[] | null> = this.itemStore.items$;
-    userLocalizations$: Observable<Localization[]> = this.advertisementAddStore.userLocalizations$;
+    userLocalizations$: Observable<Localization[] | null> = this.localizationStore.localizations$;
     advertisementDefinitions$: Observable<AdvertisementDefinition[]> = this.advertisementAddStore.advertisementDefinitions$;
     itemLoading$ = new BehaviorSubject<boolean>(false);
 
@@ -49,13 +49,14 @@ export class AdvertisementAddComponent implements OnInit {
         public dialog: MatDialog,
         private itemService: ItemService,
         private advertisementAddStore: AdvertisementAddStore,
-        private itemStore: ItemStore,
-        private categoryStore: CategoryStore
+        private itemStore: ItemsStore,
+        private categoryStore: CategoryStore,
+        private localizationStore: LocalizationsStore
     ) {}
 
     ngOnInit(): void {
         this.categoryStore.loadCategories();
-        this.advertisementAddStore.loadUserLocalizations();
+        this.localizationStore.loadForLoggedInUser();
         this.advertisementAddStore.loadAdvertisementDefinitions();
         this.itemStore.loadForLoggedInUser({});
 
@@ -106,7 +107,7 @@ export class AdvertisementAddComponent implements OnInit {
     localizationFormSubmited = (form: FormGroup) => {
         if (form.valid) {
             const localization: Localization = { ...form.value };
-            this.advertisementAddStore.createLocalization(localization);
+            this.localizationStore.create(localization);
             this.dialog.closeAll();
         }
     };

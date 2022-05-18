@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { ICategory, IItem } from 'src/app/shared/data-access/models';
-import { CategoryStore, ItemStore } from 'src/app/shared/data-access/store';
+import { CategoryStore, ItemsStore } from 'src/app/shared/data-access/store';
 import { ListViewType } from 'src/app/shared/ui/list-container/list-container.component';
 import { SettingsMyItemsStore } from '../../data-access';
 
@@ -12,7 +12,7 @@ import { SettingsMyItemsStore } from '../../data-access';
     selector: 'app-settings-my-items',
     templateUrl: './settings-my-items.component.html',
     styleUrls: ['./settings-my-items.component.scss'],
-    providers: [SettingsMyItemsStore, ItemStore, CategoryStore],
+    providers: [SettingsMyItemsStore, ItemsStore, CategoryStore],
 })
 export class SettingsMyItemsComponent implements OnInit {
     selectedListViewType$: Observable<ListViewType> = this.settingsItemStore.listViewType$;
@@ -30,7 +30,7 @@ export class SettingsMyItemsComponent implements OnInit {
         );
     constructor(
         private settingsItemStore: SettingsMyItemsStore,
-        private itemStore: ItemStore,
+        private itemStore: ItemsStore,
         private categoryStore: CategoryStore,
         public dialog: MatDialog
     ) {}

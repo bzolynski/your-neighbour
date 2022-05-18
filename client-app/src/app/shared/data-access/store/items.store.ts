@@ -11,10 +11,10 @@ import { throwError } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { CategoryService } from 'src/app/modules/core/services';
 
-type ItemState = GenericState<IItem[]>;
+type ItemsState = GenericState<IItem[]>;
 
 @Injectable()
-export class ItemStore extends ComponentStore<ItemState> {
+export class ItemsStore extends ComponentStore<ItemsState> {
     readonly items$ = this.select((state) => state.data);
     readonly isLoading$ = this.select((state) => state.status === 'loading');
     readonly error$ = this.select((state) => state.error);
@@ -147,6 +147,6 @@ export class ItemStore extends ComponentStore<ItemState> {
         private router: Router,
         private categoryService: CategoryService
     ) {
-        super({} as ItemState);
+        super({} as ItemsState);
     }
 }
