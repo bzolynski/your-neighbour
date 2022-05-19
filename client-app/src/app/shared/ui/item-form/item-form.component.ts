@@ -13,7 +13,7 @@ import { InputUtils } from '../../utils/input-utils';
     styleUrls: ['./item-form.component.scss'],
 })
 export class ItemFormComponent implements OnDestroy {
-    @Input() set item(item: IItem | undefined) {
+    @Input() set item(item: IItem | undefined | null) {
         if (item)
             this.itemForm.patchValue({
                 name: item.name,
