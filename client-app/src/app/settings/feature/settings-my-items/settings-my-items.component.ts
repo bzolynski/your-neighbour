@@ -1,71 +1,71 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
-import { ICategory, IItem } from 'src/app/shared/data-access/models';
-import { CategoryStore, ItemsStore } from 'src/app/shared/data-access/store';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { filter, map, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { MessageService } from 'src/app/modules/core/services/message.service';
+import { GenericStoreStatus, IItem } from 'src/app/shared/data-access/models';
 import { ListViewType } from 'src/app/shared/ui/list-container/list-container.component';
-import { SettingsMyItemsStore } from '../../data-access';
+import {
+    changeListViewType,
+    deleteItem,
+    loadImages,
+    loadItems,
+    selectError,
+    selectItems,
+    selectListViewType,
+    selectStatus,
+} from '../../data-access/store/settings-my-items';
 
 @Component({
     selector: 'app-settings-my-items',
     templateUrl: './settings-my-items.component.html',
     styleUrls: ['./settings-my-items.component.scss'],
-    providers: [SettingsMyItemsStore, ItemsStore, CategoryStore],
 })
-export class SettingsMyItemsComponent implements OnInit {
-    selectedListViewType$: Observable<ListViewType> = this.settingsItemStore.listViewType$;
-    categories$: Observable<ICategory[] | null> = this.categoryStore.categories$;
-
+export class SettingsMyItemsComponent implements OnInit, OnDestroy {
+    selectedListViewType$: Observable<ListViewType> = this.store.select(selectListViewType);
     filter$: BehaviorSubject<string> = new BehaviorSubject('');
+    error$: Observable<string | null> = this.store.select(selectError).pipe();
+    status$: Observable<GenericStoreStatus> = this.store.select(selectStatus);
+
     filteredItems$ = this.filter$
         .asObservable()
         .pipe(
             switchMap((search) =>
-                this.itemStore.items$.pipe(
-                    map((items) => items?.filter((value) => value.name.toUpperCase().includes(search.toUpperCase())))
-                )
+                this.store
+                    .select(selectItems)
+                    .pipe(map((items) => items?.filter((value) => value.name.toUpperCase().includes(search.toUpperCase()))))
             )
         );
-    constructor(
-        private settingsItemStore: SettingsMyItemsStore,
-        private itemStore: ItemsStore,
-        private categoryStore: CategoryStore,
-        public dialog: MatDialog
-    ) {}
+
+    destroy$ = new Subject<boolean>();
+    constructor(private store: Store, private messageService: MessageService) {}
 
     ngOnInit(): void {
-        this.itemStore.loadForLoggedInUser({ includeCategory: true });
-        this.categoryStore.loadCategories();
+        this.store.dispatch(loadItems());
+    }
+    ngOnDestroy(): void {
+        this.destroy$.next(true);
+        this.destroy$.unsubscribe();
     }
 
     changeListViewType = (listViewType: ListViewType) => {
-        this.settingsItemStore.changeListViewType(listViewType);
+        this.store.dispatch(changeListViewType({ listViewType }));
     };
 
     deleteItem = (id: number) => {
-        this.itemStore.delete(id);
-    };
-
-    itemFormSubmited = (id: number | undefined, form: FormGroup) => {
-        console.log(form.valid);
-
-        if (form.valid) {
-            const item: IItem = { ...form.value };
-            if (id) {
-                this.itemStore.update({
-                    id: id,
-                    item: item,
-                });
-            } else {
-                this.itemStore.create(item);
-            }
-            this.dialog.closeAll();
-        }
+        this.messageService
+            .showConfirmationDialog('Czy na pewno chcesz usunąć ten przedmiot?')
+            .pipe(
+                takeUntil(this.destroy$),
+                filter(({ result }) => result),
+                tap(() => {
+                    this.store.dispatch(deleteItem({ id }));
+                })
+            )
+            .subscribe();
     };
 
     loadImages = (item: IItem) => {
-        this.itemStore.loadImages({ id: item.id, queryParams: { maxImages: 1 } });
+        this.store.dispatch(loadImages({ itemId: item.id }));
     };
 }

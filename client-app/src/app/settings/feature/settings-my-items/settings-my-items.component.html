@@ -10,7 +10,7 @@
                 (searchSubmited)="filterItems($event)"></app-item-search> -->
         <app-item-search (textChanged)="filter$.next($event)"></app-item-search>
 
-        <button mat-raised-button color="warn" (click)="dialog.open(itemForm)">
+        <button mat-raised-button color="warn" [routerLink]="['add']">
             Nowy przedmiot
         </button>
     </div>
@@ -24,18 +24,12 @@
             (deleteButtonClicked)="deleteItem($event)"
             [item]="item"
             [horizontal]="vm.viewType === 'list'"
-            (click)="dialog.open(itemForm, { data: item })">
+            [routerLink]="['edit', item.id]">
             {{ item.name }}
         </app-item-card>
     </app-list-container>
 </div>
+<app-backdrop-loading
+    *ngIf="(status$ | async) === 'loading'"></app-backdrop-loading>
 
-<ng-template #itemForm let-item>
-    <mat-dialog-content>
-        <app-item-form
-            [item]="item"
-            [categories]="categories$ | async"
-            (canceled)="dialog.closeAll()"
-            (formSubmited)="itemFormSubmited(item?.id, $event)"></app-item-form>
-    </mat-dialog-content>
-</ng-template>
+<ng-container *ngIf="error$ | async"></ng-container>

@@ -8,7 +8,12 @@ const routes: Routes = [
         component: SettingsMyItemsComponent,
         children: [
             {
-                path: ':id',
+                path: 'add',
+                loadChildren: () =>
+                    import('../settings-my-items-form/settings-my-items-form.module').then((m) => m.SettingsMyItemsFormModule),
+            },
+            {
+                path: 'edit/:id',
                 loadChildren: () =>
                     import('../settings-my-items-form/settings-my-items-form.module').then((m) => m.SettingsMyItemsFormModule),
             },
