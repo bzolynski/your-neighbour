@@ -1,43 +1,42 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { filter } from 'rxjs/operators';
 import { Advertisement } from 'src/app/advertisements/data-access/models/advertisement.model';
-import { AdvertisementsStore } from 'src/app/shared/data-access/store/advertisements.store';
 import { ListViewType } from 'src/app/shared/ui/list-container/list-container.component';
-import { SettingsMyAdvertisementsStore } from '../../data-access/store/settings-my-advertisements';
+import {
+    changeListViewType,
+    deleteAdvertisement,
+    loadAdvertisements,
+    loadImages,
+    selectAdvertisements,
+    selectListViewType,
+} from '../../data-access/store/settings-my-advertisements';
 
 @Component({
     selector: 'app-settings-my-advertisements',
     templateUrl: './settings-my-advertisements.component.html',
     styleUrls: ['./settings-my-advertisements.component.scss'],
-    providers: [SettingsMyAdvertisementsStore, AdvertisementsStore],
 })
 export class SettingsMyAdvertisementsComponent implements OnInit {
-    advertisements$: Observable<Advertisement[] | null> = this.advertisementsStore.advertisements$;
+    advertisements$: Observable<Advertisement[] | null> = this.store.select(selectAdvertisements);
 
-    selectedListViewType$: Observable<ListViewType> = this.settingsAdvertisementStore.listViewType$.pipe(
-        filter((viewType): viewType is ListViewType => viewType != null)
-    );
-    constructor(
-        private advertisementsStore: AdvertisementsStore,
-        private settingsAdvertisementStore: SettingsMyAdvertisementsStore,
-        public dialog: MatDialog
-    ) {}
+    selectedListViewType$: Observable<ListViewType> = this.store.select(selectListViewType);
+    constructor(public dialog: MatDialog, private store: Store) {}
 
     ngOnInit(): void {
-        this.advertisementsStore.loadByUser({ includeCategory: true, includeLocalization: true, includeItem: true });
+        this.store.dispatch(loadAdvertisements());
     }
 
     changeListViewType = (listViewType: ListViewType) => {
-        this.settingsAdvertisementStore.changeListViewType(listViewType);
+        this.store.dispatch(changeListViewType({ listViewType }));
     };
 
     deleteAdvertisement = (id: number) => {
-        this.advertisementsStore.delete(id);
+        this.store.dispatch(deleteAdvertisement({ id }));
     };
 
     loadImages = (advertisement: Advertisement) => {
-        this.advertisementsStore.loadImages({ id: advertisement.item.id, queryParams: { maxImages: 1 } });
+        this.store.dispatch(loadImages({ itemId: advertisement.item.id }));
     };
 }

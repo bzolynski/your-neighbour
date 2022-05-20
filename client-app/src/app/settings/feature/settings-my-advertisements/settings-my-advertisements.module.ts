@@ -14,6 +14,13 @@ import { LocalizationFormModule } from 'src/app/shared/ui/localization-form/loca
 import { StopPropagationModule } from 'src/app/shared/directives/stop-propagation/stop-propagation.module';
 import { AdvertisementCardModule } from 'src/app/advertisements/ui/advertisement-card/advertisement-card.module';
 import { TriggerOnScrollModule } from 'src/app/shared/directives/trigger-on-scroll/trigger-on-scroll.module';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import {
+    SettingsMyAdvertisementsEffects,
+    settingsMyAdvertisementsReducer,
+    SETTINGS_MY_ADVERTISEMENTS_STATE_FEATURE_KEY,
+} from '../../data-access/store/settings-my-advertisements';
 @NgModule({
     imports: [
         CommonModule,
@@ -30,6 +37,8 @@ import { TriggerOnScrollModule } from 'src/app/shared/directives/trigger-on-scro
         StopPropagationModule,
         AdvertisementCardModule,
         TriggerOnScrollModule,
+        StoreModule.forFeature(SETTINGS_MY_ADVERTISEMENTS_STATE_FEATURE_KEY, settingsMyAdvertisementsReducer),
+        EffectsModule.forFeature([SettingsMyAdvertisementsEffects]),
     ],
     declarations: [SettingsMyAdvertisementsComponent],
 })
