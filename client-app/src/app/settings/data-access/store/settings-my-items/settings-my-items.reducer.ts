@@ -1,6 +1,7 @@
 import { createReducer, on } from '@ngrx/store';
 import { GenericState, IItem } from 'src/app/shared/data-access/models';
 import { ListViewType } from 'src/app/shared/ui/list-container/list-container.component';
+import { createItemSuccess, updateItemSuccess } from '../settings-my-items-form';
 import {
     changeListViewType,
     deleteItem,
@@ -71,5 +72,13 @@ export const settingsMyItemsReducer = createReducer(
         ...state,
         status: 'error',
         error: error,
+    })),
+    on(updateItemSuccess, (state, { item }) => ({
+        ...state,
+        data: (state.data ?? []).map((value) => (value.id === item.id ? { ...value, ...item } : value)),
+    })),
+    on(createItemSuccess, (state, { item }) => ({
+        ...state,
+        data: [...(state.data ?? []), item],
     }))
 );
