@@ -1,0 +1,71 @@
+<div class="wrapper">
+    <div class="left">
+        <form class="container" [formGroup]="form" (ngSubmit)="onSubmit()">
+            <app-accordion-select
+                label="Wybierz przedmiot"
+                [formControlName]="'itemId'">
+                <app-accordion-select-item
+                    *ngFor="let item of items$ | async"
+                    [value]="item.id"
+                    >{{ item.name }}</app-accordion-select-item
+                >
+                <button
+                    type="button"
+                    [routerLink]="['/settings', 'my', 'items', 'add']"
+                    mat-flat-button>
+                    Dodaj przedmiot
+                </button>
+            </app-accordion-select>
+            <app-accordion-select
+                label="Wybierz adres"
+                [formControlName]="'localizationId'">
+                <app-accordion-select-item
+                    *ngFor="let localization of localizations$ | async"
+                    [value]="localization.id"
+                    >{{ localization.name }}</app-accordion-select-item
+                >
+                <button
+                    type="button"
+                    [routerLink]="['/settings', 'my', 'localizations', 'add']"
+                    mat-flat-button>
+                    Dodaj lokalizację
+                </button>
+            </app-accordion-select>
+            <div class="section" appElevatedSection>
+                <mat-form-field appearance="outline">
+                    <mat-label>Definicja ogłoszenia</mat-label>
+                    <mat-select
+                        [formControlName]="'definitionId'"
+                        name="definitionId">
+                        <mat-option
+                            *ngFor="let definition of definitions$ | async"
+                            [value]="definition.id">
+                            {{ definition.displayName }}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error> Temp error </mat-error>
+                </mat-form-field>
+                <app-text-input
+                    [formControlName]="'title'"
+                    [errorMessage]="titleErrorMessage"
+                    [label]="'Tytuł ogłoszenia'">
+                </app-text-input>
+
+                <app-text-area-input
+                    [formControlName]="'description'"
+                    [rows]="5"
+                    [errorMessage]="descriptionErrorMessage"
+                    [label]="'Opis ogłoszenia'">
+                </app-text-area-input>
+            </div>
+            <button mat-raised-button color="accent">Utwórz</button>
+        </form>
+    </div>
+    <div class="right">
+        <div appElevatedSection [appParentWidth]="100" class="right-content">
+            <h1>TODO: na hover może się tu pojawiać</h1>
+        </div>
+    </div>
+</div>
+<app-backdrop-loading
+*ngIf="(status$ | async) == 'loading'"></app-backdrop-loading>

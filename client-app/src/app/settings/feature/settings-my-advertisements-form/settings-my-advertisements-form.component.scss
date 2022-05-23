@@ -1,0 +1,43 @@
+.wrapper {
+    display: grid;
+    grid-template: 1fr / 2fr 1fr;
+    gap: 1rem;
+    .left {
+        grid-column: 1 / 2;
+
+        .container {
+            display: grid;
+            gap: 1rem;
+            grid-template: 1fr / 1fr;
+
+            .panel-description {
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            .section {
+                padding: 1rem;
+                box-sizing: border-box;
+            }
+
+            .list-item {
+                cursor: pointer;
+                &:hover {
+                    transform: scale(1.01);
+                }
+                transition: 0.08s ease-in-out;
+            }
+
+            .map-section {
+                height: 600px;
+            }
+        }
+    }
+    .right {
+        grid-column: 2 / 3;
+        position: relative;
+        .right-content {
+            position: fixed;
+        }
+    }
+}
