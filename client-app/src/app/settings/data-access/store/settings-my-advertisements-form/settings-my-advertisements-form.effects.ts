@@ -2,6 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { Store } from '@ngrx/store';
 import { of, throwError } from 'rxjs';
 import { catchError, filter, map, mergeMap, switchMap, tap } from 'rxjs/operators';
 import { AdvertisementService } from 'src/app/advertisements/data-access';
@@ -32,6 +33,9 @@ import {
     loadLocalizations,
     loadLocalizationsError,
     loadLocalizationsSuccess,
+    updateAdvertisement,
+    updateAdvertisementError,
+    updateAdvertisementSuccess,
 } from './settings-my-advertisements-form.actions';
 
 @Injectable()
@@ -44,7 +48,8 @@ export class SettingsMyAdvertisementsFormEffects {
         private messageService: MessageService,
         private localizationService: LocalizationService,
         private advertisementDefinitionService: AdvertisementDefinitionService,
-        private router: Router
+        private router: Router,
+        private store: Store
     ) {}
 
     loadAdvertisement$ = createEffect(() =>
@@ -139,6 +144,20 @@ export class SettingsMyAdvertisementsFormEffects {
                     map((id) => createAdvertisementSuccess({ advertisement: { ...advertisement, id: id } })),
                     catchError((error: HttpErrorResponse) =>
                         of(createAdvertisementError({ error: error.error ?? error.message }))
+                    )
+                )
+            )
+        )
+    );
+
+    updateAdvertisement$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(updateAdvertisement),
+            switchMap(({ id, advertisement }) =>
+                this.advertisementService.update(id, advertisement).pipe(
+                    map((id) => updateAdvertisementSuccess({ advertisement: { ...advertisement, id: id } })),
+                    catchError((error: HttpErrorResponse) =>
+                        of(updateAdvertisementError({ error: error.error ?? error.message }))
                     )
                 )
             )

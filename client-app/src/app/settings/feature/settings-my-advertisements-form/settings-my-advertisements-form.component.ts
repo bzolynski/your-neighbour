@@ -1,32 +1,49 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, Validators } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router, UrlTree } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
-import { takeUntil, tap } from 'rxjs/operators';
+import { filter, map, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { showInfoBar } from 'src/app/data-access/info-bar/info-bar.actions';
+import { CanComponentDeactivate } from 'src/app/modules/core/guards/can-deactivate.guard';
+import { MessageService } from 'src/app/modules/core/services/message.service';
 import { IItem, Localization, AdvertisementDefinition, GenericStoreStatus } from 'src/app/shared/data-access/models';
 import { GenericFormControl } from 'src/app/shared/utils';
+import { DestroyObservable } from 'src/app/shared/utils/destroy-observable';
 import {
     createAdvertisement,
     loadAdvertisement,
     loadDefinitions,
     loadItems,
     loadLocalizations,
-    selectAdvertisement,
+    resetState,
     selectDefinitions,
     selectError,
+    selectFormSnapshot,
     selectItems,
     selectLocalizations,
+    selectSubmited,
     selectStatus,
+    setFormSnapshot,
+    updateAdvertisement,
 } from '../../data-access/store/settings-my-advertisements-form';
+
+export interface AdvertisementForm {
+    itemId?: number;
+    localizationId?: number;
+    dateCreated?: Date;
+    definitionId?: number;
+    title?: string;
+    description?: string;
+}
 
 @Component({
     selector: 'app-settings-my-advertisements-form',
     templateUrl: './settings-my-advertisements-form.component.html',
     styleUrls: ['./settings-my-advertisements-form.component.scss'],
+    providers: [DestroyObservable],
 })
-export class SettingsMyAdvertisementsFormComponent implements OnInit, OnDestroy {
+export class SettingsMyAdvertisementsFormComponent implements OnInit, CanComponentDeactivate {
     form: FormGroup = new FormGroup({
         itemId: new GenericFormControl<number>(undefined, [Validators.required]),
         localizationId: new GenericFormControl<number>(undefined, [Validators.required]),
@@ -40,10 +57,56 @@ export class SettingsMyAdvertisementsFormComponent implements OnInit, OnDestroy 
     definitions$: Observable<AdvertisementDefinition[]> = this.store.select(selectDefinitions);
     status$: Observable<GenericStoreStatus> = this.store.select(selectStatus);
     error$: Observable<string | null> = this.store.select(selectError);
-    destroy$ = new Subject<boolean>();
+    submited$: Observable<boolean> = this.store.select(selectSubmited).pipe(
+        filter((submited) => submited === true),
+        switchMap(() => this.route.queryParams),
+        map((params) => {
+            this.form.markAsPristine();
+            this.store.dispatch(resetState());
+            if (params['returnUrl']) this.router.navigateByUrl(params['returnUrl']);
+            else this.router.navigate(['/settings', 'my', 'advertisements']);
+            return true;
+        })
+    );
+    edit$: Observable<boolean> = this.route.params.pipe(
+        map((params) => {
+            if (params['id']) this.store.dispatch(loadAdvertisement({ id: +params['id'] }));
+            else
+                this.store.dispatch(
+                    setFormSnapshot({
+                        formSnapshot: {
+                            definitionId: undefined,
+                            description: '',
+                            itemId: undefined,
+                            localizationId: undefined,
+                            title: '',
+                            dateCreated: new Date(),
+                        } as AdvertisementForm,
+                    })
+                );
+            return params['id'] ? true : false;
+        })
+    );
 
-    get descriptionErrorMessage() {
-        const control = this.form.controls['description'];
+    formSnapshot$ = this.store.select(selectFormSnapshot).pipe(
+        filter((formSnapshot) => formSnapshot !== null && formSnapshot !== undefined),
+        tap((formSnapshot) => {
+            this.form.patchValue({ ...formSnapshot });
+        })
+    );
+    submitForm$ = new Subject();
+    get definitionErrorMessage() {
+        const control = this.form.controls['definitionId'];
+        if (control.errors?.required) return 'Pole jest wymagane';
+        return '';
+    }
+    get itemErrorMessage() {
+        const control = this.form.controls['itemId'];
+        if (control.errors?.required) return 'Pole jest wymagane';
+        return '';
+    }
+    get localizationErrorMessage() {
+        const control = this.form.controls['localizationId'];
         if (control.errors?.required) return 'Pole jest wymagane';
         return '';
     }
@@ -53,46 +116,53 @@ export class SettingsMyAdvertisementsFormComponent implements OnInit, OnDestroy 
         return '';
     }
 
-    constructor(public dialog: MatDialog, private store: Store, private route: ActivatedRoute) {}
+    get descriptionErrorMessage() {
+        const control = this.form.controls['description'];
+        if (control.errors?.required) return 'Pole jest wymagane';
+        return '';
+    }
+
+    constructor(
+        private store: Store,
+        private messageService: MessageService,
+        private route: ActivatedRoute,
+        private router: Router,
+        private destroy$: DestroyObservable
+    ) {}
     ngOnInit(): void {
         this.store.dispatch(loadLocalizations());
         this.store.dispatch(loadItems());
         this.store.dispatch(loadDefinitions());
-        this.store
-            .select(selectAdvertisement)
+
+        this.formSnapshot$.pipe(takeUntil(this.destroy$)).subscribe();
+        this.submitForm$
             .pipe(
                 takeUntil(this.destroy$),
-                tap((advertisement) =>
-                    this.form.patchValue({
-                        itemId: advertisement?.item.id,
-                        localizationId: advertisement?.localization.id,
-                        categoryId: advertisement?.item.category.id,
-                        description: advertisement?.item.description,
-                        definitionId: advertisement?.definition.id,
-                        title: advertisement?.title,
-                    })
+                tap(() => {
+                    this.form.markAllAsTouched();
+                    if (!this.form.valid)
+                        this.store.dispatch(
+                            showInfoBar({ message: 'Nie uzupełniono wszystkich wymaganych pól', messageType: 'error' })
+                        );
+                }),
+                filter(() => this.form.valid),
+                switchMap(() => this.route.params),
+                tap((params) =>
+                    params['id']
+                        ? this.store.dispatch(updateAdvertisement({ id: +params['id'], advertisement: { ...this.form.value } }))
+                        : this.store.dispatch(createAdvertisement({ advertisement: { ...this.form.value } }))
                 )
             )
             .subscribe();
-        this.route.params
-            .pipe(
-                takeUntil(this.destroy$),
-                tap((params) => {
-                    if (params['id']) this.store.dispatch(loadAdvertisement({ id: +params['id'] }));
-                    return params['id'] ? true : false;
-                })
-            )
-            .subscribe();
+        this.submited$.pipe(takeUntil(this.destroy$)).subscribe();
     }
 
-    ngOnDestroy(): void {
-        this.destroy$.next(true);
-        this.destroy$.unsubscribe();
-    }
-
-    onSubmit = () => {
-        if (this.form.valid) {
-            this.store.dispatch(createAdvertisement({ advertisement: { ...this.form.value } }));
-        }
+    canDeactivate = (): boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> => {
+        return (
+            this.form.pristine ||
+            this.messageService
+                .showConfirmationDialog('Niezapisane zmiany zostaną cofnięte. Czy chcesz opuścić stronę?')
+                .pipe(map((x) => x.result))
+        );
     };
 }

@@ -1,5 +1,6 @@
 import { createAction, props } from '@ngrx/store';
 import { Advertisement } from 'src/app/advertisements/data-access/models/advertisement.model';
+import { AdvertisementForm } from 'src/app/settings/feature/settings-my-advertisements-form/settings-my-advertisements-form.component';
 import { AdvertisementDefinition, IImage, IItem, Localization } from 'src/app/shared/data-access/models';
 
 // load advertisement
@@ -81,15 +82,23 @@ export const createAdvertisementError = createAction(
 );
 
 // update
-export const updateItem = createAction(
+export const updateAdvertisement = createAction(
     '[SettingsMyAdvertisementsFormComponent] Update Advertisement',
     props<{ id: number; advertisement: Advertisement }>()
 );
-export const updateItemSuccess = createAction(
+export const updateAdvertisementSuccess = createAction(
     '[SettingsMyAdvertisementsFormComponent] Update Advertisement Success',
     props<{ advertisement: Advertisement }>()
 );
-export const updateItemError = createAction(
+export const updateAdvertisementError = createAction(
     '[SettingsMyAdvertisementsFormComponent] Update Advertisement Error',
     props<{ error: string }>()
 );
+
+export const setFormSnapshot = createAction(
+    '[SettingsMyAdvertisementsFormComponent] Save Form Snapshot',
+    props<{ formSnapshot: AdvertisementForm }>()
+);
+
+// export const setSubmited = createAction('[SettingsMyAdvertisementsFormComponent] Set Submited');
+export const resetState = createAction('[SettingsMyAdvertisementsFormComponent] Reset State');

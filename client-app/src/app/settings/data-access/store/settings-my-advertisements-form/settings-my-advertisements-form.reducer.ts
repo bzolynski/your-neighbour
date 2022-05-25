@@ -1,7 +1,9 @@
 import { createReducer, on } from '@ngrx/store';
 import { Advertisement } from 'src/app/advertisements/data-access/models/advertisement.model';
+import { AdvertisementForm } from 'src/app/settings/feature/settings-my-advertisements-form/settings-my-advertisements-form.component';
 import { AdvertisementDefinition, GenericState, IItem, Localization } from 'src/app/shared/data-access/models';
 import {
+    createAdvertisementSuccess,
     loadAdvertisement,
     loadAdvertisementError,
     loadAdvertisementSuccess,
@@ -15,14 +17,18 @@ import {
     loadItemSuccess,
     loadLocalizationsError,
     loadLocalizationsSuccess,
+    resetState,
+    setFormSnapshot,
+    updateAdvertisementSuccess,
 } from './settings-my-advertisements-form.actions';
 
 export const SETTINGS_MY_ADVERTISEMENTS_FORM_STATE_FEATURE_KEY = 'settings my advertisements form';
 
-export interface SettingsMyAdvertisementsFormState extends GenericState<Advertisement> {
+export interface SettingsMyAdvertisementsFormState extends GenericState<AdvertisementForm> {
     items: IItem[];
     localizations: Localization[];
     definitions: AdvertisementDefinition[];
+    submited: boolean;
 }
 
 export const initialState: SettingsMyAdvertisementsFormState = {
@@ -32,6 +38,7 @@ export const initialState: SettingsMyAdvertisementsFormState = {
     items: [],
     localizations: [],
     definitions: [],
+    submited: false,
 };
 
 export const settingsMyAdvertisementsFormReducer = createReducer(
@@ -45,12 +52,23 @@ export const settingsMyAdvertisementsFormReducer = createReducer(
     on(loadAdvertisementSuccess, (state, { advertisement }) => ({
         ...state,
         status: 'success',
-        data: advertisement,
+        data: {
+            dateCreated: advertisement.dateCreated,
+            definitionId: advertisement.definition.id,
+            description: advertisement.description,
+            itemId: advertisement.item.id,
+            localizationId: advertisement.localization.id,
+            title: advertisement.title,
+        },
     })),
     on(loadAdvertisementError, (state, { error }) => ({
         ...state,
         status: 'error',
         error: error,
+    })),
+    on(setFormSnapshot, (state, { formSnapshot }) => ({
+        ...state,
+        data: formSnapshot,
     })),
     on(loadItemsSuccess, (state, { items }) => ({
         ...state,
@@ -97,5 +115,12 @@ export const settingsMyAdvertisementsFormReducer = createReducer(
         ...state,
         istatus: 'error',
         error: error,
+    })),
+    on(createAdvertisementSuccess, updateAdvertisementSuccess, (state) => ({
+        ...state,
+        submited: true,
+    })),
+    on(resetState, () => ({
+        ...initialState,
     }))
 );
