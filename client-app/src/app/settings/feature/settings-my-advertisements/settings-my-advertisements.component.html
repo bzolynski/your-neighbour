@@ -5,12 +5,13 @@
             (listViewTypeChanged)="
                 changeListViewType($event)
             "></app-list-container-toggle-buttons>
-        <!-- <button
+        <div class="spacer"></div>
+        <button
             mat-raised-button
             color="warn"
-            (click)="dialog.open(advertisementForm)">
+            (click)="openAdvertisementForm()">
             Nowe ogłoszenie
-        </button> -->
+        </button>
     </div>
     <app-list-container
         *ngIf="{ viewType: selectedListViewType$ | async } as vm"
@@ -27,21 +28,10 @@
             </app-advertisement-card>
             <mat-icon
                 class="icon"
-                (click)="deleteAdvertisement(advertisement.id)"
+                (click)="deleteAdvertisement$.next(advertisement.id)"
                 appStopPropagation
                 >delete_forever</mat-icon
             >
         </div>
     </app-list-container>
 </div>
-<!--
-<ng-template #advertisementForm let-advertisement>
-    <mat-dialog-content>
-        <app-localization-form
-            [localization]="localization"
-            (canceled)="dialog.closeAll()"
-            (formSubmited)="
-                itemFormSubmited(localization?.id, $event)
-            "></app-localization-form>
-    </mat-dialog-content>
-</ng-template> -->

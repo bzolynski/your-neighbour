@@ -6,22 +6,6 @@ const routes: Routes = [
     {
         path: '',
         component: SettingsMyAdvertisementsComponent,
-        children: [
-            // {
-            //     path: 'add',
-            //     loadChildren: () =>
-            //         import('../settings-my-advertisements-form/settings-my-advertisements-form.module').then(
-            //             (m) => m.SettingsMyAdvertisementsFormModule
-            //         ),
-            // },
-            // {
-            //     path: 'edit/:id',
-            //     loadChildren: () =>
-            //         import('../settings-my-advertisements-form/settings-my-advertisements-form.module').then(
-            //             (m) => m.SettingsMyAdvertisementsFormModule
-            //         ),
-            // },
-        ],
     },
     {
         path: 'add',
