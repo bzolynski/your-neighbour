@@ -1,10 +1,9 @@
 import { Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
-import { filter, map, takeUntil, tap } from 'rxjs/operators';
+import { filter, map, switchMap } from 'rxjs/operators';
 import { GenericStoreStatus, ICategory, IItem } from 'src/app/shared/data-access/models';
 import { selectStatus } from '../../data-access/store/settings-my-items';
 import {
@@ -30,7 +29,13 @@ export class SettingsMyItemsFormComponent implements OnInit, OnDestroy {
     item$: Observable<IItem | null> = this.store.select(selectItem);
     open$: Observable<boolean | null> = this.store.select(selectOpen).pipe(
         filter((open) => open === false),
-        tap(() => this.dialog.closeAll())
+        switchMap(() => this.route.queryParams),
+        map((params) => {
+            console.log(params);
+            if (params['returnUrl']) this.router.navigateByUrl(params['returnUrl']);
+            else this.router.navigate(['/settings', 'my', 'items']);
+            return false;
+        })
     );
     status$: Observable<GenericStoreStatus> = this.store.select(selectStatus);
     categories$: Observable<ICategory[] | null> = this.store.select(selectCategories);
@@ -41,10 +46,9 @@ export class SettingsMyItemsFormComponent implements OnInit, OnDestroy {
         })
     );
     destroy$ = new Subject<boolean>();
-    constructor(private dialog: MatDialog, private router: Router, private route: ActivatedRoute, private store: Store) {}
+    constructor(private router: Router, private route: ActivatedRoute, private store: Store) {}
 
     ngOnInit(): void {
-        this.#initializeDialog();
         this.store.dispatch(loadCategories());
     }
     ngOnDestroy(): void {
@@ -61,17 +65,4 @@ export class SettingsMyItemsFormComponent implements OnInit, OnDestroy {
     };
 
     closeForm = () => this.store.dispatch(closeForm());
-
-    #initializeDialog = () => {
-        this.dialog
-            .open(this.modalTemplate)
-            .afterClosed()
-            .pipe(
-                takeUntil(this.destroy$),
-                tap(() => {
-                    this.router.navigate(['/settings', 'my', 'items']);
-                })
-            )
-            .subscribe();
-    };
 }

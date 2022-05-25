@@ -1,15 +1,13 @@
-<ng-template #modal>
-    <h3 mat-dialog-title>
-        {{ (editMode$ | async) ? 'Edytuj przedmiot' : 'Utwórz nowy przedmiot' }}
-    </h3>
-    <mat-dialog-content>
-        <app-item-form
-            *ngIf="{ item: item$ | async, open: open$ | async } as vm"
-            [item]="vm.item"
-            [categories]="categories$ | async"
-            (canceled)="closeForm()"
-            (formSubmited)="formSubmited($event, vm.item?.id)"></app-item-form>
-        <app-backdrop-loading
-            *ngIf="(status$ | async) == 'loading'"></app-backdrop-loading>
-    </mat-dialog-content>
-</ng-template>
+<h3>
+    {{ (editMode$ | async) ? 'Edytuj przedmiot' : 'Utwórz nowy przedmiot' }}
+</h3>
+<div appElevatedSection style="padding: 1rem">
+    <app-item-form
+        *ngIf="{ item: item$ | async, open: open$ | async } as vm"
+        [item]="vm.item"
+        [categories]="categories$ | async"
+        (canceled)="closeForm()"
+        (formSubmited)="formSubmited($event, vm.item?.id)"></app-item-form>
+</div>
+<app-backdrop-loading
+    *ngIf="(status$ | async) == 'loading'"></app-backdrop-loading>
