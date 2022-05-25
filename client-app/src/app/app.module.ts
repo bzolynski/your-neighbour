@@ -13,12 +13,15 @@ import { authenticationInterceptionProvider } from './shared/authentication/util
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { AdvertisementShellModule } from './advertisements/feature/advertisement-shell/advertisement-shell.module';
+import { InfoBarModule } from './shared/ui/info-bar/info-bar.module';
+import { infoBarReducer } from './data-access/info-bar/info-bar.reducer';
+import { InfoBarEffects } from './data-access/info-bar/info-bar.effects';
 
 @NgModule({
     declarations: [AppComponent],
     imports: [
-        StoreModule.forRoot({}),
-        EffectsModule.forRoot(),
+        StoreModule.forRoot({ infoBar: infoBarReducer }),
+        EffectsModule.forRoot([InfoBarEffects]),
         AppRoutingModule,
         BrowserModule,
         CoreModule,
@@ -28,6 +31,7 @@ import { AdvertisementShellModule } from './advertisements/feature/advertisement
         SettingsModule,
         BrowserAnimationsModule,
         AdvertisementShellModule,
+        InfoBarModule,
     ],
     bootstrap: [AppComponent],
     exports: [AppComponent],

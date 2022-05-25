@@ -1,3 +1,11 @@
+<ng-container *ngIf="infoBarState$ | async as state">
+    <app-info-bar
+        *ngIf="state.open"
+        [message]="state.message"
+        [type]="state.messageType"
+        (handleClose)="closeInfoBar()">
+    </app-info-bar>
+</ng-container>
 <app-header></app-header>
 <app-container>
     <div class="router-wrapper">
