@@ -1,10 +1,17 @@
-<mat-accordion>
-    <mat-expansion-panel (opened)="expanded = true" (closed)="expanded = false">
+<mat-accordion class="wrapper">
+    <mat-expansion-panel
+        (opened)="expanded = true"
+        (closed)="expanded = false"
+        class="wrapper"
+        [ngClass]="{ 'error-border': showError }">
         <mat-expansion-panel-header>
-            <mat-panel-title> {{ label }} </mat-panel-title>
-            <mat-panel-description>
-                TODO: Selected item here
-                {{ description }}
+            <mat-panel-title class="text">
+                {{ label }} {{ required ? '*' : undefined }}
+            </mat-panel-title>
+            <mat-panel-description class="description">
+                <mat-error *ngIf="showError" class="error-message">
+                    {{ errorMessage }}
+                </mat-error>
             </mat-panel-description>
         </mat-expansion-panel-header>
         <ng-content></ng-content>

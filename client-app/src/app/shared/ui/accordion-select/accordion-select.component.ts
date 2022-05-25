@@ -1,31 +1,52 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { Component, HostListener, Input, OnInit, Self } from '@angular/core';
+import { ControlValueAccessor, FormControl, NgControl } from '@angular/forms';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
     selector: 'app-accordion-select',
     templateUrl: './accordion-select.component.html',
     styleUrls: ['./accordion-select.component.scss'],
-    providers: [
-        {
-            provide: NG_VALUE_ACCESSOR,
-            useExisting: AccordionSelectComponent,
-            multi: true,
-        },
-    ],
 })
 export class AccordionSelectComponent<T> implements OnInit, ControlValueAccessor {
+    @HostListener('focusout') focusout = () => {
+        setTimeout(() => {
+            this.control.markAsTouched();
+        }, 100);
+    };
     @Input() label: string = '';
     @Input() description: string = '';
     @Input() errorMessage: string = '';
     @Input() multiple: boolean = false;
     value?: T | T[];
     expanded: boolean = false;
+    required: boolean = false;
+    touched$ = new BehaviorSubject<boolean>(false);
+
+    get control(): FormControl {
+        return this.controlDir.control as FormControl;
+    }
+
+    public get invalid(): boolean {
+        return this.control ? this.control.invalid : false;
+    }
+
+    public get showError(): boolean {
+        if (!this.control) return false;
+
+        const { dirty, touched } = this.control;
+
+        return this.invalid ? dirty || touched : false;
+    }
+
+    constructor(@Self() private controlDir: NgControl) {
+        this.controlDir.valueAccessor = this;
+    }
 
     ngOnInit(): void {
         if (this.multiple) this.value = [];
         else this.value = undefined;
+        this.required = this.controlDir?.errors?.required ?? false;
     }
-
     onChange = (value: any) => {};
     onTouch = () => {};
 
