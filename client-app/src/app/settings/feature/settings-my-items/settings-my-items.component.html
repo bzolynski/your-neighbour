@@ -21,7 +21,7 @@
             *ngFor="let item of filteredItems$ | async"
             (appTriggerOnScroll)="loadImages(item)"
             [appTriggerOnScrollUntill]="item.images.length > 0"
-            (deleteButtonClicked)="deleteItem($event)"
+            (deleteButtonClicked)="deleteItem$.next($event)"
             [item]="item"
             [horizontal]="vm.viewType === 'list'"
             [routerLink]="['edit', item.id]">
