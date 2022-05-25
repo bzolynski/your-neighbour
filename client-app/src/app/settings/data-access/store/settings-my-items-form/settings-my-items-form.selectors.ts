@@ -7,6 +7,6 @@ export const selectSettingsMyItemsFormState = createFeatureSelector<SettingsMyIt
 
 export const selectOpen = createSelector(selectSettingsMyItemsFormState, (state) => state.open);
 export const selectItem = createSelector(selectSettingsMyItemsFormState, (state) => state.data);
-export const selectItemStatus = createSelector(selectSettingsMyItemsFormState, (state) => state.status);
-export const selectItemError = createSelector(selectSettingsMyItemsFormState, (state) => state.error);
+export const selectStatus = createSelector(selectSettingsMyItemsFormState, (state) => state.status);
+export const selectError = createSelector(selectSettingsMyItemsFormState, (state) => state.error);
 export const selectCategories = createSelector(selectSettingsMyItemsFormState, (state) => state.categories);

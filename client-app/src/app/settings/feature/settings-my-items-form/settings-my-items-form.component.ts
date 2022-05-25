@@ -5,7 +5,6 @@ import { Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
 import { filter, map, switchMap } from 'rxjs/operators';
 import { GenericStoreStatus, ICategory, IItem } from 'src/app/shared/data-access/models';
-import { selectStatus } from '../../data-access/store/settings-my-items';
 import {
     closeForm,
     createItem,
@@ -15,6 +14,7 @@ import {
     selectCategories,
     selectItem,
     selectOpen,
+    selectStatus,
     updateItem,
 } from '../../data-access/store/settings-my-items-form';
 

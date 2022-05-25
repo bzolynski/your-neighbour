@@ -2,6 +2,7 @@ import { createReducer, on } from '@ngrx/store';
 import { GenericState, ICategory, IItem } from 'src/app/shared/data-access/models';
 import {
     closeForm,
+    createItem,
     createItemSuccess,
     loadCategoriesError,
     loadCategoriesSuccess,
@@ -11,6 +12,7 @@ import {
     loadItemError,
     loadItemSuccess,
     resetState,
+    updateItem,
     updateItemSuccess,
 } from './settings-my-items-form.actions';
 
@@ -53,7 +55,7 @@ export const settingsMyItemsFormReducer = createReducer(
     })),
     on(loadImagesError, (state, { error }) => ({
         ...state,
-        istatus: 'error',
+        status: 'error',
         error: error,
     })),
     on(loadCategoriesSuccess, (state, { categories }) => ({
@@ -62,11 +64,16 @@ export const settingsMyItemsFormReducer = createReducer(
     })),
     on(loadCategoriesError, (state, { error }) => ({
         ...state,
-        istatus: 'error',
+        status: 'error',
         error: error,
+    })),
+    on(updateItem, createItem, (state) => ({
+        ...state,
+        status: 'loading',
     })),
     on(closeForm, updateItemSuccess, createItemSuccess, (state) => ({
         ...state,
+        status: 'success',
         open: false,
     })),
     on(resetState, () => ({

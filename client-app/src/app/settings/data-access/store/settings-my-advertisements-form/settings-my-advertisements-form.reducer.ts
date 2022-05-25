@@ -3,6 +3,7 @@ import { Advertisement } from 'src/app/advertisements/data-access/models/adverti
 import { AdvertisementForm } from 'src/app/settings/feature/settings-my-advertisements-form/settings-my-advertisements-form.component';
 import { AdvertisementDefinition, GenericState, IItem, Localization } from 'src/app/shared/data-access/models';
 import {
+    createAdvertisement,
     createAdvertisementSuccess,
     loadAdvertisement,
     loadAdvertisementError,
@@ -19,6 +20,7 @@ import {
     loadLocalizationsSuccess,
     resetState,
     setFormSnapshot,
+    updateAdvertisement,
     updateAdvertisementSuccess,
 } from './settings-my-advertisements-form.actions';
 
@@ -106,18 +108,22 @@ export const settingsMyAdvertisementsFormReducer = createReducer(
         status: 'error',
         error: error,
     })),
-
     on(loadImagesSuccess, (state, { images }) => ({
         ...state,
         data: { ...state.data, item: { ...state.data, images: images } as IItem } as Advertisement,
     })),
     on(loadImagesError, (state, { error }) => ({
         ...state,
-        istatus: 'error',
+        status: 'error',
         error: error,
+    })),
+    on(createAdvertisement, updateAdvertisement, (state) => ({
+        ...state,
+        status: 'loading',
     })),
     on(createAdvertisementSuccess, updateAdvertisementSuccess, (state) => ({
         ...state,
+        status: 'success',
         submited: true,
     })),
     on(resetState, () => ({
