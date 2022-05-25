@@ -13,7 +13,6 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTabsModule } from '@angular/material/tabs';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -37,7 +36,6 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
         MatSidenavModule,
         MatToolbarModule,
         MatTabsModule,
-        MatSnackBarModule,
         MatSliderModule,
         MatDialogModule,
         MatProgressSpinnerModule,

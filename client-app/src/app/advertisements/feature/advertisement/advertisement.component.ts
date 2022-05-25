@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { map, tap } from 'rxjs/operators';
+import { filter, map, tap } from 'rxjs/operators';
 import { MessageService } from 'src/app/modules/core/services/message.service';
 import { AdvertisementStore } from '../../data-access';
 
@@ -17,7 +17,9 @@ export class AdvertisementComponent implements OnInit {
         })
     );
     isLoading$ = this.advertisementStore.isLoading$;
-    error$ = this.advertisementStore.error$.pipe(tap((error) => this.messageService.showMessage(error, 'error')));
+    error$ = this.advertisementStore.error$.pipe(
+        filter((error): error is string => error !== undefined),
+        tap((error) => this.messageService.showMessage(error, 'error')));
 
     constructor(
         private route: ActivatedRoute,

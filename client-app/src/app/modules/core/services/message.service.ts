@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition, MatSnackBar } from '@angular/material/snack-bar';
+import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { ISnackBarContentData, SnackBarComponent, SnackBarMessageType } from 'src/app/shared/ui/snack-bar/snack-bar.component';
+import { showInfoBar } from 'src/app/data-access/info-bar/info-bar.actions';
+import { RootState } from 'src/app/data-access/root.state';
+import { InfoBarMessageType } from 'src/app/shared/ui/info-bar/info-bar.component';
 import {
     ConfirmationDialogComponent,
     ConfirmationDialogData,
@@ -13,24 +15,10 @@ import {
     providedIn: 'root',
 })
 export class MessageService {
-    private horizontalPosition: MatSnackBarHorizontalPosition = 'end';
-    private verticalPosition: MatSnackBarVerticalPosition = 'top';
-    private durationInSeconds: number = 4;
-    constructor(private snackBar: MatSnackBar, private dialog: MatDialog) {}
+    constructor(private dialog: MatDialog, private store: Store<RootState>) {}
 
-    showMessage = (message: string | null, messageType: SnackBarMessageType = 'info') => {
-        const data: ISnackBarContentData = {
-            message: message ?? 'Unexpected error',
-            messageType: messageType,
-        };
-
-        this.snackBar.openFromComponent(SnackBarComponent, {
-            horizontalPosition: this.horizontalPosition,
-            verticalPosition: this.verticalPosition,
-            data: data,
-            duration: this.durationInSeconds * 1000,
-            panelClass: [],
-        });
+    showMessage = (message: string, messageType: InfoBarMessageType = 'info') => {
+        this.store.dispatch(showInfoBar({ message: message, messageType: messageType }));
     };
 
     showConfirmationDialog = (question?: string, title?: string): Observable<ConfirmationDialogResult> => {

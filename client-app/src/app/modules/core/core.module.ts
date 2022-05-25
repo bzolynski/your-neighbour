@@ -7,10 +7,9 @@ import { FooterComponent } from './footer/footer.component';
 import { AngularMaterialModule } from '../angular-material/angular-material.module';
 import { SharedModule } from '../shared/shared.module';
 import './extensions';
-import { SnackBarModule } from 'src/app/shared/ui/snack-bar/snack-bar.module';
 
 @NgModule({
-    imports: [CommonModule, RouterModule, HttpClientModule, AngularMaterialModule, SharedModule, SnackBarModule],
+    imports: [CommonModule, RouterModule, HttpClientModule, AngularMaterialModule, SharedModule],
     declarations: [HeaderComponent, FooterComponent],
     exports: [HeaderComponent, FooterComponent],
 })

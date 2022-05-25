@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { tap } from 'rxjs/operators';
+import { filter, tap } from 'rxjs/operators';
 import { MessageService } from 'src/app/modules/core/services/message.service';
 import { AuthenticationStore } from 'src/app/shared/authentication/data-access';
 @Component({
@@ -33,7 +33,10 @@ export class WelcomeLoginFormComponent {
         })
     );
     isBusy$ = this.authenticationStore.isLoading$;
-    error$ = this.authenticationStore.error$.pipe(tap((error) => this.messageService.showMessage(error, 'error')));
+    error$ = this.authenticationStore.error$.pipe(
+        filter((error): error is string => error !== undefined),
+        tap((error) => this.messageService.showMessage(error, 'error'))
+    );
 
     constructor(
         private messageService: MessageService,
