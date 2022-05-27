@@ -6,5 +6,5 @@ import { Component, Input } from '@angular/core';
     styleUrls: ['./settings-layout-router.component.scss'],
 })
 export class SettingsLayoutRouterComponent {
-    @Input() expanded: boolean = false;
+    @Input() expanded: boolean | null = false;
 }

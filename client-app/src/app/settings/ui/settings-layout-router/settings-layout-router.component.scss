@@ -1,5 +1,7 @@
 $transition: 0.2s ease-in-out;
 $width: clamp(200px, 40vw, 700px);
+$overflowOffset: 5px;
+
 .wrapper {
     display: grid;
     grid-template-columns: 2fr auto;
@@ -16,11 +18,15 @@ $width: clamp(200px, 40vw, 700px);
     transition: $transition;
     width: 0;
     overflow: hidden;
+    margin: -$overflowOffset;
+    box-sizing: border-box;
 }
 .side-content {
     transition: $transition;
     position: absolute;
     width: $width;
+    padding: $overflowOffset;
+    box-sizing: border-box;
 }
 .expanded {
     width: $width;
