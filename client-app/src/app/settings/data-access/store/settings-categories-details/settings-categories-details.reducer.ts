@@ -1,14 +1,24 @@
 import { createReducer, on } from '@ngrx/store';
 import { GenericState, ICategory } from 'src/app/shared/data-access/models';
-import { loadCategory, loadCategoryError, loadCategorySuccess } from './settings-categories-details.actions';
+import {
+    deleteCategory,
+    deleteCategoryError,
+    deleteCategorySuccess,
+    loadCategory,
+    loadCategoryError,
+    loadCategorySuccess,
+} from './settings-categories-details.actions';
 export const SETTINGS_CATEGORIES_DETAILS_STATE_FEATURE_KEY = 'settings categories details';
 
-export type SettingsCategoriesDetailsState = GenericState<ICategory>;
+export interface SettingsCategoriesDetailsState extends GenericState<ICategory> {
+    deleted: boolean;
+}
 
 export const initialState: SettingsCategoriesDetailsState = {
     error: null,
     status: 'pending',
     data: null,
+    deleted: false,
 };
 
 export const settingsCategoriesDetailsReducer = createReducer(
@@ -23,9 +33,19 @@ export const settingsCategoriesDetailsReducer = createReducer(
         status: 'success',
         data: category,
     })),
-    on(loadCategoryError, (state, { error }) => ({
+    on(loadCategoryError, deleteCategoryError, (state, { error }) => ({
         ...state,
         status: 'error',
         error: error,
+    })),
+    on(deleteCategory, (state) => ({
+        ...state,
+        status: 'loading',
+        error: null,
+    })),
+    on(deleteCategorySuccess, (state) => ({
+        ...state,
+        status: 'success',
+        deleted: true,
     }))
 );

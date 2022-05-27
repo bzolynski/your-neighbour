@@ -1,5 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
 import { GenericState, ICategory } from 'src/app/shared/data-access/models';
+import { deleteCategorySuccess } from '../settings-categories-details';
 import { loadCategories, loadCategoriesError, loadCategoriesSuccess } from './settings-categories.actions';
 export const SETTINGS_CATEGORIES_STATE_FEATURE_KEY = 'settings categories';
 
@@ -27,5 +28,9 @@ export const settingsCategoriesReducer = createReducer(
         ...state,
         status: 'error',
         error: error,
+    })),
+    on(deleteCategorySuccess, (state, { id }) => ({
+        ...state,
+        data: (state.data ?? []).filter((value) => value.id !== id),
     }))
 );

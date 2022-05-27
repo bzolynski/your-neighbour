@@ -11,6 +11,13 @@
     </p>
     <div class="buttons">
         <button mat-button color="primary">Edytuj</button>
-        <button mat-button color="warn">Usuń</button>
+        <button
+            mat-button
+            color="warn"
+            (click)="deleteCategory($any(vm.category?.id))">
+            Usuń
+        </button>
     </div>
 </div>
+<app-backdrop-loading
+    *ngIf="(status$ | async) === 'loading'"></app-backdrop-loading>

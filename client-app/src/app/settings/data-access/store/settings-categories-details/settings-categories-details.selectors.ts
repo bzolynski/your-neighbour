@@ -11,3 +11,4 @@ export const selectSettingsCategoriesDetailsState = createFeatureSelector<Settin
 export const selectCategory = createSelector(selectSettingsCategoriesDetailsState, (state) => state.data);
 export const selectStatus = createSelector(selectSettingsCategoriesDetailsState, (state) => state.status);
 export const selectError = createSelector(selectSettingsCategoriesDetailsState, (state) => state.error);
+export const selectDeleted = createSelector(selectSettingsCategoriesDetailsState, (state) => state.deleted);

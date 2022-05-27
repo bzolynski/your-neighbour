@@ -1,9 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { filter, map, takeUntil, tap } from 'rxjs/operators';
 import { DestroyObservable } from 'src/app/shared/utils/destroy-observable';
-import { loadCategory, selectCategory, selectError, selectStatus } from '../../data-access/store/settings-categories-details';
+import {
+    deleteCategory,
+    loadCategory,
+    selectCategory,
+    selectDeleted,
+    selectError,
+    selectStatus,
+} from '../../data-access/store/settings-categories-details';
 
 @Component({
     selector: 'app-settings-categories-details',
@@ -12,11 +19,16 @@ import { loadCategory, selectCategory, selectError, selectStatus } from '../../d
     providers: [DestroyObservable],
 })
 export class SettingsCategoriesDetailsComponent implements OnInit {
-    category$ = this.store.select(selectCategory);
+    category$ = this.store.select(selectCategory).pipe();
     error$ = this.store.select(selectError);
     status$ = this.store.select(selectStatus);
-
-    constructor(private store: Store, private route: ActivatedRoute, private destroy$: DestroyObservable) {}
+    deleted$ = this.store.select(selectDeleted);
+    constructor(
+        private store: Store,
+        private route: ActivatedRoute,
+        private router: Router,
+        private destroy$: DestroyObservable
+    ) {}
 
     ngOnInit(): void {
         this.route.params
@@ -27,5 +39,15 @@ export class SettingsCategoriesDetailsComponent implements OnInit {
                 tap((id) => this.store.dispatch(loadCategory({ id: id })))
             )
             .subscribe();
+
+        this.deleted$
+            .pipe(
+                takeUntil(this.destroy$),
+                filter((deleted) => deleted),
+                tap(() => this.router.navigate(['../'], { relativeTo: this.route }))
+            )
+            .subscribe();
     }
+
+    deleteCategory = (id: number) => this.store.dispatch(deleteCategory({ id: id }));
 }
