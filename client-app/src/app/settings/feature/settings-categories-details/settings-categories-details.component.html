@@ -1,0 +1,16 @@
+<div
+    class="wrapper"
+    *ngIf="{ category: category$ | async } as vm"
+    appElevatedSection>
+    <h2>{{ vm.category?.name }}</h2>
+    <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium ut
+        cum reiciendis quisquam ipsum atque veniam modi. Voluptate cumque
+        asperiores vero deleniti voluptates reprehenderit, distinctio commodi
+        libero esse quidem optio!
+    </p>
+    <div class="buttons">
+        <button mat-button color="primary">Edytuj</button>
+        <button mat-button color="warn">Usuń</button>
+    </div>
+</div>

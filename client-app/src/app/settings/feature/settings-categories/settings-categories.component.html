@@ -1,10 +1,10 @@
-<app-settings-layout-router [expanded]="expanded">
+<app-settings-layout-router [expanded]="expanded$ | async">
     <div class="content-wrapper" appElevatedSection>
-        <button (click)="triggerExpanded()">EXPAND</button>
         <mat-selection-list [multiple]="false">
             <mat-list-option
                 *ngFor="let category of categories$ | async"
-                [value]="category.id">
+                [value]="category.id"
+                (click)=" this.trigger$.next([category.id])">
                 {{ category.name }}
             </mat-list-option>
         </mat-selection-list>
