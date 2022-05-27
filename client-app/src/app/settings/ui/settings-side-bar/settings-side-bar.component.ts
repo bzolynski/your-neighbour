@@ -17,7 +17,7 @@ const options: SettingsOption[] = [
             },
             {
                 name: 'Kategorie',
-                link: 'category',
+                link: 'categories',
             },
         ],
     },

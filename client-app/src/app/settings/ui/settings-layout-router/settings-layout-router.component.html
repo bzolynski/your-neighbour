@@ -1,0 +1,10 @@
+<div class="wrapper">
+    <div class="main-content">
+        <ng-content></ng-content>
+    </div>
+    <div class="side-content-container" [ngClass]="{ expanded: expanded }">
+        <div class="side-content">
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+</div>

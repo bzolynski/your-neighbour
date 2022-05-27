@@ -1,0 +1,27 @@
+$transition: 0.2s ease-in-out;
+$width: clamp(200px, 40vw, 700px);
+.wrapper {
+    display: grid;
+    grid-template-columns: 2fr auto;
+    gap: 1rem;
+}
+
+.main-content {
+    grid-column: 1/2;
+}
+
+.side-content-container {
+    grid-column: 2/3;
+    position: relative;
+    transition: $transition;
+    width: 0;
+    overflow: hidden;
+}
+.side-content {
+    transition: $transition;
+    position: absolute;
+    width: $width;
+}
+.expanded {
+    width: $width;
+}

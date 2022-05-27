@@ -15,6 +15,11 @@ const routes: Routes = [
                         (m) => m.SettingsCategoryDefinitionModule
                     ),
             },
+            {
+                path: 'categories',
+                loadChildren: () =>
+                    import('../settings-categories/settings-categories.module').then((m) => m.SettingsCategoriesModule),
+            },
         ],
     },
 ];

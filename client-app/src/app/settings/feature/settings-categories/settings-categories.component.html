@@ -1,0 +1,14 @@
+<app-settings-layout-router [expanded]="expanded">
+    <div class="content-wrapper" appElevatedSection>
+        <button (click)="triggerExpanded()">EXPAND</button>
+        <mat-selection-list [multiple]="false">
+            <mat-list-option
+                *ngFor="let category of categories$ | async"
+                [value]="category.id">
+                {{ category.name }}
+            </mat-list-option>
+        </mat-selection-list>
+    </div>
+</app-settings-layout-router>
+<app-backdrop-loading
+    *ngIf="(status$ | async) === 'loading'"></app-backdrop-loading>
