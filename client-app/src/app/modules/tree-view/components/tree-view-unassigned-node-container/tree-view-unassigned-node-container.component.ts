@@ -24,7 +24,9 @@ export class TreeViewUnassignedNodeContainerComponent<T> extends TreeViewRootCon
     @HostBinding('style.width') width = '100%';
     @HostBinding('style.display') display = 'inline-block';
     @Input() nodeTemplate!: TemplateRef<any>;
-    @Input() items!: Array<T>;
+    @Input() set items(value: Array<T> | null) {
+        this.renderChild(value);
+    }
     @ViewChild('container', { static: true, read: ViewContainerRef }) containerRef!: ViewContainerRef;
     get box(): DOMRect {
         return this.elementRef.nativeElement.getBoundingClientRect();
@@ -36,12 +38,10 @@ export class TreeViewUnassignedNodeContainerComponent<T> extends TreeViewRootCon
     }
     ngOnInit(): void {
         if (!this.nodeTemplate) throw new Error('Provide template for nodes! [nodeTemplate]');
-        if (!this.items) throw new Error('Provide items! [items]');
-        this.renderChild();
     }
 
-    renderChild = () => {
-        for (const item of this.items) {
+    renderChild = (items: Array<T> | null) => {
+        for (const item of items ?? []) {
             const compRef = this.containerRef.createComponent(TreeViewNodeComponent) as unknown as ComponentRef<
                 TreeViewNodeComponent<T>
             >;

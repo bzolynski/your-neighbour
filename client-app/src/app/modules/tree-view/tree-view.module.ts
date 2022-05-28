@@ -10,6 +10,8 @@ import {
     TreeViewUnassignedNodeContainerComponent,
 } from './components';
 
+// TODO: REBUILD THIS MODULE
+
 @NgModule({
     declarations: [
         TreeViewNodeToggleDirective,
