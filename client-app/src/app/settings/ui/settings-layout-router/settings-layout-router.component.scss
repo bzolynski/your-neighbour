@@ -33,11 +33,11 @@ $overflowOffset: 5px;
 .side-content {
     transition: $transition;
     position: absolute;
-    width: $width;
+    // width: $width;
+    //width: inherit;
     padding: $overflowOffset;
     box-sizing: border-box;
 }
 .expanded {
     margin-left: 1rem;
-    width: $width;
 }

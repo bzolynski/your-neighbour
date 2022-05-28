@@ -1,4 +1,6 @@
-<app-settings-layout-router [expanded]="expanded$ | async">
+<app-settings-layout-router
+    [expanded]="expanded$ | async"
+    [sideContentWidth]="'800px'">
     <div class="top-bar" appElevatedSection top-bar>
         <button mat-button [color]="'primary'" [routerLink]="['add']">
             Nowa kategoria
