@@ -10,3 +10,4 @@ export const loadCategoriesError = createAction(
     '[SettingsCategoriesComponent] Load Categories Error',
     props<{ error: string }>()
 );
+export const setSidePanelWitdh = createAction('[SettingsCategoriesComponent] Set Side Panel Width', props<{ width: string }>());

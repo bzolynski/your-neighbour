@@ -3,7 +3,14 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { iif, merge, of, ReplaySubject } from 'rxjs';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
-import { loadCategories, selectCategories, selectError, selectStatus } from '../../data-access/store/settings-categories';
+import {
+    loadCategories,
+    selectCategories,
+    selectError,
+    selectSidePanelWidth,
+    selectStatus,
+    setSidePanelWitdh,
+} from '../../data-access/store/settings-categories';
 
 @Component({
     selector: 'app-settings-categories',
@@ -14,8 +21,10 @@ export class SettingsCategoriesComponent implements OnInit {
     categories$ = this.store.select(selectCategories);
     status$ = this.store.select(selectStatus);
     error$ = this.store.select(selectError);
-    trigger$ = new ReplaySubject<any[]>(1);
-    expanded$ = merge(this.trigger$.asObservable(), of(this.route.firstChild)).pipe(
+    sidePanelWidth$ = this.store.select(selectSidePanelWidth);
+
+    triggerRouter$ = new ReplaySubject<any[]>(1);
+    expanded$ = merge(this.triggerRouter$.asObservable(), of(this.route.firstChild)).pipe(
         switchMap((merged) =>
             iif(
                 () => Array.isArray(merged),
@@ -55,4 +64,9 @@ export class SettingsCategoriesComponent implements OnInit {
     ngOnInit(): void {
         this.store.dispatch(loadCategories());
     }
+
+    triggerRouter = (route: any[], width: string = '600px') => {
+        this.triggerRouter$.next(route);
+        this.store.dispatch(setSidePanelWitdh({ width: width }));
+    };
 }

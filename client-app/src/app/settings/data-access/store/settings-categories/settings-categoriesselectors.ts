@@ -8,3 +8,4 @@ export const selectSettingsCategoriesState = createFeatureSelector<SettingsCateg
 export const selectCategories = createSelector(selectSettingsCategoriesState, (state) => state.data);
 export const selectStatus = createSelector(selectSettingsCategoriesState, (state) => state.status);
 export const selectError = createSelector(selectSettingsCategoriesState, (state) => state.error);
+export const selectSidePanelWidth = createSelector(selectSettingsCategoriesState, (state) => state.sidePanelWidth);
