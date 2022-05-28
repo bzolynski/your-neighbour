@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { RouterModule, Routes, UrlSegment } from '@angular/router';
 import { SettingsCategoriesComponent } from './settings-categories.component';
 
 const routes: Routes = [
@@ -8,17 +8,27 @@ const routes: Routes = [
         component: SettingsCategoriesComponent,
         children: [
             {
-                path: 'add',
+                path: ':id',
+                matcher: (url) =>
+                    url.length === 1 && url[0].path !== 'add'
+                        ? {
+                              consumed: url,
+                              posParams: {
+                                  id: new UrlSegment(url[0].path, {}),
+                              },
+                          }
+                        : null,
                 loadChildren: () =>
                     import('../settings-categories-details/settings-categories-details.module').then(
                         (m) => m.SettingsCategoriesDetailsModule
                     ),
             },
             {
-                path: ':id',
+                path: 'add',
+                pathMatch: 'full',
                 loadChildren: () =>
-                    import('../settings-categories-details/settings-categories-details.module').then(
-                        (m) => m.SettingsCategoriesDetailsModule
+                    import('../settings-categories-form/settings-categories-form.module').then(
+                        (m) => m.SettingsCategoriesFormModule
                     ),
             },
             {
