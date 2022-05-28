@@ -8,10 +8,24 @@ const routes: Routes = [
         component: SettingsCategoriesComponent,
         children: [
             {
+                path: 'add',
+                loadChildren: () =>
+                    import('../settings-categories-details/settings-categories-details.module').then(
+                        (m) => m.SettingsCategoriesDetailsModule
+                    ),
+            },
+            {
                 path: ':id',
                 loadChildren: () =>
                     import('../settings-categories-details/settings-categories-details.module').then(
                         (m) => m.SettingsCategoriesDetailsModule
+                    ),
+            },
+            {
+                path: ':id/edit',
+                loadChildren: () =>
+                    import('../settings-categories-form/settings-categories-form.module').then(
+                        (m) => m.SettingsCategoriesFormModule
                     ),
             },
         ],
