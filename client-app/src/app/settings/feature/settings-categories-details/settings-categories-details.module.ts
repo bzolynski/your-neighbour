@@ -12,14 +12,14 @@ import {
 import { EffectsModule } from '@ngrx/effects';
 import { ElevatedSectionModule } from 'src/app/shared/directives/elevated-section/elevated-section.module';
 import { MatButtonModule } from '@angular/material/button';
-import { BackdropLoadingModule } from 'src/app/shared/ui/backdrop-loading/backdrop-loading.module';
+import { BouncyLoadingBackdropModule } from 'src/app/shared/ui/bouncy-loading-backdrop/bouncy-loading-backdrop.module';
 @NgModule({
     imports: [
         CommonModule,
         SettingsCategoriesDetailsRoutingModule,
         MatButtonModule,
         ElevatedSectionModule,
-        BackdropLoadingModule,
+        BouncyLoadingBackdropModule,
         StoreModule.forFeature(SETTINGS_CATEGORIES_DETAILS_STATE_FEATURE_KEY, settingsCategoriesDetailsReducer),
         EffectsModule.forFeature([SettingsCategoriesDetailsEffects]),
     ],

@@ -18,6 +18,6 @@
             Usuń
         </button>
     </div>
+    <app-bouncy-loading-backdrop class="backdrop"
+        *ngIf="(status$ | async) === 'loading'"></app-bouncy-loading-backdrop>
 </div>
-<app-backdrop-loading [fixed]="true"
-    *ngIf="(status$ | async) === 'loading'"></app-backdrop-loading>
