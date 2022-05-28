@@ -1,14 +1,18 @@
 <app-settings-layout-router [expanded]="expanded$ | async">
-    <div class="content-wrapper" appElevatedSection>
+    <div class="top-bar" appElevatedSection top-bar>
+        <button mat-button [color]="'primary'">Nowa kategoria</button>
+    </div>
+    <div class="content-wrapper" appElevatedSection content>
         <mat-selection-list [multiple]="false">
             <mat-list-option
                 *ngFor="let category of categories$ | async"
                 [value]="category.id"
-                (click)=" this.trigger$.next([category.id])">
+                (click)="this.trigger$.next([category.id])">
                 {{ category.name }}
             </mat-list-option>
         </mat-selection-list>
     </div>
 </app-settings-layout-router>
-<app-backdrop-loading [fixed]="true"
+<app-backdrop-loading
+    [fixed]="true"
     *ngIf="(status$ | async) === 'loading'"></app-backdrop-loading>

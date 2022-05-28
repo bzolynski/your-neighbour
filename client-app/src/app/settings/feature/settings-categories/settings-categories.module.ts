@@ -16,6 +16,7 @@ import { CardModule } from 'src/app/shared/ui/card/card.module';
 import { CardContentModule } from 'src/app/shared/ui/card-content/card-content.module';
 import { MatListModule } from '@angular/material/list';
 import { ElevatedSectionModule } from 'src/app/shared/directives/elevated-section/elevated-section.module';
+import { MatButtonModule } from '@angular/material/button';
 @NgModule({
     imports: [
         CommonModule,
@@ -26,6 +27,7 @@ import { ElevatedSectionModule } from 'src/app/shared/directives/elevated-sectio
         BackdropLoadingModule,
         MatListModule,
         ElevatedSectionModule,
+        MatButtonModule,
         StoreModule.forFeature(SETTINGS_CATEGORIES_STATE_FEATURE_KEY, settingsCategoriesReducer),
         EffectsModule.forFeature([SettingsCategoriesEffects]),
     ],

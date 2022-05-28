@@ -1,6 +1,9 @@
 <div class="wrapper">
+    <div class="top-bar">
+        <ng-content select="[top-bar]"></ng-content>
+    </div>
     <div class="main-content">
-        <ng-content></ng-content>
+        <ng-content select="[content]"></ng-content>
     </div>
     <div class="side-content-container" [ngClass]="{ expanded: expanded }">
         <div class="side-content">
