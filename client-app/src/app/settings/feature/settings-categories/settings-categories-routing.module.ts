@@ -10,7 +10,7 @@ const routes: Routes = [
             {
                 path: ':id',
                 matcher: (url) =>
-                    url.length === 1 && url[0].path !== 'add'
+                    url.length === 1 && url[0].path !== 'add' && url[0].path !== 'connect'
                         ? {
                               consumed: url,
                               posParams: {
@@ -21,6 +21,13 @@ const routes: Routes = [
                 loadChildren: () =>
                     import('../settings-categories-details/settings-categories-details.module').then(
                         (m) => m.SettingsCategoriesDetailsModule
+                    ),
+            },
+            {
+                path: 'connect',
+                loadChildren: () =>
+                    import('../settings-categories-connect/settings-categories-connect.module').then(
+                        (m) => m.SettingsCategoriesConnectModule
                     ),
             },
             {
