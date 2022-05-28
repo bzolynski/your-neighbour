@@ -9,5 +9,5 @@
         (canceled)="closeForm()"
         (formSubmited)="formSubmited($event, vm.item?.id)"></app-item-form>
 </div>
-<app-backdrop-loading
+<app-backdrop-loading [fixed]="true"
     *ngIf="(status$ | async) == 'loading'"></app-backdrop-loading>

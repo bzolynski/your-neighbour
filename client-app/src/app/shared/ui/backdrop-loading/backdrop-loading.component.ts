@@ -1,5 +1,4 @@
 import { Component, Input } from '@angular/core';
-
 @Component({
     selector: 'app-backdrop-loading',
     templateUrl: './backdrop-loading.component.html',
@@ -8,4 +7,6 @@ import { Component, Input } from '@angular/core';
 export class BackdropLoadingComponent {
     @Input()
     backdropColor: string = 'hsla(0, 0%, 100%, 0.75)';
+    @Input()
+    fixed: boolean = false;
 }

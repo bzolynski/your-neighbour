@@ -10,5 +10,5 @@
         </mat-selection-list>
     </div>
 </app-settings-layout-router>
-<app-backdrop-loading
+<app-backdrop-loading [fixed]="true"
     *ngIf="(status$ | async) === 'loading'"></app-backdrop-loading>
