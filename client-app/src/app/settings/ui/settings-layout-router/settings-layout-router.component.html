@@ -8,8 +8,8 @@
     <div
         class="side-content-container"
         [ngClass]="{ expanded: isExpanded }"
-        #sideContent>
-        <div class="side-content">
+        #sideContentContainer>
+        <div class="side-content" #sideContent>
             <router-outlet></router-outlet>
         </div>
     </div>
