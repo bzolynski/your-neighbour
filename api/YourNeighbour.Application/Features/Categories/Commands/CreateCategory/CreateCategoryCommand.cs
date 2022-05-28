@@ -3,5 +3,5 @@ using YourNeighbour.Application.Features.Categories.Dtos;
 
 namespace YourNeighbour.Application.Features.Categories.Commands.CreateCategory
 {
-    public sealed record CreateCategoryCommand(CategoryCreateDto Category) : ICommand<CategoryDto>;
+    public sealed record CreateCategoryCommand(CategoryCreateDto Category) : ICommand<int>;
 }

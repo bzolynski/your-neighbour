@@ -48,8 +48,8 @@ namespace YourNeighbour.Api.Controllers
         [HttpPost("create")]
         public async Task<IActionResult> Create(CategoryCreateDto createCategory)
         {
-            CategoryDto category = await Mediator.Send(new CreateCategoryCommand(createCategory));
-            return CreatedAtAction(nameof(Create), category);
+            int result = await Mediator.Send(new CreateCategoryCommand(createCategory));
+            return CreatedAtAction(nameof(Create), result);
         }
 
         [HttpPut("update/{id}")]

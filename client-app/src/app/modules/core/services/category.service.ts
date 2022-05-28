@@ -31,11 +31,11 @@ export class CategoryService {
         const params = HttpHelperMethods.mapToHttpParams(queryParams);
         return this.apiService.get<ICategory>(`category/get-by-guid/${ROOT_CATEGORY_GUID}`, params);
     };
-    create = (body: ICategory): Observable<ICategory> => {
-        return this.apiService.post<ICategory>(`category/create/`, body);
+    create = (body: ICategory): Observable<number> => {
+        return this.apiService.post<number>(`category/create/`, body);
     };
-    update = (id: number, body: ICategory): Observable<ICategory> => {
-        return this.apiService.put<ICategory>(`category/update/${id}`, body);
+    update = (id: number, body: ICategory): Observable<number> => {
+        return this.apiService.put<number>(`category/update/${id}`, body);
     };
     delete = (id: number): Observable<boolean> => {
         return this.apiService.delete<boolean>(`category/delete/${id}`);

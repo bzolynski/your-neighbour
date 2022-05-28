@@ -90,7 +90,7 @@ export class CategoryFormComponent implements OnInit, OnDestroy {
                 (response) => {
                     this.categoryService.changed.next();
                     this.loading = false;
-                    this.navigateToDetails(response.id);
+                    this.navigateToDetails(response);
                 },
                 (error) => {
                     this.loading = false;
