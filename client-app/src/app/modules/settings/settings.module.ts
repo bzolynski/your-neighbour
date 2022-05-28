@@ -8,16 +8,11 @@ import {
     CategoryDefinitionFormComponent,
     CategoryDefinitionListComponent,
     CategoryDefinitionListItemComponent,
-    CategoryListComponent,
-    CategoryListItemComponent,
     SettingsLayoutComponent,
     SettingsSideBarComponent,
 } from './components';
-import { SettingsCategoryDefinitionComponent, SettingsCategoryComponent, SettingsRootComponent } from './pages';
-import { CategoryDetailsComponent } from './components/category/category-details/category-details.component';
-import { CategoryFormComponent } from './components/category/category-form/category-form.component';
+import { SettingsCategoryDefinitionComponent, SettingsRootComponent } from './pages';
 import { SharedModule } from '../shared/shared.module';
-import { CategoryConnectionsEditComponent } from './components/category/category-connections-edit/category-connections-edit.component';
 import { AngularMaterialModule } from '../angular-material/angular-material.module';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { TreeViewModule } from '../tree-view/tree-view.module';
@@ -48,13 +43,7 @@ import { ElevatedSectionModule } from 'src/app/shared/directives/elevated-sectio
         CategoryDefinitionListComponent,
         CategoryDefinitionListItemComponent,
         CategoryDefinitionDetailsComponent,
-        SettingsCategoryComponent,
         SettingsLayoutComponent,
-        CategoryListComponent,
-        CategoryListItemComponent,
-        CategoryDetailsComponent,
-        CategoryFormComponent,
-        CategoryConnectionsEditComponent,
     ],
 })
 export class SettingsModule {}
