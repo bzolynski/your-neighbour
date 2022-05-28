@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using YourNeighbour.Application.Features.Categories.Commands.ChangeParent;
 using YourNeighbour.Application.Features.Categories.Commands.CreateCategory;
 using YourNeighbour.Application.Features.Categories.Commands.DeleteCategory;
+using YourNeighbour.Application.Features.Categories.Commands.UpdateCategory;
 using YourNeighbour.Application.Features.Categories.Dtos;
 using YourNeighbour.Application.Features.Categories.Queries;
 using YourNeighbour.Application.Features.Categories.Queries.GetCategory;
@@ -44,11 +45,18 @@ namespace YourNeighbour.Api.Controllers
             return Ok(categories);
         }
 
-        [HttpPut("create")]
+        [HttpPost("create")]
         public async Task<IActionResult> Create(CategoryCreateDto createCategory)
         {
             CategoryDto category = await Mediator.Send(new CreateCategoryCommand(createCategory));
             return CreatedAtAction(nameof(Create), category);
+        }
+
+        [HttpPut("update/{id}")]
+        public async Task<IActionResult> Update(int id, UpdateCategoryDto categoryDto)
+        {
+            int result = await Mediator.Send(new UpdateCategoryCommand(id, categoryDto));
+            return Ok(result);
         }
 
         [HttpDelete("delete/{id}")]
