@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, UrlTree } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { Observable, Subject } from 'rxjs';
-import { filter, map, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { iif, Observable, of, Subject } from 'rxjs';
+import { filter, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { CanComponentDeactivate } from 'src/app/modules/core/guards/can-deactivate.guard';
 import { ICategory } from 'src/app/shared/data-access/models';
 import { GenericFormControl } from 'src/app/shared/utils';
@@ -12,6 +12,7 @@ import {
     createCategory,
     loadCategory,
     loadDefinitions,
+    resetState,
     selectCategory,
     selectDefinitions,
     selectError,
@@ -48,7 +49,9 @@ export class SettingsCategoriesFormComponent implements OnInit, CanComponentDeac
     definitions$ = this.store.select(selectDefinitions);
     error$ = this.store.select(selectError);
     status$ = this.store.select(selectStatus);
-    id$ = this.route.params.pipe(map((params) => +params['id']));
+    id$ = this.route.params.pipe(
+        switchMap((params) => iif(() => params['id'] === null || isNaN(params['id']), of(null), of(+params['id'])))
+    );
     submit$ = new Subject();
     constructor(
         private store: Store,
@@ -58,6 +61,7 @@ export class SettingsCategoriesFormComponent implements OnInit, CanComponentDeac
     ) {}
 
     ngOnInit(): void {
+        this.store.dispatch(resetState());
         this.store.dispatch(loadDefinitions());
         this.id$
             .pipe(

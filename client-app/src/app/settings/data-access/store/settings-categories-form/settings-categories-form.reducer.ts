@@ -9,6 +9,7 @@ import {
     loadCategorySuccess,
     loadDefinitionsError,
     loadDefinitionsSuccess,
+    resetState,
     updateCategory,
     updateCategoryError,
     updateCategorySuccess,
@@ -58,5 +59,8 @@ export const settingsCategoriesFormReducer = createReducer(
         ...state,
         status: 'success',
         //close: true,
+    })),
+    on(resetState, () => ({
+        ...initialState,
     }))
 );

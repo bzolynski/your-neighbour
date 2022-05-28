@@ -1,6 +1,8 @@
 import { createAction, props } from '@ngrx/store';
 import { ICategory, ICategoryDefinition } from 'src/app/shared/data-access/models';
 
+export const resetState = createAction('[SettingsCategoriesFormComponent] Reset State');
+
 export const loadCategory = createAction('[SettingsCategoriesFormComponent] Load Category', props<{ id: number }>());
 export const loadCategorySuccess = createAction(
     '[SettingsCategoriesFormComponent] Load Category Success',
