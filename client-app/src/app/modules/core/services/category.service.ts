@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
+import { ICategory } from 'src/app/shared/data-access/models';
 import { HttpHelperMethods, QueryParams } from 'src/app/shared/utils';
 import { ApiService } from '.';
-import { ICategory, ROOT_CATEGORY_GUID } from '../models';
+import { ROOT_CATEGORY_GUID } from '../models';
 import { IChildParentPair } from '../types/child-parent-pair.type';
 
 export interface CategoryQueryParams extends QueryParams {
@@ -32,7 +33,10 @@ export class CategoryService {
         return this.apiService.get<ICategory>(`category/get-by-guid/${ROOT_CATEGORY_GUID}`, params);
     };
     create = (body: ICategory): Observable<ICategory> => {
-        return this.apiService.put<ICategory>(`category/create/`, body);
+        return this.apiService.post<ICategory>(`category/create/`, body);
+    };
+    update = (id: number, body: ICategory): Observable<ICategory> => {
+        return this.apiService.put<ICategory>(`category/update/${id}`, body);
     };
     delete = (id: number): Observable<boolean> => {
         return this.apiService.delete<boolean>(`category/delete/${id}`);
