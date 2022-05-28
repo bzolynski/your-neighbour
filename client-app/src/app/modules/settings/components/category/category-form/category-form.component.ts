@@ -3,8 +3,9 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { ICategory, ICategoryDefinition } from 'src/app/modules/core/models';
+import { ICategoryDefinition } from 'src/app/modules/core/models';
 import { CategoryDefinitionsService, CategoryService } from 'src/app/modules/core/services';
+import { ICategory } from 'src/app/shared/data-access/models';
 
 @Component({
     selector: 'app-category-form',

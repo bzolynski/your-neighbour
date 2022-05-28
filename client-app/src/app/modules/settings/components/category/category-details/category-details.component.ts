@@ -2,8 +2,8 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { ICategory } from 'src/app/modules/core/models';
 import { CategoryService } from 'src/app/modules/core/services';
+import { ICategory } from 'src/app/shared/data-access/models';
 
 @Component({
     selector: 'app-category-details',

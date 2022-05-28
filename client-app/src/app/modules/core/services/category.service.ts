@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
-import { ICategory } from 'src/app/shared/data-access/models';
+import { ICategory, ROOT_CATEGORY_GUID } from 'src/app/shared/data-access/models';
 import { HttpHelperMethods, QueryParams } from 'src/app/shared/utils';
 import { ApiService } from '.';
-import { ROOT_CATEGORY_GUID } from '../models';
 import { IChildParentPair } from '../types/child-parent-pair.type';
 
 export interface CategoryQueryParams extends QueryParams {

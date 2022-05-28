@@ -1,9 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { ICategory } from 'src/app/modules/core/models/category.model';
 import { CategoryService } from 'src/app/modules/core/services/category.service';
-
+import { ICategory } from 'src/app/shared/data-access/models';
 @Component({
     selector: 'app-category-list',
     templateUrl: './category-list.component.html',

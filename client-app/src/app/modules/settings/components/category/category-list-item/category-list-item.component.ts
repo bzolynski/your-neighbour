@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ICategory } from 'src/app/modules/core/models/category.model';
+import { ICategory } from 'src/app/shared/data-access/models';
 
 @Component({
 	selector: 'app-category-list-item',

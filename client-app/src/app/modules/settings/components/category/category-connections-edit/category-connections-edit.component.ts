@@ -1,7 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
-import { ICategory, ROOT_CATEGORY_GUID } from 'src/app/modules/core/models';
 import { CategoryService } from 'src/app/modules/core/services';
 import { Dictionary } from 'src/app/modules/core/types';
 import { faChevronDown, IconDefinition } from '@fortawesome/free-solid-svg-icons';
@@ -12,6 +11,7 @@ import { ChildParentPair } from 'src/app/modules/core/types/child-parent-pair.ty
 import { CanComponentDeactivate } from 'src/app/modules/core/guards/can-deactivate.guard';
 import { UrlTree } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
+import { ICategory, ROOT_CATEGORY_GUID } from 'src/app/shared/data-access/models';
 @Component({
     selector: 'app-category-connections-edit',
     templateUrl: './category-connections-edit.component.html',
