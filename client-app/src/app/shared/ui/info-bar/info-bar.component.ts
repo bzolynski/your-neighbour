@@ -3,13 +3,17 @@ import { Subject } from 'rxjs';
 
 export type InfoBarMessageType = 'info' | 'error' | 'warning' | 'success';
 
+export interface MessageWithType {
+    message: string;
+    type: InfoBarMessageType;
+}
+
 @Component({
     selector: 'app-info-bar',
     templateUrl: './info-bar.component.html',
     styleUrls: ['./info-bar.component.scss'],
 })
 export class InfoBarComponent {
-    @Input() message: string | null = null;
-    @Input() type: InfoBarMessageType | null = null;
-    @Output() handleClose = new Subject();
+    @Input() messages: MessageWithType[] | null = [];
+    @Output() handleClose = new Subject<MessageWithType>();
 }

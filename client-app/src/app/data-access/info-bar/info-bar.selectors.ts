@@ -3,6 +3,5 @@ import { RootState } from '../root.state';
 
 export const infoBarState = (state: RootState) => state.infoBar;
 
-export const selectInfoBarOpen = createSelector(infoBarState, (state) => state.open);
-export const selectInfoBarMessage = createSelector(infoBarState, (state) => state.message);
-export const selectInfoBarType = createSelector(infoBarState, (state) => state.messageType);
+export const selectMessages = createSelector(infoBarState, (state) => state.messages);
+export const selectInfoBarOpen = createSelector(infoBarState, (state) => state.messages.length > 0);

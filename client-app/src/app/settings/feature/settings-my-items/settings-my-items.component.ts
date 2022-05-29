@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { BehaviorSubject, Observable, ReplaySubject } from 'rxjs';
 import { filter, map, switchMap, takeUntil, tap } from 'rxjs/operators';
-import { showInfoBar } from 'src/app/data-access/info-bar/info-bar.actions';
+import { addInfoBarMessage } from 'src/app/data-access/info-bar/info-bar.actions';
 import { MessageService } from 'src/app/modules/core/services/message.service';
 import { GenericStoreStatus, IItem } from 'src/app/shared/data-access/models';
 import { ListViewType } from 'src/app/shared/ui/list-container/list-container.component';
@@ -62,7 +62,7 @@ export class SettingsMyItemsComponent implements OnInit {
             .pipe(
                 takeUntil(this.destroy$),
                 filter((error): error is string => error !== null),
-                tap((error) => this.store.dispatch(showInfoBar({ message: error, messageType: 'error' })))
+                tap((error) => this.store.dispatch(addInfoBarMessage({ message: error, messageType: 'error' })))
             )
             .subscribe();
     }

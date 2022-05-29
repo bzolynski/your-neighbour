@@ -1,6 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
-import { InfoBarMessageType } from 'src/app/shared/ui/info-bar/info-bar.component';
-import { closeInfoBar, showInfoBar } from './info-bar.actions';
+import { InfoBarMessageType, MessageWithType } from 'src/app/shared/ui/info-bar/info-bar.component';
+import { addInfoBarMessage, removeInfoBarMessage } from './info-bar.actions';
 
 export const INFO_BAR_FEATURE_KEY = 'info bar';
 
@@ -8,26 +8,24 @@ export interface InfoBarState {
     open: boolean;
     message: string | null;
     messageType: InfoBarMessageType | null;
+    messages: MessageWithType[];
 }
 
 export const initialState: InfoBarState = {
     open: false,
     message: null,
     messageType: null,
+    messages: [],
 };
 
 export const infoBarReducer = createReducer(
     initialState,
-    on(showInfoBar, (state, { message, messageType }) => ({
+    on(addInfoBarMessage, (state, { message, messageType }) => ({
         ...state,
-        open: true,
-        message,
-        messageType,
+        messages: [...state.messages, { message: message, type: messageType }],
     })),
-    on(closeInfoBar, (state) => ({
+    on(removeInfoBarMessage, (state, { message, messageType }) => ({
         ...state,
-        open: false,
-        message: null,
-        messageType: null,
+        messages: state.messages.filter((value) => value.message !== message && value.type !== messageType),
     }))
 );

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { filter, map, takeUntil, tap } from 'rxjs/operators';
+import { addInfoBarMessage } from 'src/app/data-access/info-bar/info-bar.actions';
 import { DestroyObservable } from 'src/app/shared/utils/destroy-observable';
 import {
     deleteCategory,
@@ -45,6 +46,14 @@ export class SettingsCategoriesDetailsComponent implements OnInit {
                 takeUntil(this.destroy$),
                 filter((deleted) => deleted),
                 tap(() => this.router.navigate(['../'], { relativeTo: this.route }))
+            )
+            .subscribe();
+
+        this.error$
+            .pipe(
+                takeUntil(this.destroy$),
+                filter((error): error is string => error !== null),
+                tap((error) => this.store.dispatch(addInfoBarMessage({ message: error, messageType: 'error' })))
             )
             .subscribe();
     }

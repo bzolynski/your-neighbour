@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { closeInfoBar } from './data-access/info-bar/info-bar.actions';
-import { infoBarState } from './data-access/info-bar/info-bar.selectors';
+import { removeInfoBarMessage } from './data-access/info-bar/info-bar.actions';
+import { selectInfoBarOpen, selectMessages } from './data-access/info-bar/info-bar.selectors';
 import { RootState } from './data-access/root.state';
+import { MessageWithType } from './shared/ui/info-bar/info-bar.component';
 
 @Component({
     selector: 'app-root',
@@ -12,8 +13,10 @@ import { RootState } from './data-access/root.state';
 export class AppComponent {
     title = 'client-app';
     isBusy = false;
-    infoBarState$ = this.store.select(infoBarState);
+    infoBarMessages$ = this.store.select(selectMessages);
+    infoBarOpen$ = this.store.select(selectInfoBarOpen);
     constructor(private store: Store<RootState>) {}
 
-    closeInfoBar = () => this.store.dispatch(closeInfoBar());
+    closeInfoBar = (message: MessageWithType) =>
+        this.store.dispatch(removeInfoBarMessage({ message: message.message, messageType: message.type }));
 }

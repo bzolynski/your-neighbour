@@ -1,29 +1,28 @@
 <div class="wrapper">
-    <div
-        class="container">
+    <div *ngFor="let message of messages" class="container">
         <mat-icon
-            *ngIf="type == 'error'"
+            *ngIf="message.type == 'error'"
             aria-hidden="false"
             color="warn"
             aria-label="error"
             >error_outline</mat-icon
         >
         <mat-icon
-            *ngIf="type == 'warning'"
+            *ngIf="message.type == 'warning'"
             aria-hidden="false"
             color="secondary"
             aria-label="warning"
             >warning_amber</mat-icon
         >
         <mat-icon
-            *ngIf="type == 'success'"
+            *ngIf="message.type == 'success'"
             aria-hidden="false"
             color="primary"
             aria-label="success"
             >check_circle_outlined</mat-icon
         >
         <mat-icon
-            *ngIf="type == 'info'"
+            *ngIf="message.type == 'info'"
             aria-hidden="false"
             color="primary"
             aria-label="info"
@@ -31,10 +30,10 @@
         >
 
         <p [ngClass]="['content']">
-            {{ message }}
+            {{ message.message }}
         </p>
 
-        <button class="close-button" mat-button (click)="handleClose.next()">
+        <button class="close-button" mat-button (click)="handleClose.next(message)">
             Zamknij
         </button>
     </div>
