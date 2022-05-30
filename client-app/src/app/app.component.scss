@@ -1,3 +1,9 @@
+.root {
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    height: 100%;
+}
+
 .router-wrapper {
     margin: 1rem 0;
 }

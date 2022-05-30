@@ -1,13 +1,15 @@
-<app-info-bar
-    *ngIf="infoBarOpen$ | async"
-    [messages]="infoBarMessages$ | async"
-    (handleClose)="closeInfoBar($event)">
-</app-info-bar>
-<app-header></app-header>
-<app-container>
-    <div class="router-wrapper">
-        <router-outlet></router-outlet>
-    </div>
-</app-container>
-<app-footer></app-footer>
-<app-backdrop-loading *ngIf="isBusy"></app-backdrop-loading>
+<div class="root">
+    <app-info-bar
+        *ngIf="infoBarOpen$ | async"
+        [messages]="infoBarMessages$ | async"
+        (handleClose)="closeInfoBar($event)">
+    </app-info-bar>
+    <app-header></app-header>
+    <app-container>
+        <div class="router-wrapper">
+            <router-outlet></router-outlet>
+        </div>
+    </app-container>
+    <app-footer></app-footer>
+    <app-backdrop-loading *ngIf="isBusy"></app-backdrop-loading>
+</div>
