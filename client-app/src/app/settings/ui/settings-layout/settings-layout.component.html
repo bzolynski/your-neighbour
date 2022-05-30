@@ -1,16 +1,16 @@
 <div class="wrapper">
     <div class="top-bar">
-        <ng-content select="[top-bar]"></ng-content>
+        <ng-content select="app-settings-layout-topbar"></ng-content>
     </div>
     <div class="main-content">
-        <ng-content select="[content]"></ng-content>
+        <ng-content select="app-settings-layout-content"></ng-content>
     </div>
     <div
         class="side-content-container"
         [ngStyle]="{ width: contentWidth$ | async }"
         #sideContentContainer>
         <div class="side-content">
-            <router-outlet></router-outlet>
+            <ng-content select="app-settings-layout-side-content"></ng-content>
         </div>
     </div>
 </div>

@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 
 import { SettingsCategoriesRoutingModule } from './settings-categories-routing.module';
 import { SettingsCategoriesComponent } from './settings-categories.component';
-import { SettingsLayoutRouterModule } from '../../ui/settings-layout-router/settings-layout-router.module';
 import { BackdropLoadingModule } from 'src/app/shared/ui/backdrop-loading/backdrop-loading.module';
 import { StoreModule } from '@ngrx/store';
 import {
@@ -17,13 +16,20 @@ import { CardContentModule } from 'src/app/shared/ui/card-content/card-content.m
 import { MatListModule } from '@angular/material/list';
 import { ElevatedSectionModule } from 'src/app/shared/directives/elevated-section/elevated-section.module';
 import { MatButtonModule } from '@angular/material/button';
+import { SettingsLayoutContentModule } from '../../ui/settings-layout-content/settings-layout-content.module';
+import { SettingsLayoutTopbarModule } from '../../ui/settings-layout-topbar/settings-layout-topbar.module';
+import { SettingsLayoutSideContentModule } from '../../ui/settings-layout-side-content/settings-layout-side-content.module';
+import { SettingsLayoutModule } from '../../ui/settings-layout/settings-layout.module';
 @NgModule({
     imports: [
         CommonModule,
         CardModule,
         CardContentModule,
         SettingsCategoriesRoutingModule,
-        SettingsLayoutRouterModule,
+        SettingsLayoutModule,
+        SettingsLayoutContentModule,
+        SettingsLayoutTopbarModule,
+        SettingsLayoutSideContentModule,
         BackdropLoadingModule,
         MatListModule,
         ElevatedSectionModule,

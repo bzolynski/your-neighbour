@@ -3,11 +3,11 @@ import { BehaviorSubject, combineLatest, iif, of } from 'rxjs';
 import { mergeMap, tap } from 'rxjs/operators';
 
 @Component({
-    selector: 'app-settings-layout-router',
-    templateUrl: './settings-layout-router.component.html',
-    styleUrls: ['./settings-layout-router.component.scss'],
+    selector: 'app-settings-layout',
+    templateUrl: './settings-layout.component.html',
+    styleUrls: ['./settings-layout.component.scss'],
 })
-export class SettingsLayoutRouterComponent {
+export class SettingsLayoutComponent {
     @ViewChild('sideContentContainer', { static: true }) sideContentContainer!: ElementRef<HTMLElement>;
     @Input() set expanded(value: boolean | null) {
         this.expanded$.next(value ?? false);

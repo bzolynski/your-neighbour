@@ -10,16 +10,22 @@ import {
     SETTINGS_CATEGORY_DEFINITIONS_STATE_FEATURE_KEY,
 } from '../../data-access/store/settings-category-definitions';
 import { EffectsModule } from '@ngrx/effects';
-import { SettingsLayoutRouterModule } from '../../ui/settings-layout-router/settings-layout-router.module';
+import { SettingsLayoutModule } from '../../ui/settings-layout/settings-layout.module';
 import { BackdropLoadingModule } from 'src/app/shared/ui/backdrop-loading/backdrop-loading.module';
 import { MatButtonModule } from '@angular/material/button';
 import { ElevatedSectionModule } from 'src/app/shared/directives/elevated-section/elevated-section.module';
 import { MatListModule } from '@angular/material/list';
+import { SettingsLayoutSideContentModule } from '../../ui/settings-layout-side-content/settings-layout-side-content.module';
+import { SettingsLayoutTopbarModule } from '../../ui/settings-layout-topbar/settings-layout-topbar.module';
+import { SettingsLayoutContentModule } from '../../ui/settings-layout-content/settings-layout-content.module';
 @NgModule({
     imports: [
         CommonModule,
         SettingsCategoryDefinitionsRoutingModule,
-        SettingsLayoutRouterModule,
+        SettingsLayoutModule,
+        SettingsLayoutContentModule,
+        SettingsLayoutTopbarModule,
+        SettingsLayoutSideContentModule,
         BackdropLoadingModule,
         MatButtonModule,
         MatListModule,

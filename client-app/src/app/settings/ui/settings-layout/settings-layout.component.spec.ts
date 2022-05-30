@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SettingsLayoutRouterComponent } from './settings-layout-router.component';
+import { SettingsLayoutComponent } from './settings-layout.component';
 
-describe('SettingsLayoutRouterComponent', () => {
-    let component: SettingsLayoutRouterComponent;
-    let fixture: ComponentFixture<SettingsLayoutRouterComponent>;
+describe('SettingsLayoutComponent', () => {
+    let component: SettingsLayoutComponent;
+    let fixture: ComponentFixture<SettingsLayoutComponent>;
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [SettingsLayoutRouterComponent],
+            declarations: [SettingsLayoutComponent],
         }).compileComponents();
     });
 
     beforeEach(() => {
-        fixture = TestBed.createComponent(SettingsLayoutRouterComponent);
+        fixture = TestBed.createComponent(SettingsLayoutComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });

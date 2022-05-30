@@ -1,21 +1,18 @@
-<app-settings-layout-router
+<app-settings-layout
     [expanded]="expanded$ | async"
     [sideContentWidth]="$any(sidePanelWidth$ | async)">
-    <div class="top-bar" appElevatedSection top-bar>
+    <app-settings-layout-topbar class="top-bar" appElevatedSection>
         <button
             mat-button
             [color]="'accent'"
             (click)="triggerRouter(['connect'], '800px')">
             Połącz kategorie
         </button>
-        <button
-            mat-button
-            [color]="'primary'"
-            (click)="triggerRouter(['add'])">
+        <button mat-button [color]="'primary'" (click)="triggerRouter(['add'])">
             Nowa kategoria
         </button>
-    </div>
-    <div class="content-wrapper" appElevatedSection content>
+    </app-settings-layout-topbar>
+    <app-settings-layout-content class="content-wrapper" appElevatedSection>
         <mat-selection-list [multiple]="false">
             <mat-list-option
                 *ngFor="let category of categories$ | async"
@@ -24,8 +21,11 @@
                 {{ category.name }}
             </mat-list-option>
         </mat-selection-list>
-    </div>
-</app-settings-layout-router>
+    </app-settings-layout-content>
+    <app-settings-layout-side-content>
+        <router-outlet></router-outlet>
+    </app-settings-layout-side-content>
+</app-settings-layout>
 <app-backdrop-loading
     [fixed]="true"
     *ngIf="(status$ | async) === 'loading'"></app-backdrop-loading>
