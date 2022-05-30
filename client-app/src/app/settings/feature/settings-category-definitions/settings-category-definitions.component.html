@@ -1,1 +1,22 @@
-<p>settings-category-definitions works!</p>
+<app-settings-layout-router
+    [expanded]="expanded$ | async"
+    [sideContentWidth]="'600px'">
+    <div class="top-bar" appElevatedSection top-bar>
+        <button mat-button [color]="'primary'" [routerLink]="['add']">
+            Nowa definicja
+        </button>
+    </div>
+    <div class="content-wrapper" appElevatedSection content>
+        <mat-selection-list [multiple]="false">
+            <mat-list-option
+                *ngFor="let definition of definitions$ | async"
+                [value]="definition.id"
+                [routerLink]="[definition.id]">
+                {{ definition.name }}
+            </mat-list-option>
+        </mat-selection-list>
+    </div>
+</app-settings-layout-router>
+<app-backdrop-loading
+    [fixed]="true"
+    *ngIf="(status$ | async) === 'loading'"></app-backdrop-loading>
