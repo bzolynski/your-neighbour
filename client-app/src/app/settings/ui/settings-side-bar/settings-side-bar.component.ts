@@ -13,7 +13,7 @@ const options: SettingsOption[] = [
         children: [
             {
                 name: 'Definicje kategorii',
-                link: 'category-definition',
+                link: 'category-definitions',
             },
             {
                 name: 'Kategorie',

@@ -8,17 +8,18 @@ const routes: Routes = [
         component: SettingsComponent,
         children: [
             { path: 'my', loadChildren: () => import('../settings-my/settings-my.module').then((m) => m.SettingsMyModule) },
-            {
-                path: 'category-definition',
-                loadChildren: () =>
-                    import('../settings-category-definition/settings-category-definition.module').then(
-                        (m) => m.SettingsCategoryDefinitionModule
-                    ),
-            },
+
             {
                 path: 'categories',
                 loadChildren: () =>
                     import('../settings-categories/settings-categories.module').then((m) => m.SettingsCategoriesModule),
+            },
+            {
+                path: 'category-definitions',
+                loadChildren: () =>
+                    import('../settings-category-definitions/settings-category-definitions.module').then(
+                        (m) => m.SettingsCategoryDefinitionsModule
+                    ),
             },
         ],
     },
