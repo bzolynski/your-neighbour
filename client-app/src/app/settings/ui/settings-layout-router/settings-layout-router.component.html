@@ -9,10 +9,7 @@
         class="side-content-container"
         [ngStyle]="{ width: contentWidth$ | async }"
         #sideContentContainer>
-        <div
-            class="side-content"
-            [ngStyle]="{ width: contentWidth$ | async }"
-            #sideContent>
+        <div class="side-content">
             <router-outlet></router-outlet>
         </div>
     </div>

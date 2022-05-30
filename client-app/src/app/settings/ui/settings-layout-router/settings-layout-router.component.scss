@@ -1,5 +1,4 @@
 $transition: 0.2s ease-in-out;
-$width: clamp(200px, 40vw, 700px);
 $overflowOffset: 5px;
 
 .wrapper {
@@ -32,9 +31,7 @@ $overflowOffset: 5px;
 }
 .side-content {
     transition: $transition;
-    position: absolute;
-    // width: $width;
-    //width: inherit;
+    width: 100%;
     padding: $overflowOffset;
     box-sizing: border-box;
 }

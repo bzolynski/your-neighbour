@@ -8,7 +8,6 @@ import { mergeMap, tap } from 'rxjs/operators';
     styleUrls: ['./settings-layout-router.component.scss'],
 })
 export class SettingsLayoutRouterComponent {
-    @ViewChild('sideContent', { static: true }) sideContent!: ElementRef<HTMLElement>;
     @ViewChild('sideContentContainer', { static: true }) sideContentContainer!: ElementRef<HTMLElement>;
     @Input() set expanded(value: boolean | null) {
         this.expanded$.next(value ?? false);
