@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { filter, map, takeUntil, tap } from 'rxjs/operators';
-import { addInfoBarMessage } from 'src/app/data-access/info-bar/info-bar.actions';
+import { MessageService } from 'src/app/modules/core/services/message.service';
 import { DestroyObservable } from 'src/app/shared/utils/destroy-observable';
 import {
     deleteCategory,
@@ -28,7 +28,8 @@ export class SettingsCategoriesDetailsComponent implements OnInit {
         private store: Store,
         private route: ActivatedRoute,
         private router: Router,
-        private destroy$: DestroyObservable
+        private destroy$: DestroyObservable,
+        private messageService: MessageService
     ) {}
 
     ngOnInit(): void {
@@ -53,7 +54,7 @@ export class SettingsCategoriesDetailsComponent implements OnInit {
             .pipe(
                 takeUntil(this.destroy$),
                 filter((error): error is string => error !== null),
-                tap((error) => this.store.dispatch(addInfoBarMessage({ message: error, messageType: 'error' })))
+                tap((error) => this.messageService.showMessage(error, 'error'))
             )
             .subscribe();
     }

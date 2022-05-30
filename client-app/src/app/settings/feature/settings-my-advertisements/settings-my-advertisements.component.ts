@@ -4,7 +4,6 @@ import { Store } from '@ngrx/store';
 import { Observable, ReplaySubject } from 'rxjs';
 import { filter, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { Advertisement } from 'src/app/advertisements/data-access/models/advertisement.model';
-import { addInfoBarMessage } from 'src/app/data-access/info-bar/info-bar.actions';
 import { MessageService } from 'src/app/modules/core/services/message.service';
 import { ListViewType } from 'src/app/shared/ui/list-container/list-container.component';
 import { DestroyObservable } from 'src/app/shared/utils/destroy-observable';
@@ -56,7 +55,7 @@ export class SettingsMyAdvertisementsComponent implements OnInit {
             .pipe(
                 takeUntil(this.destroy$),
                 filter((error): error is string => error !== null),
-                tap((error) => this.store.dispatch(addInfoBarMessage({ message: error, messageType: 'error' })))
+                tap((error) => this.messageService.showMessage(error, 'error'))
             )
             .subscribe();
     }

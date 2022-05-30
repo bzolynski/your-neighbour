@@ -65,7 +65,7 @@ export class AdvertisementAddStore extends ComponentStore<AdvertisementAddState>
     };
 
     private handleError = (error: HttpErrorResponse) => {
-        this.messageService.showMessage(error.message);
+        this.messageService.showMessage(error.message, 'error');
     };
 
     constructor(

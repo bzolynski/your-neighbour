@@ -17,7 +17,7 @@ import {
 export class MessageService {
     constructor(private dialog: MatDialog, private store: Store<RootState>) {}
 
-    showMessage = (message: string, messageType: InfoBarMessageType = 'info') => {
+    showMessage = (message: string, messageType: InfoBarMessageType) => {
         this.store.dispatch(addInfoBarMessage({ message: message, messageType: messageType }));
     };
     showConfirmationDialog = (question?: string, title?: string): Observable<ConfirmationDialogResult> => {

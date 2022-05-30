@@ -4,7 +4,6 @@ import { ActivatedRoute, Router, UrlTree } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
 import { filter, map, switchMap, takeUntil, tap } from 'rxjs/operators';
-import { addInfoBarMessage } from 'src/app/data-access/info-bar/info-bar.actions';
 import { CanComponentDeactivate } from 'src/app/modules/core/guards/can-deactivate.guard';
 import { MessageService } from 'src/app/modules/core/services/message.service';
 import { IItem, Localization, AdvertisementDefinition, GenericStoreStatus } from 'src/app/shared/data-access/models';
@@ -140,10 +139,7 @@ export class SettingsMyAdvertisementsFormComponent implements OnInit, CanCompone
                 takeUntil(this.destroy$),
                 tap(() => {
                     this.form.markAllAsTouched();
-                    if (!this.form.valid)
-                        this.store.dispatch(
-                            addInfoBarMessage({ message: 'Nie uzupełniono wszystkich wymaganych pól', messageType: 'error' })
-                        );
+                    if (!this.form.valid) this.messageService.showMessage('Nie uzupełniono wszystkich wymaganych pól', 'error');
                 }),
                 filter(() => this.form.valid),
                 switchMap(() => this.route.params),
