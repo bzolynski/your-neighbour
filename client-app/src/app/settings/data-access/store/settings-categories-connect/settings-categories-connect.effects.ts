@@ -46,7 +46,7 @@ export class SettingsCategoriesConnectEffects {
         this.actions$.pipe(
             ofType(loadUnasignedCategories),
             switchMap(() =>
-                this.categoryService.getMany().pipe(
+                this.categoryService.getUnassigned().pipe(
                     map((categories) => loadUnasignedCategoriesSuccess({ categories: categories })),
                     catchError((error: HttpErrorResponse) =>
                         of(loadUnasignedCategoriesError({ error: error.error ?? error.message }))
