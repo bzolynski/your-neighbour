@@ -7,6 +7,7 @@ import { DestroyObservable } from 'src/app/shared/utils/destroy-observable';
 import {
     deleteCategory,
     loadCategory,
+    resetState,
     selectCategory,
     selectDeleted,
     selectError,
@@ -46,7 +47,8 @@ export class SettingsCategoriesDetailsComponent implements OnInit {
             .pipe(
                 takeUntil(this.destroy$),
                 filter((deleted) => deleted),
-                tap(() => this.router.navigate(['../'], { relativeTo: this.route }))
+                tap(() => this.router.navigate(['../'], { relativeTo: this.route })),
+                tap(() => this.store.dispatch(resetState()))
             )
             .subscribe();
 
