@@ -19,3 +19,4 @@ export const deleteCategoryError = createAction(
     '[SettingsCategoriesDetailsComponent] Delete Category Error',
     props<{ error: string }>()
 );
+export const resetState = createAction('[SettingsCategoriesDetailsComponent] Reset State');

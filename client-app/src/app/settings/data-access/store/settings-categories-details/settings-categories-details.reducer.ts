@@ -7,6 +7,7 @@ import {
     loadCategory,
     loadCategoryError,
     loadCategorySuccess,
+    resetState,
 } from './settings-categories-details.actions';
 export const SETTINGS_CATEGORIES_DETAILS_STATE_FEATURE_KEY = 'settings categories details';
 
@@ -47,5 +48,8 @@ export const settingsCategoriesDetailsReducer = createReducer(
         ...state,
         status: 'success',
         deleted: true,
+    })),
+    on(resetState, () => ({
+        ...initialState,
     }))
 );
