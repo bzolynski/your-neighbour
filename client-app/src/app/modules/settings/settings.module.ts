@@ -3,15 +3,8 @@ import { CommonModule } from '@angular/common';
 import { SettingsRoutingModule } from './settings-routing.module';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import {
-    CategoryDefinitionDetailsComponent,
-    CategoryDefinitionFormComponent,
-    CategoryDefinitionListComponent,
-    CategoryDefinitionListItemComponent,
-    SettingsLayoutComponent,
-    SettingsSideBarComponent,
-} from './components';
-import { SettingsCategoryDefinitionComponent, SettingsRootComponent } from './pages';
+
+import { SettingsRootComponent } from './pages';
 import { SharedModule } from '../shared/shared.module';
 import { AngularMaterialModule } from '../angular-material/angular-material.module';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -35,15 +28,6 @@ import { ElevatedSectionModule } from 'src/app/shared/directives/elevated-sectio
         TextInputModule,
         ElevatedSectionModule,
     ],
-    declarations: [
-        SettingsRootComponent,
-        SettingsSideBarComponent,
-        SettingsCategoryDefinitionComponent,
-        CategoryDefinitionFormComponent,
-        CategoryDefinitionListComponent,
-        CategoryDefinitionListItemComponent,
-        CategoryDefinitionDetailsComponent,
-        SettingsLayoutComponent,
-    ],
+    declarations: [SettingsRootComponent],
 })
 export class SettingsModule {}

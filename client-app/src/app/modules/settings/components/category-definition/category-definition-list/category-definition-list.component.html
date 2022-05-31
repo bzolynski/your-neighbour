@@ -1,8 +1,0 @@
-<button [routerLink]="'/settings/category-definition/new'"
-        mat-raised-button
-        color="primary">Dodaj nowe</button>
-<mat-selection-list [multiple]="false">
-    <app-category-definition-list-item *ngFor="let categoryDefinition of categoryDefinitions"
-                                       [categoryDefinition]="categoryDefinition">
-    </app-category-definition-list-item>
-</mat-selection-list>
