@@ -1,0 +1,63 @@
+<h1 class="title">Twoje dane</h1>
+<div class="wrapper" *ngIf="{ user: user$ | async } as vm" appElevatedSection>
+    <div class="tile">
+        <span class="tile-title">Email:</span>
+        <span>{{ vm.user?.userName }}</span>
+    </div>
+    <div class="tile">
+        <span class="tile-title">Imię i nazwisko:</span>
+        <span>{{ vm.user?.userName }}</span>
+    </div>
+    <div class="tile">
+        <span class="tile-title">Telefon:</span>
+        <span>{{ vm.user?.userName }}</span>
+    </div>
+    <button class="button" mat-button [color]="'primary'">Edytuj</button>
+</div>
+<div class="list-container-wrapper">
+    <app-list-container [listViewType]="'card'">
+        <app-card
+            *ngFor="let localization of localizations$ | async"
+            (click)="dialog.open(localizationForm, { data: localization })"
+            [horizontal]="false">
+            <app-card-content>
+                <div class="card-content-wrapper">
+                    <p>{{ localization.name }}</p>
+                    <p>
+                        {{ localization.street }} {{ localization.houseNumber }}
+                    </p>
+                    <p>{{ localization.postCode }} {{ localization.city }}</p>
+                    <mat-icon
+                        class="icon"
+                        appStopPropagation
+                        (click)="deleteLocalization(localization.id)"
+                        >delete_forever</mat-icon
+                    >
+                </div>
+            </app-card-content>
+        </app-card>
+        <app-card (click)="dialog.open(localizationForm)" [horizontal]="false">
+            <app-card-content>
+                <div class="add-icon-container">
+                    <mat-icon>add</mat-icon>
+                    <span>Nowy adres</span>
+                </div>
+            </app-card-content>
+        </app-card>
+    </app-list-container>
+</div>
+
+<app-backdrop-loading
+    class="backdrop"
+    *ngIf="(status$ | async) === 'loading'"></app-backdrop-loading>
+
+<ng-template #localizationForm let-localization>
+    <mat-dialog-content>
+        <app-localization-form
+            [localization]="localization"
+            (canceled)="dialog.closeAll()"
+            (formSubmited)="
+                itemFormSubmited(localization?.id, $event)
+            "></app-localization-form>
+    </mat-dialog-content>
+</ng-template>

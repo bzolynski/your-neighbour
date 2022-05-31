@@ -20,6 +20,10 @@ const routes: Routes = [
                 (m) => m.SettingsMyAdvertisementsModule
             ),
     },
+    {
+        path: 'account',
+        loadChildren: () => import('../settings-my-account/settings-my-account.module').then((m) => m.SettingsMyAccountModule),
+    },
 ];
 
 @NgModule({
