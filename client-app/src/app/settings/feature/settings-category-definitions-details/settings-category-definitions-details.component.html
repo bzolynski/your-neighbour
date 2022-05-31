@@ -1,0 +1,26 @@
+<div
+    class="wrapper"
+    *ngIf="{ definition: definition$ | async } as vm"
+    appElevatedSection>
+    <h2>{{ vm.definition?.name }}</h2>
+    <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium ut
+        cum reiciendis quisquam ipsum atque veniam modi. Voluptate cumque
+        asperiores vero deleniti voluptates reprehenderit, distinctio commodi
+        libero esse quidem optio!
+    </p>
+    <div class="buttons">
+        <button mat-button color="primary" [routerLink]="['edit']">
+            Edytuj
+        </button>
+        <button
+            mat-button
+            color="warn"
+            (click)="deleteDefinition($any(vm.definition?.id))">
+            Usuń
+        </button>
+    </div>
+    <app-bouncy-loading-backdrop
+        class="backdrop"
+        *ngIf="(status$ | async) === 'loading'"></app-bouncy-loading-backdrop>
+</div>
