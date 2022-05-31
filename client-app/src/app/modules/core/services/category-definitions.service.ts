@@ -1,7 +1,7 @@
 import { HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
-import { ICategoryDefinition } from '../models';
+import { ICategoryDefinition } from 'src/app/shared/data-access/models';
 import { ApiService } from './';
 
 @Injectable({
@@ -12,22 +12,19 @@ export class CategoryDefinitionsService {
 
     changed: Subject<void> = new Subject<void>();
     getById = (id: number): Observable<ICategoryDefinition> => {
-        return this.apiService.get<ICategoryDefinition>(`categoryDefinition/getById/${id}`);
+        return this.apiService.get<ICategoryDefinition>(`categoryDefinition/get/${id}`);
     };
-    getByGuid = (guid: string): Observable<ICategoryDefinition> => {
-        return this.apiService.get<ICategoryDefinition>(`categoryDefinition/getByGuid/${guid}`);
+    getAll = (): Observable<ICategoryDefinition[]> => {
+        return this.apiService.get<ICategoryDefinition[]>('categoryDefinition/get');
     };
-    getAll = (): Observable<Array<ICategoryDefinition>> => {
-        return this.apiService.get<Array<ICategoryDefinition>>('categoryDefinition/getAll');
+    create = (body: ICategoryDefinition): Observable<number> => {
+        return this.apiService.put<number>('categoryDefinition/create', body);
     };
-    create = (body: ICategoryDefinition): Observable<ICategoryDefinition> => {
-        return this.apiService.put<ICategoryDefinition>('categoryDefinition/create', body);
+    update = (id: number, body: ICategoryDefinition): Observable<number> => {
+        return this.apiService.post<number>(`categoryDefinition/update/${id}`, body);
     };
-    update = (id: number, body: ICategoryDefinition): Observable<ICategoryDefinition> => {
-        return this.apiService.post<ICategoryDefinition>(`categoryDefinition/update/${id}`, body);
-    };
-    delete = (id: number): Observable<boolean> => {
-        return this.apiService.delete<boolean>(`categoryDefinition/delete/${id}`);
+    delete = (id: number): Observable<any> => {
+        return this.apiService.delete<any>(`categoryDefinition/delete/${id}`);
     };
     checkNameExists = (name: string): Observable<boolean> => {
         const params = new HttpParams().set('name', name);

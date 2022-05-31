@@ -14,15 +14,15 @@ namespace YourNeighbour.Api.Controllers
 {
     public sealed class CategoryDefinitionController : BaseController
     {
-        [HttpGet("getById/{id}")]
-        public async Task<IActionResult> GetById(int id)
+        [HttpGet("get/{id}")]
+        public async Task<IActionResult> Get(int id)
         {
             CategoryDefinitionDto categoryDefinitions = await Mediator.Send(new GetCategoryDefinitionByIdQuery(id));
             return Ok(categoryDefinitions);
         }
 
-        [HttpGet("getAll")]
-        public async Task<IActionResult> GetAll()
+        [HttpGet("get")]
+        public async Task<IActionResult> GetMany()
         {
             IEnumerable<CategoryDefinitionDto> categoryDefinitions = await Mediator.Send(new GetAllCategoryDefinitionsQuery());
             return Ok(categoryDefinitions);
@@ -31,22 +31,22 @@ namespace YourNeighbour.Api.Controllers
         [HttpPut("create")]
         public async Task<IActionResult> Create(CategoryDefinitionCreateDto createCategoryDefinition)
         {
-            CategoryDefinitionDto categoryDefinition = await Mediator.Send(new CreateCategoryDefinitionCommand(createCategoryDefinition));
-            return CreatedAtAction(nameof(Create), categoryDefinition);
+            int result = await Mediator.Send(new CreateCategoryDefinitionCommand(createCategoryDefinition));
+            return CreatedAtAction(nameof(Create), result);
         }
 
         [HttpPost("update/{id}")]
         public async Task<IActionResult> Update(int id, CategoryDefinitionUpdateDto updateCategoryDefinition)
         {
-            CategoryDefinitionDto categoryDefinition = await Mediator.Send(new UpdateCategoryDefinitionCommand(id, updateCategoryDefinition));
-            return Ok(categoryDefinition);
+            int result = await Mediator.Send(new UpdateCategoryDefinitionCommand(id, updateCategoryDefinition));
+            return Ok(result);
         }
 
         [HttpDelete("delete/{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            bool categoryDefinition = await Mediator.Send(new DeleteCategoryDefinitionCommand(id));
-            return Ok(categoryDefinition);
+            await Mediator.Send(new DeleteCategoryDefinitionCommand(id));
+            return NoContent();
         }
         [HttpGet("nameExists")]
         public async Task<IActionResult> CheckNameExists([FromQuery] string name)

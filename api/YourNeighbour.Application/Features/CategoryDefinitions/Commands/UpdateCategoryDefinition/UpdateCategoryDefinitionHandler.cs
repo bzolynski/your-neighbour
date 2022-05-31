@@ -1,12 +1,12 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using YourNeighbour.Application.Abstractions;
-using YourNeighbour.Application.Features.CategoryDefinitions.Dtos;
 using YourNeighbour.Domain.Entities.Definitions;
 
 namespace YourNeighbour.Application.Features.CategoryDefinitions.Commands.UpdateCategoryDefinition
 {
-    public sealed class UpdateCategoryDefinitionHandler : ICommandHandler<UpdateCategoryDefinitionCommand, CategoryDefinitionDto>
+    public sealed class UpdateCategoryDefinitionHandler : ICommandHandler<UpdateCategoryDefinitionCommand, int>
     {
         private readonly IApplicationDbContext applicationDbContext;
         private readonly IMapper mapper;
@@ -16,14 +16,14 @@ namespace YourNeighbour.Application.Features.CategoryDefinitions.Commands.Update
             this.applicationDbContext = applicationDbContext;
             this.mapper = mapper;
         }
-        public async Task<CategoryDefinitionDto> Handle(UpdateCategoryDefinitionCommand request, CancellationToken cancellationToken)
+        public async Task<int> Handle(UpdateCategoryDefinitionCommand request, CancellationToken cancellationToken)
         {
             CategoryDefinition categoryDefinition = mapper.Map<CategoryDefinition>(request.CategoryDefinition);
             categoryDefinition.Id = request.Id;
 
-            var result = applicationDbContext.Set<CategoryDefinition>().Update(categoryDefinition);
+            EntityEntry<CategoryDefinition> result = applicationDbContext.Set<CategoryDefinition>().Update(categoryDefinition);
             await applicationDbContext.SaveChangesAsync(cancellationToken);
-            return mapper.Map<CategoryDefinitionDto>(result.Entity);
+            return result.Entity.Id;
         }
     }
 }

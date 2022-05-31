@@ -1,3 +1,3 @@
 import { IDefinitionBase } from './definition-base.model';
 
-export type ICategoryDefinition = IDefinitionBase;
+export interface ICategoryDefinition extends IDefinitionBase{}
