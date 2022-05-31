@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { iif, of, Subject } from 'rxjs';
 import { filter, switchMap, takeUntil, tap } from 'rxjs/operators';
-import { CategoryDefinitionAsyncValidators } from 'src/app/modules/settings/validators/category-definition-validators';
+import { CategoryDefinitionAsyncValidators } from 'src/app/shared/validators/category-definition-validators';
 import { ICategoryDefinition } from 'src/app/shared/data-access/models';
 import { GenericFormControl } from 'src/app/shared/utils';
 import { DestroyObservable } from 'src/app/shared/utils/destroy-observable';

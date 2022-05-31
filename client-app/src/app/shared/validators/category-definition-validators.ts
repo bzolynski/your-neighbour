@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AbstractControl, AsyncValidatorFn, ValidationErrors } from '@angular/forms';
 import { Observable, of, timer } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-import { CategoryDefinitionsService } from '../../core/services';
+import { CategoryDefinitionsService } from '../../modules/core/services';
 
 @Injectable()
 export class CategoryDefinitionAsyncValidators {
