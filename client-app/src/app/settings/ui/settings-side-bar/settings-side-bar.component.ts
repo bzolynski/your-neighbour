@@ -26,12 +26,12 @@ const options: SettingsOption[] = [
         link: '/settings/my/',
         children: [
             {
-                name: 'Przedmioty',
-                link: '/settings/my/items',
+                name: 'Konto',
+                link: '/settings/my/account',
             },
             {
-                name: 'Adresy',
-                link: '/settings/my/localizations',
+                name: 'Przedmioty',
+                link: '/settings/my/items',
             },
             {
                 name: 'Ogłoszenia',

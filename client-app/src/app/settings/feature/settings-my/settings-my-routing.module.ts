@@ -9,11 +9,6 @@ const routes: Routes = [
         loadChildren: () => import('../settings-my-items/settings-my-items.module').then((m) => m.SettingsMyItemsModule),
     },
     {
-        path: 'localizations',
-        loadChildren: () =>
-            import('../settings-my-localizations/settings-my-localizations.module').then((m) => m.SettingsMyLocalizationsModule),
-    },
-    {
         path: 'advertisements',
         loadChildren: () =>
             import('../settings-my-advertisements/settings-my-advertisements.module').then(
