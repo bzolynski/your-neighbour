@@ -6,7 +6,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CoreModule } from './modules/core/core.module';
 import { HomeModule } from './modules/home/home.module';
-import { SettingsModule } from './modules/settings/settings.module';
 import { SharedModule } from './modules/shared/shared.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { authenticationInterceptionProvider } from './shared/authentication/util';
@@ -28,7 +27,6 @@ import { InfoBarEffects } from './data-access/info-bar/info-bar.effects';
         HomeModule,
         RouterModule,
         SharedModule,
-        SettingsModule,
         BrowserAnimationsModule,
         AdvertisementShellModule,
         InfoBarModule,
