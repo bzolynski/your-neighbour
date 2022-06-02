@@ -1,0 +1,32 @@
+<div class="wrapper" *ngIf="vm$ | async as vm" appElevatedSection>
+    <form [formGroup]="form" (ngSubmit)="submitForm(vm.user.id)">
+        <div class="form-content">
+            <app-text-input
+                class="firstName"
+                [label]="'Imię'"
+                [type]="'text'"
+                [formControlName]="'firstName'"
+                [errorMessage]="firstNameErrorMessage"></app-text-input>
+            <app-text-input
+                class="lastName"
+                [label]="'Nazwisko'"
+                [type]="'text'"
+                [formControlName]="'lastName'"
+                [errorMessage]="lastNameErrorMessage"></app-text-input>
+            <app-text-input
+                class="phone"
+                [label]="'Telefon'"
+                [type]="'text'"
+                [formControlName]="'phoneNumber'"
+                [errorMessage]="phoneNumberErrorMessage"></app-text-input>
+        </div>
+        <button mat-button color="accent" [type]="'reset'">Anuluj</button>
+        <button
+            mat-button
+            color="primary"
+            [type]="'submit'"
+            [disabled]="vm.status === 'loading' || !form.valid">
+            Potwierdź
+        </button>
+    </form>
+</div>

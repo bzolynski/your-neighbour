@@ -1,52 +1,79 @@
-<h1 class="title">Twoje dane</h1>
-<div class="wrapper" *ngIf="{ user: user$ | async } as vm" appElevatedSection>
-    <div class="tile">
-        <span class="tile-title">Email:</span>
-        <span>{{ vm.user?.userName }}</span>
-    </div>
-    <div class="tile">
-        <span class="tile-title">Imię i nazwisko:</span>
-        <span>{{ vm.user?.userName }}</span>
-    </div>
-    <div class="tile">
-        <span class="tile-title">Telefon:</span>
-        <span>{{ vm.user?.userName }}</span>
-    </div>
-    <button class="button" mat-button [color]="'primary'">Edytuj</button>
-</div>
-<div class="list-container-wrapper">
-    <app-list-container [listViewType]="'card'">
-        <app-card
-            *ngFor="let localization of localizations$ | async"
-            (click)="dialog.open(localizationForm, { data: localization })"
-            [horizontal]="false">
-            <app-card-content>
-                <div class="card-content-wrapper">
-                    <p>{{ localization.name }}</p>
-                    <p>
-                        {{ localization.street }} {{ localization.houseNumber }}
-                    </p>
-                    <p>{{ localization.postCode }} {{ localization.city }}</p>
-                    <mat-icon
-                        class="icon"
-                        appStopPropagation
-                        (click)="deleteLocalization(localization.id)"
-                        >delete_forever</mat-icon
-                    >
-                </div>
-            </app-card-content>
-        </app-card>
-        <app-card (click)="dialog.open(localizationForm)" [horizontal]="false">
-            <app-card-content>
-                <div class="add-icon-container">
-                    <mat-icon>add</mat-icon>
-                    <span>Nowy adres</span>
-                </div>
-            </app-card-content>
-        </app-card>
-    </app-list-container>
-</div>
+<app-settings-layout [expanded]="expanded$ | async">
+    <app-settings-layout-topbar>
+        <h1 class="title">Twoje dane</h1>
 
+    </app-settings-layout-topbar>
+    <app-settings-layout-content>
+        <div
+            class="wrapper"
+            *ngIf="{ user: user$ | async } as vm"
+            appElevatedSection>
+            <div class="tile">
+                <span class="tile-title">Email:</span>
+                <span>{{ vm.user?.email }}</span>
+            </div>
+            <div class="tile">
+                <span class="tile-title">Imię i nazwisko:</span>
+                <span>{{ vm.user?.firstName }} {{ vm.user?.lastName }}</span>
+            </div>
+            <div class="tile">
+                <span class="tile-title">Telefon:</span>
+                <span>{{ vm.user?.phoneNumber }}</span>
+            </div>
+            <button
+                class="button"
+                mat-button
+                [color]="'primary'"
+                [routerLink]="['edit']">
+                Edytuj
+            </button>
+        </div>
+        <h1 class="title">Twoje adresy</h1>
+        <div class="list-container-wrapper">
+            <app-list-container [listViewType]="'card'">
+                <app-card
+                    *ngFor="let localization of localizations$ | async"
+                    (click)="
+                        dialog.open(localizationForm, { data: localization })
+                    "
+                    [horizontal]="false">
+                    <app-card-content>
+                        <div class="card-content-wrapper">
+                            <p>{{ localization.name }}</p>
+                            <p>
+                                {{ localization.street }}
+                                {{ localization.houseNumber }}
+                            </p>
+                            <p>
+                                {{ localization.postCode }}
+                                {{ localization.city }}
+                            </p>
+                            <mat-icon
+                                class="icon"
+                                appStopPropagation
+                                (click)="deleteLocalization(localization.id)"
+                                >delete_forever</mat-icon
+                            >
+                        </div>
+                    </app-card-content>
+                </app-card>
+                <app-card
+                    (click)="dialog.open(localizationForm)"
+                    [horizontal]="false">
+                    <app-card-content>
+                        <div class="add-icon-container">
+                            <mat-icon>add</mat-icon>
+                            <span>Nowy adres</span>
+                        </div>
+                    </app-card-content>
+                </app-card>
+            </app-list-container>
+        </div>
+    </app-settings-layout-content>
+    <app-settings-layout-side-content>
+        <router-outlet></router-outlet>
+    </app-settings-layout-side-content>
+</app-settings-layout>
 <app-backdrop-loading
     class="backdrop"
     *ngIf="(status$ | async) === 'loading'"></app-backdrop-loading>

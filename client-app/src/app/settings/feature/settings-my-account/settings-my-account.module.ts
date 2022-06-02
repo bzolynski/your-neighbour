@@ -20,6 +20,10 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { LocalizationFormModule } from 'src/app/shared/ui/localization-form/localization-form.module';
 import { StopPropagationModule } from 'src/app/shared/directives/stop-propagation/stop-propagation.module';
 import { BackdropLoadingModule } from 'src/app/shared/ui/backdrop-loading/backdrop-loading.module';
+import { SettingsLayoutModule } from '../../ui/settings-layout/settings-layout.module';
+import { SettingsLayoutContentModule } from '../../ui/settings-layout-content/settings-layout-content.module';
+import { SettingsLayoutSideContentModule } from '../../ui/settings-layout-side-content/settings-layout-side-content.module';
+import { SettingsLayoutTopbarModule } from '../../ui/settings-layout-topbar/settings-layout-topbar.module';
 @NgModule({
     imports: [
         CommonModule,
@@ -32,6 +36,10 @@ import { BackdropLoadingModule } from 'src/app/shared/ui/backdrop-loading/backdr
         MatIconModule,
         MatDialogModule,
         LocalizationFormModule,
+        SettingsLayoutModule,
+        SettingsLayoutContentModule,
+        SettingsLayoutTopbarModule,
+        SettingsLayoutSideContentModule,
         StopPropagationModule,
         BackdropLoadingModule,
         StoreModule.forFeature(SETTINGS_MY_ACCOUNT_STATE_FEATURE_KEY, settingsMyAccountReducer),

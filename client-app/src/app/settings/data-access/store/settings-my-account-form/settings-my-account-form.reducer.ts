@@ -1,0 +1,35 @@
+import { createReducer, on } from '@ngrx/store';
+import { GenericState, IUser } from 'src/app/shared/data-access/models';
+import { loadUser, loadUserError, loadUserSuccess, updateUser, updateUserError } from './settings-my-account-form.actions';
+export const SETTINGS_MY_ACCOUNT_FORM_STATE_FEATURE_KEY = 'settings my account form';
+
+export type SettingsMyAccountFormState = GenericState<IUser>;
+
+export const initialState: SettingsMyAccountFormState = {
+    error: null,
+    status: 'pending',
+    data: null,
+};
+
+export const settingsMyAccountFormReducer = createReducer(
+    initialState,
+    on(loadUser, (state) => ({
+        ...state,
+        status: 'loading',
+        error: null,
+    })),
+    on(loadUserSuccess, (state, { user }) => ({
+        ...state,
+        status: 'success',
+        data: user,
+    })),
+    on(loadUserError, updateUserError, (state, { error }) => ({
+        ...state,
+        status: 'error',
+        error: error,
+    })),
+    on(updateUser, (state) => ({
+        ...state,
+        status: 'loading',
+    }))
+);
