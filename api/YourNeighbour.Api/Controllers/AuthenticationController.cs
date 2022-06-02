@@ -9,7 +9,6 @@ using YourNeighbour.Application.Features.Authentication.Commands.Logout;
 using YourNeighbour.Application.Features.Authentication.Commands.Refresh;
 using YourNeighbour.Application.Features.Authentication.Commands.Register;
 using YourNeighbour.Application.Features.Authentication.Dtos;
-using YourNeighbour.Application.Features.Authentication.Queries.GetCurrentUser;
 using YourNeighbour.Domain.Options;
 
 namespace YourNeighbour.Api.Controllers
@@ -28,12 +27,7 @@ namespace YourNeighbour.Api.Controllers
             bool succeded = await Mediator.Send(new RegisterCommand(register));
             return CreatedAtAction(nameof(Register), succeded);
         }
-        [HttpGet("get-current-user")]
-        public async Task<IActionResult> GetCurrentUser()
-        {
-            UserDto user = await Mediator.Send(new GetCurrentUserQuery());
-            return Ok(user);
-        }
+        //TODO: Return id / GUID of user
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginDto login)
         {
