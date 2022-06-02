@@ -23,7 +23,6 @@ namespace YourNeighbour.Application.Features.Authentication.Commands.Register
             {
                 Email = request.RegisterDto.Email,
                 UserName = request.RegisterDto.Email,
-                RequiresData = true
             };
 
             IdentityResult result = await userManager.CreateAsync(user, request.RegisterDto.Password);

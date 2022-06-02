@@ -12,8 +12,10 @@ namespace YourNeighbour.Domain.Entities.Identity
             Items = new HashSet<Item>();
             Localizations = new HashSet<Localization>();
         }
+
         public Guid Guid { get; set; } = Guid.NewGuid();
-        public bool RequiresData { get; set; } = true;
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
 
         public ICollection<UserRole> UserRoles { get; private set; }
         public ICollection<Item> Items { get; private set; }
