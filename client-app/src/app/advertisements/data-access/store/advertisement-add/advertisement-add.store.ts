@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { throwError } from 'rxjs';
 import { filter, switchMap, tap } from 'rxjs/operators';
-import { IUser } from 'src/app/shared/data-access/models/api/user';
+import { IUser } from 'src/app/shared/data-access/models/api/user.model';
 import { AuthenticationStore } from 'src/app/shared/authentication/data-access';
 import { Router } from '@angular/router';
 import { MessageService } from 'src/app/modules/core/services/message.service';

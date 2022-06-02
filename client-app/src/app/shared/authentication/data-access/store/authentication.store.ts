@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { map, switchMap, tap } from 'rxjs/operators';
 import { GenericState } from 'src/app/shared/data-access/models';
-import { IUser } from 'src/app/shared/data-access/models/api/user';
+import { IUser } from 'src/app/shared/data-access/models/api/user.model';
 import { AuthenticationService } from './authentication.service';
 
 const LOCALSTORAGE_USER = 'user';

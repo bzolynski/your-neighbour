@@ -2,7 +2,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { IUser } from 'src/app/shared/data-access/models/api/user';
+import { IUser } from 'src/app/shared/data-access/models/api/user.model';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
