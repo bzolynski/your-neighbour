@@ -4,6 +4,7 @@ import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { map, switchMap, tap } from 'rxjs/operators';
 import { GenericState } from 'src/app/shared/data-access/models';
 import { IUser } from 'src/app/shared/data-access/models/api/user.model';
+import { StringHelperMethods } from 'src/app/shared/utils/string-utils';
 import { AuthenticationService } from './authentication.service';
 
 const LOCALSTORAGE_USER = 'user';
@@ -22,6 +23,14 @@ export class AuthenticationStore extends ComponentStore<AuthenticationState> {
             this.patchState({ data: user });
             return user;
         })
+    );
+    readonly userDetailsFilled$ = this.select((state) => state.data).pipe(
+        map(
+            (user) =>
+                !StringHelperMethods.isNullOrWhiteSpace(user?.firstName) &&
+                !StringHelperMethods.isNullOrWhiteSpace(user?.lastName) &&
+                !StringHelperMethods.isNullOrWhiteSpace(user?.phoneNumber)
+        )
     );
     readonly isLoading$ = this.select((state) => state.status === 'loading');
     readonly error$ = this.select((state) => state.error);
