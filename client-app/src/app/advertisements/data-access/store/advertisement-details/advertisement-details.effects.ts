@@ -1,12 +1,21 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { of } from 'rxjs';
-import { catchError, map, switchMap } from 'rxjs/operators';
+import { of, throwError } from 'rxjs';
+import { catchError, filter, map, switchMap, tap } from 'rxjs/operators';
 import { ItemService } from 'src/app/modules/core/services/item.service';
-import { UserService } from 'src/app/shared/data-access/api';
+import { MessageService } from 'src/app/modules/core/services/message.service';
+import { AuthenticationStore } from 'src/app/shared/authentication/data-access';
+import { FavoriteAdvertisementService, UserService } from 'src/app/shared/data-access/api';
+import { IUser } from 'src/app/shared/data-access/models';
 import { AdvertisementService } from '../advertisement.service';
 import {
+    addFavorite,
+    addFavoriteError,
+    addFavoriteSuccess,
+    deleteFavorite,
+    deleteFavoriteError,
+    deleteFavoriteSuccess,
     loadAdvertisement,
     loadAdvertisementError,
     loadAdvertisementSuccess,
@@ -21,7 +30,10 @@ export class AdvertisementDetailsEffects {
         private actions$: Actions,
         private advertisementService: AdvertisementService,
         private itemService: ItemService,
-        private userService: UserService
+        private userService: UserService,
+        private authStore: AuthenticationStore,
+        private favoriteService: FavoriteAdvertisementService,
+        private messageService: MessageService
     ) {}
     loadAdvertisement$ = createEffect(() =>
         this.actions$.pipe(
@@ -48,6 +60,21 @@ export class AdvertisementDetailsEffects {
             catchError((error: HttpErrorResponse) => of(loadImagesError({ error: error.error ?? error.message })))
         )
     );
+
+    loadFavorite$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(loadAdvertisementSuccess),
+            switchMap(({ advertisement }) =>
+                this.authStore.user$.pipe(
+                    filter((user): user is IUser => user !== null),
+                    switchMap((user) => this.favoriteService.isFavorite(user.id, advertisement.id)),
+                    filter((response) => response),
+                    map(() => addFavoriteSuccess())
+                )
+            )
+        )
+    );
+
     loadUser$ = createEffect(() =>
         this.actions$.pipe(
             ofType(loadAdvertisementSuccess),
@@ -56,4 +83,39 @@ export class AdvertisementDetailsEffects {
             catchError((error: HttpErrorResponse) => of(loadImagesError({ error: error.error ?? error.message })))
         )
     );
+
+    addFavorite$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(addFavorite),
+            switchMap(({ advertisementId }) =>
+                this.authStore.user$.pipe(
+                    tap(this.checkUserLoggedIn),
+                    filter((user): user is IUser => user !== null),
+                    switchMap((user) => this.favoriteService.create(user.id, advertisementId)),
+                    map(() => addFavoriteSuccess()),
+                    catchError((error: HttpErrorResponse) => of(addFavoriteError({ error: error.error ?? error.message })))
+                )
+            )
+        )
+    );
+
+    deleteFavorite$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(deleteFavorite),
+            switchMap(({ advertisementId }) =>
+                this.authStore.user$.pipe(
+                    filter((user): user is IUser => user !== null),
+                    switchMap((user) => this.favoriteService.delete(user.id, advertisementId)),
+                    map(() => deleteFavoriteSuccess()),
+                    catchError((error: HttpErrorResponse) => of(deleteFavoriteError({ error: error.error ?? error.message })))
+                )
+            )
+        )
+    );
+
+    private readonly checkUserLoggedIn = (user: IUser | null) => {
+        if (user === null) {
+            throwError(new Error('Nie jesteś zalogowany!'));
+        }
+    };
 }

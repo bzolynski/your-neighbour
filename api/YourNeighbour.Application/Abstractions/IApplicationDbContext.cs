@@ -15,5 +15,7 @@ namespace YourNeighbour.Application.Abstractions
         EntityEntry<TEntity> Update<TEntity>(TEntity entity) where TEntity : class;
         void UpdateRange(IEnumerable<object> entities);
         EntityEntry<TEntity> Add<TEntity>(TEntity entity) where TEntity : class;
+        ValueTask<EntityEntry> AddAsync(object entity, CancellationToken cancellationToken = default);
+        EntityEntry<TEntity> Remove<TEntity>(TEntity entity) where TEntity : class;
     }
 }

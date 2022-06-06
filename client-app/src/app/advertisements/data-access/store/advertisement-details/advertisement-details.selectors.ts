@@ -5,5 +5,6 @@ export const advertisementDetailsState = createFeatureSelector<AdvertisementDeta
 
 export const selectAdvertisement = createSelector(advertisementDetailsState, (state) => state.data);
 export const selectUser = createSelector(advertisementDetailsState, (state) => state.user);
+export const selectIsFavorite = createSelector(advertisementDetailsState, (state) => state.favorite);
 export const selectStatus = createSelector(advertisementDetailsState, (state) => state.status);
 export const selectError = createSelector(advertisementDetailsState, (state) => state.error);

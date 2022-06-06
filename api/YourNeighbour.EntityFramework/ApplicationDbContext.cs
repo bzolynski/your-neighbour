@@ -30,6 +30,8 @@ namespace YourNeighbour.EntityFramework
         public DbSet<AdvertisementDefinition> AdvertisementDefinitions { get; set; }
         public DbSet<CategoryDefinition> CategoryDefinitions { get; set; }
 
+        public DbSet<FavoriteAdvertisement> FavoriteAdvertisements { get; set; }
+
         public DbSet<Item> Items { get; set; }
         public DbSet<ItemImage> ItemImages { get; set; }
 

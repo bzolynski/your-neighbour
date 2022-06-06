@@ -12,8 +12,19 @@
                 {{ vm.user?.firstName }}
                 {{ (vm.user?.firstName ?? '')[0] + (vm.user ? '.' : '') }}
             </span>
-            <mat-icon class="favorite">favorite_border</mat-icon>
-            <mat-icon class="favorite">favorite</mat-icon>
+            <mat-icon
+                *ngIf="vm.isFavorite; else noFavorite"
+                class="favorite"
+                (click)="removeFavorite($any(vm.advertisement?.id))"
+                >favorite</mat-icon
+            >
+            <ng-template #noFavorite>
+                <mat-icon
+                    class="favorite"
+                    (click)="addFavorite($any(vm.advertisement?.id))"
+                    >favorite_border</mat-icon
+                >
+            </ng-template>
             <div class="buttons">
                 <button mat-stroked-button color="primary">Napisz</button>
                 <button mat-raised-button color="primary">Zadzwoń</button>
