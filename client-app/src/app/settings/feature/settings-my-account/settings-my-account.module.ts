@@ -24,6 +24,7 @@ import { SettingsLayoutModule } from '../../ui/settings-layout/settings-layout.m
 import { SettingsLayoutContentModule } from '../../ui/settings-layout-content/settings-layout-content.module';
 import { SettingsLayoutSideContentModule } from '../../ui/settings-layout-side-content/settings-layout-side-content.module';
 import { SettingsLayoutTopbarModule } from '../../ui/settings-layout-topbar/settings-layout-topbar.module';
+import { LocalizationCardModule } from '../../ui/localization-card/localization-card.module';
 @NgModule({
     imports: [
         CommonModule,
@@ -42,6 +43,7 @@ import { SettingsLayoutTopbarModule } from '../../ui/settings-layout-topbar/sett
         SettingsLayoutSideContentModule,
         StopPropagationModule,
         BackdropLoadingModule,
+        LocalizationCardModule,
         StoreModule.forFeature(SETTINGS_MY_ACCOUNT_STATE_FEATURE_KEY, settingsMyAccountReducer),
         EffectsModule.forFeature([SettingsMyAccountEffects]),
     ],

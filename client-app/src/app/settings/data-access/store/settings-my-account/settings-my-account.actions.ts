@@ -49,3 +49,15 @@ export const deleteLocalizationError = createAction(
     '[SettingsMyAccountComponent] Delete Localization Error',
     props<{ error: string }>()
 );
+export const setPrimaryLocalization = createAction(
+    '[SettingsMyAccountComponent] Set Primary Localization',
+    props<{ id: number }>()
+);
+export const setPrimaryLocalizationSuccess = createAction(
+    '[SettingsMyAccountComponent] Set Primary Localization Success',
+    props<{ id: number }>()
+);
+export const setPrimaryLocalizationError = createAction(
+    '[SettingsMyAccountComponent] Set Primary Localization Error',
+    props<{ error: string }>()
+);

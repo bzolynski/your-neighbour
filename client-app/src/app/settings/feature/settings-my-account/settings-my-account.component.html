@@ -1,7 +1,6 @@
 <app-settings-layout [expanded]="expanded$ | async">
     <app-settings-layout-topbar>
         <h1 class="title">Twoje dane</h1>
-
     </app-settings-layout-topbar>
     <app-settings-layout-content>
         <div
@@ -31,32 +30,13 @@
         <h1 class="title">Twoje adresy</h1>
         <div class="list-container-wrapper">
             <app-list-container [listViewType]="'card'">
-                <app-card
+                <app-localization-card
                     *ngFor="let localization of localizations$ | async"
-                    (click)="
-                        dialog.open(localizationForm, { data: localization })
-                    "
-                    [horizontal]="false">
-                    <app-card-content>
-                        <div class="card-content-wrapper">
-                            <p>{{ localization.name }}</p>
-                            <p>
-                                {{ localization.street }}
-                                {{ localization.houseNumber }}
-                            </p>
-                            <p>
-                                {{ localization.postCode }}
-                                {{ localization.city }}
-                            </p>
-                            <mat-icon
-                                class="icon"
-                                appStopPropagation
-                                (click)="deleteLocalization(localization.id)"
-                                >delete_forever</mat-icon
-                            >
-                        </div>
-                    </app-card-content>
-                </app-card>
+                    [localization]="localization"
+                    (deleteButtonClicked)="deleteLocalization($event)"
+                    (setPrimaryClicked)="setPrimaryLocalization($event)"
+                    (click)="dialog.open(localizationForm, { data: localization })">
+                </app-localization-card>
                 <app-card
                     (click)="dialog.open(localizationForm)"
                     [horizontal]="false">

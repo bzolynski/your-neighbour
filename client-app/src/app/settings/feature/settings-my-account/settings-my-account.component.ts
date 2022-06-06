@@ -18,6 +18,7 @@ import {
     updateLocalization,
     createLocalization,
     deleteLocalization,
+    setPrimaryLocalization,
 } from '../../data-access/store/settings-my-account';
 
 @Component({
@@ -30,7 +31,9 @@ export class SettingsMyAccountComponent implements OnInit {
     user$ = this.store.select(selectUser);
     error$ = this.store.select(selectError);
     status$ = this.store.select(selectStatus);
-    localizations$ = this.store.select(selectLocalizations);
+    localizations$ = this.store
+        .select(selectLocalizations)
+        .pipe(map((localizations) => ([...localizations] ?? []).sort((value) => (value.isPrimary ? -1 : 1))));
 
     expanded$ = merge(of(undefined), this.router.events).pipe(
         switchMap((value) =>
@@ -72,5 +75,8 @@ export class SettingsMyAccountComponent implements OnInit {
     };
     deleteLocalization = (id: number) => {
         this.store.dispatch(deleteLocalization({ id: id }));
+    };
+    setPrimaryLocalization = (id: number) => {
+        this.store.dispatch(setPrimaryLocalization({ id: id }));
     };
 }

@@ -12,6 +12,9 @@ import {
     loadLocalizationsSuccess,
     loadUserError,
     loadUserSuccess,
+    setPrimaryLocalization,
+    setPrimaryLocalizationError,
+    setPrimaryLocalizationSuccess,
     updateLocalization,
     updateLocalizationError,
     updateLocalizationSuccess,
@@ -37,7 +40,7 @@ export const settingsMyAccountReducer = createReducer(
         status: 'success',
         data: user,
     })),
-    on(loadLocalizations, deleteLocalization, createLocalization, updateLocalization, (state) => ({
+    on(loadLocalizations, deleteLocalization, createLocalization, updateLocalization, setPrimaryLocalization, (state) => ({
         ...state,
         status: 'loading',
         error: null,
@@ -48,6 +51,7 @@ export const settingsMyAccountReducer = createReducer(
         updateLocalizationError,
         createLocalizationError,
         deleteLocalizationError,
+        setPrimaryLocalizationError,
         (state, { error }) => ({
             ...state,
             error: error,
@@ -78,5 +82,12 @@ export const settingsMyAccountReducer = createReducer(
         ...state,
         status: 'success',
         localizations: state.localizations.filter((value) => value.id !== id),
+    })),
+    on(setPrimaryLocalizationSuccess, (state, { id }) => ({
+        ...state,
+        status: 'success',
+        localizations: state.localizations.map((value) =>
+            value.id === id ? { ...value, isPrimary: true } : { ...value, isPrimary: false }
+        ),
     }))
 );

@@ -1,0 +1,41 @@
+.card-content-wrapper {
+    position: relative;
+    &:hover .icon {
+        opacity: 1;
+    }
+}
+
+.icons{
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-columns: 1fr;
+    position: absolute;
+    right: 0rem;
+    top: 0rem;
+
+}
+.icon {
+    opacity: 0;
+    font-size: 25px;
+    width: 25px;
+    height: 25px;
+    line-height: 1;
+    transition: 0.1s ease-in-out;
+
+    &:hover {
+        transform: scale(1.1);
+    }
+}
+.icon-red-hover:hover{
+    color: red;
+}
+.icon-gold{
+    color: gold;
+}
+.icon-gold-hover:hover{
+    color: gold;
+}
+
+.icon-visible{
+    opacity: 1;
+}

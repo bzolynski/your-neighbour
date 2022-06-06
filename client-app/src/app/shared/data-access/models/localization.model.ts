@@ -6,4 +6,5 @@ export interface Localization {
     houseNumber: string;
     flatNumber: string;
     city: string;
+    isPrimary: boolean;
 }

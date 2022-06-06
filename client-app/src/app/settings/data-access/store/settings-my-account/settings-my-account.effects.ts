@@ -21,6 +21,9 @@ import {
     loadUser,
     loadUserError,
     loadUserSuccess,
+    setPrimaryLocalization,
+    setPrimaryLocalizationError,
+    setPrimaryLocalizationSuccess,
     updateLocalization,
     updateLocalizationError,
     updateLocalizationSuccess,
@@ -97,6 +100,19 @@ export class SettingsMyAccountEffects {
                 this.localizationService.delete(id).pipe(
                     map(() => deleteLocalizationSuccess({ id: id })),
                     catchError((error: HttpErrorResponse) => of(deleteLocalizationError({ error: error.error ?? error.message })))
+                )
+            )
+        )
+    );
+    setPrimaryLocalization$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(setPrimaryLocalization),
+            switchMap(({ id }) =>
+                this.localizationService.setPrimary(id).pipe(
+                    map(() => setPrimaryLocalizationSuccess({ id: id })),
+                    catchError((error: HttpErrorResponse) =>
+                        of(setPrimaryLocalizationError({ error: error.error ?? error.message }))
+                    )
                 )
             )
         )

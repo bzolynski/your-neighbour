@@ -28,4 +28,8 @@ export class LocalizationService {
     delete = (id: number): Observable<any> => {
         return this.apiService.delete(`localization/delete/${id}`);
     };
+
+    setPrimary = (id: number): Observable<any> => {
+        return this.apiService.patch(`localization/set-primary/${id}`);
+    };
 }

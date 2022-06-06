@@ -1,0 +1,37 @@
+<app-card *ngIf="localization" [horizontal]="false">
+    <app-card-content>
+        <div class="card-content-wrapper">
+            <p>{{ localization.name }}</p>
+            <p>
+                {{ localization.street }}
+                {{ localization.houseNumber }}
+            </p>
+            <p>
+                {{ localization.postCode }}
+                {{ localization.city }}
+            </p>
+            <div class="icons">
+                <mat-icon
+                    class="icon icon-red-hover"
+                    appStopPropagation
+                    (click)="deleteButtonClicked.next(localization.id)"
+                    >delete_forever</mat-icon
+                >
+                <mat-icon
+                    [ngClass]="{
+                        'icon-visible': localization.isPrimary,
+                        'icon-gold': localization.isPrimary
+                    }"
+                    class="icon icon-gold-hover"
+                    appStopPropagation
+                    (click)="
+                        !localization.isPrimary
+                            ? setPrimaryClicked.next(localization.id)
+                            : undefined
+                    "
+                    >star</mat-icon
+                >
+            </div>
+        </div>
+    </app-card-content>
+</app-card>

@@ -4,7 +4,7 @@
         appElevatedSection
         *ngIf="{ user: user$ | async } as vm">
         <span
-            >Witaj <strong>{{ vm.user!.userName }}</strong
+            >Witaj <strong>{{ vm.user?.email }}</strong
             >! Co chcesz zrobić?</span
         >
     </div>
