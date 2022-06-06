@@ -1,0 +1,56 @@
+import { createReducer, on } from '@ngrx/store';
+import { GenericState, IUser } from 'src/app/shared/data-access/models';
+import { Advertisement } from '../../models/advertisement.model';
+import {
+    loadAdvertisement,
+    loadAdvertisementError,
+    loadAdvertisementSuccess,
+    loadImages,
+    loadImagesError,
+    loadImagesSuccess,
+    loadUser,
+    loadUserError,
+    loadUserSuccess,
+} from './advertisement-details.actions';
+
+export const ADVERTISEMENT_DETAILS_FEATURE_KEY = 'advertisement details';
+
+export interface AdvertisementDetailsState extends GenericState<Advertisement> {
+    user: IUser | null;
+}
+
+export const initialState: AdvertisementDetailsState = {
+    data: null,
+    user: null,
+    error: null,
+    status: 'pending',
+};
+
+export const advertisementDetailsReducer = createReducer(
+    initialState,
+    on(loadAdvertisement, loadUser, loadImages, (state) => ({
+        ...state,
+        status: 'loading',
+        error: null,
+    })),
+    on(loadAdvertisementSuccess, (state, { advertisement }) => ({
+        ...state,
+        status: 'success',
+        data: advertisement,
+    })),
+    on(loadUserSuccess, (state, { user }) => ({
+        ...state,
+        status: 'success',
+        user: user,
+    })),
+    on(loadImagesSuccess, (state, { images }) => ({
+        ...state,
+        status: 'success',
+        data: { ...state.data, item: { ...state.data?.item, images: images } } as Advertisement,
+    })),
+    on(loadUserError, loadAdvertisementError, loadImagesError, (state, { error }) => ({
+        ...state,
+        error: error,
+        status: 'error',
+    }))
+);

@@ -1,11 +1,9 @@
-<div class="wrapper">
+<div class="wrapper" *ngIf="vm$ | async as vm">
     <div class="left" appElevatedSection>
         <app-advertisement-overview
             style="width: 100%; height: 100%"
-            [advertisement]="advertisement$ | async"
-            [loading]="
-                (isLoading$ | async) ?? false
-            "></app-advertisement-overview>
+            [advertisement]="vm.advertisement"
+            [loading]="vm.status === 'loading'"></app-advertisement-overview>
     </div>
     <div class="right">
         <div appElevatedSection>TODO: Owner info</div>
