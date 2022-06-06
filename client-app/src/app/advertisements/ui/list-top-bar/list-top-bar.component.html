@@ -8,11 +8,4 @@
             (searchSubmited)="submitSearch($event)"
             [categories]="categories$ | async"></app-advertisement-search>
     </div>
-    <button
-        *ngIf="user$ | async"
-        mat-raised-button
-        color="warn"
-        [routerLink]="['/advertisements', 'add']">
-        Nowe ogłoszenie
-    </button>
 </div>

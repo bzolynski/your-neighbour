@@ -22,7 +22,7 @@ export class AdvertisementStore extends ComponentStore<AdvertisementState> {
                 this.advertisementService
                     .get(id, {
                         includeCategory: true,
-                       // includeImages: true,
+                        // includeImages: true,
                         includeDefinition: true,
                         includeLocalization: true,
                         includeUser: true,
