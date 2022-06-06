@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
@@ -12,6 +13,7 @@ namespace YourNeighbour.Application.Abstractions
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
         DatabaseFacade Database { get; }
         EntityEntry<TEntity> Update<TEntity>(TEntity entity) where TEntity : class;
+        void UpdateRange(IEnumerable<object> entities);
         EntityEntry<TEntity> Add<TEntity>(TEntity entity) where TEntity : class;
     }
 }

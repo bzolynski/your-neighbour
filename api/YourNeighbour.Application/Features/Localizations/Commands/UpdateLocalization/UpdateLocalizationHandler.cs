@@ -19,13 +19,14 @@ namespace YourNeighbour.Application.Features.Localizations.Commands.UpdateLocali
         {
             Localization localization = await applicationDbContext.Set<Localization>().FirstOrDefaultAsync(x => x.Id == request.id, cancellationToken);
             if (localization is null)
-                throw new StatusCodeException("Localization does not exists!", System.Net.HttpStatusCode.BadRequest);
+                throw new StatusCodeException("Lokalizacja nie istnieje!", System.Net.HttpStatusCode.BadRequest);
             localization.Name = request.LocalizationDto.Name;
             localization.Street = request.LocalizationDto.Street;
             localization.PostCode = request.LocalizationDto.PostCode;
             localization.City = request.LocalizationDto.City;
             localization.HouseNumber = request.LocalizationDto.HouseNumber;
             localization.FlatNumber = request.LocalizationDto.FlatNumber;
+            localization.IsPrimary = request.LocalizationDto.IsPrimary;
             applicationDbContext.Set<Localization>().Update(localization);
             await applicationDbContext.SaveChangesAsync(cancellationToken);
             return localization.Id;

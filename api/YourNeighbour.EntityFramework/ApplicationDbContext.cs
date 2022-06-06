@@ -44,6 +44,5 @@ namespace YourNeighbour.EntityFramework
             base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }
-
     }
 }

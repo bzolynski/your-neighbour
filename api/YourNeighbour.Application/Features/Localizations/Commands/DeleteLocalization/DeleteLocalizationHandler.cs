@@ -19,7 +19,9 @@ namespace YourNeighbour.Application.Features.Localizations.Commands.DeleteLocali
         {
             Localization localization = await applicationDbContext.Set<Localization>().FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
             if (localization is null)
-                throw new StatusCodeException("Localization not found", System.Net.HttpStatusCode.BadRequest);
+                throw new StatusCodeException("Lokalizacja nie istnieje!", System.Net.HttpStatusCode.BadRequest);
+            if (localization.IsPrimary)
+                throw new StatusCodeException("Nie można usunąć podstawowej lokalizacji!", System.Net.HttpStatusCode.BadRequest);
             applicationDbContext.Set<Localization>().Remove(localization);
             await applicationDbContext.SaveChangesAsync(cancellationToken);
             return true;

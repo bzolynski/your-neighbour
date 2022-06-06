@@ -9,5 +9,6 @@
         public string FlatNumber { get; set; }
         public string City { get; set; }
         public int UserId { get; set; }
+        public bool IsPrimary { get; set; }
     }
 }

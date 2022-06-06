@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using YourNeighbour.Application.Features.Localizations.Commands.CreateLocalization;
 using YourNeighbour.Application.Features.Localizations.Commands.DeleteLocalization;
+using YourNeighbour.Application.Features.Localizations.Commands.SetPrimaryLocalization;
 using YourNeighbour.Application.Features.Localizations.Commands.UpdateLocalization;
 using YourNeighbour.Application.Features.Localizations.Dtos;
 using YourNeighbour.Application.Features.Localizations.Queries.GetLocalization;
@@ -37,6 +38,14 @@ namespace YourNeighbour.Api.Controllers
             int result = await Mediator.Send(new UpdateLocalizationCommand(id, localizationDto));
             return Ok(result);
         }
+
+        [HttpPatch("set-primary/{id}")]
+        public async Task<IActionResult> SetPrimary(int id)
+        {
+            await Mediator.Send(new SetPrimaryLocalizationCommand(id));
+            return Ok();
+        }
+
         [HttpDelete("delete/{id}")]
         public async Task<IActionResult> Delete(int id)
         {
