@@ -13,13 +13,18 @@ import {
     advertisementDetailsReducer,
     ADVERTISEMENT_DETAILS_FEATURE_KEY,
 } from '../../data-access/store/advertisement-details';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 @NgModule({
     imports: [
         CommonModule,
         AdvertisementDetailsRoutingModule,
         AdvertisementOverviewModule,
         SharedModule,
+        MatIconModule,
         ElevatedSectionModule,
+        MatButtonModule,
+
         StoreModule.forFeature(ADVERTISEMENT_DETAILS_FEATURE_KEY, advertisementDetailsReducer),
         EffectsModule.forFeature([AdvertisementDetailsEffects]),
     ],

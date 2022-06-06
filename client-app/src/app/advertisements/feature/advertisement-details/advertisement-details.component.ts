@@ -4,8 +4,15 @@ import { Store } from '@ngrx/store';
 import { combineLatest } from 'rxjs';
 import { filter, map, takeUntil, tap } from 'rxjs/operators';
 import { MessageService } from 'src/app/modules/core/services/message.service';
+import {} from 'src/app/settings/data-access/store/settings-my-account';
 import { DestroyObservable } from 'src/app/shared/utils/destroy-observable';
-import { loadAdvertisement, selectAdvertisement, selectError, selectStatus } from '../../data-access/store/advertisement-details';
+import {
+    loadAdvertisement,
+    selectAdvertisement,
+    selectError,
+    selectStatus,
+    selectUser,
+} from '../../data-access/store/advertisement-details';
 
 @Component({
     selector: 'app-advertisement-details',
@@ -15,11 +22,12 @@ import { loadAdvertisement, selectAdvertisement, selectError, selectStatus } fro
 })
 export class AdvertisementDetailsComponent implements OnInit {
     #advertisement$ = this.store.select(selectAdvertisement);
+    #user$ = this.store.select(selectUser);
     #status$ = this.store.select(selectStatus);
     #error$ = this.store.select(selectError);
 
-    vm$ = combineLatest([this.#advertisement$, this.#error$, this.#status$]).pipe(
-        map(([advertisement, error, status]) => ({ advertisement, error, status }))
+    vm$ = combineLatest([this.#advertisement$, this.#user$, this.#error$, this.#status$]).pipe(
+        map(([advertisement, user, error, status]) => ({ advertisement, user, error, status }))
     );
 
     constructor(
