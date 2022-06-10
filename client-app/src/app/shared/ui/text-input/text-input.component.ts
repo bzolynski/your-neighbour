@@ -15,6 +15,8 @@ export class TextInputComponent implements OnInit, ControlValueAccessor {
     @Input() placeholder: string = '';
     @Input() errorMessage: string = '';
     @Input() hideError: boolean = false;
+    @Input() showPasswordButton: boolean = false;
+
     get control(): FormControl {
         return this.controlDir.control as FormControl;
     }

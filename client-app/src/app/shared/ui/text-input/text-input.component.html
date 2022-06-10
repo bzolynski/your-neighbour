@@ -16,7 +16,7 @@
         (blur)="onTouched()"
         [formControl]="control" />
     <button
-        *ngIf="type === 'password'"
+        *ngIf="type === 'password' && showPasswordButton"
         mat-icon-button
         matSuffix
         type="button"
