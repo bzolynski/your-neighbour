@@ -1,4 +1,4 @@
-<app-backdrop>
+<app-backdrop *ngIf="backdrop; else noBackdrop">
     <div class="wrapper">
         <div class="ball"></div>
         <div class="ball"></div>
@@ -6,3 +6,14 @@
         <span *ngIf="loadingText" class="text">{{ loadingText }}</span>
     </div>
 </app-backdrop>
+
+<ng-template #noBackdrop>
+    <div class="no-backdrop">
+        <div class="wrapper">
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <span *ngIf="loadingText" class="text">{{ loadingText }}</span>
+        </div>
+    </div>
+</ng-template>
