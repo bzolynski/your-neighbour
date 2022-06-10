@@ -1,7 +1,9 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { map, switchMap, tap } from 'rxjs/operators';
+import { MessageService } from 'src/app/modules/core/services/message.service';
 import { GenericState } from 'src/app/shared/data-access/models';
 import { IUser } from 'src/app/shared/data-access/models/api/user.model';
 import { StringHelperMethods } from 'src/app/shared/utils/string-utils';
@@ -46,10 +48,12 @@ export class AuthenticationStore extends ComponentStore<AuthenticationState> {
                         (response) => {
                             this.saveToLocalStorage(response);
                             this.patchState({ status: 'success', data: response });
+                            this.router.navigateByUrl(this.activatedRoute.snapshot.queryParams['returnUrl'] ?? '/');
+                            this.messageService.showMessage('Pomyślnie zalogowano', 'success');
                         },
                         (error: HttpErrorResponse) => {
                             this.removeFromLocalStorage();
-                            this.patchState({ status: 'error', error: error.message });
+                            this.handleError(error);
                         }
                     )
                 )
@@ -62,10 +66,33 @@ export class AuthenticationStore extends ComponentStore<AuthenticationState> {
             tap(() => {
                 this.removeFromLocalStorage();
                 this.patchState({ status: 'pending', error: null, data: null });
+                this.messageService.showMessage('Pomyślnie wylogowano', 'success');
             })
         )
     );
 
+    readonly register = this.effect<{ email: string; password: string; confirmPassword: string }>((params$) =>
+        params$.pipe(
+            tap(() => {
+                this.patchState({ status: 'loading', error: null });
+            }),
+            switchMap(({ email, password, confirmPassword }) =>
+                this.authenticationService.register({ email, password, confirmPassword }).pipe(
+                    tapResponse(
+                        () => {
+                            this.patchState({ status: 'success' });
+                            this.messageService.showMessage('Rejestracja przebiegła pomyślnie. Możesz się zalogować!', 'success');
+                        },
+                        (error: HttpErrorResponse) => this.handleError(error)
+                    )
+                )
+            )
+        )
+    );
+    private handleError = (error: HttpErrorResponse) => {
+        this.patchState({ status: 'error', error: error.message });
+        this.messageService.showMessage(error.message, 'error');
+    };
     private getFromLocalStorage = (): IUser | null => {
         const jsonUser = localStorage.getItem(LOCALSTORAGE_USER);
         if (!jsonUser) return null;
@@ -77,7 +104,12 @@ export class AuthenticationStore extends ComponentStore<AuthenticationState> {
     private removeFromLocalStorage = () => {
         localStorage.removeItem(LOCALSTORAGE_USER);
     };
-    constructor(private authenticationService: AuthenticationService) {
+    constructor(
+        private authenticationService: AuthenticationService,
+        private router: Router,
+        private activatedRoute: ActivatedRoute,
+        private messageService: MessageService
+    ) {
         super(<AuthenticationState>{});
     }
 }

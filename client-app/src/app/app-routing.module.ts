@@ -3,19 +3,12 @@ import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './modules/core/guards/auth.guard';
 
 const routes: Routes = [
-    {
-        path: '',
-        loadChildren: () => import('./modules/home/home.module').then((m) => m.HomeModule),
-    },
+    { path: '', loadChildren: () => import('./home/feature/home-shell/home-shell.module').then((m) => m.HomeShellModule) },
     {
         path: 'settings',
         canActivate: [AuthGuard],
         loadChildren: () => import('./settings/feature/settings-shell/settings-shell.module').then((m) => m.SettingsShellModule),
     },
-    // {
-    //     path: 'settings',
-    //     loadChildren: () => import('./modules/settings/settings.module').then((m) => m.SettingsModule),
-    // },
     {
         path: 'advertisements',
         loadChildren: () =>
