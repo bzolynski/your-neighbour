@@ -11,11 +11,13 @@ namespace YourNeighbour.EntityFramework.Configuration
             builder.HasKey(x => new { x.UserId, x.AdvertisementId });
 
             builder.HasOne(x => x.User)
-                .WithOne()
+                .WithMany()
+                .HasForeignKey(x => x.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne(x => x.Advertisement)
-                .WithOne()
+                .WithMany()
+                .HasForeignKey(x => x.AdvertisementId)
                 .OnDelete(DeleteBehavior.Restrict);
         }
     }
