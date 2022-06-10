@@ -8,7 +8,10 @@
         class="list-container"
         *ngIf="{ viewType: selectedListViewType$ | async } as vm"
         [listViewType]="$any(vm.viewType)">
-        <app-advertisement-card
+        <app-bouncy-loading-backdrop
+            [backdrop]="false"
+            *ngIf="isLoading$ | async"></app-bouncy-loading-backdrop>
+        <app-advertisement-card 
             *ngFor="let advertisement of advertisements$ | async"
             [horizontal]="vm.viewType === 'list'"
             (click)="openAdvertisement(advertisement.id)"

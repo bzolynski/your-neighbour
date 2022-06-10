@@ -14,6 +14,7 @@ import { AdvertisementListStore } from '../../data-access/store/advertisement-li
     providers: [AdvertisementListStore, CategoryStore],
 })
 export class AdvertisementListComponent implements OnInit {
+    isLoading$ = this.advertisementListStore.isLoading$;
     constructor(private advertisementListStore: AdvertisementListStore, private router: Router, private route: ActivatedRoute) {}
 
     advertisements$ = this.advertisementListStore.advertisements$;

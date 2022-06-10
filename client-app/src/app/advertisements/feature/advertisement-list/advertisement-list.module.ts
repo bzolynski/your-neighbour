@@ -9,6 +9,7 @@ import { SharedModule } from 'src/app/modules/shared/shared.module';
 import { AdvertisementCardModule } from '../../ui/advertisement-card/advertisement-card.module';
 import { ElevatedSectionModule } from 'src/app/shared/directives/elevated-section/elevated-section.module';
 import { ListContainerModule } from 'src/app/shared/ui/list-container/list-container.module';
+import { BouncyLoadingBackdropModule } from 'src/app/shared/ui/bouncy-loading-backdrop/bouncy-loading-backdrop.module';
 @NgModule({
     imports: [
         CommonModule,
@@ -19,6 +20,7 @@ import { ListContainerModule } from 'src/app/shared/ui/list-container/list-conta
         AdvertisementCardModule,
         ElevatedSectionModule,
         ListContainerModule,
+        BouncyLoadingBackdropModule,
     ],
     declarations: [AdvertisementListComponent],
 })
