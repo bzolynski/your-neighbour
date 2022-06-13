@@ -16,6 +16,7 @@ const routes: Routes = [
                 (m) => m.AdvertisementShellModule
             ),
     },
+    { path: 'messages', loadChildren: () => import('./messages/feature/messages-shell/messages-shell.module').then(m => m.MessagesShellModule) },
 ];
 
 @NgModule({
