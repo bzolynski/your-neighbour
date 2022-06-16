@@ -12,14 +12,14 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { AdvertisementShellModule } from './advertisements/feature/advertisement-shell/advertisement-shell.module';
 import { InfoBarModule } from './shared/ui/info-bar/info-bar.module';
-import { infoBarReducer } from './data-access/info-bar/info-bar.reducer';
-import { InfoBarEffects } from './data-access/info-bar/info-bar.effects';
+import { notificationReducer } from './data-access/notification/notification.reducer';
+import { NotificationEffects } from './data-access/notification/notification.effects';
 
 @NgModule({
     declarations: [AppComponent],
     imports: [
-        StoreModule.forRoot({ infoBar: infoBarReducer }),
-        EffectsModule.forRoot([InfoBarEffects]),
+        StoreModule.forRoot({ infoBar: notificationReducer }),
+        EffectsModule.forRoot([NotificationEffects]),
         AppRoutingModule,
         BrowserModule,
         CoreModule,

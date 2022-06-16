@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { addInfoBarMessage } from 'src/app/data-access/info-bar/info-bar.actions';
+import { addInfoBarMessage } from 'src/app/data-access/notification/notification.actions';
 import { RootState } from 'src/app/data-access/root.state';
 import { InfoBarMessageType } from 'src/app/shared/ui/info-bar/info-bar.component';
 import {

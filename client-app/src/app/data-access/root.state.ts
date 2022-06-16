@@ -1,5 +1,5 @@
-import { InfoBarState } from './info-bar/info-bar.reducer';
+import { NotificationState } from './notification/notification.reducer';
 
 export interface RootState {
-    infoBar: InfoBarState;
+    notification: NotificationState;
 }
