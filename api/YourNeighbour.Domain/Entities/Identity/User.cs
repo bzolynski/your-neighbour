@@ -11,6 +11,7 @@ namespace YourNeighbour.Domain.Entities.Identity
             UserRoles = new HashSet<UserRole>();
             Items = new HashSet<Item>();
             Localizations = new HashSet<Localization>();
+            Chats = new HashSet<Chat>();
         }
 
         public Guid Guid { get; set; } = Guid.NewGuid();
@@ -20,5 +21,6 @@ namespace YourNeighbour.Domain.Entities.Identity
         public ICollection<UserRole> UserRoles { get; private set; }
         public ICollection<Item> Items { get; private set; }
         public ICollection<Localization> Localizations { get; private set; }
+        public ICollection<Chat> Chats { get; private set; }
     }
 }
