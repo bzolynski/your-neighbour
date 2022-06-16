@@ -63,6 +63,7 @@ export class AuthenticationStore extends ComponentStore<AuthenticationState> {
 
     readonly signOut = this.effect(($) =>
         $.pipe(
+            switchMap(() => this.authenticationService.logout()),
             tap(() => {
                 this.removeFromLocalStorage();
                 this.patchState({ status: 'pending', error: null, data: null });
