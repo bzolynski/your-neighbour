@@ -10,7 +10,7 @@ namespace YourNeighbour.Application.Abstractions
     public interface IApplicationDbContext
     {
         DbSet<TEntity> Set<TEntity>() where TEntity : class;
-        Task<int> SaveChangesAsync(CancellationToken cancellationToken);
+        Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
         DatabaseFacade Database { get; }
         EntityEntry<TEntity> Update<TEntity>(TEntity entity) where TEntity : class;
         void UpdateRange(IEnumerable<object> entities);
