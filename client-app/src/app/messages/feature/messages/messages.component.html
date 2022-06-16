@@ -1,36 +1,8 @@
-<div class="wrapper">
+<div class="wrapper" *ngIf="vm$ | async as vm">
     <div class="side-bar" appElevatedSection>
-        <app-messages-side-bar></app-messages-side-bar>
-    </div>
-    <div class="title-wrapper">
-        <h1 class="title">Bartosz - Wiertarka fajna wkrętarka</h1>
+        <app-messages-side-bar [chats]="vm.chats"></app-messages-side-bar>
     </div>
     <div class="open-message">
-        <app-message-bubble class="chat-bubble my-message"
-            >Ale jazda</app-message-bubble
-        >
-        <app-message-bubble class="chat-bubble"
-            >Ale vjaz jazda rozgwiazda Ale jazda rozgwiazda da rozgwiazda Ale
-            jazda rozgwiazdajazda rozgwiazda Ale jazda
-            rozgwiazda</app-message-bubble
-        >
-        <app-message-bubble class="chat-bubble my-message"
-            >Ale jazda rozgwiazda Ale jazda rozgwiazda Ale jazda rozgwiazda Ale
-            jazda rozgwiazda Ale jazda rozgwiazda
-        </app-message-bubble>
-        <app-message-bubble class="chat-bubble my-message"
-            >Ale jazda</app-message-bubble
-        >
-    </div>
-    <div class="chat-bar">
-        <div class="input-wrapper" appElevatedSection>
-            <input type="text" [placeholder]="'Wiadomość...'" />
-        </div>
-        <button
-            mat-icon-button
-            [color]="'primary'"
-            aria-label="Example icon button with a vertical three dot icon">
-            <mat-icon>send</mat-icon>
-        </button>
+        <router-outlet></router-outlet>
     </div>
 </div>

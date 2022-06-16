@@ -1,5 +1,3 @@
 <div class="wrapper">
-    <app-chat-card></app-chat-card>
-    <app-chat-card></app-chat-card>
-    <app-chat-card></app-chat-card>
+    <app-chat-card *ngFor="let chat of chats" [chat]="chat"></app-chat-card>
 </div>

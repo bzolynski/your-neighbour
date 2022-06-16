@@ -1,0 +1,24 @@
+<div class="wrapper" *ngIf="vm$ | async as vm">
+    <div class="title-wrapper">
+        <h1>Bartosz - Wiertarka fajna wkrętarka</h1>
+    </div>
+    <div class="messages">
+        <app-message-bubble
+            *ngFor="let message of vm.messages"
+            [ngClass]="{ 'my-message': message.senderId === vm.user!.id }"
+            class="chat-bubble my-message"
+            >{{ message.content }}</app-message-bubble
+        >
+    </div>
+    <div class="chat-bar">
+        <div class="input-wrapper" appElevatedSection>
+            <input type="text" [placeholder]="'Wiadomość...'" #input />
+        </div>
+        <button
+            (click)="sendMessage(input)"
+            mat-icon-button
+            [color]="'primary'">
+            <mat-icon>send</mat-icon>
+        </button>
+    </div>
+</div>

@@ -1,0 +1,44 @@
+.wrapper {
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    gap: 0.5rem 1rem;
+    height: 100%;
+}
+.title-wrapper {
+    padding: 0.5rem;
+    grid-row: 1/2;
+}
+.messages {
+    grid-row: 2/3;
+    display: flex;
+    flex-direction: column;
+}
+.chat-bubble {
+    margin-right: auto;
+    max-width: 70%;
+    display: block;
+}
+.chat-bubble.my-message {
+    margin-left: auto;
+    margin-right: 0;
+}
+
+.chat-bar {
+    grid-row: 3/4;
+    display: flex;
+    flex-direction: row;
+    gap: 0.5rem;
+    align-items: center;
+}
+.input-wrapper {
+    width: 100%;
+    box-sizing: border-box;
+}
+input {
+    all: unset;
+    width: 100%;
+    box-sizing: border-box;
+    border: 0;
+    padding: 0.5rem;
+    font-size: 1rem;
+}

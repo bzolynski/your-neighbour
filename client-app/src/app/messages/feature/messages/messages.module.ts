@@ -7,7 +7,10 @@ import { MessagesSideBarModule } from '../../ui/messages-side-bar/messages-side-
 import { ElevatedSectionModule } from 'src/app/shared/directives/elevated-section/elevated-section.module';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { MessageBubbleModule } from '../../ui/message-bubble/message-bubble.module';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { messagesReducer, MESSAGES_FEATURE_KEY } from '../../data-access/store/messages/messages.reducer';
+import { MessagesEffects } from '../../data-access/store/messages/messages.effects';
 @NgModule({
     imports: [
         CommonModule,
@@ -16,7 +19,8 @@ import { MessageBubbleModule } from '../../ui/message-bubble/message-bubble.modu
         ElevatedSectionModule,
         MatButtonModule,
         MatIconModule,
-        MessageBubbleModule,
+        StoreModule.forFeature(MESSAGES_FEATURE_KEY, messagesReducer),
+        EffectsModule.forFeature([MessagesEffects]),
     ],
     declarations: [MessagesComponent],
 })

@@ -8,6 +8,17 @@ p {
     display: grid;
     grid-template: 1fr 1fr 1fr / auto 1fr;
     gap: 0 1rem;
+    cursor: pointer;
+    padding: .25rem;
+    border-radius: 4px;
+    &:hover{
+        background-color: rgba(0, 0, 0, 0.06);
+    }
+}
+
+.wrapper.active{
+    background-color: rgba(0, 0, 0, 0.1);
+
 }
 
 .avatar {
