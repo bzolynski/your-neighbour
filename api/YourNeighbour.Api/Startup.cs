@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using YourNeighbour.Api.Extensions;
+using YourNeighbour.Api.Hubs;
 using YourNeighbour.Api.Middleware;
 using YourNeighbour.Api.Tasks;
 using YourNeighbour.Application;
@@ -32,8 +33,8 @@ namespace YourNeighbour.Api
             services.AddApplication();
             services.AddEntityFrameworkSqlServer(Configuration);
             services.AddInfrastructure(Configuration);
-
             services.AddStartupTask<InitializeDatabaseStartupTask>();
+            services.AddSignalR();
 
             services.AddCors(options =>
             {
@@ -78,6 +79,7 @@ namespace YourNeighbour.Api
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<ChatHub>("/chat");
             });
         }
     }
