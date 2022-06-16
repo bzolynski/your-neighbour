@@ -18,7 +18,7 @@ import { NotificationEffects } from './data-access/notification/notification.eff
 @NgModule({
     declarations: [AppComponent],
     imports: [
-        StoreModule.forRoot({ infoBar: notificationReducer }),
+        StoreModule.forRoot({ notification: notificationReducer }),
         EffectsModule.forRoot([NotificationEffects]),
         AppRoutingModule,
         BrowserModule,
