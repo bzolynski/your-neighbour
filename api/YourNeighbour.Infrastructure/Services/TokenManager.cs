@@ -27,8 +27,7 @@ namespace YourNeighbour.Infrastructure.Services
         {
             List<Claim> claims = new List<Claim>()
             {
-                new Claim(ClaimTypes.Email, user.Email),
-                new Claim(ClaimTypes.GivenName, user.UserName),
+                new Claim(JwtRegisteredClaimNames.NameId, user.Email),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
             };
             SymmetricSecurityKey key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(authorizationOptions.AccessTokenKey));

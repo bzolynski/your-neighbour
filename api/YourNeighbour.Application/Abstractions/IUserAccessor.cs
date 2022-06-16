@@ -1,8 +1,10 @@
-﻿namespace YourNeighbour.Application.Abstractions
+﻿using System;
+
+namespace YourNeighbour.Application.Abstractions
 {
     public interface IUserAccessor
     {
         string GetEmail();
-        string GetUsername();
+        Guid GetJti();
     }
 }
