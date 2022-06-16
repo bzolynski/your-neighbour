@@ -1,5 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
 import { GenericState, IUser } from 'src/app/shared/data-access/models';
+import { resetState } from '.';
 import { Advertisement } from '../../models/advertisement.model';
 import {
     addFavorite,
@@ -17,6 +18,7 @@ import {
     loadUser,
     loadUserError,
     loadUserSuccess,
+    setIsOwner,
 } from './advertisement-details.actions';
 
 export const ADVERTISEMENT_DETAILS_FEATURE_KEY = 'advertisement details';
@@ -24,6 +26,7 @@ export const ADVERTISEMENT_DETAILS_FEATURE_KEY = 'advertisement details';
 export interface AdvertisementDetailsState extends GenericState<Advertisement> {
     user: IUser | null;
     favorite: boolean;
+    isOwner: boolean;
 }
 
 export const initialState: AdvertisementDetailsState = {
@@ -32,6 +35,7 @@ export const initialState: AdvertisementDetailsState = {
     error: null,
     status: 'pending',
     favorite: false,
+    isOwner: false,
 };
 
 export const advertisementDetailsReducer = createReducer(
@@ -70,5 +74,12 @@ export const advertisementDetailsReducer = createReducer(
         ...state,
         status: 'success',
         favorite: false,
+    })),
+    on(setIsOwner, (state, { isOwner }) => ({
+        ...state,
+        isOwner: isOwner,
+    })),
+    on(resetState, () => ({
+        ...initialState,
     }))
 );

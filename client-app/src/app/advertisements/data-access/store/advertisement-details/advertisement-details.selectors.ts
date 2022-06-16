@@ -8,3 +8,4 @@ export const selectUser = createSelector(advertisementDetailsState, (state) => s
 export const selectIsFavorite = createSelector(advertisementDetailsState, (state) => state.favorite);
 export const selectStatus = createSelector(advertisementDetailsState, (state) => state.status);
 export const selectError = createSelector(advertisementDetailsState, (state) => state.error);
+export const selectIsOwner = createSelector(advertisementDetailsState, (state) => state.isOwner);

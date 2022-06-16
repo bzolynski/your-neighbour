@@ -26,3 +26,7 @@ export const addFavoriteError = createAction('[SettingsMyAccountComponent] Add F
 export const deleteFavorite = createAction('[SettingsMyAccountComponent] Delete Favorite', props<{ advertisementId: number }>());
 export const deleteFavoriteSuccess = createAction('[SettingsMyAccountComponent] Delete Favorite Success');
 export const deleteFavoriteError = createAction('[SettingsMyAccountComponent] Delete Favorite Error', props<{ error: string }>());
+
+export const setIsOwner = createAction('[AdvertisementDetailsComponent] Set Is Owner', props<{ isOwner: boolean }>());
+
+export const resetState = createAction('[AdvertisementDetailsComponent] Reset State');

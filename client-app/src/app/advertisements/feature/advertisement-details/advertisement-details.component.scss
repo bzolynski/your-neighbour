@@ -41,12 +41,7 @@
 }
 .favorite {
     grid-column: 4/5;
-    color: red;
-    transition: ease-in-out 0.2s;
-    cursor: pointer;
-    &:hover {
-        transform: scale(1.2);
-    }
+    
 }
 .buttons {
     grid-row: 2/3;

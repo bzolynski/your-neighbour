@@ -12,22 +12,39 @@
                 {{ vm.user?.firstName }}
                 {{ (vm.user?.firstName ?? '')[0] + (vm.user ? '.' : '') }}
             </span>
-            <mat-icon
+            <button
+                [disabled]="vm.isOwner"
                 *ngIf="vm.isFavorite; else noFavorite"
-                class="favorite"
                 (click)="removeFavorite($any(vm.advertisement?.id))"
-                >favorite</mat-icon
-            >
+                mat-icon-button
+                class="favorite"
+                color="warn">
+                <mat-icon>favorite</mat-icon>
+            </button>
             <ng-template #noFavorite>
-                <mat-icon
+                <button
+                    [disabled]="vm.isOwner"
                     class="favorite"
+                    mat-icon-button
                     (click)="addFavorite($any(vm.advertisement?.id))"
-                    >favorite_border</mat-icon
-                >
+                    color="warn">
+                    <mat-icon>favorite_border</mat-icon>
+                </button>
             </ng-template>
             <div class="buttons">
-                <button mat-stroked-button color="primary">Napisz</button>
-                <button mat-raised-button color="primary">Zadzwoń</button>
+                <button
+                    [disabled]="vm.isOwner"
+                    mat-stroked-button
+                    [routerLink]="['/messages', vm.user?.id]"
+                    color="primary">
+                    Napisz
+                </button>
+                <button
+                    [disabled]="vm.isOwner"
+                    mat-raised-button
+                    color="primary">
+                    Zadzwoń
+                </button>
             </div>
         </div>
     </div>

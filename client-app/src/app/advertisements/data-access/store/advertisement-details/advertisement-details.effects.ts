@@ -22,6 +22,7 @@ import {
     loadImagesError,
     loadImagesSuccess,
     loadUserSuccess,
+    setIsOwner,
 } from './advertisement-details.actions';
 
 @Injectable()
@@ -58,6 +59,21 @@ export class AdvertisementDetailsEffects {
             switchMap(({ advertisement }) => this.itemService.getImagesByItem(advertisement.item.id)),
             map((images) => loadImagesSuccess({ images: images })),
             catchError((error: HttpErrorResponse) => of(loadImagesError({ error: error.error ?? error.message })))
+        )
+    );
+
+    isOwner$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(loadAdvertisementSuccess),
+            switchMap(({ advertisement }) =>
+                this.authStore.user$.pipe(
+                    map((user) => {
+                        let isOwner = false;
+                        if (user) isOwner = user.id === advertisement.userId;
+                        return setIsOwner({ isOwner: isOwner });
+                    })
+                )
+            )
         )
     );
 
