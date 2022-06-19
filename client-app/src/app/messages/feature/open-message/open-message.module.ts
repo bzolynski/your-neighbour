@@ -11,6 +11,7 @@ import { OpenMessageEffects } from '../../data-access/store/open-message/open-me
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { ElevatedSectionModule } from 'src/app/shared/directives/elevated-section/elevated-section.module';
+import { FocusOnLoadModule } from 'src/app/shared/directives/focus-on-load/focus-on-load.module';
 @NgModule({
     imports: [
         CommonModule,
@@ -19,6 +20,7 @@ import { ElevatedSectionModule } from 'src/app/shared/directives/elevated-sectio
         MatIconModule,
         MatButtonModule,
         ElevatedSectionModule,
+        FocusOnLoadModule,
         StoreModule.forFeature(OPEN_MESSAGE_FEATURE_KEY, openMessageReducer),
         EffectsModule.forFeature([OpenMessageEffects]),
     ],

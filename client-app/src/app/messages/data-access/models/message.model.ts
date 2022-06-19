@@ -3,5 +3,4 @@ export interface Message {
     senderId: number;
     chatId: number;
     content: string;
-    chatName: string;
 }

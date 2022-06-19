@@ -1,3 +1,4 @@
+import { HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
 import { Store } from '@ngrx/store';
@@ -26,8 +27,9 @@ export class ChatService {
         this.hubConnection.start();
     };
 
-    addToChat = (chatName: string) => {
-        this.hubConnection?.invoke('AddToRoom', chatName);
+    addToChat = (ids: number[]): Observable<number> => {
+        if (this.hubConnection) return from(this.hubConnection?.invoke('AddToRoom', ids));
+        throw new Error('Hub connection was not started');
     };
 
     sendMessage = (messageTest: Message): Observable<any> => {
@@ -35,9 +37,18 @@ export class ChatService {
         throw new Error('Hub connection was not started');
     };
 
+    getChatId = (ids: number[]): Observable<number> => {
+        let params = new HttpParams();
+        ids.forEach((id) => {
+            params = params.append('ids', id);
+        });
+        return this.apiService.get(`chat/get-chat-id`, params);
+    };
+
     getChat = (id: number): Observable<Chat> => {
         return this.apiService.get(`chat/get-chat/${id}`);
     };
+
     getChats = (): Observable<Chat[]> => {
         return this.apiService.get(`chat/get-chats`);
     };

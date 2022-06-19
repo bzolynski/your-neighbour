@@ -15,6 +15,13 @@ export const loadImages = createAction('[SettingsMyAccountComponent] Load Images
 export const loadImagesSuccess = createAction('[SettingsMyAccountComponent] Load Images Success', props<{ images: IImage[] }>());
 export const loadImagesError = createAction('[SettingsMyAccountComponent] Load Images Error', props<{ error: string }>());
 
+export const redirectToChat = createAction('[SettingsMyAccountComponent] Redirect To Chat', props<{ ownerId: number }>());
+export const redirectToChatSuccess = createAction('[SettingsMyAccountComponent] Redirect To Chat Success');
+export const redirectToChatError = createAction(
+    '[SettingsMyAccountComponent] Redirect To Chat Error',
+    props<{ error: string }>()
+);
+
 export const loadUser = createAction('[SettingsMyAccountComponent] Load User', props<{ id: number }>());
 export const loadUserSuccess = createAction('[SettingsMyAccountComponent] Load User Success', props<{ user: IUser }>());
 export const loadUserError = createAction('[SettingsMyAccountComponent] Load User Error', props<{ error: string }>());

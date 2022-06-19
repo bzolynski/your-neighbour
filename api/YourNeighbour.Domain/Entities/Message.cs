@@ -1,4 +1,5 @@
-﻿using YourNeighbour.Domain.Entities.Common;
+﻿using System;
+using YourNeighbour.Domain.Entities.Common;
 using YourNeighbour.Domain.Entities.Identity;
 
 namespace YourNeighbour.Domain.Entities
@@ -8,7 +9,7 @@ namespace YourNeighbour.Domain.Entities
         public string Content { get; set; }
         public User Sender { get; set; }
         public Chat Chat { get; set; }
-
+        public DateTime DateTime { get; set; }
         public int SenderId { get; set; }
         public int ChatId { get; set; }
     }

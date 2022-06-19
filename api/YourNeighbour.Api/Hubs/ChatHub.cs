@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
@@ -12,12 +13,6 @@ using YourNeighbour.Domain.Exceptions;
 
 namespace YourNeighbour.Api.Hubs
 {
-    public class MessageTest
-    {
-        public string Content { get; set; }
-        public string ChatName { get; set; }
-    }
-
     // [Authorize]
     public sealed class ChatHub : Hub
     {
@@ -32,7 +27,6 @@ namespace YourNeighbour.Api.Hubs
 
         public override async Task OnConnectedAsync()
         {
-            List<User> xxx = applicationDbContext.Set<User>().Where(x => true).ToList();
             User user = await applicationDbContext.Set<User>()
                 .Include(x => x.Chats)
                 .FirstOrDefaultAsync(x => x.Email == userAccessor.GetEmail());
@@ -40,49 +34,46 @@ namespace YourNeighbour.Api.Hubs
                 throw new StatusCodeException("Nie można połączyć się z hubem. Brak użytkownika!", System.Net.HttpStatusCode.BadRequest);
 
             foreach (Chat chat in user.Chats)
-                await Groups.AddToGroupAsync(Context.ConnectionId, chat.Name);
+                await Groups.AddToGroupAsync(Context.ConnectionId, chat.Id.ToString());
             await base.OnConnectedAsync();
         }
 
-        public async Task AddToRoom(string chatName)
+        public async Task<int> AddToRoom(int[] userIds)
         {
             using (IDbContextTransaction transaction = await applicationDbContext.Database.BeginTransactionAsync())
             {
                 try
                 {
-                    Chat chat = await applicationDbContext.Set<Chat>().FirstOrDefaultAsync(x => x.Name == chatName);
-
-                    if (chat is null)
+                    Chat chat = new Chat();
+                    List<User> users = await applicationDbContext.Set<User>().Where(x => userIds.Any(id => x.Id == id)).ToListAsync();
+                    foreach (User user in users)
                     {
-                        User user = await applicationDbContext.Set<User>().FirstOrDefaultAsync(x => x.Email == userAccessor.GetEmail());
                         if (user is null)
                             throw new StatusCodeException("Brak użytkownika!", System.Net.HttpStatusCode.BadRequest);
-                        chat = new Chat()
-                        {
-                            Name = chatName
-                        };
+
                         chat.Users.Add(user);
-                        await applicationDbContext.AddAsync(chat);
                     }
+                    await applicationDbContext.AddAsync(chat);
 
                     await applicationDbContext.SaveChangesAsync();
-                    await Groups.AddToGroupAsync(Context.ConnectionId, chatName);
+                    await Groups.AddToGroupAsync(Context.ConnectionId, chat.Id.ToString());
                     await transaction.CommitAsync();
-
+                    return chat.Id;
                 }
-                catch (System.Exception ex)
+                catch
                 {
                     await transaction.RollbackAsync();
+                    throw;
                 }
             }
         }
-        public async Task SendMessage(MessageTest messageTest)
+        public async Task SendMessage(MessageDto messageDto)
         {
             using (IDbContextTransaction transaction = await applicationDbContext.Database.BeginTransactionAsync())
             {
                 try
                 {
-                    Chat chat = await applicationDbContext.Set<Chat>().FirstOrDefaultAsync(x => x.Name == messageTest.ChatName);
+                    Chat chat = await applicationDbContext.Set<Chat>().FirstOrDefaultAsync(x => x.Id == messageDto.ChatId);
                     if (chat is null)
                         throw new StatusCodeException("Czat nie istnieje!", System.Net.HttpStatusCode.BadRequest);
 
@@ -94,21 +85,23 @@ namespace YourNeighbour.Api.Hubs
                     {
                         Chat = chat,
                         Sender = user,
-                        Content = messageTest.Content,
+                        Content = messageDto.Content,
+                        DateTime = DateTime.Now
                     };
                     applicationDbContext.Set<Message>().Attach(message);
                     chat.Messages.Add(message);
                     await applicationDbContext.SaveChangesAsync();
                     await transaction.CommitAsync();
-                    await Clients.Group(messageTest.ChatName).SendAsync("ReceiveMessage", new MessageDto
+                    await Clients.Group(messageDto.ChatId.ToString()).SendAsync("ReceiveMessage", new MessageDto
                     {
-                        ChatName = chat.Name,
+                        ChatId = chat.Id,
                         Content = message.Content,
                         SenderId = user.Id,
-                        Id = message.Id
+                        Id = message.Id,
+                        DateTime = message.DateTime
                     });
                 }
-                catch (System.Exception ex)
+                catch
                 {
                     await transaction.RollbackAsync();
                     throw;

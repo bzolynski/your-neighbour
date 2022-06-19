@@ -12,23 +12,17 @@ namespace YourNeighbour.Application.Features.Chats.Queries.GetMessages
     public sealed class GetMessagesHandler : IQueryHandler<GetMessagesQuery, IEnumerable<MessageDto>>
     {
         private readonly IApplicationDbContext applicationDbContext;
-        private readonly IUserAccessor userAccessor;
+        private readonly IMapper mapper;
 
-        public GetMessagesHandler(IApplicationDbContext applicationDbContext, IUserAccessor userAccessor)
+        public GetMessagesHandler(IApplicationDbContext applicationDbContext, IMapper mapper)
         {
             this.applicationDbContext = applicationDbContext;
-            this.userAccessor = userAccessor;
+            this.mapper = mapper;
         }
         public async Task<IEnumerable<MessageDto>> Handle(GetMessagesQuery request, CancellationToken cancellationToken)
         {
-            return await applicationDbContext.Set<Message>().Where(x => x.ChatId == request.ChatId)
-            .Select(x => new MessageDto
-            {
-                Id = x.Id,
-                SenderId = x.SenderId,
-                Content = x.Content,
-                ChatName = x.Chat.Name
-            }).ToListAsync(cancellationToken);
+            List<Message> messages = await applicationDbContext.Set<Message>().Where(x => x.ChatId == request.ChatId).ToListAsync(cancellationToken);
+            return mapper.Map<IEnumerable<MessageDto>>(messages);
         }
     }
 }

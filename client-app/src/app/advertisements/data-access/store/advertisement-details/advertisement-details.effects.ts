@@ -1,8 +1,10 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { of, throwError } from 'rxjs';
-import { catchError, filter, map, switchMap, tap } from 'rxjs/operators';
+import { catchError, filter, map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
+import { ChatService } from 'src/app/messages/data-access/api/chat.service';
 import { ItemService } from 'src/app/modules/core/services/item.service';
 import { MessageService } from 'src/app/modules/core/services/message.service';
 import { AuthenticationStore } from 'src/app/shared/authentication/data-access';
@@ -22,6 +24,8 @@ import {
     loadImagesError,
     loadImagesSuccess,
     loadUserSuccess,
+    redirectToChat,
+    redirectToChatSuccess,
     setIsOwner,
 } from './advertisement-details.actions';
 
@@ -34,7 +38,9 @@ export class AdvertisementDetailsEffects {
         private userService: UserService,
         private authStore: AuthenticationStore,
         private favoriteService: FavoriteAdvertisementService,
-        private messageService: MessageService
+        private messageService: MessageService,
+        private chatService: ChatService,
+        private router: Router
     ) {}
     loadAdvertisement$ = createEffect(() =>
         this.actions$.pipe(
@@ -124,6 +130,33 @@ export class AdvertisementDetailsEffects {
                     switchMap((user) => this.favoriteService.delete(user.id, advertisementId)),
                     map(() => deleteFavoriteSuccess()),
                     catchError((error: HttpErrorResponse) => of(deleteFavoriteError({ error: error.error ?? error.message })))
+                )
+            )
+        )
+    );
+
+    redirectToChat$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(redirectToChat),
+            withLatestFrom(this.authStore.user$),
+            tap(([_, user]) => this.checkUserLoggedIn(user)),
+            switchMap(([action, user]) =>
+                this.chatService.getChatId([action.ownerId, user!.id]).pipe(
+                    map((chatId) => {
+                        this.router.navigate(['/messages', chatId]);
+                        return redirectToChatSuccess();
+                    }),
+                    catchError((error: HttpErrorResponse) => {
+                        if (error.status === 404) {
+                            return this.chatService.addToChat([action.ownerId, user!.id]).pipe(
+                                map((chatId) => {
+                                    this.router.navigate(['/messages', chatId]);
+                                    return redirectToChatSuccess();
+                                })
+                            );
+                        }
+                        return of(deleteFavoriteError({ error: error.error ?? error.message }));
+                    })
                 )
             )
         )

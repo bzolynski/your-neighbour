@@ -11,7 +11,6 @@ namespace YourNeighbour.Domain.Entities
             Messages = new HashSet<Message>();
             Users = new HashSet<User>();
         }
-        public string Name { get; set; }
         public ICollection<User> Users { get; set; }
         public ICollection<Message> Messages { get; set; }
     }

@@ -9,6 +9,7 @@ import {
     addFavorite,
     deleteFavorite,
     loadAdvertisement,
+    redirectToChat,
     resetState,
     selectAdvertisement,
     selectError,
@@ -69,5 +70,9 @@ export class AdvertisementDetailsComponent implements OnInit, OnDestroy {
 
     removeFavorite = (advertisementId: number) => {
         this.store.dispatch(deleteFavorite({ advertisementId: advertisementId }));
+    };
+
+    redirectToChat = (ownerId: number) => {
+        this.store.dispatch(redirectToChat({ ownerId: ownerId }));
     };
 }

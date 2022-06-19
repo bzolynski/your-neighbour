@@ -58,7 +58,7 @@ export class OpenMessageEffects {
                     ({
                         content: action.content,
                         senderId: user!.id,
-                        chatName: chat!.name,
+                        chatId: chat!.id,
                     } as Message)
             ),
             switchMap((message) => this.chatService.sendMessage(message)),
@@ -75,7 +75,7 @@ export class OpenMessageEffects {
         this.actions$.pipe(
             ofType(messageReceived),
             withLatestFrom(this.store$.select(selectChat)),
-            filter(([action, chat]) => action.message.chatName === chat?.name),
+            filter(([action, chat]) => action.message.chatId === chat?.id),
             map(([action]) => openChatMessageReceived({ message: action.message }))
         )
     );
