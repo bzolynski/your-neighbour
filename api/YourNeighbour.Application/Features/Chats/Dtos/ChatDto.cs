@@ -7,6 +7,5 @@ namespace YourNeighbour.Application.Features.Chats.Dtos
     {
         public int Id { get; set; }
         public IEnumerable<UserDto> Users { get; set; }
-        public MessageDto LastMessage { get; set; }
     }
 }

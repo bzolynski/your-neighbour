@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using YourNeighbour.EntityFramework.SqlServer;
 
@@ -11,9 +12,10 @@ using YourNeighbour.EntityFramework.SqlServer;
 namespace YourNeighbour.EntityFramework.SqlServer.Migrations
 {
     [DbContext(typeof(SqlServerDbContext))]
-    partial class SqlServerDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220621133745_Add_Roles")]
+    partial class Add_Roles
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -34,7 +36,7 @@ namespace YourNeighbour.EntityFramework.SqlServer.Migrations
 
                     b.HasIndex("UsersId");
 
-                    b.ToTable("ChatUser", (string)null);
+                    b.ToTable("ChatUser");
                 });
 
             modelBuilder.Entity("YourNeighbour.Domain.Entities.Advertisement", b =>
@@ -84,7 +86,7 @@ namespace YourNeighbour.EntityFramework.SqlServer.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Advertisements", (string)null);
+                    b.ToTable("Advertisements");
                 });
 
             modelBuilder.Entity("YourNeighbour.Domain.Entities.Category", b =>
@@ -119,7 +121,7 @@ namespace YourNeighbour.EntityFramework.SqlServer.Migrations
 
                     b.HasIndex("ParentId");
 
-                    b.ToTable("Categories", (string)null);
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("YourNeighbour.Domain.Entities.Chat", b =>
@@ -135,7 +137,7 @@ namespace YourNeighbour.EntityFramework.SqlServer.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Chats", (string)null);
+                    b.ToTable("Chats");
                 });
 
             modelBuilder.Entity("YourNeighbour.Domain.Entities.Definitions.AdvertisementDefinition", b =>
@@ -163,7 +165,7 @@ namespace YourNeighbour.EntityFramework.SqlServer.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AdvertisementDefinitions", (string)null);
+                    b.ToTable("AdvertisementDefinitions");
                 });
 
             modelBuilder.Entity("YourNeighbour.Domain.Entities.Definitions.CategoryDefinition", b =>
@@ -191,7 +193,7 @@ namespace YourNeighbour.EntityFramework.SqlServer.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("CategoryDefinitions", (string)null);
+                    b.ToTable("CategoryDefinitions");
                 });
 
             modelBuilder.Entity("YourNeighbour.Domain.Entities.FavoriteAdvertisement", b =>
@@ -206,7 +208,7 @@ namespace YourNeighbour.EntityFramework.SqlServer.Migrations
 
                     b.HasIndex("AdvertisementId");
 
-                    b.ToTable("FavoriteAdvertisements", (string)null);
+                    b.ToTable("FavoriteAdvertisements");
                 });
 
             modelBuilder.Entity("YourNeighbour.Domain.Entities.Identity.Role", b =>
@@ -473,7 +475,7 @@ namespace YourNeighbour.EntityFramework.SqlServer.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Items", (string)null);
+                    b.ToTable("Items");
                 });
 
             modelBuilder.Entity("YourNeighbour.Domain.Entities.ItemImage", b =>
@@ -497,7 +499,7 @@ namespace YourNeighbour.EntityFramework.SqlServer.Migrations
 
                     b.HasIndex("ItemId");
 
-                    b.ToTable("ItemImages", (string)null);
+                    b.ToTable("ItemImages");
                 });
 
             modelBuilder.Entity("YourNeighbour.Domain.Entities.Localization", b =>
@@ -539,7 +541,7 @@ namespace YourNeighbour.EntityFramework.SqlServer.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Localizations", (string)null);
+                    b.ToTable("Localizations");
                 });
 
             modelBuilder.Entity("YourNeighbour.Domain.Entities.Message", b =>
@@ -571,7 +573,7 @@ namespace YourNeighbour.EntityFramework.SqlServer.Migrations
 
                     b.HasIndex("SenderId");
 
-                    b.ToTable("Messages", (string)null);
+                    b.ToTable("Messages");
                 });
 
             modelBuilder.Entity("YourNeighbour.Domain.Entities.RefreshToken", b =>
@@ -599,7 +601,7 @@ namespace YourNeighbour.EntityFramework.SqlServer.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("RefreshTokens", (string)null);
+                    b.ToTable("RefreshTokens");
                 });
 
             modelBuilder.Entity("ChatUser", b =>

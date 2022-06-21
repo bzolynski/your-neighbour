@@ -1,4 +1,4 @@
-mat-tree{
+mat-tree {
     background-color: transparent;
 }
 .tree {
@@ -22,4 +22,28 @@ mat-tree{
             display: none;
         }
     }
+}
+
+.nav-wrapper {
+    margin-left: 1rem;
+}
+a {
+    all: unset;
+    font-weight: 400;
+    cursor: pointer;
+    &:hover {
+        color: hsl(222, 80%, 62%);
+        font-weight: 500;
+    }
+}
+.nav-cont {
+    margin-block: 0.25rem;
+}
+.children {
+    margin-left: 25px;
+}
+
+.active {
+    color: hsl(222, 80%, 62%);
+    font-weight: 500;
 }

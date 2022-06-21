@@ -58,9 +58,7 @@ export class AdvertisementListStore extends ComponentStore<AdvertisementListStat
         (params$) =>
             params$.pipe(
                 tap(() => this.patchState({ status: 'loading', error: undefined, data: undefined })),
-                tap((params) => {
-                    console.log(params);
-                }),
+
                 switchMap((params) =>
                     this.advertisementService
                         .getManyByCategory(params.categoryId, {
@@ -94,8 +92,6 @@ export class AdvertisementListStore extends ComponentStore<AdvertisementListStat
     );
 
     private readonly updateImages = this.updater((state, params: { id: number; images: IImage[] }) => {
-        console.log(params.id, params.images);
-
         const advertisements = (state.data ?? []).map((value) =>
             value.item.id === params.id ? { ...value, item: { ...value.item, images: params.images } } : value
         );

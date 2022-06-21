@@ -1,5 +1,6 @@
 import { Component, OnDestroy } from '@angular/core';
-import { Subject } from 'rxjs';
+import { combineLatest, Subject } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { AuthenticationStore } from 'src/app/shared/authentication/data-access';
 
 @Component({
@@ -10,6 +11,11 @@ import { AuthenticationStore } from 'src/app/shared/authentication/data-access';
 export class HeaderComponent implements OnDestroy {
     user$ = this.authenticationStore.user$;
     unsubscriber$: Subject<boolean> = new Subject<boolean>();
+    vm$ = combineLatest([this.user$]).pipe(
+        map(([user]) => ({
+            user,
+        }))
+    );
     constructor(private authenticationStore: AuthenticationStore) {}
     logout = () => {
         this.authenticationStore.signOut();

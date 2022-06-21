@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
@@ -51,12 +52,14 @@ namespace YourNeighbour.Application.Features.Authentication.Commands.Login
             };
             await applicationDbContext.Set<RefreshToken>().AddAsync(refreshToken);
             await applicationDbContext.SaveChangesAsync(cancellationToken);
-
+            IList<string> roles = await userManager.GetRolesAsync(user);
+            UserDto userDto = mapper.Map<UserDto>(user);
+            userDto.Roles = roles;
             return new AuthenticationDto
             {
                 AccessToken = tokenService.CreateAccessToken(user),
                 RefreshToken = token,
-                User = mapper.Map<UserDto>(user),
+                User = userDto,
             };
         }
     }

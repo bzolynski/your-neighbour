@@ -1,5 +1,5 @@
 import { GenericState } from 'src/app/shared/data-access/models';
-import { Injectable } from '@angular/core';
+import { Injectable, Optional } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { filter, map, mergeMap, switchMap, tap } from 'rxjs/operators';
 import { IItem, IUser } from '../models/api';
@@ -10,12 +10,13 @@ import { Router } from '@angular/router';
 import { throwError } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { CategoryService } from 'src/app/modules/core/services';
+import { ItemsStore } from './items.store';
 
-type ItemsState = GenericState<IItem[]>;
+type ItemState = GenericState<IItem>;
 
 @Injectable()
-export class ItemsStore extends ComponentStore<ItemsState> {
-    readonly items$ = this.select((state) => state.data);
+export class ItemStore extends ComponentStore<ItemState> {
+    readonly item$ = this.select((state) => state.data);
     readonly isLoading$ = this.select((state) => state.status === 'loading');
     readonly error$ = this.select((state) => state.error);
 
@@ -35,7 +36,8 @@ export class ItemsStore extends ComponentStore<ItemsState> {
             ),
             tapResponse(
                 (item) => {
-                    this.patchState((state) => ({ data: [...(state.data ?? []), item] }));
+                    this.patchState({ data: item });
+                    if (this.itemsStore) this.itemsStore.addItem(item);
                 },
                 (error: HttpErrorResponse) => {
                     this.handleError(error);
@@ -43,24 +45,17 @@ export class ItemsStore extends ComponentStore<ItemsState> {
             )
         )
     );
-    readonly addItem = (item: IItem) => this.patchState((state) => ({ data: [...(state.data ?? []), item] }));
-    readonly loadForLoggedInUser = this.effect<GetItemQueryParams>((params$) =>
+    readonly load = this.effect<{ id: number; queryParams?: GetItemQueryParams }>((params$) =>
         params$.pipe(
-            switchMap((query) =>
-                this.authStore.user$.pipe(
-                    tap(this.checkUserLoggedIn),
-                    filter((user): user is IUser => user !== null),
-                    switchMap((user) =>
-                        this.itemService.getByUser(user.id, query).pipe(
-                            tapResponse(
-                                (response) => {
-                                    this.patchState({ data: response });
-                                },
-                                (error: HttpErrorResponse) => {
-                                    this.handleError(error);
-                                }
-                            )
-                        )
+            switchMap(({ id, queryParams }) =>
+                this.itemService.get(id, queryParams).pipe(
+                    tapResponse(
+                        (response) => {
+                            this.patchState({ data: response });
+                        },
+                        (error: HttpErrorResponse) => {
+                            this.handleError(error);
+                        }
                     )
                 )
             )
@@ -73,14 +68,7 @@ export class ItemsStore extends ComponentStore<ItemsState> {
                 this.itemService.getImagesByItem(id, queryParams).pipe(
                     tapResponse(
                         (images) => {
-                            this.patchState((state) => {
-                                const item: IItem[] = [
-                                    ...(state.data ?? []).map((value) =>
-                                        value.id === id ? { ...value, images: images } : value
-                                    ),
-                                ];
-                                return { data: item };
-                            });
+                            this.patchState((state) => ({ data: { ...(state.data as IItem), images: images } }));
                         },
                         (error: HttpErrorResponse) => {
                             this.handleError(error);
@@ -98,7 +86,10 @@ export class ItemsStore extends ComponentStore<ItemsState> {
                     map((category) => ({ ...params.item, id: params.id, category: category } as IItem)),
                     tapResponse(
                         (item) => {
-                            this.updateItem(item);
+                            this.patchState((state) => ({
+                                data: { /*...state.data,*/ ...item },
+                            }));
+                            if (this.itemsStore) this.itemsStore.updateItem(item);
                         },
                         (error: HttpErrorResponse) => this.handleError(error)
                     )
@@ -107,18 +98,14 @@ export class ItemsStore extends ComponentStore<ItemsState> {
         )
     );
 
-    readonly updateItem = (item: IItem) =>
-        this.patchState((state) => ({
-            data: [...(state.data ?? []).map((value) => (value.id == item.id ? item : value))],
-        }));
-
     readonly delete = this.effect<number>((params$) =>
         params$.pipe(
             switchMap((id) =>
                 this.itemService.delete(id).pipe(
                     tapResponse(
                         () => {
-                            this.deleteItem(id);
+                            this.patchState({ data: undefined });
+                            if (this.itemsStore) this.itemsStore.deleteItem(id);
                         },
                         (error: HttpErrorResponse) => {
                             this.handleError(error);
@@ -128,11 +115,6 @@ export class ItemsStore extends ComponentStore<ItemsState> {
             )
         )
     );
-
-    readonly deleteItem = (itemId: number) =>
-        this.patchState((state) => ({
-            data: [...(state.data ?? []).filter((value) => value.id != itemId)],
-        }));
 
     private readonly checkUserLoggedIn = (user: IUser | null) => {
         if (user === null) {
@@ -151,9 +133,10 @@ export class ItemsStore extends ComponentStore<ItemsState> {
         private itemService: ItemService,
         private authStore: AuthenticationStore,
         private messageService: MessageService,
+        private categoryService: CategoryService,
         private router: Router,
-        private categoryService: CategoryService
+        @Optional() private itemsStore: ItemsStore
     ) {
-        super({} as ItemsState);
+        super({} as ItemState);
     }
 }

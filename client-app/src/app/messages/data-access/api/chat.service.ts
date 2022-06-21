@@ -1,6 +1,6 @@
 import { HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
+import { HubConnection, HubConnectionBuilder, HubConnectionState } from '@microsoft/signalr';
 import { Store } from '@ngrx/store';
 import { from, Observable } from 'rxjs';
 import { messageReceived } from 'src/app/data-access/notification/notification.actions';
@@ -16,15 +16,21 @@ export class ChatService {
 
     private hubConnection?: HubConnection;
 
-    initListeners = () => {
+    getConnectionStatus = (): HubConnectionState | undefined => this.hubConnection?.state;
+
+    init = () => {
+        this.hubConnection = new HubConnectionBuilder().withUrl(`https://localhost:5001/chat`).build();
         this.hubConnection?.on('ReceiveMessage', (data) => {
             this.store.dispatch(messageReceived({ message: data as Message }));
         });
     };
 
     startConnection = () => {
-        this.hubConnection = new HubConnectionBuilder().withUrl(`https://localhost:5001/chat`).build();
-        this.hubConnection.start();
+        this.hubConnection?.start();
+    };
+
+    stopConnection = () => {
+        this.hubConnection?.stop();
     };
 
     addToChat = (ids: number[]): Observable<number> => {

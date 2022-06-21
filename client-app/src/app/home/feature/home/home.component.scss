@@ -1,0 +1,30 @@
+@use '/node_modules/@angular/material/toolbar/_toolbar-variables.import.scss' as *;
+
+.wrapper {
+    display: grid;
+    grid-template-rows: auto auto;
+    gap: 1rem;
+}
+
+.cover {
+    content: '';
+    width: 100%;
+    height: 50vh;
+    z-index: -1;
+    background-image: url('/assets/home-landing.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: left -220px;
+    pointer-events: none;
+}
+
+.latest {
+
+}
+app-advertisement-card {
+        &:hover {
+            transform: scale(1.01);
+        }
+        transition: ease-in-out 0.1s;
+        cursor: pointer;
+    }

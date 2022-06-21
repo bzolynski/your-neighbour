@@ -1,5 +1,6 @@
 .wrapper {
     padding: 1rem;
+    position: relative;
 }
 .form-content {
     display: grid;
@@ -20,4 +21,9 @@
 }
 .phone {
     grid-area: phone;
+}
+
+.backdrop {
+    position: absolute;
+    inset: 0;
 }

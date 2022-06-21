@@ -35,4 +35,7 @@
             Potwierdź
         </button>
     </form>
+    <app-bouncy-loading-backdrop
+        class="backdrop"
+        *ngIf="(status$ | async) === 'loading'"></app-bouncy-loading-backdrop>
 </div>

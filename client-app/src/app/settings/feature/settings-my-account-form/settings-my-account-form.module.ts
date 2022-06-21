@@ -14,6 +14,7 @@ import {
     settingsMyAccountFormReducer,
     SETTINGS_MY_ACCOUNT_FORM_STATE_FEATURE_KEY,
 } from '../../data-access/store/settings-my-account-form';
+import { BouncyLoadingBackdropModule } from 'src/app/shared/ui/bouncy-loading-backdrop/bouncy-loading-backdrop.module';
 @NgModule({
     imports: [
         CommonModule,
@@ -22,6 +23,7 @@ import {
         TextInputModule,
         ReactiveFormsModule,
         MatButtonModule,
+        BouncyLoadingBackdropModule,
         StoreModule.forFeature(SETTINGS_MY_ACCOUNT_FORM_STATE_FEATURE_KEY, settingsMyAccountFormReducer),
         EffectsModule.forFeature([SettingsMyAccountFormEffects]),
     ],

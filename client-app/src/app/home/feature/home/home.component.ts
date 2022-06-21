@@ -1,4 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { combineLatest } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
+import { MessageService } from 'src/app/modules/core/services/message.service';
+import { loadAdvertisements } from '../../data-access/store/home/home.actions';
+import { selectAdvertisements, selectError, selectStatus } from '../../data-access/store/home/home.selectors';
 
 @Component({
     selector: 'app-home',
@@ -6,7 +12,18 @@ import { Component, OnInit } from '@angular/core';
     styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
-    constructor() {}
+    #advertisements$ = this.store.select(selectAdvertisements);
+    #status$ = this.store.select(selectStatus);
+    #error$ = this.store
+        .select(selectError)
+        .pipe(tap((error) => (error ? this.messageService.showMessage(error, 'error') : undefined)));
 
-    ngOnInit(): void {}
+    vm$ = combineLatest([this.#advertisements$, this.#status$, this.#error$]).pipe(
+        map(([advertisements, status, error]) => ({ advertisements, status, error }))
+    );
+    constructor(private store: Store, private messageService: MessageService) {}
+
+    ngOnInit(): void {
+        this.store.dispatch(loadAdvertisements({ quantity: 10 }));
+    }
 }

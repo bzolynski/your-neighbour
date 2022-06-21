@@ -1,18 +1,23 @@
-<mat-toolbar color="primary">
+<mat-toolbar color="primary" *ngIf="vm$ | async as vm">
     <app-container>
         <div class="nav-container">
-            <span [routerLink]="'/'">Twój sąsiad</span>
+            <button mat-button [routerLink]="'/'" class="title-button">Twój sąsiad</button>
             <a class="spacer"></a>
             <button mat-button [routerLink]="'/'">Strona główna</button>
-            <button mat-button>*****</button>
-            <button mat-button>***</button>
-            <button mat-button>*</button>
             <button mat-button [routerLink]="'advertisements'">
                 Ogłoszenia
             </button>
+            <div class="button-group" *ngIf="vm.user">
+                <button mat-icon-button [routerLink]="'messages'">
+                    <mat-icon>message</mat-icon>
+                </button>
+                <button mat-icon-button [routerLink]="'settings'">
+                    <mat-icon>settings</mat-icon>
+                </button>
+            </div>
             <div class="auth-button-section">
                 <button
-                    *ngIf="user$ | async; else notLoggedIn"
+                    *ngIf="vm.user; else notLoggedIn"
                     class="logout-button"
                     (click)="logout()"
                     mat-raised-button>
@@ -37,9 +42,6 @@
                     </div>
                 </ng-template>
             </div>
-            <button mat-icon-button [routerLink]="'settings'">
-                <mat-icon>settings</mat-icon>
-            </button>
         </div>
     </app-container>
 </mat-toolbar>

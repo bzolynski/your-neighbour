@@ -10,8 +10,12 @@
         public bool IncludeImages { get; set; }
         public int? MaxImages { get; set; }
     }
+    public class ManyAdvertisementsQueryParams : AdvertisementQueryParams
+    {
+        public int? Take { get; set; }
+    }
 
-    public class AdvertisementSearchableQueryParams : AdvertisementQueryParams
+    public class AdvertisementSearchableQueryParams : ManyAdvertisementsQueryParams
     {
         public string Search { get; set; }
     }

@@ -40,5 +40,5 @@
         (click)="canceled.next()">
         Anuluj
     </button>
-    <button type="none" mat-raised-button color="primary">Zapisz adres</button>
+    <button [disabled]="!form.valid" type="none" mat-raised-button color="primary">Zapisz adres</button>
 </form>

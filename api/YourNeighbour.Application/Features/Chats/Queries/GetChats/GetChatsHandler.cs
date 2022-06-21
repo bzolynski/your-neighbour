@@ -30,7 +30,6 @@ namespace YourNeighbour.Application.Features.Chats.Queries.GetChats
                 {
                     Id = x.Id,
                     Users = mapper.Map<IEnumerable<UserDto>>(x.Users.Where(x => x.Email != userAccessor.GetEmail())),
-                    LastMessage = mapper.Map<MessageDto>(x.Messages.LastOrDefault())
                 }).ToListAsync();
         }
     }

@@ -45,7 +45,11 @@ export class SettingsMyAccountFormEffects {
             ofType(updateUser),
             switchMap(({ id, user }) =>
                 this.userService.update(id, user).pipe(
-                    map(() => updateUserSuccess({ user: { ...user, id: id } })),
+                    map(() => {
+                        console.log(user);
+                        this.authStore.updateData({ ...user });
+                        return updateUserSuccess({ user: { ...user, id: id } });
+                    }),
                     catchError((error: HttpErrorResponse) => of(updateUserError({ error: error.error ?? error.message })))
                 )
             )

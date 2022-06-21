@@ -64,7 +64,7 @@
             [localization]="localization"
             (canceled)="dialog.closeAll()"
             (formSubmited)="
-                itemFormSubmited(localization?.id, $event)
+            localizationFormSubmited(localization?.id, $event)
             "></app-localization-form>
     </mat-dialog-content>
 </ng-template>

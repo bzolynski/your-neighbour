@@ -67,11 +67,13 @@ export class SettingsMyAccountComponent implements OnInit {
             )
             .subscribe();
     }
-    itemFormSubmited = (id: number | undefined, form: FormGroup) => {
-        const localization: Localization = { ...form.value } as Localization;
-        if (id) this.store.dispatch(updateLocalization({ id: id, localization: localization }));
-        else this.store.dispatch(createLocalization({ localization: localization }));
-        this.dialog.closeAll();
+    localizationFormSubmited = (id: number | undefined, form: FormGroup) => {
+        if (form.valid) {
+            const localization: Localization = { ...form.value } as Localization;
+            if (id) this.store.dispatch(updateLocalization({ id: id, localization: localization }));
+            else this.store.dispatch(createLocalization({ localization: localization }));
+            this.dialog.closeAll();
+        }
     };
     deleteLocalization = (id: number) => {
         this.store.dispatch(deleteLocalization({ id: id }));

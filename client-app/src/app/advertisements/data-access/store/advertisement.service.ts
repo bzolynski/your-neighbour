@@ -13,6 +13,7 @@ export interface GetAdvertisementQueryParams extends QueryParams {
     includeImages?: boolean;
     maxImages?: number;
     search?: string;
+    take?: number;
 }
 
 @Injectable({

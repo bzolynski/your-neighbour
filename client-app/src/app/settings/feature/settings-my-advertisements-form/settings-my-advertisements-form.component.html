@@ -69,10 +69,11 @@
         </form>
     </div>
     <div class="right">
-        <div appElevatedSection [appParentWidth]="100" class="right-content">
+        <!-- <div appElevatedSection [appParentWidth]="100" class="right-content">
             <h1>TODO: na hover może się tu pojawiać</h1>
-        </div>
+        </div> -->
     </div>
 </div>
-<app-backdrop-loading [fixed]="true"
+<app-backdrop-loading
+    [fixed]="true"
     *ngIf="(status$ | async) == 'loading'"></app-backdrop-loading>

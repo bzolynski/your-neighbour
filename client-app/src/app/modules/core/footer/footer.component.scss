@@ -8,8 +8,10 @@ app-container {
 }
 .footer-content {
     align-self: flex-end;
-    p {
-        margin: 0;
-        padding: 0;
-    }
+    padding-block: 0.5rem;
+}
+p {
+    margin: 0;
+    padding: 0;
+    color: white;
 }

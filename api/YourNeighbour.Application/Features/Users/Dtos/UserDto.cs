@@ -1,4 +1,6 @@
-﻿namespace YourNeighbour.Application.Features.Authentication.Dtos
+﻿using System.Collections.Generic;
+
+namespace YourNeighbour.Application.Features.Authentication.Dtos
 {
     public sealed class UserDto
     {
@@ -7,5 +9,6 @@
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string PhoneNumber { get; set; }
+        public IEnumerable<string> Roles { get; set; }
     }
 }

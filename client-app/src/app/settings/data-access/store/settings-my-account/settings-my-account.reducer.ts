@@ -1,5 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
 import { GenericState, IUser, Localization } from 'src/app/shared/data-access/models';
+import { updateUserSuccess } from '../settings-my-account-form';
 import {
     createLocalization,
     createLocalizationError,
@@ -89,5 +90,9 @@ export const settingsMyAccountReducer = createReducer(
         localizations: state.localizations.map((value) =>
             value.id === id ? { ...value, isPrimary: true } : { ...value, isPrimary: false }
         ),
+    })),
+    on(updateUserSuccess, (state, { user }) => ({
+        ...state,
+        data: { ...state.data, ...user } as IUser,
     }))
 );

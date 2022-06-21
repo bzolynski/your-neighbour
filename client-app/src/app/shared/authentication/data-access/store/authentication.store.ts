@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { map, switchMap, tap } from 'rxjs/operators';
+import { ChatService } from 'src/app/messages/data-access/api/chat.service';
 import { MessageService } from 'src/app/modules/core/services/message.service';
 import { GenericState } from 'src/app/shared/data-access/models';
 import { IUser } from 'src/app/shared/data-access/models/api/user.model';
@@ -65,6 +66,7 @@ export class AuthenticationStore extends ComponentStore<AuthenticationState> {
         $.pipe(
             switchMap(() => this.authenticationService.logout()),
             tap(() => {
+                this.chatService.stopConnection();
                 this.removeFromLocalStorage();
                 this.patchState({ status: 'pending', error: null, data: null });
                 this.messageService.showMessage('Pomyślnie wylogowano', 'success');
@@ -90,6 +92,16 @@ export class AuthenticationStore extends ComponentStore<AuthenticationState> {
             )
         )
     );
+    readonly updateData = this.effect<{ firstName: string; lastName: string; phoneNumber: string }>((params$) =>
+        params$.pipe(
+            tap(({ firstName, lastName, phoneNumber }) => {
+                this.patchState((state) => ({
+                    data: { ...state.data, firstName: firstName, lastName: lastName, phoneNumber: phoneNumber } as IUser,
+                }));
+            })
+        )
+    );
+
     private handleError = (error: HttpErrorResponse) => {
         this.patchState({ status: 'error', error: error.message });
         this.messageService.showMessage(error.message, 'error');
@@ -109,7 +121,8 @@ export class AuthenticationStore extends ComponentStore<AuthenticationState> {
         private authenticationService: AuthenticationService,
         private router: Router,
         private activatedRoute: ActivatedRoute,
-        private messageService: MessageService
+        private messageService: MessageService,
+        private chatService: ChatService
     ) {
         super(<AuthenticationState>{});
     }

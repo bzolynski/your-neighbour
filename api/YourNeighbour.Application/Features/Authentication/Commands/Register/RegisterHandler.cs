@@ -30,6 +30,10 @@ namespace YourNeighbour.Application.Features.Authentication.Commands.Register
             if (!result.Succeeded)
                 throw new AuthenticationException(result.Errors.Any() ? result.Errors.FirstOrDefault().Description : "Unexpected error");
 
+            IdentityResult roleResult = await userManager.AddToRoleAsync(user, "User");
+            if (!roleResult.Succeeded)
+                throw new AuthenticationException(roleResult.Errors.Any() ? roleResult.Errors.FirstOrDefault().Description : "Unexpected error");
+
             return true;
 
         }
