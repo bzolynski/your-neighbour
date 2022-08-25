@@ -4,12 +4,20 @@ import { AdvertisementOverviewComponent } from './advertisement-overview.compone
 import { MatButtonModule } from '@angular/material/button';
 import { SkeletonTextModule } from 'src/app/shared/ui/skeleton-text/skeleton-text.module';
 import { SkeletonBoxModule } from 'src/app/shared/ui/skeleton-box/skeleton-box.module';
-import { ImageCarouselModule } from 'src/app/shared/ui/image-carousel/image-carousel.module';
-import { ImageCarouselItemModule } from 'src/app/shared/ui/image-carousel-item/image-carousel-item.module';
 import { ElevatedSectionModule } from 'src/app/shared/directives/elevated-section/elevated-section.module';
+import { GalleriaModule } from 'primeng/galleria';
+import { CardModule } from 'primeng/card';
 
 @NgModule({
-    imports: [CommonModule, MatButtonModule, SkeletonTextModule, SkeletonBoxModule, ImageCarouselModule, ImageCarouselItemModule, ElevatedSectionModule],
+    imports: [
+        CommonModule,
+        MatButtonModule,
+        SkeletonTextModule,
+        SkeletonBoxModule,
+        ElevatedSectionModule,
+        GalleriaModule,
+        CardModule,
+    ],
     declarations: [AdvertisementOverviewComponent],
     exports: [AdvertisementOverviewComponent],
 })

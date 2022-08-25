@@ -1,12 +1,17 @@
 <div class="container">
     <ng-container *ngIf="advertisement && advertisement.item; else skeleton">
-        <app-image-carousel>
-            <app-image-carousel-item
-                appElevatedSection
-                class="carousel-item"
-                *ngFor="let image of advertisement.item.images"
-                [src]="image.dataUrl"></app-image-carousel-item>
-        </app-image-carousel>
+        <p-galleria
+            *ngIf="advertisement.item.images.length > 0; else imageSkeleton"
+            [value]="advertisement.item.images"
+            [circular]="true"
+            [showItemNavigators]="true"
+            [showThumbnails]="false"
+            [showIndicators]="true"
+            [showIndicatorsOnItem]="true">
+            <ng-template pTemplate="item" let-item>
+                <img [src]="item.dataUrl" style="width: 100%; display: block" />
+            </ng-template>
+        </p-galleria>
 
         <h2 style="font-size: 22px">{{ advertisement.item.name }}</h2>
         <h2>Kategoria: {{ advertisement.item.category.name }}</h2>
@@ -35,9 +40,7 @@
 </div>
 
 <ng-template #skeleton>
-    <app-skeleton-box
-        class="skeleton image"
-        [animate]="loading"></app-skeleton-box>
+    <ng-container [ngTemplateOutlet]="imageSkeleton"></ng-container>
     <app-skeleton-text
         class="skeleton skeleton-h2"
         [animate]="loading"
@@ -55,6 +58,11 @@
         [animate]="loading"
         [rows]="6"
         [rowHeight]="'14px'"></app-skeleton-text>
+</ng-template>
+<ng-template #imageSkeleton>
+    <app-skeleton-box
+        class="skeleton image"
+        [animate]="loading"></app-skeleton-box>
 </ng-template>
 <ng-template #descriptionSkeleton>
     <app-skeleton-text
