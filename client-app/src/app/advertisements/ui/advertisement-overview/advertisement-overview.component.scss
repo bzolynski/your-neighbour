@@ -1,58 +1,12 @@
-.container {
-    padding: 1rem;
-
-    .title {
-        font-size: 24px;
-        font-weight: 500;
-        padding-inline: 0.5rem;
-        position: absolute;
-        box-sizing: border-box;
-        bottom: 0;
-        text-decoration: underline;
-        text-underline-position: under;
-        width: 100%;
-        word-wrap: break-word;
-    }
-
-    .image {
-        box-sizing: content-box;
-        width: 100%;
-        aspect-ratio: 1 / 1;
-        object-fit: cover;
-        object-position: center;
-        pointer-events: none;
-    }
-    p {
-        display: -webkit-box;
-        -webkit-line-clamp: 6;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-    }
-    button {
-        display: block;
-        margin-left: auto;
-    }
+:host ::ng-deep .p-card {
+    overflow: hidden;
 }
 
-.skeleton {
-    display: block;
+.own-card-body-reset {
+    margin-block: -1.25rem;
 }
-.skeleton-h1 {
-    margin-top: 10px;
-    margin-bottom: 20px;
-}
-.skeleton-h2 {
-    margin-top: 6px;
-    margin-bottom: 22px;
-}
-.skeleton-h3 {
-    margin-top: 6px;
-    margin-bottom: 22px;
-}
-.skeleton-p {
-    margin-bottom: 12px;
-}
-
-.h3-title {
-    margin-block-end: 5px;
+.skeleton-image {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    pointer-events: none;
 }

@@ -1,6 +1,10 @@
-<div class="container">
-    <ng-container *ngIf="advertisement && advertisement.item; else skeleton">
+<p-card
+    *ngIf="advertisement && advertisement.item; else skeleton"
+    [header]="advertisement.item.name"
+    [subheader]="'Kategoria: ' + advertisement.item.category.name">
+    <ng-template pTemplate="header">
         <p-galleria
+            style="border-radius: 4px"
             *ngIf="advertisement.item.images.length > 0; else imageSkeleton"
             [value]="advertisement.item.images"
             [circular]="true"
@@ -12,16 +16,7 @@
                 <img [src]="item.dataUrl" style="width: 100%; display: block" />
             </ng-template>
         </p-galleria>
-
-        <h2 style="font-size: 22px">{{ advertisement.item.name }}</h2>
-        <h2>Kategoria: {{ advertisement.item.category.name }}</h2>
-
-        <h3 class="h3-title">Opis przedmiotu:</h3>
-        <p>
-            {{ advertisement.item.description }}
-        </p>
-    </ng-container>
-    <h3 class="h3-title">Opis ogłoszenia:</h3>
+    </ng-template>
     <p
         *ngIf="
             advertisement && advertisement.description;
@@ -29,51 +24,58 @@
         ">
         {{ advertisement.description }}
     </p>
-    <h3 class="h3-title">Lokalizacja:</h3>
-    <h4
-        *ngIf="
-            advertisement && advertisement.localization;
-            else localizationSkeleton
-        ">
-        {{ advertisement.localization.name }}
-    </h4>
-</div>
+    <p>
+        {{ advertisement.item.description }}
+    </p>
+    <ng-template pTemplate="footer">
+        <h3 class="h3-title">Lokalizacja:</h3>
+        <h4 *ngIf="advertisement && advertisement.localization">
+            {{ advertisement.localization.name }}
+        </h4>
+    </ng-template>
+</p-card>
 
 <ng-template #skeleton>
-    <ng-container [ngTemplateOutlet]="imageSkeleton"></ng-container>
-    <app-skeleton-text
-        class="skeleton skeleton-h2"
-        [animate]="loading"
-        [rows]="1"
-        [rowHeight]="'22px'"></app-skeleton-text>
-    <app-skeleton-text
-        class="skeleton skeleton-h2"
-        [animate]="loading"
-        [rows]="1"
-        [rowHeight]="'20px'"></app-skeleton-text>
+    <p-card>
+        <ng-template pTemplate="header">
+            <ng-container [ngTemplateOutlet]="imageSkeleton"></ng-container>
+        </ng-template>
+        <div class="own-card-body-reset">
+            <ng-container [ngTemplateOutlet]="titleSkeleton"></ng-container>
+            <ng-container [ngTemplateOutlet]="subtitleSkeleton"></ng-container>
+            <div class="p-card-content">
+                <ng-container
+                    [ngTemplateOutlet]="descriptionSkeleton"></ng-container>
+            </div>
+        </div>
+        <ng-template pTemplate="footer">
+            <ng-container [ngTemplateOutlet]="titleSkeleton"></ng-container>
+        </ng-template>
+    </p-card>
+</ng-template>
 
-    <h3 class="h3-title">Opis przedmiotu:</h3>
+<ng-template #titleSkeleton>
     <app-skeleton-text
-        class="skeleton skeleton-p"
         [animate]="loading"
-        [rows]="6"
-        [rowHeight]="'14px'"></app-skeleton-text>
+        [rows]="1"
+        [rowSpacing]="'8px'"
+        [rowHeight]="'20px'"></app-skeleton-text>
+</ng-template>
+<ng-template #subtitleSkeleton>
+    <app-skeleton-text
+        [animate]="loading"
+        [rows]="1"
+        [rowSpacing]="'8px'"
+        [rowHeight]="'16px'"></app-skeleton-text>
 </ng-template>
 <ng-template #imageSkeleton>
     <app-skeleton-box
-        class="skeleton image"
+        class="skeleton-image"
         [animate]="loading"></app-skeleton-box>
 </ng-template>
 <ng-template #descriptionSkeleton>
     <app-skeleton-text
-        class="skeleton skeleton-p"
         [animate]="loading"
         [rows]="6"
         [rowHeight]="'14px'"></app-skeleton-text>
-</ng-template>
-<ng-template #localizationSkeleton>
-    <app-skeleton-text
-        class="skeleton skeleton-h3"
-        [rows]="1"
-        [rowHeight]="'16px'"></app-skeleton-text>
 </ng-template>
