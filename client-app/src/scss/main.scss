@@ -1,7 +1,9 @@
 @forward 'base';
 @forward 'theme';
 @use 'theme' as theme;
-
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 // html {
 //     overflow-y: scroll;
 // }
