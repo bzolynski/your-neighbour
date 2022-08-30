@@ -63,7 +63,11 @@
                             "vendorChunk": true,
                             "extractLicenses": false,
                             "sourceMap": true,
-                            "namedChunks": true
+                            "namedChunks": true,
+                            "outputHashing": "none",
+                            "aot": true,
+                            "statsJson": false,
+                            "progress": true
                         }
                     },
                     "defaultConfiguration": "production"

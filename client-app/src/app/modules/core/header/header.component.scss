@@ -1,45 +1,33 @@
-@use '/src/scss/theme' as theme;
-
-mat-toolbar{
-    position: sticky;
-    app-container{
+:host ::ng-deep {
+    .p-menubar {
+        gap: 2rem;
+    }
+    .p-menubar-start {
+        margin-right: auto;
+        order: 0;
+    }
+    .p-element,
+    .p-menubar-button {
+        order: 2;
+    }
+    .p-menubar .p-menubar-custom,
+    .p-menubar .p-menubar-end {
+        order: 1;
+        margin-inline: 0;
         width: 100%;
-        .nav-container{
-            width: 100%;
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            .spacer{
-                width: 1px;
-                margin-left: auto;
-            }
-            .auth-button-section{
-                display: inline-block;
-                .logout-button{
-                    color: theme.$accent-default;
-                }
-                .logged-in-section{
-                    display: inline-block;
-                    .login-button{
-                        color: theme.$accent-default;
-                    }
-                    button:first-child{
-                        border-top-right-radius: 0px;
-                        border-bottom-right-radius: 0px;
-                    }
-                    button:not(:first-child):not(:last-child){
-                        border-radius: 0px;
-                    }
-                    button:last-child{
-                        border-top-left-radius: 0px;
-                        border-bottom-left-radius: 0px;
-                    }
-                }
-            }
-        }
     }
 }
 
-.title-button{
-    font-size: 25px;
+.own-logo-wrapper {
+    height: 42px;
+    width: 96px;
+    cursor: pointer;
+}
+.own-logo-wrapper :hover {
+    transform: scale(1.1) rotate(5deg);
+}
+.own-logo-wrapper img {
+    max-width: 100%;
+    max-height: 100%;
+    transition: 0.2s ease-in-out;
 }

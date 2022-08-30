@@ -1,47 +1,13 @@
-<mat-toolbar color="primary" *ngIf="vm$ | async as vm">
-    <app-container>
-        <div class="nav-container">
-            <button mat-button [routerLink]="'/'" class="title-button">Twój sąsiad</button>
-            <a class="spacer"></a>
-            <button mat-button [routerLink]="'/'">Strona główna</button>
-            <button mat-button [routerLink]="'advertisements'">
-                Ogłoszenia
-            </button>
-            <div class="button-group" *ngIf="vm.user">
-                <button mat-icon-button [routerLink]="'messages'">
-                    <mat-icon>message</mat-icon>
-                </button>
-                <button mat-icon-button [routerLink]="'settings'">
-                    <mat-icon>settings</mat-icon>
-                </button>
-            </div>
-            <div class="auth-button-section">
-                <button
-                    *ngIf="vm.user; else notLoggedIn"
-                    class="logout-button"
-                    (click)="logout()"
-                    mat-raised-button>
-                    Logout
-                </button>
-                <ng-template #notLoggedIn>
-                    <div class="logged-in-section">
-                        <button
-                            class="register-button"
-                            [routerLink]="'welcome'"
-                            [fragment]="'register'"
-                            mat-raised-button>
-                            Register
-                        </button>
-                        <button
-                            class="login-button"
-                            [routerLink]="'welcome'"
-                            [fragment]="'login'"
-                            mat-raised-button>
-                            Login
-                        </button>
-                    </div>
-                </ng-template>
-            </div>
+<p-menubar [model]="menuItems">
+    <ng-template pTemplate="start">
+        <div class="own-logo-wrapper" [routerLink]="['.']">
+            <img src="assets/logo.png" />
         </div>
-    </app-container>
-</mat-toolbar>
+    </ng-template>
+    <ng-template pTemplate="end">
+        <span style="width: 100%" class="p-input-icon-right">
+            <i class="pi pi-search"></i>
+            <input style="width: 100%" type="text" pInputText placeholder="Szukaj" />
+        </span>
+    </ng-template>
+</p-menubar>

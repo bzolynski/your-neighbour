@@ -14,7 +14,8 @@ import { AdvertisementShellModule } from './advertisements/feature/advertisement
 import { InfoBarModule } from './shared/ui/info-bar/info-bar.module';
 import { notificationReducer } from './data-access/notification/notification.reducer';
 import { NotificationEffects } from './data-access/notification/notification.effects';
-
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { HeaderModule } from './modules/core/header/header.module';
 @NgModule({
     declarations: [AppComponent],
     imports: [
@@ -28,6 +29,8 @@ import { NotificationEffects } from './data-access/notification/notification.eff
         SharedModule,
         AdvertisementShellModule,
         InfoBarModule,
+        FlexLayoutModule,
+        HeaderModule,
     ],
     bootstrap: [AppComponent],
     exports: [AppComponent],

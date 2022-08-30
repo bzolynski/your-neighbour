@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HeaderComponent } from './header/header.component';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { FooterComponent } from './footer/footer.component';
@@ -10,7 +9,7 @@ import './extensions';
 
 @NgModule({
     imports: [CommonModule, RouterModule, HttpClientModule, AngularMaterialModule, SharedModule],
-    declarations: [HeaderComponent, FooterComponent],
-    exports: [HeaderComponent, FooterComponent],
+    declarations: [FooterComponent],
+    exports: [FooterComponent],
 })
 export class CoreModule {}

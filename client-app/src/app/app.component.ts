@@ -9,7 +9,6 @@ import { ChatService } from './messages/data-access/api/chat.service';
 import { AuthenticationStore } from './shared/authentication/data-access';
 import { IUser } from './shared/data-access/models';
 import { MessageWithType } from './shared/ui/info-bar/info-bar.component';
-
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',

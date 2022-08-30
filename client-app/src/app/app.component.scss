@@ -1,11 +1,10 @@
 .root {
-    display: grid;
-    grid-template-rows: auto 1fr auto;
     height: 100%;
 }
-
-.router-wrapper {
-    padding: 1rem 0;
+.own-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding-block: 1rem;
     height: 100%;
-    box-sizing: border-box;
 }

@@ -9,8 +9,22 @@ import { BackdropLoadingComponent } from './components/backdrop-loading/backdrop
 import { TextInputModule } from 'src/app/shared/ui/text-input/text-input.module';
 
 @NgModule({
-    declarations: [ContainerComponent, ConfirmationDialogComponent, BackdropLoadingComponent],
-    imports: [CommonModule, RouterModule, AngularMaterialModule, ReactiveFormsModule, TextInputModule],
-    exports: [ContainerComponent, ConfirmationDialogComponent, BackdropLoadingComponent],
+    declarations: [
+        ContainerComponent,
+        ConfirmationDialogComponent,
+        BackdropLoadingComponent,
+    ],
+    imports: [
+        CommonModule,
+        RouterModule,
+        AngularMaterialModule,
+        ReactiveFormsModule,
+        TextInputModule,
+    ],
+    exports: [
+        ContainerComponent,
+        ConfirmationDialogComponent,
+        BackdropLoadingComponent,
+    ],
 })
 export class SharedModule {}
