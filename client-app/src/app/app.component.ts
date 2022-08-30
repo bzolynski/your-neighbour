@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HubConnectionState } from '@microsoft/signalr';
 import { Store } from '@ngrx/store';
+import { PrimeNGConfig } from 'primeng/api';
 import { filter, tap } from 'rxjs/operators';
 import { removeInfoBarMessage } from './data-access/notification/notification.actions';
 import { selectInfoBarOpen, selectMessages } from './data-access/notification/notification.selectors';
@@ -19,9 +20,15 @@ export class AppComponent implements OnInit {
     isBusy = false;
     infoBarMessages$ = this.store.select(selectMessages);
     infoBarOpen$ = this.store.select(selectInfoBarOpen);
-    constructor(private store: Store<RootState>, private chatService: ChatService, private authStore: AuthenticationStore) {}
+    constructor(
+        private store: Store<RootState>,
+        private chatService: ChatService,
+        private authStore: AuthenticationStore,
+        private primengConfig: PrimeNGConfig
+    ) {}
 
     ngOnInit(): void {
+        this.primengConfig.ripple = true;
         this.chatService.init();
         this.authStore.user$
             .pipe(

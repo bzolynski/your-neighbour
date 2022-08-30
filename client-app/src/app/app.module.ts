@@ -16,6 +16,8 @@ import { notificationReducer } from './data-access/notification/notification.red
 import { NotificationEffects } from './data-access/notification/notification.effects';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { HeaderModule } from './modules/core/header/header.module';
+import { RippleModule } from 'primeng/ripple';
+import { FooterModule } from './modules/core/footer/footer.module';
 @NgModule({
     declarations: [AppComponent],
     imports: [
@@ -31,6 +33,8 @@ import { HeaderModule } from './modules/core/header/header.module';
         InfoBarModule,
         FlexLayoutModule,
         HeaderModule,
+        FooterModule,
+        RippleModule,
     ],
     bootstrap: [AppComponent],
     exports: [AppComponent],

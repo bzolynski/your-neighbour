@@ -3,16 +3,16 @@
     </app-info-bar>
     <app-container>
         <div class="own-container">
-            <header>
+            <header class="own-header">
                 <app-header></app-header>
             </header>
             <main>
                 <router-outlet></router-outlet>
             </main>
+            <footer class="own-footer">
+                <app-footer></app-footer>
+            </footer>
         </div>
     </app-container>
-    <footer>
-        <app-footer></app-footer>
-    </footer>
     <app-backdrop-loading *ngIf="isBusy"></app-backdrop-loading>
 </div>

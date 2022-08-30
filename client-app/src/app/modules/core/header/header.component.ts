@@ -37,7 +37,13 @@ export class HeaderComponent implements OnDestroy {
                 { label: 'Wszystkie', icon: 'pi pi-list', routerLink: ['/settings'] },
             ],
         },
-        { label: 'Wyloguj', icon: 'pi pi-power-off', escape: true },
+        {
+            label: 'Wyloguj',
+            icon: 'pi pi-power-off',
+            command: () => this.authenticationStore.signOut(),
+        },
+        { label: 'Zaloguj', icon: 'pi pi-sign-in', routerLink: ['/welcome'], fragment: 'login' },
+        { label: 'Zarejestruj', icon: 'pi pi-pencil', routerLink: ['/welcome'], fragment: 'register' },
     ];
     user$ = this.authenticationStore.user$;
     unsubscriber$: Subject<boolean> = new Subject<boolean>();
