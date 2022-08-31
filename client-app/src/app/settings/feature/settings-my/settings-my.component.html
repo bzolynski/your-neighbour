@@ -1,23 +1,11 @@
 <div class="wrapper">
-    <div
-        class="tile-wide"
-        appElevatedSection
-        *ngIf="{ user: user$ | async } as vm">
+    <div class="tile-wide" appCardContainer="darker" *ngIf="{ user: user$ | async } as vm">
         <span
             >Witaj <strong>{{ vm.user?.email }}</strong
             >! Co chcesz zrobić?</span
         >
     </div>
-    <div class="tile-basic link" appElevatedSection [routerLink]="['account']">
-        Edytuj dane
-    </div>
-    <div class="tile-basic link" appElevatedSection [routerLink]="['items']">
-        Moje przedmioty
-    </div>
-    <div
-        class="tile-basic link"
-        appElevatedSection
-        [routerLink]="['advertisements']">
-        Moje ogłoszenia
-    </div>
+    <div class="tile-basic link" pRipple appCardContainer [routerLink]="['account']">Edytuj dane</div>
+    <div class="tile-basic link" pRipple appCardContainer [routerLink]="['items']">Moje przedmioty</div>
+    <div class="tile-basic link" pRipple appCardContainer [routerLink]="['advertisements']">Moje ogłoszenia</div>
 </div>
