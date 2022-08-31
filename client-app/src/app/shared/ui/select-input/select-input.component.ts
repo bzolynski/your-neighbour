@@ -1,39 +1,85 @@
-import { Component, Input, OnInit, QueryList, ViewChild } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { MatOption } from '@angular/material/core';
-import { MatSelect } from '@angular/material/select';
+import {
+    AfterContentChecked,
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    ContentChild,
+    Directive,
+    Input,
+    OnChanges,
+    OnInit,
+    Self,
+    SimpleChanges,
+    TemplateRef,
+} from '@angular/core';
+import { ControlValueAccessor, FormControl, NgControl } from '@angular/forms';
+
+@Directive({
+    selector: '[appSelectInputSelectedTemplate]',
+})
+export class SelectInputSelectedTemplateDirective {}
+
+@Directive({
+    selector: '[appSelectInputItemTemplate]',
+})
+export class SelectInputItemTemplateDirective {}
 
 @Component({
     selector: 'app-select-input',
     templateUrl: './select-input.component.html',
     styleUrls: ['./select-input.component.scss'],
-    providers: [
-        {
-            provide: NG_VALUE_ACCESSOR,
-            useExisting: SelectInputComponent,
-            multi: true,
-        },
-    ],
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SelectInputComponent implements OnInit, ControlValueAccessor {
-    @ViewChild('select', { read: MatSelect, static: true }) select!: MatSelect;
+export class SelectInputComponent implements OnInit, OnChanges, AfterContentChecked, ControlValueAccessor {
+    @ContentChild(SelectInputSelectedTemplateDirective, { read: TemplateRef }) selectedTemplate?: TemplateRef<any>;
+    @ContentChild(SelectInputItemTemplateDirective, { read: TemplateRef }) itemTemplate?: TemplateRef<any>;
 
+    @Input() formControlName: string = '';
+    @Input() filterMatchMode: string = 'contains';
+    @Input() filterBy: string = 'id';
+    @Input() optionLabel: string = 'name';
+    @Input() options: any[] = [];
+    @Input() filter: boolean = false;
+    @Input() showClear: boolean = false;
     @Input() label: string = '';
     @Input() errorMessage: string = '';
     @Input() multiple: boolean = false;
-    value: string[] = [];
+    @Input() placeholder: string = '';
+    @Input() showError: boolean = true;
+    @Input() disabledInput: boolean = false;
     required: boolean = false;
 
-    ngOnInit(): void {
-        this.select.options = new QueryList<MatOption>();
+    get control(): FormControl {
+        return this.controlDir.control as FormControl;
+    }
+    constructor(@Self() public controlDir: NgControl, private cdr: ChangeDetectorRef) {
+        this.controlDir.valueAccessor = this;
     }
 
+    ngOnChanges({ disabledInput }: SimpleChanges): void {
+        if (disabledInput) {
+            if (disabledInput.currentValue) this.control.disable();
+            else this.control.enable();
+        }
+    }
+    ngOnInit(): void {
+        const control = this.controlDir.control;
+        const validators = control?.validator ? [control.validator] : [];
+        const asyncValidators = control?.asyncValidator ? [control.asyncValidator] : [];
+
+        control?.setValidators(validators);
+        control?.setAsyncValidators(asyncValidators);
+        control?.updateValueAndValidity;
+
+        this.required = control?.errors?.['required'] ?? false;
+    }
+    ngAfterContentChecked() {
+        this.cdr.detectChanges();
+    }
     onChange = (value: string | string[]) => {};
     onTouch = () => {};
 
-    writeValue(value: string[]): void {
-        this.value = value;
-    }
+    writeValue(value: string[]): void {}
 
     registerOnChange(fn: (value: string | string[]) => void): void {
         this.onChange = fn;
@@ -41,29 +87,4 @@ export class SelectInputComponent implements OnInit, ControlValueAccessor {
     registerOnTouched(fn: () => void): void {
         this.onTouch = fn;
     }
-
-    isSelected(valueToCheck: string) {
-        return this.value.includes(valueToCheck);
-    }
-
-    updateValue = (value: string) => {
-        if (this.multiple) this.updateMultiple(value);
-        else this.updateSingle(value);
-        this.onTouch();
-    };
-
-    private updateMultiple = (selectedValue: string) => {
-        const index = this.value.indexOf(selectedValue);
-
-        if (index > -1) {
-            this.value = [...this.value.slice(0, index), ...this.value.slice(index + 1)];
-        } else {
-            this.value = [...this.value, selectedValue];
-        }
-        this.onChange(this.value);
-    };
-
-    private updateSingle = (selectedValue: string) => {
-        this.onChange(selectedValue);
-    };
 }

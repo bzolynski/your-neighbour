@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnInit, Self, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnChanges, OnInit, Self, SimpleChanges, ViewChild } from '@angular/core';
 import { ControlValueAccessor, FormControl, NgControl } from '@angular/forms';
 
 type WrapProp = 'hard' | 'soft' | 'off';
@@ -8,7 +8,7 @@ type WrapProp = 'hard' | 'soft' | 'off';
     templateUrl: './text-area-input.component.html',
     styleUrls: ['./text-area-input.component.scss'],
 })
-export class TextAreaInputComponent implements OnInit, ControlValueAccessor {
+export class TextAreaInputComponent implements OnInit, OnChanges, ControlValueAccessor {
     // Public properties
     @ViewChild('input', { static: true }) input!: ElementRef<HTMLInputElement>;
     @Input() formControlName: string = '';
@@ -18,6 +18,8 @@ export class TextAreaInputComponent implements OnInit, ControlValueAccessor {
     @Input() rows?: number;
     @Input() cols?: number;
     @Input() wrap?: WrapProp;
+    @Input() disabledInput: boolean = false;
+    @Input() showError: boolean = true;
     get control(): FormControl {
         return this.controlDir.control as FormControl;
     }
@@ -26,7 +28,12 @@ export class TextAreaInputComponent implements OnInit, ControlValueAccessor {
     constructor(@Self() public controlDir: NgControl) {
         this.controlDir.valueAccessor = this;
     }
-
+    ngOnChanges({ disabledInput }: SimpleChanges): void {
+        if (disabledInput) {
+            if (disabledInput.currentValue) this.control.disable();
+            else this.control.enable();
+        }
+    }
     ngOnInit(): void {
         const control = this.controlDir.control;
         const validators = control?.validator ? [control.validator] : [];

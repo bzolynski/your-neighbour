@@ -1,7 +1,14 @@
-mat-form-field {
-    width: 100%;
+$errorColor: rgb(200, 51, 51);
+.own-form-group {
+    display: flex;
+    flex-direction: column;
+}
+.own-error-message {
+    color: $errorColor;
+    min-height: 20px;
 }
 
-:host ::ng-deep .hide-error .mat-form-field-wrapper {
-    padding: 0;
+.own-label.own-required:after {
+    content: ' *';
+    color: $errorColor;
 }

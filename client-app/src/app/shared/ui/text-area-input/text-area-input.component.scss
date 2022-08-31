@@ -1,3 +1,15 @@
-mat-form-field {
-    width: 100%;
+$errorColor: rgb(200, 51, 51);
+.own-form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.own-error-message {
+    color: $errorColor;
+    min-height: 20px;
+}
+
+.own-label.own-required:after {
+    content: ' *';
+    color: $errorColor;
 }

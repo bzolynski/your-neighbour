@@ -2,13 +2,10 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TextInputComponent } from './text-input.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
 
+import { InputTextModule } from 'primeng/inputtext';
 @NgModule({
-    imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule, MatIconModule, MatInputModule, MatButtonModule],
+    imports: [CommonModule, ReactiveFormsModule, InputTextModule],
     declarations: [TextInputComponent],
     exports: [TextInputComponent],
 })

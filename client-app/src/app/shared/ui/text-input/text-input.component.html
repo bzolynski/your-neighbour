@@ -1,33 +1,21 @@
-<mat-form-field
-    [ngClass]="{ 'hide-error': hideError }"
-    class="disabled-error"
-    appearance="outline">
-    <mat-label>{{ label }}</mat-label>
-    <input
-        matInput
-        #input
-        [type]="
-            type === 'password' ? (hidePassword ? 'password' : 'text') : type
-        "
-        [id]="label"
-        [placeholder]="placeholder"
-        [required]="required"
-        (input)="onChange(input!.value)"
-        (blur)="onTouched()"
-        [formControl]="control" />
-    <button
-        *ngIf="type === 'password' && showPasswordButton"
-        mat-icon-button
-        matSuffix
-        type="button"
-        (click)="hidePassword = !hidePassword"
-        [attr.aria-label]="'Hide password'"
-        [attr.aria-pressed]="hidePassword">
-        <mat-icon>{{
-            hidePassword ? 'visibility_off' : 'visibility'
-        }}</mat-icon>
-    </button>
-    <mat-error *ngIf="errorMessage">
-        {{ errorMessage }}
-    </mat-error>
-</mat-form-field>
+<div class="own-form-group">
+    <label *ngIf="label && label !== ''" class="own-label" [ngClass]="{ 'own-required': required }" [for]="formControlName">
+        {{ label }}
+    </label>
+    <div class="p-inputgroup">
+        <!-- TODO: Możliwość dodawania input group -->
+        <input
+            #input
+            pInputText
+            [type]="type === 'password' ? (hidePassword ? 'password' : 'text') : type"
+            [id]="formControlName"
+            [required]="required"
+            [formControl]="control"
+            [placeholder]="placeholder"
+            (input)="onChange(input!.value)"
+            (blur)="onTouched()" />
+    </div>
+    <small class="own-error-message" *ngIf="showError">
+        <ng-container *ngIf="errorMessage && control.dirty && control.touched">{{ errorMessage }}</ng-container>
+    </small>
+</div>
