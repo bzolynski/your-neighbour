@@ -12,6 +12,23 @@ import { selectAdvertisements, selectError, selectStatus } from '../../data-acce
     styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
+    responsiveOptions = [
+        {
+            breakpoint: '960px',
+            numVisible: 3,
+            numScroll: 3,
+        },
+        {
+            breakpoint: '780px',
+            numVisible: 2,
+            numScroll: 2,
+        },
+        {
+            breakpoint: '600px',
+            numVisible: 1,
+            numScroll: 1,
+        },
+    ];
     #advertisements$ = this.store.select(selectAdvertisements);
     #status$ = this.store.select(selectStatus);
     #error$ = this.store
@@ -21,6 +38,7 @@ export class HomeComponent implements OnInit {
     vm$ = combineLatest([this.#advertisements$, this.#status$, this.#error$]).pipe(
         map(([advertisements, status, error]) => ({ advertisements, status, error }))
     );
+
     constructor(private store: Store, private messageService: MessageService) {}
 
     ngOnInit(): void {

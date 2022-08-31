@@ -1,14 +1,45 @@
-<div class="wrapper" *ngIf="vm$ | async as vm">
+<div *ngIf="vm$ | async as vm">
     <div appElevatedSection class="cover"></div>
-    <div class="latest">
-        <h1>Ostatnio dodane</h1>
-    </div>
-    <app-bouncy-loading-backdrop [backdrop]="false" *ngIf="vm.status ==='loading'"></app-bouncy-loading-backdrop>
-    <app-list-container class="list-container" [listViewType]="'card'">
-        <app-advertisement-card
-            *ngFor="let advertisement of vm.advertisements"
-            [horizontal]="false"
-            [routerLink]="['advertisements', 'details', advertisement.id]"
-            [advertisement]="advertisement"></app-advertisement-card>
-        </app-list-container>
+    <app-bouncy-loading-backdrop [backdrop]="false" *ngIf="vm.status === 'loading'"></app-bouncy-loading-backdrop>
+    <p-carousel
+        [value]="vm.advertisements ?? []"
+        [numVisible]="4"
+        [numScroll]="4"
+        [circular]="true"
+        [autoplayInterval]="3000"
+        [responsiveOptions]="responsiveOptions">
+        <ng-template pTemplate="header">
+            <h1>Ostatnio dodane</h1>
+        </ng-template>
+        <ng-template let-advertisement pTemplate="item">
+            <div class="own-item" pRipple appStopPropagation [routerLink]="['/advertisements', 'details', advertisement.id]">
+                <div class="own-image-wrapper">
+                    <img
+                        [src]="advertisement.item.images[0]?.dataUrl"
+                        [alt]="advertisement.item.images[0]?.name"
+                        class="own-image" />
+                </div>
+                <div>
+                    <h2>{{ advertisement.title }}</h2>
+                    <h4>{{ advertisement.item.name }}</h4>
+                    <div class="own-icon-label-group">
+                        <i class="pi pi-map-marker"></i>
+                        <span>{{ advertisement.localization.city }}</span>
+                    </div>
+                    <div class="own-button-group">
+                        <p-button
+                            appStopPropagation
+                            type="button"
+                            styleClass="p-button p-button-rounded"
+                            icon="pi pi-search"></p-button>
+                        <p-button
+                            appStopPropagation
+                            type="button"
+                            styleClass="p-button-success p-button-rounded"
+                            icon="pi pi-star-fill"></p-button>
+                    </div>
+                </div>
+            </div>
+        </ng-template>
+    </p-carousel>
 </div>

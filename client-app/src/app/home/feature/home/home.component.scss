@@ -1,11 +1,5 @@
 @use '/node_modules/@angular/material/toolbar/_toolbar-variables.import.scss' as *;
 
-.wrapper {
-    display: grid;
-    grid-template-rows: auto auto;
-    gap: 1rem;
-}
-
 .cover {
     content: '';
     width: 100%;
@@ -18,13 +12,57 @@
     pointer-events: none;
 }
 
-.latest {
-
+:host ::ng-deep .p-carousel-content {
+    padding-block-start: 48px;
+    @extend .own-card-container;
 }
-app-advertisement-card {
-        &:hover {
-            transform: scale(1.01);
-        }
-        transition: ease-in-out 0.1s;
-        cursor: pointer;
-    }
+.own-card-container {
+    background: hsl(0, 0%, 100%);
+    color: hsl(210, 9%, 31%);
+    border: 1px solid hsl(210, 14%, 89%);
+    border-radius: 6px;
+}
+
+.own-item {
+    border: 1px solid hsl(210, 14%, 89%);
+    border-radius: 3px;
+    margin: 0.3rem;
+    text-align: center;
+    padding: 2rem 0;
+    cursor: pointer;
+}
+.own-item:hover {
+    transform: scale(1.01);
+    background-color: hsla(0, 0, 0, 0.03);
+}
+.own-image-wrapper {
+    margin-bottom: 1rem;
+}
+.own-image {
+    width: 50%;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+    aspect-ratio: 6/4;
+    object-fit: cover;
+    object-position: center;
+}
+h2 {
+    margin-bottom: 0.25rem;
+    line-height: 1;
+}
+h3 {
+    margin-bottom: 1rem;
+}
+.own-icon-label-group {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    justify-content: center;
+}
+.own-button-group {
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: row;
+    gap: 0.5rem;
+    justify-content: center;
+    align-items: center;
+}
