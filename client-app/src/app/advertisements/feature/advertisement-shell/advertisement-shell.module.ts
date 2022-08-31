@@ -9,3 +9,5 @@ import { AdvertisementDetailsModule } from '../advertisement-details/advertiseme
     declarations: [],
 })
 export class AdvertisementShellModule {}
+
+// ng g m settings/feature/settings-my-account-form --route edit  --module settings/feature/settings-my-account

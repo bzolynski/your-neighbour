@@ -1,17 +1,29 @@
-<div class="wrapper" *ngIf="vm$ | async as vm">
-    <div class="left" appElevatedSection>
+<div
+    *ngIf="vm$ | async as vm"
+    fxLayout.gt-xs="row"
+    fxLayout="column"
+    fxLayoutAlign.gt-xs="center start"
+    fxLayoutAlign="center center"
+    fxLayoutGap="1rem">
+    <div fxFlex="45vw" fxFlex.gt-sm="400px">
         <app-advertisement-overview
-            style="width: 100%; height: 100%"
             [advertisement]="vm.advertisement"
             [loading]="vm.status === 'loading'"></app-advertisement-overview>
     </div>
-    <div class="right">
-        <div appElevatedSection class="user-section">
-            <div class="user-avatar">{{ (vm.user?.firstName ?? 'U')[0] }}</div>
-            <span class="user-name">
-                {{ vm.user?.firstName }}
-                {{ (vm.user?.firstName ?? '')[0] + (vm.user ? '.' : '') }}
-            </span>
+    <div fxFlex="40vw" fxFlex.gt-sm="300px">
+        <p-card header="header">
+            <div>
+                <p-avatar
+                    shape="circle"
+                    [label]="(vm.user?.firstName ?? 'U')[0]"
+                    styleClass="mr-2"
+                    size="xlarge"></p-avatar>
+                <div class="user-name">
+                    {{ vm.user?.firstName }}
+                    {{ (vm.user?.firstName ?? '')[0] + (vm.user ? '.' : '') }}
+                </div>
+            </div>
+
             <button
                 [disabled]="vm.isOwner"
                 *ngIf="vm.isFavorite; else noFavorite"
@@ -23,7 +35,7 @@
             </button>
             <ng-template #noFavorite>
                 <button
-                    [disabled]="vm.isOwner"
+                    [disabled]="vm.isOwner || (loggedInUser$ | async) === null"
                     class="favorite"
                     mat-icon-button
                     (click)="addFavorite($any(vm.advertisement?.id))"
@@ -33,19 +45,16 @@
             </ng-template>
             <div class="buttons">
                 <button
-                    [disabled]="vm.isOwner"
+                    [disabled]="vm.isOwner || (loggedInUser$ | async) === null"
                     mat-stroked-button
                     (click)="redirectToChat($any(vm.user?.id))"
                     color="primary">
                     Napisz
                 </button>
-                <button
-                    [disabled]="true"
-                    mat-raised-button
-                    color="primary">
+                <button [disabled]="true" mat-raised-button color="primary">
                     Zadzwoń
                 </button>
             </div>
-        </div>
+        </p-card>
     </div>
 </div>

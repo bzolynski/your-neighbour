@@ -4,6 +4,7 @@ import { Store } from '@ngrx/store';
 import { combineLatest } from 'rxjs';
 import { map, takeUntil, tap } from 'rxjs/operators';
 import { MessageService } from 'src/app/modules/core/services/message.service';
+import { AuthenticationStore } from 'src/app/shared/authentication/data-access';
 import { DestroyObservable } from 'src/app/shared/utils/destroy-observable';
 import {
     addFavorite,
@@ -26,6 +27,8 @@ import {
     providers: [DestroyObservable],
 })
 export class AdvertisementDetailsComponent implements OnInit, OnDestroy {
+    loggedInUser$ = this.authStore.user$;
+
     #advertisement$ = this.store.select(selectAdvertisement);
     #user$ = this.store.select(selectUser);
     #status$ = this.store.select(selectStatus);
@@ -46,11 +49,13 @@ export class AdvertisementDetailsComponent implements OnInit, OnDestroy {
         }))
     );
 
+
     constructor(
         private route: ActivatedRoute,
         private store: Store,
         private messageService: MessageService,
-        private destroy$: DestroyObservable
+        private destroy$: DestroyObservable,
+        private authStore: AuthenticationStore
     ) {}
 
     ngOnInit(): void {

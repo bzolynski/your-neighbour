@@ -19,3 +19,5 @@ const routes: Routes = [
     exports: [RouterModule],
 })
 export class AdvertisementShellRoutingModule {}
+
+// ng g m settings/feature/settings-my-account-form --route edit  --module settings/feature/settings-my-account

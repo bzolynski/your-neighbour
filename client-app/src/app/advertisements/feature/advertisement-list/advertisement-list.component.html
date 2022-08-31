@@ -1,20 +1,96 @@
-<div class="container">
-    <app-list-side-panel
-        [category]="activeCategory$ | async"
-        class="side-panel"
-        appElevatedSection></app-list-side-panel>
-    <app-list-top-bar class="top-bar" appElevatedSection></app-list-top-bar>
-    <app-list-container
-        class="list-container"
-        *ngIf="{ viewType: selectedListViewType$ | async } as vm"
-        [listViewType]="$any(vm.viewType)">
-        <app-bouncy-loading-backdrop
-            [backdrop]="false"
-            *ngIf="isLoading$ | async"></app-bouncy-loading-backdrop>
-        <app-advertisement-card 
-            *ngFor="let advertisement of advertisements$ | async"
-            [horizontal]="vm.viewType === 'list'"
-            (click)="openAdvertisement(advertisement.id)"
-            [advertisement]="advertisement"></app-advertisement-card>
-    </app-list-container>
+<div class="own-container">
+    <p-menu class="own-menu" *ngIf="menuOptions$ | async as menuOptions" [model]="menuOptions"></p-menu>
+    <div class="own-card">
+        <p-dataView
+            *ngIf="advertisements$ | async as advertisements"
+            #dv
+            [value]="advertisements"
+            [paginator]="true"
+            [rows]="9"
+            filterBy="title"
+            [sortField]="sortField"
+            [sortOrder]="sortOrder"
+            layout="grid">
+            <ng-template pTemplate="header">
+                <div
+                    fxFlex
+                    fxLayout="row"
+                    fxLayoutAlign="flex-start center"
+                    fxLayoutAlign.md="space-between center"
+                    fxLayout.lt-md="column"
+                    fxLayoutAlign.lt-md="space-between flex-start"
+                    fxLayoutGap="10px">
+                    <p-dropdown
+                        [options]="sortOptions"
+                        placeholder="Sortuj po miejscowości"
+                        (onChange)="onSortChange($event)"></p-dropdown>
+                    <span class="p-input-icon-left">
+                        <i class="pi pi-search"></i>
+                        <input
+                            #searchInput
+                            type="search"
+                            pInputText
+                            placeholder="Search by Name"
+                            (input)="dv.filter(searchInput.value)" />
+                    </span>
+                    <p-dataViewLayoutOptions></p-dataViewLayoutOptions>
+                </div>
+            </ng-template>
+            <ng-template let-advertisement pTemplate="listItem">
+                <div fxFlex="100">
+                    <div class="own-list-item own-item" pRipple [routerLink]="['/advertisements', 'details', advertisement.id]">
+                        <img
+                            class="own-image"
+                            [src]="advertisement.item.images[0]?.dataUrl"
+                            [alt]="advertisement.item.images[0]?.name" />
+                        <div class="own-list-detail">
+                            <div class="own-name">{{ advertisement.title }}</div>
+                            <div class="own-description">{{ advertisement.item.name }}</div>
+                            <p-rating [readonly]="true" [cancel]="false"></p-rating>
+                            <div class="own-icon-label-group own-category-group">
+                                <i class="pi pi-tag"></i>
+                                <span class="own-category">{{ advertisement.item.category.name }}</span>
+                            </div>
+                        </div>
+                        <div class="own-list-action">
+                            <p-button icon="pi pi-star" label="Obserwuj"></p-button>
+                            <div class="own-icon-label-group">
+                                <i class="pi pi-map-marker"></i>
+                                <span>{{ advertisement.localization.city }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ng-template>
+            <ng-template let-advertisement pTemplate="gridItem">
+                <div fxFlex.xs="100" fxFlex.gt-xs="50" fxFlex.gt-sm="33" fxFlex.gt-md="25">
+                    <div
+                        class="own-grid-item own-card own-item"
+                        pRipple
+                        [routerLink]="['/advertisements', 'details', advertisement.id]">
+                        <div class="own-icon-label-group">
+                            <i class="pi pi-tag"></i>
+                            <span class="own-category">{{ advertisement.item.category.name }}</span>
+                        </div>
+                        <div class="own-grid-item-content">
+                            <img
+                                class="own-image"
+                                [src]="advertisement.item.images[0]?.dataUrl"
+                                [alt]="advertisement.item.images[0]?.name" />
+                            <div class="own-name">{{ advertisement.title }}</div>
+                            <div class="own-description">{{ advertisement.item.name }}</div>
+                            <p-rating [readonly]="true" [cancel]="false"></p-rating>
+                        </div>
+                        <div class="own-grid-item-bottom">
+                            <p-button icon="pi pi-star"></p-button>
+                            <div class="own-icon-label-group">
+                                <i class="pi pi-map-marker"></i>
+                                <span>{{ advertisement.localization.city }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ng-template>
+        </p-dataView>
+    </div>
 </div>

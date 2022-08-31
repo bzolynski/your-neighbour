@@ -13,7 +13,7 @@ import { ItemService } from 'src/app/modules/core/services/item.service';
 
 interface AdvertisementListState extends GenericState<Advertisement[]> {
     listViewType: ListViewType;
-    activeCategory: ICategory;
+    activeCategory?: ICategory;
     activeCategoryLoading: boolean;
 }
 

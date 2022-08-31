@@ -15,6 +15,9 @@ import {
 } from '../../data-access/store/advertisement-details';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { CardModule } from 'primeng/card';
+import { AvatarModule } from 'primeng/avatar';
+import { FlexLayoutModule } from '@angular/flex-layout';
 @NgModule({
     imports: [
         CommonModule,
@@ -24,8 +27,13 @@ import { MatButtonModule } from '@angular/material/button';
         MatIconModule,
         ElevatedSectionModule,
         MatButtonModule,
-
-        StoreModule.forFeature(ADVERTISEMENT_DETAILS_FEATURE_KEY, advertisementDetailsReducer),
+        CardModule,
+        AvatarModule,
+        FlexLayoutModule,
+        StoreModule.forFeature(
+            ADVERTISEMENT_DETAILS_FEATURE_KEY,
+            advertisementDetailsReducer
+        ),
         EffectsModule.forFeature([AdvertisementDetailsEffects]),
     ],
     declarations: [AdvertisementDetailsComponent],
