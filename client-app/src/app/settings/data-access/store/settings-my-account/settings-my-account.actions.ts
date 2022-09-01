@@ -1,8 +1,8 @@
 import { createAction, props } from '@ngrx/store';
-import { IUser, Localization } from 'src/app/shared/data-access/models';
+import { Localization, User } from '@models/';
 
 export const loadUser = createAction('[SettingsMyAccountComponent] Load User');
-export const loadUserSuccess = createAction('[SettingsMyAccountComponent] Load User Success', props<{ user: IUser }>());
+export const loadUserSuccess = createAction('[SettingsMyAccountComponent] Load User Success', props<{ user: User }>());
 export const loadUserError = createAction('[SettingsMyAccountComponent] Load User Error', props<{ error: string }>());
 
 export const loadLocalizations = createAction('[SettingsMyAccountComponent] Load Localizations');

@@ -1,7 +1,7 @@
 import { HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
-import { ICategoryDefinition } from 'src/app/shared/data-access/models';
+import { CategoryDefinition } from '@models/';
 import { ApiService } from './';
 
 @Injectable({
@@ -11,16 +11,16 @@ export class CategoryDefinitionsService {
     constructor(private apiService: ApiService) {}
 
     changed: Subject<void> = new Subject<void>();
-    getById = (id: number): Observable<ICategoryDefinition> => {
-        return this.apiService.get<ICategoryDefinition>(`categoryDefinition/get/${id}`);
+    getById = (id: number): Observable<CategoryDefinition> => {
+        return this.apiService.get<CategoryDefinition>(`categoryDefinition/get/${id}`);
     };
-    getAll = (): Observable<ICategoryDefinition[]> => {
-        return this.apiService.get<ICategoryDefinition[]>('categoryDefinition/get');
+    getAll = (): Observable<CategoryDefinition[]> => {
+        return this.apiService.get<CategoryDefinition[]>('categoryDefinition/get');
     };
-    create = (body: ICategoryDefinition): Observable<number> => {
+    create = (body: CategoryDefinition): Observable<number> => {
         return this.apiService.put<number>('categoryDefinition/create', body);
     };
-    update = (id: number, body: ICategoryDefinition): Observable<number> => {
+    update = (id: number, body: CategoryDefinition): Observable<number> => {
         return this.apiService.post<number>(`categoryDefinition/update/${id}`, body);
     };
     delete = (id: number): Observable<any> => {

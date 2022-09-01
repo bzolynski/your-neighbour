@@ -1,10 +1,11 @@
 import { createReducer, on } from '@ngrx/store';
-import { GenericState, ICategoryDefinition } from 'src/app/shared/data-access/models';
+import { CategoryDefinition } from '@models/';
+import { GenericState } from '@utils/types';
 import { loadDefinitionsError } from '../settings-my-advertisements-form';
 import { loadDefinitions, loadDefinitionsSuccess } from './settings-category-definitions.actions';
 export const SETTINGS_CATEGORY_DEFINITIONS_STATE_FEATURE_KEY = 'settings category definitions';
 
-export type SettingsCategoryDefinitionsState = GenericState<ICategoryDefinition[]>;
+export type SettingsCategoryDefinitionsState = GenericState<CategoryDefinition[]>;
 
 export const initialState: SettingsCategoryDefinitionsState = {
     error: null,

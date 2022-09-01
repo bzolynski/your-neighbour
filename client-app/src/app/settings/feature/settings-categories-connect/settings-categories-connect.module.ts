@@ -14,6 +14,7 @@ import {
     SETTINGS_CATEGORIES_CONNECT_STATE_FEATURE_KEY,
 } from '../../data-access/store/settings-categories-connect';
 import { EffectsModule } from '@ngrx/effects';
+import { ConfirmationService } from 'primeng/api';
 @NgModule({
     imports: [
         CommonModule,
@@ -26,5 +27,6 @@ import { EffectsModule } from '@ngrx/effects';
         EffectsModule.forFeature([SettingsCategoriesConnectEffects]),
     ],
     declarations: [SettingsCategoriesConnectComponent],
+    providers: [ConfirmationService],
 })
 export class SettingsCategoriesConnectModule {}

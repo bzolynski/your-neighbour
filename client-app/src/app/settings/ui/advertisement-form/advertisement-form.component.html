@@ -1,0 +1,111 @@
+<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+<div class="wrapper" *ngIf="vm$ | async as vm">
+    <div class="left">
+        <form class="container" [formGroup]="form" (ngSubmit)="formSubmited.next(form)" fxFlex fxLayout="column">
+            <div fxLayoutGap="10px">
+                <p-button
+                    [label]="form.value['item'] ? form.value['item'].name : 'Wybierz przedmiot'"
+                    icon="pi pi-search"
+                    (click)="itemsOP.toggle($event)"></p-button>
+                <p-button
+                    [label]="form.value['localization'] ? form.value['localization'].city : 'Wybierz lokalizację'"
+                    icon="pi pi-search"
+                    (click)="localizationsOP.toggle($event)"></p-button>
+            </div>
+            <div fxLayoutGap="10px" fxLayout="row">
+                <app-text-input
+                    [placeholder]="'Wprowadź tytuł ogłoszenia'"
+                    fxFlex="50"
+                    [formControlName]="'title'"
+                    [label]="'Tytuł ogłoszenia'"
+                    [errorMessage]="titleErrorMessage">
+                </app-text-input>
+                <app-select-input
+                    fxFlex="50"
+                    [formControlName]="'definition'"
+                    [options]="vm.definitions"
+                    [errorMessage]="definitionErrorMessage"
+                    [label]="'Definicja'"
+                    optionLabel="name"
+                    filterMatchMode="contains"
+                    filterBy="name"
+                    placeholder="Wybierz definicję ogłoszenia">
+                    <ng-template appSelectInputSelectedTemplate let-definition>
+                        <div class="country-item">
+                            <div>{{ form.value['definition'].name }}</div>
+                        </div>
+                    </ng-template>
+                    <ng-template appSelectInputItemTemplate let-definition>
+                        <div class="country-item">
+                            <div>{{ definition.name }}</div>
+                        </div>
+                    </ng-template>
+                </app-select-input>
+            </div>
+
+            <app-text-area-input
+                [formControlName]="'description'"
+                [placeholder]="'Wprowadź opis ogłoszenia'"
+                [rows]="5"
+                [label]="'Opis ogłoszenia'"
+                [errorMessage]="descriptionErrorMessage">
+            </app-text-area-input>
+            <button mat-raised-button color="accent" type="submit">
+                {{ true ? 'Edytuj' : 'Utwórz' }}
+            </button>
+        </form>
+    </div>
+    <app-backdrop-loading [fixed]="true" *ngIf="(status$ | async) == 'loading'"></app-backdrop-loading>
+
+    <p-overlayPanel #itemsOP [showCloseIcon]="true" [style]="{ width: '450px' }">
+        <p-table
+            [value]="(items$ | async) ?? []"
+            selectionMode="single"
+            [selection]="form.value['item']"
+            (onRowSelect)="onItemSelect($event)"
+            [paginator]="true"
+            [rows]="5"
+            responsiveLayout="scroll">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th pSortableColumn="name">Nazwa<p-sortIcon field="name"></p-sortIcon></th>
+                    <th>Zdjęcie</th>
+                    <th pSortableColumn="category.name">Kategoria <p-sortIcon field="category.name"></p-sortIcon></th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData let-item>
+                <tr [pSelectableRow]="rowData">
+                    <td>{{ item.name }}</td>
+                    <td>
+                        <img [src]="item?.images[0]?.dataUrl" [alt]="item?.images[0]?.name" class="item-image" />
+                    </td>
+                    <td>{{ item.category?.name }}</td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </p-overlayPanel>
+
+    <p-overlayPanel #localizationsOP [showCloseIcon]="true" [style]="{ width: '450px' }">
+        <p-table
+            [value]="(localizations$ | async) ?? []"
+            selectionMode="single"
+            [selection]="form.value['localization']"
+            (onRowSelect)="onLocalizationSelect($event)"
+            [paginator]="true"
+            [rows]="5"
+            responsiveLayout="scroll">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th pSortableColumn="street">Ulica<p-sortIcon field="street"></p-sortIcon></th>
+                    <th pSortableColumn="city">Miasto <p-sortIcon field="city"></p-sortIcon></th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData let-localization>
+                <tr [pSelectableRow]="rowData">
+                    <td>{{ localization.street }}</td>
+                    <td>{{ localization.city }}</td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </p-overlayPanel>
+</div>

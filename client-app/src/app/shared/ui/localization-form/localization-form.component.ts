@@ -1,7 +1,7 @@
 import { Component, Input, Output } from '@angular/core';
 import { FormGroup, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
-import { Localization } from '../../data-access/models';
+import { Localization } from '@models/';
 import { GenericFormControl, GenericFormGroup } from '../../utils';
 
 @Component({

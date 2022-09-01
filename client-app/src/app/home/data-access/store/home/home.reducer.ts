@@ -1,6 +1,7 @@
 import { createReducer, on } from '@ngrx/store';
-import { Advertisement } from 'src/app/advertisements/data-access/models/advertisement.model';
-import { GenericState, IItem } from 'src/app/shared/data-access/models';
+import { Advertisement } from '@models/';
+import { GenericState } from '@utils/types';
+import { IItem } from 'src/app/shared/data-access/models';
 import {
     loadAdvertisements,
     loadAdvertisementsError,

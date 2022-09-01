@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
+import { MessageService } from 'primeng/api';
 import { filter, map, takeUntil, tap } from 'rxjs/operators';
-import { MessageService } from 'src/app/modules/core/services/message.service';
 import { DestroyObservable } from 'src/app/shared/utils/destroy-observable';
 import {
     loadDefinition,
@@ -56,7 +56,7 @@ export class SettingsCategoryDefinitionsDetailsComponent implements OnInit {
             .pipe(
                 takeUntil(this.destroy$),
                 filter((error): error is string => error !== null),
-                tap((error) => this.messageService.showMessage(error, 'error'))
+                tap((error) => this.messageService.add({ severity: 'error', summary: 'Error', detail: error }))
             )
             .subscribe();
     }

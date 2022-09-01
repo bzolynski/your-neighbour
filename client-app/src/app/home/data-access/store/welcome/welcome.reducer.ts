@@ -1,6 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
-import { GenericState, IUser } from 'src/app/shared/data-access/models';
-import { Advertisement } from '../../models/advertisement.model';
+import { GenericState, User } from 'src/app/shared/data-access/models';
+import { Advertisement } from '@models/';
 import {
     addFavorite,
     addFavoriteError,
@@ -22,7 +22,7 @@ import {
 export const ADVERTISEMENT_DETAILS_FEATURE_KEY = 'advertisement details';
 
 export interface AdvertisementDetailsState extends GenericState<Advertisement> {
-    user: IUser | null;
+    user: User | null;
     favorite: boolean;
 }
 

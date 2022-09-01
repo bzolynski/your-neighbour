@@ -11,6 +11,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { RatingModule } from 'primeng/rating';
 import { FlexLayoutModule, FlexModule } from '@angular/flex-layout';
 import { RippleModule } from 'primeng/ripple';
+import { CardContainerModule } from 'src/app/shared/directives/card-container/card-container.module';
 @NgModule({
     imports: [
         CommonModule,
@@ -25,6 +26,7 @@ import { RippleModule } from 'primeng/ripple';
         FlexModule,
         RatingModule,
         RippleModule,
+        CardContainerModule,
     ],
     declarations: [AdvertisementListComponent],
 })

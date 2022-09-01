@@ -1,6 +1,6 @@
 import { from, fromEvent, Observable } from 'rxjs';
 import { filter, first, map, mergeMap } from 'rxjs/operators';
-import { IImage } from '../data-access/models';
+import { Image } from '@models/';
 
 export class InputUtils {
     static filesToDataUrl$ = (files: File[]): Observable<string> => {
@@ -51,11 +51,11 @@ export class InputUtils {
         );
     };
 
-    static dataUrlToImage$ = (dataUrls: string[]): Observable<IImage> => {
+    static dataUrlToImage$ = (dataUrls: string[]): Observable<Image> => {
         return from([...dataUrls]).pipe(
             filter((dataUrl) => /^data:image\/(jpe?g|png|gif);base64/i.test(dataUrl)),
             map((dataUrl) => {
-                const image: IImage = {
+                const image: Image = {
                     // TODO: Rethink
                     name: 'TEMP NAME',
                     dataUrl: dataUrl,

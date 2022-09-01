@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
+import { MessageService } from 'primeng/api';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { MessageService } from 'src/app/modules/core/services/message.service';
 import { AuthenticationStore } from '../authentication/data-access';
 
 @Injectable({
@@ -17,7 +17,11 @@ export class UserDetailsGuard implements CanActivate {
         return this.authStore.userDetailsFilled$.pipe(
             tap((result) => {
                 if (!result) {
-                    this.messageService.showMessage('Niezbędne dane użytkownika nie zostały uzupełnione!', 'info');
+                    this.messageService.add({
+                        severity: 'warn',
+                        summary: 'Warn',
+                        detail: 'Niezbędne dane użytkownika nie zostały uzupełnione!',
+                    });
                     this.router.navigate(['settings/my/account/edit']);
                 }
             })

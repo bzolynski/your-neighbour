@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { ICategoryDefinition } from 'src/app/shared/data-access/models';
+import { CategoryDefinition } from '@models/';
 
 export const loadDefinition = createAction(
     '[SettingsCategoryDefinitionsDetailsComponent] Load Definition',
@@ -7,7 +7,7 @@ export const loadDefinition = createAction(
 );
 export const loadDefinitionSuccess = createAction(
     '[SettingsCategoryDefinitionsDetailsComponent] Load Definition Success',
-    props<{ definition: ICategoryDefinition }>()
+    props<{ definition: CategoryDefinition }>()
 );
 export const loadDefinitionError = createAction(
     '[SettingsCategoryDefinitionsDetailsComponent] Load Definition Error',

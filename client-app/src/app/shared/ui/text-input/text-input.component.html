@@ -14,6 +14,7 @@
             [placeholder]="placeholder"
             (input)="onChange(input!.value)"
             (blur)="onTouched()" />
+        <p-message style="margin-left: 5px" severity="error" text="Field is required"></p-message>
     </div>
     <small class="own-error-message" *ngIf="showError">
         <ng-container *ngIf="errorMessage && control.dirty && control.touched">{{ errorMessage }}</ng-container>

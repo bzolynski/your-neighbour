@@ -1,15 +1,14 @@
-import { GenericState } from 'src/app/shared/data-access/models';
+import { GenericState } from '@utils/types';
 import { Injectable } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
-import { IUser } from '../models/api';
 import { AuthenticationStore } from '../../authentication/data-access';
-import { MessageService } from 'src/app/modules/core/services/message.service';
 import { Router } from '@angular/router';
 import { throwError } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Localization } from '../models';
+import { Localization, User } from '@models/';
 import { LocalizationService } from 'src/app/modules/core/services/localization.service';
+import { MessageService } from 'primeng/api';
 
 type LocalizationsState = GenericState<Localization[]>;
 
@@ -24,7 +23,7 @@ export class LocalizationsStore extends ComponentStore<LocalizationsState> {
             switchMap((localization) =>
                 this.authStore.user$.pipe(
                     tap(this.checkUserLoggedIn),
-                    filter((user): user is IUser => user !== null),
+                    filter((user): user is User => user !== null),
                     switchMap((user) => this.localizationService.create(localization, user.id)),
                     map((id) => ({ ...localization, id: id } as Localization))
                 )
@@ -43,7 +42,7 @@ export class LocalizationsStore extends ComponentStore<LocalizationsState> {
         $.pipe(
             switchMap(() => this.authStore.user$),
             tap(this.checkUserLoggedIn),
-            filter((user): user is IUser => user !== null),
+            filter((user): user is User => user !== null),
             switchMap((user) =>
                 this.localizationService.getManyByUser(user.id).pipe(
                     tapResponse(
@@ -94,17 +93,16 @@ export class LocalizationsStore extends ComponentStore<LocalizationsState> {
             )
         )
     );
-    private readonly checkUserLoggedIn = (user: IUser | null) => {
+    private readonly checkUserLoggedIn = (user: User | null) => {
         if (user === null) {
-            this.messageService.showMessage('Nie jesteś zalogowany!', 'error');
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Nie jesteś zalogowany' });
             this.router.navigate(['welcome'], { queryParams: { returnUrl: this.router.routerState.snapshot.url } });
 
             throwError(new Error('User is not logged in'));
         }
     };
-
     private handleError = (error: HttpErrorResponse) => {
-        this.messageService.showMessage(error.error ?? error.message, 'error');
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error ?? error.message });
     };
 
     constructor(

@@ -1,5 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
-import { GenericState, IUser, Localization } from 'src/app/shared/data-access/models';
+import { Localization, User } from '@models/';
+import { GenericState } from '@utils/types';
 import { updateUserSuccess } from '../settings-my-account-form';
 import {
     createLocalization,
@@ -23,7 +24,7 @@ import {
 
 export const SETTINGS_MY_ACCOUNT_STATE_FEATURE_KEY = 'settings my account';
 
-export interface SettingsMyAccountState extends GenericState<IUser> {
+export interface SettingsMyAccountState extends GenericState<User> {
     localizations: Localization[];
 }
 
@@ -93,6 +94,6 @@ export const settingsMyAccountReducer = createReducer(
     })),
     on(updateUserSuccess, (state, { user }) => ({
         ...state,
-        data: { ...state.data, ...user } as IUser,
+        data: { ...state.data, ...user } as User,
     }))
 );

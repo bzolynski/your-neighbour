@@ -1,6 +1,6 @@
 import { Component, Input, Output } from '@angular/core';
 import { Subject } from 'rxjs';
-import { Localization } from 'src/app/shared/data-access/models';
+import { Localization } from '@models/';
 
 @Component({
     selector: 'app-localization-card',

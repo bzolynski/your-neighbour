@@ -6,7 +6,7 @@ import { of, throwError } from 'rxjs';
 import { catchError, filter, map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 import { messageReceived } from 'src/app/data-access/notification/notification.actions';
 import { AuthenticationStore } from 'src/app/shared/authentication/data-access';
-import { IUser } from 'src/app/shared/data-access/models';
+import { User } from '@models/';
 import { ChatService } from '../../api/chat.service';
 import { Message } from '../../models/message.model';
 import {
@@ -80,7 +80,7 @@ export class OpenMessageEffects {
         )
     );
 
-    #checkUserLoggedIn = (user: IUser | null) => {
+    #checkUserLoggedIn = (user: User | null) => {
         if (user === null) {
             throwError(new Error('Nie jesteś zalogowany!'));
         }

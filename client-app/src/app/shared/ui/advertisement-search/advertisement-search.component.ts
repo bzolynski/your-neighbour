@@ -2,7 +2,7 @@ import { Component, Input, Output, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MatSelect } from '@angular/material/select';
 import { Subject } from 'rxjs';
-import { ICategory } from '../../data-access/models';
+import { Category } from '../../data-access/models';
 import { GenericFormControl, GenericFormGroup } from '../../utils';
 
 @Component({
@@ -12,7 +12,7 @@ import { GenericFormControl, GenericFormGroup } from '../../utils';
 })
 export class AdvertisementSearchComponent {
     @Output() searchSubmited = new Subject<FormGroup>();
-    @Input() categories?: ICategory[] | null = [];
+    @Input() categories?: Category[] | null = [];
 
     @ViewChild('select', { read: MatSelect, static: true }) select!: MatSelect;
 

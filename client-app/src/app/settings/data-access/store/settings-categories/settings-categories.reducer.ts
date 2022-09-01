@@ -1,11 +1,12 @@
 import { createReducer, on } from '@ngrx/store';
-import { GenericState, ICategory } from 'src/app/shared/data-access/models';
+import { Category } from '@models/';
+import { GenericState } from '@utils/types';
 import { deleteCategorySuccess } from '../settings-categories-details';
 import { createCategorySuccess, updateCategorySuccess } from '../settings-categories-form';
 import { loadCategories, loadCategoriesError, loadCategoriesSuccess, setSidePanelWitdh } from './settings-categories.actions';
 export const SETTINGS_CATEGORIES_STATE_FEATURE_KEY = 'settings categories';
 
-export interface SettingsCategoriesState extends GenericState<ICategory[]> {
+export interface SettingsCategoriesState extends GenericState<Category[]> {
     sidePanelWidth: string;
 }
 

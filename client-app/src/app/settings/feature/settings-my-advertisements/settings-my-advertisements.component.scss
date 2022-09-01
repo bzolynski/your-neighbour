@@ -1,44 +1,49 @@
-.container {
-    width: 100%;
-    height: 100%;
-    display: grid;
-    gap: 1rem;
+:host ::ng-deep {
+    .p-paginator .p-paginator-current {
+        margin-left: auto;
+    }
+
+    .p-datatable {
+        border-radius: 6px;
+    }
+    .p-datatable-header {
+        border-top-right-radius: 6px;
+        border-top-left-radius: 6px;
+        border-top: none;
+    }
+    .p-datatable-footer {
+        border-bottom-right-radius: 6px;
+        border-bottom-left-radius: 6px;
+    }
 }
 
-.top-bar {
-    padding: 1rem;
+.own-grid-areas-lt-lg {
     display: grid;
-    grid-template-columns: auto 1fr auto;
+    grid-template-areas:
+        'checkbox title title image image buttons'
+        'checkbox date city category status buttons';
+    grid-template-rows: 1fr 1fr;
+    grid-template-columns: auto 1fr 1fr 1fr 1fr 80px;
+}
+
+.own-grid-areas-lt-md {
+    display: grid;
+    grid-template-areas:
+        'checkbox title title image image buttons'
+        'checkbox date date category category buttons'
+        'checkbox city city status status buttons';
+    grid-template-rows: 1fr 1fr 1fr;
+    grid-template-columns: auto 1fr 1fr 1fr 1fr 80px;
+}
+
+tr > th > div {
+    display: flex;
+    flex-direction: row;
     align-items: center;
-    gap: 3rem;
+    justify-content: space-between;
 }
 
-.card-wrapper {
-    position: relative;
-    height: 100%;
-    width: 100%;
-    &:hover {
-        transform: scale(1.01);
-        .icon {
-            opacity: 1;
-        }
-    }
-    transition: ease-in-out 0.1s;
-    cursor: pointer;
-}
-.icon {
-    opacity: 0;
-    position: absolute;
-    right: 1rem;
-    top: 1rem;
-    font-size: 25px;
-    width: 25px;
-    height: 25px;
-    line-height: 1;
-    transition: 0.1s ease-in-out;
-
-    &:hover {
-        transform: scale(1.1);
-        color: red;
-    }
+.own-card {
+    box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 1px 3px 0 rgba(0, 0, 0, 0.12);
+    border-radius: 6px;
 }

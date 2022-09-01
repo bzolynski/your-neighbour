@@ -1,6 +1,6 @@
-import { IUser } from 'src/app/shared/data-access/models';
+import { User } from '@models/';
 
 export interface Chat {
     id: number;
-    users: IUser[];
+    users: User[];
 }

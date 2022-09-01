@@ -2,7 +2,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { IUser } from 'src/app/shared/data-access/models/api/user.model';
+import { User } from '@models/';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -13,14 +13,14 @@ export class AuthenticationService {
 
     private handleError = (httpError: HttpErrorResponse, caught: Observable<any>) => {
         // for ex: logs
-        console.log(httpError);
+        //console.log(httpError);
 
         return throwError(httpError);
     };
 
-    login = (login: string, password: string): Observable<IUser> => {
+    login = (login: string, password: string): Observable<User> => {
         return this.client
-            .post<Observable<IUser>>(`${environment.authentiaction_api_url}/authentication/login`, {
+            .post<Observable<User>>(`${environment.authentiaction_api_url}/authentication/login`, {
                 login: login,
                 password: password,
             })

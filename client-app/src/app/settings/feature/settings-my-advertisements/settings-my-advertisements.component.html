@@ -1,37 +1,176 @@
-<router-outlet></router-outlet>
-<div class="container">
-    <div class="top-bar" appElevatedSection>
-        <app-list-container-toggle-buttons
-            (listViewTypeChanged)="
-                changeListViewType($event)
-            "></app-list-container-toggle-buttons>
-        <div class="spacer"></div>
-        <button
-            mat-raised-button
-            color="warn"
-            (click)="openAdvertisementForm()">
-            Nowe ogłoszenie
-        </button>
+<p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>
+<div fxLayoutGap="1rem" *ngIf="vm$ | async as vm">
+    <p-toolbar>
+        <ng-template pTemplate="left">
+            <div fxLayoutGap="1rem">
+                <button pButton pRipple label="Nowe" icon="pi pi-plus" class="p-button-success" (click)="openNew()"></button>
+                <button
+                    pButton
+                    pRipple
+                    label="Usuń"
+                    icon="pi pi-trash"
+                    class="p-button-danger"
+                    (click)="deleteSelectedAdvertisements()"
+                    [disabled]="!selectedAdvertisement || !selectedAdvertisement.length"></button>
+            </div>
+        </ng-template>
+
+        <ng-template pTemplate="right">
+            <button pButton pRipple label="Eksportuj?" icon="pi pi-upload" class="p-button-help"></button>
+        </ng-template>
+    </p-toolbar>
+
+    <div appCardContainer>
+        <p-table
+            #dt
+            [value]="vm.advertisements ?? []"
+            [rows]="10"
+            responsiveLayout="scroll"
+            [paginator]="true"
+            [globalFilterFields]="['title', 'localization.city', 'item.category']"
+            [(selection)]="selectedAdvertisement"
+            [rowHover]="true"
+            dataKey="id"
+            currentPageReportTemplate="Wyświetlane od {first} do {last} z {totalRecords} rekordów"
+            [showCurrentPageReport]="true">
+            <ng-template pTemplate="caption">
+                <div>
+                    <h2>Zarządzaj ogłoszeniami</h2>
+                    <span class="p-input-icon-left">
+                        <i class="pi pi-search"></i>
+                        <input
+                            #searchInput
+                            pInputText
+                            type="text"
+                            (input)="dt.filterGlobal(searchInput.value, 'contains')"
+                            placeholder="Szukaj..." />
+                    </span>
+                </div>
+            </ng-template>
+            <!-- Header -->
+            <ng-template pTemplate="header">
+                <tr ngClass.lt-lg="own-grid-areas-lt-lg" ngClass.lt-md="own-grid-areas-lt-md">
+                    <th gdArea="checkbox" style="width: 3rem">
+                        <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                    </th>
+                    <th gdArea="title" pSortableColumn="title">
+                        <div>Tytuł <p-sortIcon field="title"></p-sortIcon></div>
+                    </th>
+                    <th gdArea="image"><div>Zdjęcie</div></th>
+                    <th gdArea="date" pSortableColumn="dateCreated">
+                        <div>Data utworzenia <p-sortIcon field="dateCreated"></p-sortIcon></div>
+                    </th>
+                    <th gdArea="city" pSortableColumn="localization.city">
+                        <div>Miejscowość <p-sortIcon field="localization.city"></p-sortIcon></div>
+                    </th>
+                    <th gdArea="category" pSortableColumn="item.category">
+                        <div>Kategoria <p-sortIcon field="item.category"></p-sortIcon></div>
+                    </th>
+                    <th gdArea="status" pSortableColumn="inventoryStatus">
+                        <div>Status <p-sortIcon field="inventoryStatus"></p-sortIcon></div>
+                    </th>
+                    <th gdArea="buttons"></th>
+                </tr>
+            </ng-template>
+            <!-- Body -->
+            <ng-template pTemplate="body" let-advertisement>
+                <tr ngClass.lt-lg="own-grid-areas-lt-lg" ngClass.lt-md="own-grid-areas-lt-md">
+                    <td gdArea="checkbox">
+                        <p-tableCheckbox [value]="advertisement"></p-tableCheckbox>
+                    </td>
+                    <td gdArea="title">{{ advertisement.title }}</td>
+                    <td gdArea="image">
+                        <img
+                            [src]="advertisement?.item?.images[0]?.dataUrl"
+                            [alt]="advertisement?.item?.images[0]?.name"
+                            width="100"
+                            class="shadow-4" />
+                    </td>
+                    <td gdArea="date">{{ advertisement.dateCreated | date: 'dd MMM yyyy' }}</td>
+                    <td gdArea="city">{{ advertisement.localization.city }}</td>
+                    <td gdArea="category">
+                        <span [class]="'advertisement-badge status-' + advertisement?.item?.category?.name.toLowerCase()">{{
+                            advertisement?.item?.category?.name
+                        }}</span>
+                    </td>
+                    <td gdArea="status"><p-rating [readonly]="true" [cancel]="false"></p-rating></td>
+                    <td gdArea="buttons">
+                        <div fxLayout="row" fxLayout.lt-lg="column" fxLayoutGap="10px" fxLayoutAlign="space-between baseline">
+                            <button
+                                pButton
+                                pRipple
+                                icon="pi pi-pencil"
+                                class="p-button-rounded p-button-success p-mr-2"
+                                (click)="editProduct(advertisement)"></button>
+                            <button
+                                pButton
+                                pRipple
+                                icon="pi pi-trash"
+                                class="p-button-rounded p-button-warning"
+                                (click)="deleteAdvertisement(advertisement)"></button>
+                        </div>
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="summary">
+                <div>Zaznaczono {{ selectedAdvertisement ? selectedAdvertisement.length : 0 }} ogłoszeń.</div>
+            </ng-template>
+        </p-table>
     </div>
-    <app-list-container
-        *ngIf="{ viewType: selectedListViewType$ | async } as vm"
-        [listViewType]="$any(vm.viewType)">
-        <div
-            *ngFor="let advertisement of advertisements$ | async"
-            [routerLink]="['edit', advertisement.id]"
-            (appTriggerOnScroll)="loadImages(advertisement)"
-            [appTriggerOnScrollUntill]="advertisement.item.images.length > 0"
-            class="card-wrapper">
-            <app-advertisement-card
-                [horizontal]="vm.viewType === 'list'"
-                [advertisement]="advertisement">
-            </app-advertisement-card>
-            <mat-icon
-                class="icon"
-                (click)="deleteAdvertisement$.next(advertisement.id)"
-                appStopPropagation
-                >delete_forever</mat-icon
-            >
-        </div>
-    </app-list-container>
 </div>
+<p-dialog
+    [(visible)]="advertisementDialog"
+    [style]="{ width: '450px' }"
+    header="Product Details"
+    [modal]="true"
+    styleClass="p-fluid">
+    <ng-template pTemplate="content">
+        <div class="p-field">
+            <label for="name">Name</label>
+            <input type="text" pInputText id="name" required autofocus />
+            <small class="p-invalid" *ngIf="submitted">Name is required.</small>
+        </div>
+        <div class="p-field">
+            <label for="description">Description</label>
+            <textarea id="description" pInputTextarea required rows="3" cols="20"></textarea>
+        </div>
+
+        <div class="p-field">
+            <label class="p-mb-3">Category</label>
+            <div class="p-formgrid p-grid">
+                <div class="p-field-radiobutton p-col-6">
+                    <p-radioButton id="category1" name="category" value="Accessories"></p-radioButton>
+                    <label for="category1">Accessories</label>
+                </div>
+                <div class="p-field-radiobutton p-col-6">
+                    <p-radioButton id="category2" name="category" value="Clothing"></p-radioButton>
+                    <label for="category2">Clothing</label>
+                </div>
+                <div class="p-field-radiobutton p-col-6">
+                    <p-radioButton id="category3" name="category" value="Electronics"></p-radioButton>
+                    <label for="category3">Electronics</label>
+                </div>
+                <div class="p-field-radiobutton p-col-6">
+                    <p-radioButton id="category4" name="category" value="Fitness"></p-radioButton>
+                    <label for="category4">Fitness</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="p-formgrid p-grid">
+            <div class="p-field p-col">
+                <label for="price">Price</label>
+                <p-inputNumber id="price" mode="currency" currency="USD" locale="en-US"></p-inputNumber>
+            </div>
+            <div class="p-field p-col">
+                <label for="quantity">Quantity</label>
+                <p-inputNumber id="quantity"></p-inputNumber>
+            </div>
+        </div>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+        <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="saveProduct()"></button>
+    </ng-template>
+</p-dialog>

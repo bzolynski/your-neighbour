@@ -5,7 +5,7 @@ import { Store } from '@ngrx/store';
 import { iif, Observable, of, Subject } from 'rxjs';
 import { filter, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { CanComponentDeactivate } from 'src/app/modules/core/guards/can-deactivate.guard';
-import { ICategory } from 'src/app/shared/data-access/models';
+import { Category } from '@models/';
 import { GenericFormControl } from 'src/app/shared/utils';
 import { DestroyObservable } from 'src/app/shared/utils/destroy-observable';
 import {
@@ -92,8 +92,8 @@ export class SettingsCategoriesFormComponent implements OnInit, CanComponentDeac
                 takeUntil(this.destroy$),
                 switchMap(() => this.id$),
                 tap((id) => {
-                    if (id) this.store.dispatch(updateCategory({ id: id, category: { ...this.form.value } as ICategory }));
-                    else this.store.dispatch(createCategory({ category: { ...this.form.value } as ICategory }));
+                    if (id) this.store.dispatch(updateCategory({ id: id, category: { ...this.form.value } as Category }));
+                    else this.store.dispatch(createCategory({ category: { ...this.form.value } as Category }));
                 })
             )
             .subscribe();

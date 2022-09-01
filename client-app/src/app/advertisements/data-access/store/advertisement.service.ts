@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ApiService } from 'src/app/shared/data-access/api/api.service';
 import { HttpHelperMethods, QueryParams } from 'src/app/shared/utils';
-import { Advertisement } from '../models/advertisement.model';
+import { Advertisement } from '@models/';
 
 export interface GetAdvertisementQueryParams extends QueryParams {
     includeUser?: boolean;

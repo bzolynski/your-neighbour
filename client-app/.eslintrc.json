@@ -53,7 +53,6 @@
                         "endOfLine": "auto",
                         "printWidth": 130
                     }
-
                 ],
                 "semi": ["error", "always"],
                 "no-unused-vars": [
@@ -65,29 +64,24 @@
                     }
                 ],
                 "no-empty-function": "off",
-                "@typescript-eslint/no-empty-function": ["error", { "allow": ["private-constructors"] }],
-                "@typescript-eslint/ban-ts-comment": ["error", { "ts-ignore": "allow-with-description" }],
                 "no-multiple-empty-lines": ["error", { "max": 1, "maxBOF": 1 }],
-                "max-len":"off",
+                "max-len": "off",
                 "prefer-arrow-callback": "error",
                 "arrow-parens": ["error", "always"],
                 "unused-imports/no-unused-imports": "error",
+                "@angular-eslint/no-empty-lifecycle-method": 1,
+                "@typescript-eslint/ban-ts-comment": ["error", { "ts-ignore": "allow-with-description" }],
                 "@typescript-eslint/no-inferrable-types": 0,
+                "@typescript-eslint/no-empty-function": 1,
                 "@typescript-eslint/no-parameter-properties": 0,
                 "@typescript-eslint/semi": ["error"]
             }
         },
         {
             "files": ["*.html"],
-            "extends": [
-                "plugin:@angular-eslint/template/recommended",
-                "plugin:prettier/recommended"
-            ],
+            "extends": ["plugin:@angular-eslint/template/recommended", "plugin:prettier/recommended"],
             "rules": {
-                "no-use-before-define": [
-                    "error",
-                    { "functions": true, "classes": false, "variables": true }
-                ],
+                "no-use-before-define": ["error", { "functions": true, "classes": false, "variables": true }],
                 "prettier/prettier": "error"
             }
         }

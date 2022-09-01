@@ -5,11 +5,9 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { of, throwError } from 'rxjs';
 import { catchError, filter, map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 import { ChatService } from 'src/app/messages/data-access/api/chat.service';
-import { ItemService } from 'src/app/modules/core/services/item.service';
-import { MessageService } from 'src/app/modules/core/services/message.service';
 import { AuthenticationStore } from 'src/app/shared/authentication/data-access';
 import { FavoriteAdvertisementService, UserService } from 'src/app/shared/data-access/api';
-import { IUser } from 'src/app/shared/data-access/models';
+import { User } from '@models/';
 import { AdvertisementService } from '../advertisement.service';
 import {
     addFavorite,
@@ -22,7 +20,6 @@ import {
     loadAdvertisementError,
     loadAdvertisementSuccess,
     loadImagesError,
-    loadImagesSuccess,
     loadUserSuccess,
     redirectToChat,
     redirectToChatSuccess,
@@ -34,11 +31,9 @@ export class AdvertisementDetailsEffects {
     constructor(
         private actions$: Actions,
         private advertisementService: AdvertisementService,
-        private itemService: ItemService,
         private userService: UserService,
         private authStore: AuthenticationStore,
         private favoriteService: FavoriteAdvertisementService,
-        private messageService: MessageService,
         private chatService: ChatService,
         private router: Router
     ) {}
@@ -59,14 +54,14 @@ export class AdvertisementDetailsEffects {
         )
     );
 
-    loadImages$ = createEffect(() =>
-        this.actions$.pipe(
-            ofType(loadAdvertisementSuccess),
-            switchMap(({ advertisement }) => this.itemService.getImagesByItem(advertisement.item.id)),
-            map((images) => loadImagesSuccess({ images: images })),
-            catchError((error: HttpErrorResponse) => of(loadImagesError({ error: error.error ?? error.message })))
-        )
-    );
+    // loadImages$ = createEffect(() =>
+    //     this.actions$.pipe(
+    //         ofType(loadAdvertisementSuccess),
+    //         switchMap(({ advertisement }) => this.itemService.getImagesByItem(advertisement.item.id)),
+    //         map((images) => loadImagesSuccess({ images: images })),
+    //         catchError((error: HttpErrorResponse) => of(loadImagesError({ error: error.error ?? error.message })))
+    //     )
+    // );
 
     isOwner$ = createEffect(() =>
         this.actions$.pipe(
@@ -88,7 +83,7 @@ export class AdvertisementDetailsEffects {
             ofType(loadAdvertisementSuccess),
             switchMap(({ advertisement }) =>
                 this.authStore.user$.pipe(
-                    filter((user): user is IUser => user !== null),
+                    filter((user): user is User => user !== null),
                     switchMap((user) => this.favoriteService.isFavorite(user.id, advertisement.id)),
                     filter((response) => response),
                     map(() => addFavoriteSuccess())
@@ -112,7 +107,7 @@ export class AdvertisementDetailsEffects {
             switchMap(({ advertisementId }) =>
                 this.authStore.user$.pipe(
                     tap(this.checkUserLoggedIn),
-                    filter((user): user is IUser => user !== null),
+                    filter((user): user is User => user !== null),
                     switchMap((user) => this.favoriteService.create(user.id, advertisementId)),
                     map(() => addFavoriteSuccess()),
                     catchError((error: HttpErrorResponse) => of(addFavoriteError({ error: error.error ?? error.message })))
@@ -126,7 +121,7 @@ export class AdvertisementDetailsEffects {
             ofType(deleteFavorite),
             switchMap(({ advertisementId }) =>
                 this.authStore.user$.pipe(
-                    filter((user): user is IUser => user !== null),
+                    filter((user): user is User => user !== null),
                     switchMap((user) => this.favoriteService.delete(user.id, advertisementId)),
                     map(() => deleteFavoriteSuccess()),
                     catchError((error: HttpErrorResponse) => of(deleteFavoriteError({ error: error.error ?? error.message })))
@@ -162,7 +157,7 @@ export class AdvertisementDetailsEffects {
         )
     );
 
-    private readonly checkUserLoggedIn = (user: IUser | null) => {
+    private readonly checkUserLoggedIn = (user: User | null) => {
         if (user === null) {
             throwError(new Error('Nie jesteś zalogowany!'));
         }

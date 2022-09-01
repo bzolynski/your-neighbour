@@ -1,17 +1,15 @@
-import { GenericState } from 'src/app/shared/data-access/models';
+import { GenericState } from '@utils/types';
 import { Injectable } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
-import { filter, mergeMap, switchMap, tap } from 'rxjs/operators';
+import { filter, switchMap, tap } from 'rxjs/operators';
 import { CategoryService } from 'src/app/modules/core/services';
 import { HttpErrorResponse } from '@angular/common/http';
-import { GetImageQueryParams, ItemService } from 'src/app/modules/core/services/item.service';
-import { MessageService } from 'src/app/modules/core/services/message.service';
 import { AdvertisementService, GetAdvertisementQueryParams } from 'src/app/advertisements/data-access';
 import { throwError } from 'rxjs';
 import { Router } from '@angular/router';
-import { Advertisement } from 'src/app/advertisements/data-access/models/advertisement.model';
-import { IUser } from '../models';
+import { Advertisement, User } from '@models/';
 import { AuthenticationStore } from '../../authentication/data-access';
+import { MessageService } from 'primeng/api';
 
 type AdvertisementsState = GenericState<Advertisement[]>;
 
@@ -41,7 +39,7 @@ export class AdvertisementsStore extends ComponentStore<AdvertisementsState> {
             switchMap((queryParams) =>
                 this.authStore.user$.pipe(
                     tap(this.checkUserLoggedIn),
-                    filter((user): user is IUser => user !== null),
+                    filter((user): user is User => user !== null),
                     tap(() => this.patchState({ status: 'loading', data: undefined })),
                     switchMap((user) => this.advertisementService.getManyByUser(user.id, queryParams))
                 )
@@ -56,7 +54,7 @@ export class AdvertisementsStore extends ComponentStore<AdvertisementsState> {
             )
         )
     );
-
+    /*
     readonly loadItems = this.effect<{ id: number; queryParams?: GetAdvertisementQueryParams }>((params$) =>
         params$.pipe(
             switchMap(({ id, queryParams }) =>
@@ -106,7 +104,7 @@ export class AdvertisementsStore extends ComponentStore<AdvertisementsState> {
             )
         )
     );
-
+*/
     readonly delete = this.effect<number>((params$) =>
         params$.pipe(
             switchMap((id) =>
@@ -123,18 +121,16 @@ export class AdvertisementsStore extends ComponentStore<AdvertisementsState> {
         )
     );
 
-    private checkUserLoggedIn = (user: IUser | null) => {
+    private readonly checkUserLoggedIn = (user: User | null) => {
         if (user === null) {
-            this.messageService.showMessage('Nie jesteś zalogowany!', 'error');
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Nie jesteś zalogowany' });
             this.router.navigate(['welcome'], { queryParams: { returnUrl: this.router.routerState.snapshot.url } });
 
             throwError(new Error('User is not logged in'));
         }
     };
-
     private handleError = (error: HttpErrorResponse) => {
-        this.patchState({ status: 'error', error: error.error ?? error.message });
-        this.messageService.showMessage(error.error ?? error.message, 'error');
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error ?? error.message });
     };
 
     constructor(
@@ -142,8 +138,7 @@ export class AdvertisementsStore extends ComponentStore<AdvertisementsState> {
         private advertisementService: AdvertisementService,
         private messageService: MessageService,
         private categoryService: CategoryService,
-        private router: Router,
-        private itemService: ItemService
+        private router: Router
     ) {
         super({} as AdvertisementsState);
     }

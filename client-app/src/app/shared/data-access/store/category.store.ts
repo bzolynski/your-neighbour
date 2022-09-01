@@ -1,12 +1,13 @@
-import { GenericState, ICategory } from 'src/app/shared/data-access/models';
+import { GenericState } from '@utils/types';
 import { Injectable } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { CategoryService } from 'src/app/modules/core/services';
 import { switchMap, tap } from 'rxjs/operators';
 import { HttpErrorResponse } from '@angular/common/http';
-import { MessageService } from 'src/app/modules/core/services/message.service';
+import { MessageService } from 'primeng/api';
+import { Category } from '@models/';
 
-type CategoryState = GenericState<ICategory[]>;
+type CategoryState = GenericState<Category[]>;
 
 @Injectable()
 export class CategoryStore extends ComponentStore<CategoryState> {
@@ -31,11 +32,11 @@ export class CategoryStore extends ComponentStore<CategoryState> {
             )
         )
     );
-
     private handleError = (error: HttpErrorResponse) => {
-        this.messageService.showMessage(error.message, 'error');
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error ?? error.message });
         this.patchState({ error: error.message, status: 'error' });
     };
+
     constructor(private categoryService: CategoryService, private messageService: MessageService) {
         super(<CategoryState>{});
     }

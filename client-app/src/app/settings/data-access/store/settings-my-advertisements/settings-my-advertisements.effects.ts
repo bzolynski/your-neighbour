@@ -2,13 +2,12 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { MessageService } from 'primeng/api';
 import { of, throwError } from 'rxjs';
-import { catchError, filter, map, mergeMap, switchMap, tap } from 'rxjs/operators';
+import { catchError, filter, map, switchMap, tap } from 'rxjs/operators';
 import { AdvertisementService } from 'src/app/advertisements/data-access';
-import { ItemService } from 'src/app/modules/core/services/item.service';
-import { MessageService } from 'src/app/modules/core/services/message.service';
 import { AuthenticationStore } from 'src/app/shared/authentication/data-access';
-import { IUser } from 'src/app/shared/data-access/models';
+import { User } from '@models/';
 import {
     deleteAdvertisement,
     deleteAdvertisementError,
@@ -16,16 +15,12 @@ import {
     loadAdvertisements,
     loadAdvertisementsError,
     loadAdvertisementsSuccess,
-    loadImages,
-    loadImagesError,
-    loadImagesSuccess,
 } from './settings-my-advertisements.actions';
 
 @Injectable()
 export class SettingsMyAdvertisementsEffects {
     constructor(
         private actions$: Actions,
-        private itemService: ItemService,
         private advertisementService: AdvertisementService,
         private authStore: AuthenticationStore,
         private messageService: MessageService,
@@ -38,7 +33,7 @@ export class SettingsMyAdvertisementsEffects {
             switchMap(() =>
                 this.authStore.user$.pipe(
                     tap(this.checkUserLoggedIn),
-                    filter((user): user is IUser => user !== null),
+                    filter((user): user is User => user !== null),
                     switchMap((user) =>
                         this.advertisementService.getManyByUser(user.id, {
                             includeCategory: true,
@@ -53,17 +48,17 @@ export class SettingsMyAdvertisementsEffects {
         )
     );
 
-    loadImages$ = createEffect(() =>
-        this.actions$.pipe(
-            ofType(loadImages),
-            mergeMap(({ itemId }) =>
-                this.itemService.getImagesByItem(itemId, { maxImages: 1 }).pipe(
-                    map((images) => loadImagesSuccess({ itemId: itemId, images: images })),
-                    catchError((error: HttpErrorResponse) => of(loadImagesError({ error: error.error ?? error.message })))
-                )
-            )
-        )
-    );
+    // loadImages$ = createEffect(() =>
+    //     this.actions$.pipe(
+    //         ofType(loadImages),
+    //         mergeMap(({ itemId }) =>
+    //             this.itemService.getImagesByItem(itemId, { maxImages: 1 }).pipe(
+    //                 map((images) => loadImagesSuccess({ itemId: itemId, images: images })),
+    //                 catchError((error: HttpErrorResponse) => of(loadImagesError({ error: error.error ?? error.message })))
+    //             )
+    //         )
+    //     )
+    // );
 
     deleteAdvertisement$ = createEffect(() =>
         this.actions$.pipe(
@@ -79,9 +74,9 @@ export class SettingsMyAdvertisementsEffects {
         )
     );
 
-    private checkUserLoggedIn = (user: IUser | null) => {
+    private checkUserLoggedIn = (user: User | null) => {
         if (user === null) {
-            this.messageService.showMessage('Nie jesteś zalogowany!', 'error');
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Nie jesteś zalogowany' });
             this.router.navigate(['welcome'], { queryParams: { returnUrl: this.router.routerState.snapshot.url } });
 
             throwError(new Error('User is not logged in'));

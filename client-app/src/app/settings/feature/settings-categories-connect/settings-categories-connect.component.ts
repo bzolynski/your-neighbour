@@ -3,14 +3,13 @@ import { Component, OnInit } from '@angular/core';
 import { UrlTree } from '@angular/router';
 import { IconDefinition, faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { CategoryService } from 'src/app/modules/core/services';
-import { MessageService } from 'src/app/modules/core/services/message.service';
 import { Dictionary } from 'src/app/modules/core/types';
 import { ChildParentPair } from 'src/app/modules/core/types/child-parent-pair.type';
 import { DragEndEventProps } from 'src/app/modules/tree-view/models';
-import { ICategory } from 'src/app/shared/data-access/models';
+import { Category } from '@models/';
 import {
     loadTree,
     loadUnasignedCategories,
@@ -33,11 +32,33 @@ export class SettingsCategoriesConnectComponent implements OnInit {
 
     faChevronDown: IconDefinition = faChevronDown;
     parentChanges: Dictionary<number, number | null> = new Dictionary<number, number | null>();
-    constructor(private categoryService: CategoryService, private messageService: MessageService, private store: Store) {}
+    constructor(
+        private categoryService: CategoryService,
+        private messageService: MessageService,
+        private store: Store,
+        private confirmationService: ConfirmationService
+    ) {}
 
     canDeactivate = (): boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> => {
         if (!this.parentChanges.keys().next().value) return true;
-        return this.messageService.showConfirmationDialog('Czy chcesz odrzucić niezapisane zmiany?').pipe(map((x) => x.result));
+        return new Observable<boolean>((subscriber) => {
+            this.confirmationService.confirm({
+                message: 'Czy na pewno chcesz usunąć ten przedmiot?',
+                header: 'Czy na pewno?',
+                icon: 'pi pi-info-circle',
+                accept: () => subscriber.next(true),
+                reject: () => subscriber.next(false),
+            });
+        });
+        // return new Promise((resolve, _) => {
+        //     this.confirmationService.confirm({
+        //         message: 'Czy chcesz opuścić formularz?',
+        //         header: 'Opuść',
+        //         icon: 'pi pi-info-circle',
+        //         accept: () => resolve(true),
+        //         reject: () => resolve(false),
+        //     });
+        // });
     };
 
     ngOnInit(): void {
@@ -45,7 +66,7 @@ export class SettingsCategoriesConnectComponent implements OnInit {
         this.store.dispatch(loadUnasignedCategories());
     }
 
-    treeDragEnd = (data: DragEndEventProps<ICategory>): void => {
+    treeDragEnd = (data: DragEndEventProps<Category>): void => {
         let parentId: number | undefined = undefined;
         switch (data.dropLocation) {
             case 'above':
@@ -76,10 +97,10 @@ export class SettingsCategoriesConnectComponent implements OnInit {
         this.categoryService.changeParent(childParentPairs).subscribe(
             (response) => {
                 this.parentChanges.clear();
-                this.messageService.showMessage('Pomyślnie zaktualizowano kategorie!', 'success');
+                this.messageService.add({ severity: 'success', summary: 'Sukces', detail: 'Pomyślnie zaktualizowano kategorie' });
             },
             (error: HttpErrorResponse) => {
-                this.messageService.showMessage(error.message, 'error');
+                this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error ?? error.message });
             }
         );
     };

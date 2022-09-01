@@ -5,7 +5,7 @@ import { Store } from '@ngrx/store';
 import { iif, of, Subject } from 'rxjs';
 import { filter, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { CategoryDefinitionAsyncValidators } from 'src/app/shared/validators/category-definition-validators';
-import { ICategoryDefinition } from 'src/app/shared/data-access/models';
+import { CategoryDefinition } from '@models/';
 import { GenericFormControl } from 'src/app/shared/utils';
 import { DestroyObservable } from 'src/app/shared/utils/destroy-observable';
 import {
@@ -97,9 +97,9 @@ export class SettingsCategoryDefinitionsDetailsFormComponent implements OnInit {
                 tap((id) => {
                     if (id)
                         this.store.dispatch(
-                            updateDefinition({ id: id, definiton: { ...this.form.value } as ICategoryDefinition })
+                            updateDefinition({ id: id, definiton: { ...this.form.value } as CategoryDefinition })
                         );
-                    else this.store.dispatch(createDefinition({ definiton: { ...this.form.value } as ICategoryDefinition }));
+                    else this.store.dispatch(createDefinition({ definiton: { ...this.form.value } as CategoryDefinition }));
                 })
             )
             .subscribe();

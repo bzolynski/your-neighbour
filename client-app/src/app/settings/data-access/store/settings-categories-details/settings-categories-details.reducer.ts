@@ -1,5 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
-import { GenericState, ICategory } from 'src/app/shared/data-access/models';
+import { Category } from '@models/';
+import { GenericState } from '@utils/types';
 import {
     deleteCategory,
     deleteCategoryError,
@@ -11,7 +12,7 @@ import {
 } from './settings-categories-details.actions';
 export const SETTINGS_CATEGORIES_DETAILS_STATE_FEATURE_KEY = 'settings categories details';
 
-export interface SettingsCategoriesDetailsState extends GenericState<ICategory> {
+export interface SettingsCategoriesDetailsState extends GenericState<Category> {
     deleted: boolean;
 }
 

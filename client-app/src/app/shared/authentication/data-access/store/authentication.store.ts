@@ -2,17 +2,17 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
+import { MessageService } from 'primeng/api';
 import { map, switchMap, tap } from 'rxjs/operators';
 import { ChatService } from 'src/app/messages/data-access/api/chat.service';
-import { MessageService } from 'src/app/modules/core/services/message.service';
-import { GenericState } from 'src/app/shared/data-access/models';
-import { IUser } from 'src/app/shared/data-access/models/api/user.model';
+import { GenericState } from '@utils/types';
+import { User } from '@models/';
 import { StringHelperMethods } from 'src/app/shared/utils/string-utils';
 import { AuthenticationService } from './authentication.service';
 
 const LOCALSTORAGE_USER = 'user';
 
-export type AuthenticationState = GenericState<IUser>;
+export type AuthenticationState = GenericState<User>;
 
 @Injectable({
     providedIn: 'root',
@@ -50,7 +50,7 @@ export class AuthenticationStore extends ComponentStore<AuthenticationState> {
                             this.saveToLocalStorage(response);
                             this.patchState({ status: 'success', data: response });
                             this.router.navigateByUrl(this.activatedRoute.snapshot.queryParams['returnUrl'] ?? '/');
-                            this.messageService.showMessage('Pomyślnie zalogowano', 'success');
+                            this.messageService.add({ severity: 'success', summary: 'Sukces', detail: 'Pomyślnie zalogowano' });
                         },
                         (error: HttpErrorResponse) => {
                             this.removeFromLocalStorage();
@@ -66,10 +66,11 @@ export class AuthenticationStore extends ComponentStore<AuthenticationState> {
         $.pipe(
             switchMap(() => this.authenticationService.logout()),
             tap(() => {
+                this.router.navigate(['/']);
                 this.chatService.stopConnection();
                 this.removeFromLocalStorage();
                 this.patchState({ status: 'pending', error: null, data: null });
-                this.messageService.showMessage('Pomyślnie wylogowano', 'success');
+                this.messageService.add({ severity: 'success', summary: 'Sukces', detail: 'Pomyślnie wylogowano' });
             })
         )
     );
@@ -84,7 +85,11 @@ export class AuthenticationStore extends ComponentStore<AuthenticationState> {
                     tapResponse(
                         () => {
                             this.patchState({ status: 'success' });
-                            this.messageService.showMessage('Rejestracja przebiegła pomyślnie. Możesz się zalogować!', 'success');
+                            this.messageService.add({
+                                severity: 'success',
+                                summary: 'Sukces',
+                                detail: 'Rejestracja przebiegła pomyślnie. Możesz się zalogować',
+                            });
                         },
                         (error: HttpErrorResponse) => this.handleError(error)
                     )
@@ -96,22 +101,21 @@ export class AuthenticationStore extends ComponentStore<AuthenticationState> {
         params$.pipe(
             tap(({ firstName, lastName, phoneNumber }) => {
                 this.patchState((state) => ({
-                    data: { ...state.data, firstName: firstName, lastName: lastName, phoneNumber: phoneNumber } as IUser,
+                    data: { ...state.data, firstName: firstName, lastName: lastName, phoneNumber: phoneNumber } as User,
                 }));
             })
         )
     );
 
     private handleError = (error: HttpErrorResponse) => {
-        this.patchState({ status: 'error', error: error.message });
-        this.messageService.showMessage(error.message, 'error');
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error ?? error.message });
     };
-    private getFromLocalStorage = (): IUser | null => {
+    private getFromLocalStorage = (): User | null => {
         const jsonUser = localStorage.getItem(LOCALSTORAGE_USER);
         if (!jsonUser) return null;
         return JSON.parse(jsonUser);
     };
-    private saveToLocalStorage = (user: IUser) => {
+    private saveToLocalStorage = (user: User) => {
         localStorage.setItem(LOCALSTORAGE_USER, JSON.stringify(user));
     };
     private removeFromLocalStorage = () => {

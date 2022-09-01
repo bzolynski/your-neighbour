@@ -1,10 +1,10 @@
 import { createAction, props } from '@ngrx/store';
-import { ICategory } from 'src/app/shared/data-access/models';
+import { Category } from '@models/';
 
 export const loadCategory = createAction('[SettingsCategoriesDetailsComponent] Load Category', props<{ id: number }>());
 export const loadCategorySuccess = createAction(
     '[SettingsCategoriesDetailsComponent] Load Category Success',
-    props<{ category: ICategory }>()
+    props<{ category: Category }>()
 );
 export const loadCategoryError = createAction(
     '[SettingsCategoriesDetailsComponent] Load Category Error',

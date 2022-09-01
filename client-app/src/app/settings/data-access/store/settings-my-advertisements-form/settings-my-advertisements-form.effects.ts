@@ -3,15 +3,14 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
+import { MessageService } from 'primeng/api';
 import { of, throwError } from 'rxjs';
-import { catchError, filter, map, mergeMap, switchMap, tap } from 'rxjs/operators';
+import { catchError, filter, map, switchMap, tap } from 'rxjs/operators';
 import { AdvertisementService } from 'src/app/advertisements/data-access';
-import { ItemService } from 'src/app/modules/core/services/item.service';
 import { LocalizationService } from 'src/app/modules/core/services/localization.service';
-import { MessageService } from 'src/app/modules/core/services/message.service';
 import { AuthenticationStore } from 'src/app/shared/authentication/data-access';
 import { AdvertisementDefinitionService } from 'src/app/shared/data-access/api';
-import { IUser } from 'src/app/shared/data-access/models';
+import { User } from '@models/';
 import {
     createAdvertisement,
     createAdvertisementError,
@@ -22,14 +21,6 @@ import {
     loadDefinitions,
     loadDefinitionsError,
     loadDefinitionsSuccess,
-    loadImagesError,
-    loadImagesSuccess,
-    loadItem,
-    loadItemError,
-    loadItems,
-    loadItemsError,
-    loadItemsSuccess,
-    loadItemSuccess,
     loadLocalizations,
     loadLocalizationsError,
     loadLocalizationsSuccess,
@@ -42,7 +33,6 @@ import {
 export class SettingsMyAdvertisementsFormEffects {
     constructor(
         private actions$: Actions,
-        private itemService: ItemService,
         private advertisementService: AdvertisementService,
         private authStore: AuthenticationStore,
         private messageService: MessageService,
@@ -67,51 +57,51 @@ export class SettingsMyAdvertisementsFormEffects {
             )
         )
     );
-    loadItem$ = createEffect(() =>
-        this.actions$.pipe(
-            ofType(loadItem),
-            switchMap(({ id }) =>
-                this.itemService.get(id, { includeCategory: true }).pipe(
-                    map((item) => loadItemSuccess({ item })),
-                    catchError((error: HttpErrorResponse) => of(loadItemError({ error: error.error ?? error.message })))
-                )
-            )
-        )
-    );
+    // loadItem$ = createEffect(() =>
+    //     this.actions$.pipe(
+    //         ofType(loadItem),
+    //         switchMap(({ id }) =>
+    //             this.itemService.get(id, { includeCategory: true }).pipe(
+    //                 map((item) => loadItemSuccess({ item })),
+    //                 catchError((error: HttpErrorResponse) => of(loadItemError({ error: error.error ?? error.message })))
+    //             )
+    //         )
+    //     )
+    // );
 
-    loadItems$ = createEffect(() =>
-        this.actions$.pipe(
-            ofType(loadItems),
-            switchMap(() => this.authStore.user$),
-            tap(this.checkUserLoggedIn),
-            filter((user): user is IUser => user !== null),
-            switchMap((user) =>
-                this.itemService.getByUser(user.id).pipe(
-                    map((items) => loadItemsSuccess({ items: items })),
-                    catchError((error: HttpErrorResponse) => of(loadItemsError({ error: error.error ?? error.message })))
-                )
-            )
-        )
-    );
+    // loadItems$ = createEffect(() =>
+    //     this.actions$.pipe(
+    //         ofType(loadItems),
+    //         switchMap(() => this.authStore.user$),
+    //         tap(this.checkUserLoggedIn),
+    //         filter((user): user is User => user !== null),
+    //         switchMap((user) =>
+    //             this.itemService.getByUser(user.id).pipe(
+    //                 map((items) => loadItemsSuccess({ items: items })),
+    //                 catchError((error: HttpErrorResponse) => of(loadItemsError({ error: error.error ?? error.message })))
+    //             )
+    //         )
+    //     )
+    // );
 
-    loadImages$ = createEffect(() =>
-        this.actions$.pipe(
-            ofType(loadItemSuccess),
-            mergeMap(({ item }) =>
-                this.itemService.getImagesByItem(item.id).pipe(
-                    map((images) => loadImagesSuccess({ images: images })),
-                    catchError((error: HttpErrorResponse) => of(loadImagesError({ error: error.error ?? error.message })))
-                )
-            )
-        )
-    );
+    // loadImages$ = createEffect(() =>
+    //     this.actions$.pipe(
+    //         ofType(loadItemSuccess),
+    //         mergeMap(({ item }) =>
+    //             this.itemService.getImagesByItem(item.id).pipe(
+    //                 map((images) => loadImagesSuccess({ images: images })),
+    //                 catchError((error: HttpErrorResponse) => of(loadImagesError({ error: error.error ?? error.message })))
+    //             )
+    //         )
+    //     )
+    // );
 
     loadLocalizations$ = createEffect(() =>
         this.actions$.pipe(
             ofType(loadLocalizations),
             switchMap(() => this.authStore.user$),
             tap(this.checkUserLoggedIn),
-            filter((user): user is IUser => user !== null),
+            filter((user): user is User => user !== null),
             switchMap((user) =>
                 this.localizationService.getManyByUser(user.id).pipe(
                     map((localizations) => loadLocalizationsSuccess({ localizations: localizations })),
@@ -139,7 +129,7 @@ export class SettingsMyAdvertisementsFormEffects {
             switchMap(({ advertisement }) =>
                 this.authStore.user$.pipe(
                     tap(this.checkUserLoggedIn),
-                    filter((user): user is IUser => user !== null),
+                    filter((user): user is User => user !== null),
                     switchMap((user) => this.advertisementService.create(advertisement, user.id)),
                     map((id) => createAdvertisementSuccess({ advertisement: { ...advertisement, id: id } })),
                     catchError((error: HttpErrorResponse) =>
@@ -164,9 +154,9 @@ export class SettingsMyAdvertisementsFormEffects {
         )
     );
 
-    private checkUserLoggedIn = (user: IUser | null) => {
+    private checkUserLoggedIn = (user: User | null) => {
         if (user === null) {
-            this.messageService.showMessage('Nie jesteś zalogowany!', 'error');
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Nie jesteś zalogowany' });
             this.router.navigate(['welcome'], { queryParams: { returnUrl: this.router.routerState.snapshot.url } });
 
             throwError(new Error('User is not logged in'));

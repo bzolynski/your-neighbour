@@ -5,10 +5,6 @@ import { SettingsMyComponent } from './settings-my.component';
 const routes: Routes = [
     { path: '', component: SettingsMyComponent },
     {
-        path: 'items',
-        loadChildren: () => import('../settings-my-items/settings-my-items.module').then((m) => m.SettingsMyItemsModule),
-    },
-    {
         path: 'advertisements',
         loadChildren: () =>
             import('../settings-my-advertisements/settings-my-advertisements.module').then(

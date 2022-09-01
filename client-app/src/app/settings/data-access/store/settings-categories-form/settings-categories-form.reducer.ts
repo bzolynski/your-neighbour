@@ -1,5 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
-import { GenericState, ICategory, ICategoryDefinition } from 'src/app/shared/data-access/models';
+import { CategoryDefinition, Category } from '@models/';
+import { GenericState } from '@utils/types';
 import {
     createCategory,
     createCategoryError,
@@ -16,8 +17,8 @@ import {
 } from './settings-categories-form.actions';
 export const SETTINGS_CATEGORIES_FORM_STATE_FEATURE_KEY = 'settings categories form';
 
-export interface SettingsCategoriesFormState extends GenericState<ICategory> {
-    definitions: ICategoryDefinition[];
+export interface SettingsCategoriesFormState extends GenericState<Category> {
+    definitions: CategoryDefinition[];
     //close: boolean;
 }
 

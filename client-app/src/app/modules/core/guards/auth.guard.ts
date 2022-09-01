@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
+import { MessageService } from 'primeng/api';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { AuthenticationStore } from 'src/app/shared/authentication/data-access';
-import { MessageService } from '../services/message.service';
 
 @Injectable({
     providedIn: 'root',
@@ -22,7 +22,7 @@ export class AuthGuard implements CanActivate {
             map((user) => {
                 if (user) return true;
                 this.router.navigate(['welcome'], { queryParams: { returnUrl: state.url } });
-                this.messageService.showMessage('Musisz być zalogowany', 'warning');
+                this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Musisz być zalogowany' });
                 return false;
             })
         );

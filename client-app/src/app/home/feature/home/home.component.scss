@@ -14,9 +14,6 @@
 
 :host ::ng-deep .p-carousel-content {
     padding-block-start: 48px;
-    @extend .own-card-container;
-}
-.own-card-container {
     background: hsl(0, 0%, 100%);
     color: hsl(210, 9%, 31%);
     border: 1px solid hsl(210, 14%, 89%);

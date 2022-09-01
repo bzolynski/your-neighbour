@@ -1,9 +1,9 @@
+import { Advertisement } from '@models/';
 import { createReducer, on } from '@ngrx/store';
-import { Advertisement } from 'src/app/advertisements/data-access/models/advertisement.model';
-import { GenericState, IItem } from 'src/app/shared/data-access/models';
+import { GenericState } from '@utils/types';
+import { IItem } from 'src/app/shared/data-access/models';
 import { ListViewType } from 'src/app/shared/ui/list-container/list-container.component';
 import {
-    changeListViewType,
     deleteAdvertisement,
     deleteAdvertisementError,
     deleteAdvertisementSuccess,
@@ -58,10 +58,6 @@ export const settingsMyAdvertisementsReducer = createReducer(
         ...state,
         status: 'error',
         error: error,
-    })),
-    on(changeListViewType, (state, { listViewType }) => ({
-        ...state,
-        listViewType: listViewType,
     })),
     on(loadImagesSuccess, (state, { itemId, images }) => ({
         ...state,

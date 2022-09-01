@@ -1,7 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { Advertisement } from 'src/app/advertisements/data-access/models/advertisement.model';
-import { IImage } from 'src/app/shared/data-access/models';
-import { ListViewType } from 'src/app/shared/ui/list-container/list-container.component';
+import { Image, Advertisement } from '@models/';
 
 export const loadAdvertisements = createAction('[SettingsMyAdvertisementsComponent] Load Advertisements');
 export const loadAdvertisementsSuccess = createAction(
@@ -29,10 +27,6 @@ export const deleteAdvertisementError = createAction(
 export const loadImages = createAction('[SettingsMyAdvertisementsComponent] Load Images', props<{ itemId: number }>());
 export const loadImagesSuccess = createAction(
     '[SettingsMyAdvertisementsComponent] Load Images Success',
-    props<{ itemId: number; images: IImage[] }>()
+    props<{ itemId: number; images: Image[] }>()
 );
 export const loadImagesError = createAction('[SettingsMyAdvertisementsComponent] Load Images Error', props<{ error: string }>());
-export const changeListViewType = createAction(
-    '[SettingsMyAdvertisementsComponent] Change List View Type',
-    props<{ listViewType: ListViewType }>()
-);

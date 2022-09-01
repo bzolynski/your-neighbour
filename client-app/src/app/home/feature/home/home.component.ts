@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { MessageService } from 'primeng/api';
 import { combineLatest } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
-import { MessageService } from 'src/app/modules/core/services/message.service';
 import { loadAdvertisements } from '../../data-access/store/home/home.actions';
 import { selectAdvertisements, selectError, selectStatus } from '../../data-access/store/home/home.selectors';
 
@@ -33,7 +33,9 @@ export class HomeComponent implements OnInit {
     #status$ = this.store.select(selectStatus);
     #error$ = this.store
         .select(selectError)
-        .pipe(tap((error) => (error ? this.messageService.showMessage(error, 'error') : undefined)));
+        .pipe(
+            tap((error) => (error ? this.messageService.add({ severity: 'error', summary: 'Error', detail: error }) : undefined))
+        );
 
     vm$ = combineLatest([this.#advertisements$, this.#status$, this.#error$]).pipe(
         map(([advertisements, status, error]) => ({ advertisements, status, error }))

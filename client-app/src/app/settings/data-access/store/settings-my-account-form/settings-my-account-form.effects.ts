@@ -2,12 +2,12 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { MessageService } from 'primeng/api';
 import { of, throwError } from 'rxjs';
 import { catchError, filter, map, switchMap, tap } from 'rxjs/operators';
-import { MessageService } from 'src/app/modules/core/services/message.service';
 import { AuthenticationStore } from 'src/app/shared/authentication/data-access';
 import { UserService } from 'src/app/shared/data-access/api';
-import { IUser } from 'src/app/shared/data-access/models';
+import { User } from '@models/';
 import {
     loadUser,
     loadUserError,
@@ -32,7 +32,7 @@ export class SettingsMyAccountFormEffects {
             switchMap(() =>
                 this.authStore.user$.pipe(
                     tap(this.checkUserLoggedIn),
-                    filter((user): user is IUser => user != null),
+                    filter((user): user is User => user != null),
                     map((user) => loadUserSuccess({ user: user })),
                     catchError((error: HttpErrorResponse) => of(loadUserError({ error: error.error ?? error.message })))
                 )
@@ -56,9 +56,9 @@ export class SettingsMyAccountFormEffects {
         )
     );
 
-    private checkUserLoggedIn = (user: IUser | null) => {
+    private checkUserLoggedIn = (user: User | null) => {
         if (user === null) {
-            this.messageService.showMessage('Nie jesteś zalogowany!', 'error');
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Nie jesteś zalogowany' });
             this.router.navigate(['welcome'], { queryParams: { returnUrl: this.router.routerState.snapshot.url } });
 
             throwError(new Error('User is not logged in'));

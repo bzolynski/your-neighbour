@@ -1,5 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
-import { GenericState, IUser } from 'src/app/shared/data-access/models';
+import { User } from '@models/';
+import { GenericState } from '@utils/types';
 import {
     loadUser,
     loadUserError,
@@ -10,7 +11,7 @@ import {
 } from './settings-my-account-form.actions';
 export const SETTINGS_MY_ACCOUNT_FORM_STATE_FEATURE_KEY = 'settings my account form';
 
-export type SettingsMyAccountFormState = GenericState<IUser>;
+export type SettingsMyAccountFormState = GenericState<User>;
 
 export const initialState: SettingsMyAccountFormState = {
     error: null,

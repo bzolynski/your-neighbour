@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
-import { ICategory, ROOT_CATEGORY_GUID } from 'src/app/shared/data-access/models';
+import { Category, ROOT_CATEGORY_GUID } from '@models/category.model';
 import { HttpHelperMethods, QueryParams } from 'src/app/shared/utils';
 import { ApiService } from '.';
 import { IChildParentPair } from '../types/child-parent-pair.type';
@@ -19,22 +19,22 @@ export class CategoryService {
 
     changed: Subject<void> = new Subject<void>();
 
-    getMany = (queryParams?: CategoryQueryParams): Observable<ICategory[]> => {
+    getMany = (queryParams?: CategoryQueryParams): Observable<Category[]> => {
         const params = HttpHelperMethods.mapToHttpParams(queryParams);
-        return this.apiService.get<ICategory[]>('category/get', params);
+        return this.apiService.get<Category[]>('category/get', params);
     };
-    get = (id: number, queryParams?: CategoryQueryParams): Observable<ICategory> => {
+    get = (id: number, queryParams?: CategoryQueryParams): Observable<Category> => {
         const params = HttpHelperMethods.mapToHttpParams(queryParams);
-        return this.apiService.get<ICategory>(`category/get/${id}`, params);
+        return this.apiService.get<Category>(`category/get/${id}`, params);
     };
-    getRoot = (queryParams?: CategoryQueryParams): Observable<ICategory> => {
+    getRoot = (queryParams?: CategoryQueryParams): Observable<Category> => {
         const params = HttpHelperMethods.mapToHttpParams(queryParams);
-        return this.apiService.get<ICategory>(`category/get-by-guid/${ROOT_CATEGORY_GUID}`, params);
+        return this.apiService.get<Category>(`category/get-by-guid/${ROOT_CATEGORY_GUID}`, params);
     };
-    create = (body: ICategory): Observable<number> => {
+    create = (body: Category): Observable<number> => {
         return this.apiService.post<number>(`category/create/`, body);
     };
-    update = (id: number, body: ICategory): Observable<number> => {
+    update = (id: number, body: Category): Observable<number> => {
         return this.apiService.put<number>(`category/update/${id}`, body);
     };
     delete = (id: number): Observable<boolean> => {
@@ -43,7 +43,7 @@ export class CategoryService {
     changeParent = (childParentPairs: Array<IChildParentPair>): Observable<boolean> => {
         return this.apiService.patch<boolean>(`category/change-parent/`, childParentPairs);
     };
-    getUnassigned = (): Observable<Array<ICategory>> => {
-        return this.apiService.get<Array<ICategory>>('category/get-unassigned');
+    getUnassigned = (): Observable<Array<Category>> => {
+        return this.apiService.get<Array<Category>>('category/get-unassigned');
     };
 }

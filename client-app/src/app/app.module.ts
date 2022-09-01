@@ -18,6 +18,9 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { HeaderModule } from './modules/core/header/header.module';
 import { RippleModule } from 'primeng/ripple';
 import { FooterModule } from './modules/core/footer/footer.module';
+import { ToastModule } from 'primeng/toast';
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 @NgModule({
     declarations: [AppComponent],
     imports: [
@@ -35,9 +38,11 @@ import { FooterModule } from './modules/core/footer/footer.module';
         HeaderModule,
         FooterModule,
         RippleModule,
+        ToastModule,
+        ConfirmDialogModule,
     ],
     bootstrap: [AppComponent],
     exports: [AppComponent],
-    providers: [authenticationInterceptionProvider],
+    providers: [authenticationInterceptionProvider, MessageService, ConfirmationService],
 })
 export class AppModule {}

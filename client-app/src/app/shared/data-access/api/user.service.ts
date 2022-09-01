@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { IUser } from '../models';
+import { User } from '@models/';
 import { ApiService } from './api.service';
 
 @Injectable({
@@ -9,10 +9,10 @@ import { ApiService } from './api.service';
 export class UserService {
     constructor(private apiService: ApiService) {}
 
-    get = (id: number): Observable<IUser> => {
+    get = (id: number): Observable<User> => {
         return this.apiService.get(`user/get/${id}`);
     };
-    update = (id: number, body: IUser): Observable<number> => {
+    update = (id: number, body: User): Observable<number> => {
         return this.apiService.put(`user/update/${id}`, body);
     };
 }

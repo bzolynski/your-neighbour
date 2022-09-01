@@ -1,19 +1,18 @@
-import { GenericState, ICategory, IImage } from 'src/app/shared/data-access/models';
-import { Advertisement } from '../../models/advertisement.model';
+import { Advertisement, Category, Image } from '@models/';
+import { GenericState } from '@utils/types';
 import { Injectable } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
-import { mergeMap, switchMap, tap } from 'rxjs/operators';
+import { switchMap, tap } from 'rxjs/operators';
 import { AdvertisementService } from '..';
 import { CategoryService } from 'src/app/modules/core/services';
 import { Params } from '@angular/router';
 import { ListViewType } from 'src/app/shared/ui/list-container/list-container.component';
 import { HttpErrorResponse } from '@angular/common/http';
 import { from } from 'rxjs';
-import { ItemService } from 'src/app/modules/core/services/item.service';
 
 interface AdvertisementListState extends GenericState<Advertisement[]> {
     listViewType: ListViewType;
-    activeCategory?: ICategory;
+    activeCategory?: Category;
     activeCategoryLoading: boolean;
 }
 
@@ -79,29 +78,25 @@ export class AdvertisementListStore extends ComponentStore<AdvertisementListStat
                                         this.patchState({ status: 'error', error: error.message });
                                     }
                                 ),
-                                switchMap((response) => from(response.map((x) => x.item.id))),
-                                mergeMap((id) =>
-                                    this.itemService
-                                        .getImagesByItem(id, { maxImages: 1 })
-                                        .pipe(tap((images) => this.updateImages({ id, images })))
-                                )
+                                switchMap((response) => from(response.map((x) => x.item.id)))
+                                // mergeMap((id) =>
+                                //     // this.itemService
+                                //     //     .getImagesByItem(id, { maxImages: 1 })
+                                //     //     .pipe(tap((images) => this.updateImages({ id, images })))
+                                // )
                             )
                         )
                 )
             )
     );
 
-    private readonly updateImages = this.updater((state, params: { id: number; images: IImage[] }) => {
+    private readonly updateImages = this.updater((state, params: { id: number; images: Image[] }) => {
         const advertisements = (state.data ?? []).map((value) =>
             value.item.id === params.id ? { ...value, item: { ...value.item, images: params.images } } : value
         );
         return { ...state, data: advertisements };
     });
-    constructor(
-        private advertisementService: AdvertisementService,
-        private categoryService: CategoryService,
-        private itemService: ItemService
-    ) {
+    constructor(private advertisementService: AdvertisementService, private categoryService: CategoryService) {
         super(<AdvertisementListState>{ listViewType: 'list' });
     }
 }

@@ -1,9 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
+import { MessageService } from 'primeng/api';
 import { combineLatest } from 'rxjs';
 import { map, takeUntil, tap } from 'rxjs/operators';
-import { MessageService } from 'src/app/modules/core/services/message.service';
 import { AuthenticationStore } from 'src/app/shared/authentication/data-access';
 import { DestroyObservable } from 'src/app/shared/utils/destroy-observable';
 import {
@@ -34,7 +34,9 @@ export class AdvertisementDetailsComponent implements OnInit, OnDestroy {
     #status$ = this.store.select(selectStatus);
     #error$ = this.store
         .select(selectError)
-        .pipe(tap((error) => (error ? this.messageService.showMessage(error, 'error') : undefined)));
+        .pipe(
+            tap((error) => (error ? this.messageService.add({ severity: 'error', summary: 'Error', detail: error }) : undefined))
+        );
     #isFavorite$ = this.store.select(selectIsFavorite);
     #isOwner$ = this.store.select(selectIsOwner);
 
@@ -48,8 +50,6 @@ export class AdvertisementDetailsComponent implements OnInit, OnDestroy {
             status,
         }))
     );
-
-
     constructor(
         private route: ActivatedRoute,
         private store: Store,

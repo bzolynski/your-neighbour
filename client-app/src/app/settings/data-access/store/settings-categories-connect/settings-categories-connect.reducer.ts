@@ -1,7 +1,8 @@
 import { createReducer, on } from '@ngrx/store';
 import { Dictionary } from 'src/app/modules/core/types';
 import { ITree } from 'src/app/modules/tree-view/models';
-import { GenericState, ICategory } from 'src/app/shared/data-access/models';
+import { Category } from '@models/';
+import { GenericState } from '@utils/types';
 import {
     loadTree,
     loadTreeError,
@@ -11,8 +12,8 @@ import {
 } from './settings-categories-connect.actions';
 export const SETTINGS_CATEGORIES_CONNECT_STATE_FEATURE_KEY = 'settings categories connect';
 
-export interface SettingsCategoriesConnectState extends GenericState<ITree<ICategory>> {
-    unasignedCategories: ICategory[];
+export interface SettingsCategoriesConnectState extends GenericState<ITree<Category>> {
+    unasignedCategories: Category[];
     changes: Dictionary<number, number | null>;
 }
 

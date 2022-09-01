@@ -3,7 +3,7 @@ import { Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { combineLatest } from 'rxjs';
 import { filter, map, tap } from 'rxjs/operators';
-import { IUser } from 'src/app/shared/data-access/models';
+import { User } from '@models/';
 import { GenericFormControl, GenericFormGroup } from 'src/app/shared/utils';
 import { loadUser, selectError, selectStatus, selectUser, updateUser } from '../../data-access/store/settings-my-account-form';
 
@@ -36,7 +36,7 @@ export class SettingsMyAccountFormComponent implements OnInit {
     }
 
     user$ = this.store.select(selectUser).pipe(
-        filter((user): user is IUser => user !== null),
+        filter((user): user is User => user !== null),
         tap((user) => this.form.patchValue({ firstName: user.firstName, lastName: user.lastName, phoneNumber: user.phoneNumber }))
     );
     error$ = this.store.select(selectError);

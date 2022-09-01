@@ -1,7 +1,8 @@
 import { createReducer, on } from '@ngrx/store';
-import { Advertisement } from 'src/app/advertisements/data-access/models/advertisement.model';
 import { AdvertisementForm } from 'src/app/settings/feature/settings-my-advertisements-form/settings-my-advertisements-form.component';
-import { AdvertisementDefinition, GenericState, IItem, Localization } from 'src/app/shared/data-access/models';
+import { Advertisement, AdvertisementDefinition, Localization } from '@models/';
+import { GenericState } from '@utils/types';
+import { IItem } from 'src/app/shared/data-access/models';
 import {
     createAdvertisement,
     createAdvertisementSuccess,
@@ -19,7 +20,6 @@ import {
     loadLocalizationsError,
     loadLocalizationsSuccess,
     resetState,
-    setFormSnapshot,
     updateAdvertisement,
     updateAdvertisementSuccess,
 } from './settings-my-advertisements-form.actions';
@@ -68,10 +68,7 @@ export const settingsMyAdvertisementsFormReducer = createReducer(
         status: 'error',
         error: error,
     })),
-    on(setFormSnapshot, (state, { formSnapshot }) => ({
-        ...state,
-        data: formSnapshot,
-    })),
+
     on(loadItemsSuccess, (state, { items }) => ({
         ...state,
         items: items,

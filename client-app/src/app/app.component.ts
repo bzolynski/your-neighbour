@@ -8,7 +8,7 @@ import { selectInfoBarOpen, selectMessages } from './data-access/notification/no
 import { RootState } from './data-access/root.state';
 import { ChatService } from './messages/data-access/api/chat.service';
 import { AuthenticationStore } from './shared/authentication/data-access';
-import { IUser } from './shared/data-access/models';
+import { User } from '@models/';
 import { MessageWithType } from './shared/ui/info-bar/info-bar.component';
 @Component({
     selector: 'app-root',
@@ -33,7 +33,7 @@ export class AppComponent implements OnInit {
         this.authStore.user$
             .pipe(
                 filter(
-                    (user): user is IUser =>
+                    (user): user is User =>
                         user !== null && this.chatService.getConnectionStatus() === HubConnectionState.Disconnected
                 ),
                 tap(() => this.chatService.startConnection())

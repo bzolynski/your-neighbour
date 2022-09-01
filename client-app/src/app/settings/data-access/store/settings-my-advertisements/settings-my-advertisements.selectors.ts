@@ -11,5 +11,3 @@ export const selectSettingsMyAdvertisementsState = createFeatureSelector<Setting
 export const selectAdvertisements = createSelector(selectSettingsMyAdvertisementsState, (state) => state.data);
 export const selectStatus = createSelector(selectSettingsMyAdvertisementsState, (state) => state.status);
 export const selectError = createSelector(selectSettingsMyAdvertisementsState, (state) => state.error);
-
-export const selectListViewType = createSelector(selectSettingsMyAdvertisementsState, (state) => state.listViewType);

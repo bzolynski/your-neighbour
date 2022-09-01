@@ -1,6 +1,6 @@
 <div class="own-container">
     <p-menu class="own-menu" *ngIf="menuOptions$ | async as menuOptions" [model]="menuOptions"></p-menu>
-    <div class="own-card">
+    <div appCardContainer>
         <p-dataView
             *ngIf="advertisements$ | async as advertisements"
             #dv

@@ -3,10 +3,10 @@ import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
+import { MessageService } from 'primeng/api';
 import { iif, merge, of } from 'rxjs';
 import { filter, map, switchMap, takeUntil, tap } from 'rxjs/operators';
-import { MessageService } from 'src/app/modules/core/services/message.service';
-import { Localization } from 'src/app/shared/data-access/models';
+import { Localization } from '@models/';
 import { DestroyObservable } from 'src/app/shared/utils/destroy-observable';
 import {
     selectUser,
@@ -63,7 +63,7 @@ export class SettingsMyAccountComponent implements OnInit {
             .pipe(
                 takeUntil(this.destroy$),
                 filter((error): error is string => error !== null),
-                tap((error) => this.messageService.showMessage(error, 'error'))
+                tap((error) => this.messageService.add({ severity: 'error', summary: 'Error', detail: error }))
             )
             .subscribe();
     }
