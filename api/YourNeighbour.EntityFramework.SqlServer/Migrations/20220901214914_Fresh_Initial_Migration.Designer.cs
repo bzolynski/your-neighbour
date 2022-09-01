@@ -12,8 +12,8 @@ using YourNeighbour.EntityFramework.SqlServer;
 namespace YourNeighbour.EntityFramework.SqlServer.Migrations
 {
     [DbContext(typeof(SqlServerDbContext))]
-    [Migration("20220606145434_Primary_Localization")]
-    partial class Primary_Localization
+    [Migration("20220901214914_Fresh_Initial_Migration")]
+    partial class Fresh_Initial_Migration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -24,6 +24,21 @@ namespace YourNeighbour.EntityFramework.SqlServer.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
+            modelBuilder.Entity("ChatUser", b =>
+                {
+                    b.Property<int>("ChatsId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UsersId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ChatsId", "UsersId");
+
+                    b.HasIndex("UsersId");
+
+                    b.ToTable("ChatUser");
+                });
+
             modelBuilder.Entity("YourNeighbour.Domain.Entities.Advertisement", b =>
                 {
                     b.Property<int>("Id")
@@ -32,7 +47,7 @@ namespace YourNeighbour.EntityFramework.SqlServer.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int?>("CategoryId")
+                    b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("DateCreated")
@@ -46,9 +61,6 @@ namespace YourNeighbour.EntityFramework.SqlServer.Migrations
 
                     b.Property<Guid>("Guid")
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("ItemId")
-                        .HasColumnType("int");
 
                     b.Property<int>("LocalizationId")
                         .HasColumnType("int");
@@ -65,13 +77,35 @@ namespace YourNeighbour.EntityFramework.SqlServer.Migrations
 
                     b.HasIndex("DefinitionId");
 
-                    b.HasIndex("ItemId");
-
                     b.HasIndex("LocalizationId");
 
                     b.HasIndex("UserId");
 
                     b.ToTable("Advertisements");
+                });
+
+            modelBuilder.Entity("YourNeighbour.Domain.Entities.AdvertisementImage", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("AdvertisementId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("DataUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("Guid")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AdvertisementId");
+
+                    b.ToTable("AdvertisementImage");
                 });
 
             modelBuilder.Entity("YourNeighbour.Domain.Entities.Category", b =>
@@ -107,6 +141,22 @@ namespace YourNeighbour.EntityFramework.SqlServer.Migrations
                     b.HasIndex("ParentId");
 
                     b.ToTable("Categories");
+                });
+
+            modelBuilder.Entity("YourNeighbour.Domain.Entities.Chat", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<Guid>("Guid")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Chats");
                 });
 
             modelBuilder.Entity("YourNeighbour.Domain.Entities.Definitions.AdvertisementDefinition", b =>
@@ -165,6 +215,21 @@ namespace YourNeighbour.EntityFramework.SqlServer.Migrations
                     b.ToTable("CategoryDefinitions");
                 });
 
+            modelBuilder.Entity("YourNeighbour.Domain.Entities.FavoriteAdvertisement", b =>
+                {
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("AdvertisementId")
+                        .HasColumnType("int");
+
+                    b.HasKey("UserId", "AdvertisementId");
+
+                    b.HasIndex("AdvertisementId");
+
+                    b.ToTable("FavoriteAdvertisements");
+                });
+
             modelBuilder.Entity("YourNeighbour.Domain.Entities.Identity.Role", b =>
                 {
                     b.Property<int>("Id")
@@ -196,6 +261,24 @@ namespace YourNeighbour.EntityFramework.SqlServer.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("Roles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            ConcurrencyStamp = "45299e6b-8722-4f35-a3c7-457261859c30",
+                            Guid = new Guid("51e8c76a-7c0c-49d6-90cc-397697c93dfb"),
+                            Name = "Administrator",
+                            NormalizedName = "ADMINISTRATOR"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            ConcurrencyStamp = "64635e53-3a89-4313-aa58-094d5087fd36",
+                            Guid = new Guid("206f17a5-181d-4377-bd06-cbe6ffdbdbed"),
+                            Name = "User",
+                            NormalizedName = "USER"
+                        });
                 });
 
             modelBuilder.Entity("YourNeighbour.Domain.Entities.Identity.RoleClaim", b =>
@@ -382,62 +465,6 @@ namespace YourNeighbour.EntityFramework.SqlServer.Migrations
                     b.ToTable("UserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("YourNeighbour.Domain.Entities.Item", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("Guid")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CategoryId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Items");
-                });
-
-            modelBuilder.Entity("YourNeighbour.Domain.Entities.ItemImage", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("DataUrl")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("Guid")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("ItemId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ItemId");
-
-                    b.ToTable("ItemImages");
-                });
-
             modelBuilder.Entity("YourNeighbour.Domain.Entities.Localization", b =>
                 {
                     b.Property<int>("Id")
@@ -480,6 +507,38 @@ namespace YourNeighbour.EntityFramework.SqlServer.Migrations
                     b.ToTable("Localizations");
                 });
 
+            modelBuilder.Entity("YourNeighbour.Domain.Entities.Message", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("ChatId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Content")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("Guid")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("SenderId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ChatId");
+
+                    b.HasIndex("SenderId");
+
+                    b.ToTable("Messages");
+                });
+
             modelBuilder.Entity("YourNeighbour.Domain.Entities.RefreshToken", b =>
                 {
                     b.Property<int>("Id")
@@ -508,11 +567,28 @@ namespace YourNeighbour.EntityFramework.SqlServer.Migrations
                     b.ToTable("RefreshTokens");
                 });
 
+            modelBuilder.Entity("ChatUser", b =>
+                {
+                    b.HasOne("YourNeighbour.Domain.Entities.Chat", null)
+                        .WithMany()
+                        .HasForeignKey("ChatsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("YourNeighbour.Domain.Entities.Identity.User", null)
+                        .WithMany()
+                        .HasForeignKey("UsersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("YourNeighbour.Domain.Entities.Advertisement", b =>
                 {
-                    b.HasOne("YourNeighbour.Domain.Entities.Category", null)
+                    b.HasOne("YourNeighbour.Domain.Entities.Category", "Category")
                         .WithMany("Advertisements")
-                        .HasForeignKey("CategoryId");
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("YourNeighbour.Domain.Entities.Definitions.AdvertisementDefinition", "Definition")
                         .WithMany("Advertisements")
@@ -520,31 +596,36 @@ namespace YourNeighbour.EntityFramework.SqlServer.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("YourNeighbour.Domain.Entities.Item", "Item")
-                        .WithMany()
-                        .HasForeignKey("ItemId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.HasOne("YourNeighbour.Domain.Entities.Localization", "Localization")
-                        .WithMany()
+                        .WithMany("Advertisements")
                         .HasForeignKey("LocalizationId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("YourNeighbour.Domain.Entities.Identity.User", "User")
-                        .WithMany()
+                        .WithMany("Advertisements")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Definition");
+                    b.Navigation("Category");
 
-                    b.Navigation("Item");
+                    b.Navigation("Definition");
 
                     b.Navigation("Localization");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("YourNeighbour.Domain.Entities.AdvertisementImage", b =>
+                {
+                    b.HasOne("YourNeighbour.Domain.Entities.Advertisement", "Advertisement")
+                        .WithMany("Images")
+                        .HasForeignKey("AdvertisementId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Advertisement");
                 });
 
             modelBuilder.Entity("YourNeighbour.Domain.Entities.Category", b =>
@@ -563,6 +644,25 @@ namespace YourNeighbour.EntityFramework.SqlServer.Migrations
                     b.Navigation("Definition");
 
                     b.Navigation("Parent");
+                });
+
+            modelBuilder.Entity("YourNeighbour.Domain.Entities.FavoriteAdvertisement", b =>
+                {
+                    b.HasOne("YourNeighbour.Domain.Entities.Advertisement", "Advertisement")
+                        .WithMany()
+                        .HasForeignKey("AdvertisementId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("YourNeighbour.Domain.Entities.Identity.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Advertisement");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("YourNeighbour.Domain.Entities.Identity.RoleClaim", b =>
@@ -620,36 +720,6 @@ namespace YourNeighbour.EntityFramework.SqlServer.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("YourNeighbour.Domain.Entities.Item", b =>
-                {
-                    b.HasOne("YourNeighbour.Domain.Entities.Category", "Category")
-                        .WithMany()
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("YourNeighbour.Domain.Entities.Identity.User", "User")
-                        .WithMany("Items")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Category");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("YourNeighbour.Domain.Entities.ItemImage", b =>
-                {
-                    b.HasOne("YourNeighbour.Domain.Entities.Item", "Item")
-                        .WithMany("Images")
-                        .HasForeignKey("ItemId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Item");
-                });
-
             modelBuilder.Entity("YourNeighbour.Domain.Entities.Localization", b =>
                 {
                     b.HasOne("YourNeighbour.Domain.Entities.Identity.User", "User")
@@ -661,11 +731,40 @@ namespace YourNeighbour.EntityFramework.SqlServer.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("YourNeighbour.Domain.Entities.Message", b =>
+                {
+                    b.HasOne("YourNeighbour.Domain.Entities.Chat", "Chat")
+                        .WithMany("Messages")
+                        .HasForeignKey("ChatId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("YourNeighbour.Domain.Entities.Identity.User", "Sender")
+                        .WithMany()
+                        .HasForeignKey("SenderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Chat");
+
+                    b.Navigation("Sender");
+                });
+
+            modelBuilder.Entity("YourNeighbour.Domain.Entities.Advertisement", b =>
+                {
+                    b.Navigation("Images");
+                });
+
             modelBuilder.Entity("YourNeighbour.Domain.Entities.Category", b =>
                 {
                     b.Navigation("Advertisements");
 
                     b.Navigation("Children");
+                });
+
+            modelBuilder.Entity("YourNeighbour.Domain.Entities.Chat", b =>
+                {
+                    b.Navigation("Messages");
                 });
 
             modelBuilder.Entity("YourNeighbour.Domain.Entities.Definitions.AdvertisementDefinition", b =>
@@ -685,16 +784,16 @@ namespace YourNeighbour.EntityFramework.SqlServer.Migrations
 
             modelBuilder.Entity("YourNeighbour.Domain.Entities.Identity.User", b =>
                 {
-                    b.Navigation("Items");
+                    b.Navigation("Advertisements");
 
                     b.Navigation("Localizations");
 
                     b.Navigation("UserRoles");
                 });
 
-            modelBuilder.Entity("YourNeighbour.Domain.Entities.Item", b =>
+            modelBuilder.Entity("YourNeighbour.Domain.Entities.Localization", b =>
                 {
-                    b.Navigation("Images");
+                    b.Navigation("Advertisements");
                 });
 #pragma warning restore 612, 618
         }

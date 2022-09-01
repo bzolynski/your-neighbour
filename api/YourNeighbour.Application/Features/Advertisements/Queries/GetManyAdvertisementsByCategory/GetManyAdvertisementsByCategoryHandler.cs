@@ -35,7 +35,7 @@ namespace YourNeighbour.Application.Features.Advertisements.Queries.GetManyAdver
             }
 
             IEnumerable<Advertisement> advertisements = await applicationDbContext.Set<Advertisement>()
-                .Where(a => categoriesId.Any(c => c == a.Item.CategoryId))
+                .Where(a => categoriesId.Any(c => c == a.CategoryId))
                 .ApplySearchableQueryParams(request.QueryParams)
                 .ToListAsync(cancellationToken);
 

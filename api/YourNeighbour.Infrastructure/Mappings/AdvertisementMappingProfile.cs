@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using YourNeighbour.Application.Features.Advertisements.Dtos;
+using YourNeighbour.Application.Features.Common.Dtos;
 using YourNeighbour.Domain.Entities;
 
 namespace YourNeighbour.Infrastructure.Mappings
@@ -10,6 +11,8 @@ namespace YourNeighbour.Infrastructure.Mappings
         {
             CreateMap<CreateAdvertisementDto, Advertisement>();
             CreateMap<Advertisement, AdvertisementDto>();
+            CreateMap<AdvertisementImage, ImageDto>();
+            CreateMap<CreateImageDto, AdvertisementImage>();
         }
     }
 }

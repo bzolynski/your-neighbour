@@ -38,10 +38,10 @@ namespace YourNeighbour.Application.Features.Authentication.Commands.Login
         {
             User user = await userManager.FindByEmailAsync(request.LoginDto.Login) ?? await userManager.FindByNameAsync(request.LoginDto.Login);
             if (user is null)
-                throw new AuthenticationException("Wrong username or password");
+                throw new AuthenticationException("Niewłaściwy email lub hasło");
 
             if (!await userManager.CheckPasswordAsync(user, request.LoginDto.Password))
-                throw new AuthenticationException("Wrong username or password");
+                throw new AuthenticationException("Niewłaściwy email lub hasło");
 
             string token = tokenService.CreateRefreshToken();
             RefreshToken refreshToken = new RefreshToken

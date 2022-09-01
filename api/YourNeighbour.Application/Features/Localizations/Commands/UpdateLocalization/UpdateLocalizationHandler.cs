@@ -26,7 +26,6 @@ namespace YourNeighbour.Application.Features.Localizations.Commands.UpdateLocali
             localization.City = request.LocalizationDto.City;
             localization.HouseNumber = request.LocalizationDto.HouseNumber;
             localization.FlatNumber = request.LocalizationDto.FlatNumber;
-            localization.IsPrimary = request.LocalizationDto.IsPrimary;
             applicationDbContext.Set<Localization>().Update(localization);
             await applicationDbContext.SaveChangesAsync(cancellationToken);
             return localization.Id;
