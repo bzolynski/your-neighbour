@@ -6,12 +6,12 @@ import { OpenMessageComponent } from './open-message.component';
 import { MessageBubbleModule } from '../../ui/message-bubble/message-bubble.module';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
-import { openMessageReducer, OPEN_MESSAGE_FEATURE_KEY } from '../../data-access/store/open-message/open-message.reducer';
 import { OpenMessageEffects } from '../../data-access/store/open-message/open-message.effects';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { ElevatedSectionModule } from 'src/app/shared/directives/elevated-section/elevated-section.module';
 import { FocusOnLoadModule } from 'src/app/shared/directives/focus-on-load/focus-on-load.module';
+import { openMessageReducer, OPEN_MESSAGE_FEATURE_KEY } from '../../data-access/store/open-message/open-message.reducer';
 @NgModule({
     imports: [
         CommonModule,

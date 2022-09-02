@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AuthGuard } from './modules/core/guards/auth.guard';
+import { AuthGuard } from '@guards/.';
 
 const routes: Routes = [
     { path: '', loadChildren: () => import('./home/feature/home-shell/home-shell.module').then((m) => m.HomeShellModule) },
@@ -16,7 +16,10 @@ const routes: Routes = [
                 (m) => m.AdvertisementShellModule
             ),
     },
-    { path: 'messages', loadChildren: () => import('./messages/feature/messages-shell/messages-shell.module').then(m => m.MessagesShellModule) },
+    {
+        path: 'messages',
+        loadChildren: () => import('./messages/feature/messages-shell/messages-shell.module').then((m) => m.MessagesShellModule),
+    },
 ];
 
 @NgModule({

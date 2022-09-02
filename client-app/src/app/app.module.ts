@@ -7,13 +7,7 @@ import { AppComponent } from './app.component';
 import { CoreModule } from './modules/core/core.module';
 import { SharedModule } from './modules/shared/shared.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { authenticationInterceptionProvider } from './shared/authentication/util';
-import { StoreModule } from '@ngrx/store';
-import { EffectsModule } from '@ngrx/effects';
 import { AdvertisementShellModule } from './advertisements/feature/advertisement-shell/advertisement-shell.module';
-import { InfoBarModule } from './shared/ui/info-bar/info-bar.module';
-import { notificationReducer } from './data-access/notification/notification.reducer';
-import { NotificationEffects } from './data-access/notification/notification.effects';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { HeaderModule } from './modules/core/header/header.module';
 import { RippleModule } from 'primeng/ripple';
@@ -21,11 +15,10 @@ import { FooterModule } from './modules/core/footer/footer.module';
 import { ToastModule } from 'primeng/toast';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { CoreModule2 } from './core/core.module';
 @NgModule({
     declarations: [AppComponent],
     imports: [
-        StoreModule.forRoot({ notification: notificationReducer }),
-        EffectsModule.forRoot([NotificationEffects]),
         AppRoutingModule,
         BrowserModule,
         BrowserAnimationsModule,
@@ -33,16 +26,16 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
         RouterModule,
         SharedModule,
         AdvertisementShellModule,
-        InfoBarModule,
         FlexLayoutModule,
         HeaderModule,
         FooterModule,
         RippleModule,
         ToastModule,
         ConfirmDialogModule,
+        CoreModule2,
     ],
     bootstrap: [AppComponent],
     exports: [AppComponent],
-    providers: [authenticationInterceptionProvider, MessageService, ConfirmationService],
+    providers: [MessageService, ConfirmationService],
 })
 export class AppModule {}

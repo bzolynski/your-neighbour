@@ -3,8 +3,7 @@ import { Injectable } from '@angular/core';
 import { HubConnection, HubConnectionBuilder, HubConnectionState } from '@microsoft/signalr';
 import { Store } from '@ngrx/store';
 import { from, Observable } from 'rxjs';
-import { messageReceived } from 'src/app/data-access/notification/notification.actions';
-import { ApiService } from 'src/app/shared/data-access/api';
+import { ApiService } from '@services/.';
 import { Chat } from '../models/chat.model';
 import { Message } from '../models/message.model';
 
@@ -21,7 +20,7 @@ export class ChatService {
     init = () => {
         this.hubConnection = new HubConnectionBuilder().withUrl(`https://localhost:5001/chat`).build();
         this.hubConnection?.on('ReceiveMessage', (data) => {
-            this.store.dispatch(messageReceived({ message: data as Message }));
+            //TODO: Notification
         });
     };
 

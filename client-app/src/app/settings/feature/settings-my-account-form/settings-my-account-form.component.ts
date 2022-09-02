@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { combineLatest } from 'rxjs';
 import { filter, map, tap } from 'rxjs/operators';
 import { User } from '@models/';
-import { GenericFormControl, GenericFormGroup } from 'src/app/shared/utils';
+import { GenericFormControl, GenericFormGroup } from '@app-types/.';
 import { loadUser, selectError, selectStatus, selectUser, updateUser } from '../../data-access/store/settings-my-account-form';
 
 @Component({

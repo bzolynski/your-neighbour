@@ -1,6 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
 import { Localization, User } from '@models/';
-import { GenericState } from '@utils/types';
+import { GenericState } from '@app-types/.';
 import { updateUserSuccess } from '../settings-my-account-form';
 import {
     createLocalization,

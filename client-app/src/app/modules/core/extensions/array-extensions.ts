@@ -1,5 +1,4 @@
-import { Lookup } from '../types';
-
+import { Lookup } from '@app-types/.';
 if (!Array.prototype.toLookup) {
     Array.prototype.toLookup = function <T, TKey, TValue>(
         this: T[],

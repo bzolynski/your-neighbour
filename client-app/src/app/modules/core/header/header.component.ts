@@ -1,14 +1,18 @@
 import { Component, OnDestroy } from '@angular/core';
+import { User } from '@models/user.model';
+import { Store } from '@ngrx/store';
+import { selectUser, signOut } from '@stores/authentication';
 import { MenuItem } from 'primeng/api';
+import { Observable } from 'rxjs';
 import { combineLatest, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { AuthenticationStore } from 'src/app/shared/authentication/data-access';
 @Component({
     selector: 'app-header',
     templateUrl: './header.component.html',
     styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent implements OnDestroy {
+    user$: Observable<User | null> = this.store.select(selectUser);
     menuItems: MenuItem[] = [
         { label: 'Ogłoszenia', icon: 'pi pi-server', routerLink: ['/advertisements'] },
         {
@@ -39,22 +43,20 @@ export class HeaderComponent implements OnDestroy {
         {
             label: 'Wyloguj',
             icon: 'pi pi-power-off',
-            command: () => this.authenticationStore.signOut(),
+            command: () => this.store.dispatch(signOut()),
         },
         { label: 'Zaloguj', icon: 'pi pi-sign-in', routerLink: ['/welcome'], fragment: 'login' },
         { label: 'Zarejestruj', icon: 'pi pi-pencil', routerLink: ['/welcome'], fragment: 'register' },
     ];
-    user$ = this.authenticationStore.user$;
+
     unsubscriber$: Subject<boolean> = new Subject<boolean>();
     vm$ = combineLatest([this.user$]).pipe(
         map(([user]) => ({
             user,
         }))
     );
-    constructor(private authenticationStore: AuthenticationStore) {}
-    logout = () => {
-        this.authenticationStore.signOut();
-    };
+    constructor(private store: Store) {}
+
     ngOnDestroy(): void {
         this.unsubscriber$.next(true);
         this.unsubscriber$.unsubscribe();

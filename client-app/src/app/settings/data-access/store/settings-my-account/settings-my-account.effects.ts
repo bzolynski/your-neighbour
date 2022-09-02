@@ -5,8 +5,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { MessageService } from 'primeng/api';
 import { of, throwError } from 'rxjs';
 import { catchError, filter, map, switchMap, tap } from 'rxjs/operators';
-import { LocalizationService } from 'src/app/modules/core/services/localization.service';
-import { AuthenticationStore } from 'src/app/shared/authentication/data-access';
+import { LocalizationService } from '@services/.';
 import { Localization, User } from '@models/';
 import {
     createLocalization,
@@ -28,12 +27,16 @@ import {
     updateLocalizationError,
     updateLocalizationSuccess,
 } from './settings-my-account.actions';
+import { Observable } from 'rxjs';
+import { selectUser } from '@stores/authentication';
+import { Store } from '@ngrx/store';
 
 @Injectable()
 export class SettingsMyAccountEffects {
+    user$: Observable<User | null> = this.store.select(selectUser);
     constructor(
         private actions$: Actions,
-        private authStore: AuthenticationStore,
+        private store: Store,
         private localizationService: LocalizationService,
         private messageService: MessageService,
         private router: Router
@@ -43,7 +46,7 @@ export class SettingsMyAccountEffects {
         this.actions$.pipe(
             ofType(loadUser),
             switchMap(() =>
-                this.authStore.user$.pipe(
+                this.user$.pipe(
                     tap(this.checkUserLoggedIn),
                     filter((user): user is User => user != null),
                     map((user) => loadUserSuccess({ user: user })),
@@ -55,7 +58,7 @@ export class SettingsMyAccountEffects {
     loadLocalizations$ = createEffect(() =>
         this.actions$.pipe(
             ofType(loadLocalizations),
-            switchMap(() => this.authStore.user$),
+            switchMap(() => this.user$),
             tap(this.checkUserLoggedIn),
             filter((user): user is User => user !== null),
             switchMap((user) =>
@@ -71,7 +74,7 @@ export class SettingsMyAccountEffects {
         this.actions$.pipe(
             ofType(createLocalization),
             switchMap(({ localization }) =>
-                this.authStore.user$.pipe(
+                this.user$.pipe(
                     tap(this.checkUserLoggedIn),
                     filter((user): user is User => user !== null),
                     switchMap((user) => this.localizationService.create(localization, user.id)),

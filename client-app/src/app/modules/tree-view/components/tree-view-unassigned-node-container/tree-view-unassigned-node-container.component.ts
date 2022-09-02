@@ -9,7 +9,7 @@ import {
     ViewChild,
     ViewContainerRef,
 } from '@angular/core';
-import { Tree } from 'src/app/modules/core/types';
+import { Tree } from '@app-types/.';
 import { TreeViewNodeComponent } from '..';
 import { TreeViewService } from '../../services';
 import { TreeViewRootContainerComponent } from '../tree-view-root-container/tree-view-root-container.component';

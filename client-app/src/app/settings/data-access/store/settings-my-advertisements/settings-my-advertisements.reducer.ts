@@ -1,6 +1,6 @@
 import { Advertisement } from '@models/';
 import { createReducer, on } from '@ngrx/store';
-import { GenericState } from '@utils/types';
+import { GenericState } from '@app-types/.';
 import { IItem } from 'src/app/shared/data-access/models';
 import { ListViewType } from 'src/app/shared/ui/list-container/list-container.component';
 import {
@@ -24,7 +24,7 @@ export const initialState: SettingsMyAdvertisementsState = {
     error: null,
     status: 'pending',
     listViewType: 'list',
-    data: [],
+    data: null,
 };
 
 export const settingsMyAdvertisementsReducer = createReducer(

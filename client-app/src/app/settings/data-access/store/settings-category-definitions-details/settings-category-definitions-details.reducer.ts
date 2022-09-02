@@ -1,6 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
 import { CategoryDefinition } from '@models/';
-import { GenericState } from '@utils/types';
+import { GenericState } from '@app-types/.';
 import {
     deleteDefinition,
     deleteDefinitionError,

@@ -5,8 +5,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { MessageService } from 'primeng/api';
 import { of, throwError } from 'rxjs';
 import { catchError, filter, map, switchMap, tap } from 'rxjs/operators';
-import { AdvertisementService } from 'src/app/advertisements/data-access';
-import { AuthenticationStore } from 'src/app/shared/authentication/data-access';
+import { AdvertisementService } from '@services/.';
 import { User } from '@models/';
 import {
     deleteAdvertisement,
@@ -16,13 +15,17 @@ import {
     loadAdvertisementsError,
     loadAdvertisementsSuccess,
 } from './settings-my-advertisements.actions';
+import { Store } from '@ngrx/store';
+import { selectUser } from '../settings-my-account-form';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class SettingsMyAdvertisementsEffects {
+    user$: Observable<User | null> = this.store.select(selectUser);
     constructor(
         private actions$: Actions,
         private advertisementService: AdvertisementService,
-        private authStore: AuthenticationStore,
+        private store: Store,
         private messageService: MessageService,
         private router: Router
     ) {}
@@ -31,7 +34,7 @@ export class SettingsMyAdvertisementsEffects {
         this.actions$.pipe(
             ofType(loadAdvertisements),
             switchMap(() =>
-                this.authStore.user$.pipe(
+                this.user$.pipe(
                     tap(this.checkUserLoggedIn),
                     filter((user): user is User => user !== null),
                     switchMap((user) =>

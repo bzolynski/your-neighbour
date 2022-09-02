@@ -5,9 +5,8 @@ import { IconDefinition, faChevronDown } from '@fortawesome/free-solid-svg-icons
 import { Store } from '@ngrx/store';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { Observable } from 'rxjs';
-import { CategoryService } from 'src/app/modules/core/services';
-import { Dictionary } from 'src/app/modules/core/types';
-import { ChildParentPair } from 'src/app/modules/core/types/child-parent-pair.type';
+import { CategoryService } from '@services/.';
+import { ChildParentPair, Dictionary } from '@app-types/.';
 import { DragEndEventProps } from 'src/app/modules/tree-view/models';
 import { Category } from '@models/';
 import {

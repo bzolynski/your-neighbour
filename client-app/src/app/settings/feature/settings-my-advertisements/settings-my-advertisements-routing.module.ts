@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { UserDetailsGuard } from 'src/app/shared/guards/user-details.guard';
+import { UserDetailsGuard } from '@guards/.';
 import { SettingsMyAdvertisementsComponent } from './settings-my-advertisements.component';
 
 const routes: Routes = [

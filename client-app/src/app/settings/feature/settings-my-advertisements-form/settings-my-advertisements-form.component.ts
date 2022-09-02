@@ -6,10 +6,9 @@ import { Store } from '@ngrx/store';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { Observable, Subject } from 'rxjs';
 import { filter, map, switchMap, takeUntil, tap } from 'rxjs/operators';
-import { CanComponentDeactivate } from 'src/app/modules/core/guards/can-deactivate.guard';
-import { GenericStoreStatus } from '@utils/types';
+import { CanComponentDeactivate } from '@guards/.';
 import { IItem } from 'src/app/shared/data-access/models';
-import { GenericFormControl } from 'src/app/shared/utils';
+import { GenericFormControl, GenericStoreStatus } from '@app-types/.';
 import { DestroyObservable } from 'src/app/shared/utils/destroy-observable';
 import {
     loadDefinitions,

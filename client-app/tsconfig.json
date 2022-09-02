@@ -20,6 +20,16 @@
         "paths": {
             "@models/*": ["./src/app/core/models/*"],
             "@models/": ["./src/app/core/models/"],
+            "@app-types/*": ["./src/app/core/types/*"],
+            "@app-types/": ["./src/app/core/types/"],
+            "@services/*": ["./src/app/core/services/*"],
+            "@services/": ["./src/app/core/services/"],
+            "@guards/*": ["./src/app/core/guards/*"],
+            "@guards/": ["./src/app/core/guards/"],
+            "@interceptors/*": ["./src/app/core/interceptors/*"],
+            "@interceptors/": ["./src/app/core/interceptors/"],
+            "@stores/*": ["./src/app/core/stores/*"],
+            "@stores/": ["./src/app/core/stores/"],
             "@utils/*": ["./src/app/shared/utils/*"],
             "@utils/": ["./src/app/shared/utils/"]
         }

@@ -11,7 +11,7 @@ import {
     selectAdvertisements,
     selectError,
 } from '../../data-access/store/settings-my-advertisements';
-import { filter, map, tap } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { Advertisement } from '@models/';
 
 @Component({
@@ -22,8 +22,9 @@ import { Advertisement } from '@models/';
 export class SettingsMyAdvertisementsComponent implements OnInit {
     #advertisements$: Observable<Advertisement[] | null> = this.store.select(selectAdvertisements);
     #error$: Observable<string | null> = this.store.select(selectError).pipe(
-        filter((error): error is string => error !== null),
-        tap((error) => this.messageService.add({ severity: 'error', summary: 'Error', detail: error }))
+        tap((error) => {
+            if (error !== null) this.messageService.add({ severity: 'error', summary: 'Error', detail: error });
+        })
     );
     vm$ = combineLatest([this.#advertisements$, this.#error$]).pipe(
         map(([advertisements, error]) => ({ advertisements, error }))

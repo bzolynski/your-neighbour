@@ -1,6 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
 import { Category } from '@models/';
-import { GenericState } from '@utils/types';
+import { GenericState } from '@app-types/.';
 import { deleteCategorySuccess } from '../settings-categories-details';
 import { createCategorySuccess, updateCategorySuccess } from '../settings-categories-form';
 import { loadCategories, loadCategoriesError, loadCategoriesSuccess, setSidePanelWitdh } from './settings-categories.actions';

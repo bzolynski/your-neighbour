@@ -1,7 +1,7 @@
 import { createReducer, on } from '@ngrx/store';
 import { AdvertisementForm } from 'src/app/settings/feature/settings-my-advertisements-form/settings-my-advertisements-form.component';
 import { Advertisement, AdvertisementDefinition, Localization } from '@models/';
-import { GenericState } from '@utils/types';
+import { GenericState } from '@app-types/.';
 import { IItem } from 'src/app/shared/data-access/models';
 import {
     createAdvertisement,

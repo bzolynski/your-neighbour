@@ -1,10 +1,10 @@
 import { Component, ComponentRef, ElementRef, Input, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { fromEvent, Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { DropLocation, ITree } from '../../models';
+import { DropLocation } from '../../models';
 import { TreeViewService } from '../../services';
 import { TreeViewNodeContainerComponent } from '../tree-view-node-container/tree-view-node-container.component';
-
+import { ITree } from '@app-types/.';
 @Component({
     selector: 'app-tree-view-node',
     templateUrl: './tree-view-node.component.html',

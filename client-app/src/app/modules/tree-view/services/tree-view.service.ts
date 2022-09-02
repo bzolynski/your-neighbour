@@ -9,8 +9,9 @@ import {
     TreeViewRootContainerGroupComponent,
     TreeViewUnassignedNodeContainerComponent,
 } from '../components';
-import { DropLocation, ITree } from '../models';
 import { DragEndEventProps } from '../models/drag-end-event-props.model';
+import { ITree } from '@app-types/.';
+import { DropLocation } from '../models';
 @Injectable()
 export class TreeViewService<T> implements OnDestroy {
     // public properties

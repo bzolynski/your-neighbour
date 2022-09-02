@@ -6,9 +6,8 @@ import { of, throwError } from 'rxjs';
 import { catchError, filter, map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 import { ChatService } from 'src/app/messages/data-access/api/chat.service';
 import { AuthenticationStore } from 'src/app/shared/authentication/data-access';
-import { FavoriteAdvertisementService, UserService } from 'src/app/shared/data-access/api';
+import { AdvertisementService, FavoriteAdvertisementService, UserService } from '@services/.';
 import { User } from '@models/';
-import { AdvertisementService } from '../advertisement.service';
 import {
     addFavorite,
     addFavoriteError,

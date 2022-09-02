@@ -3,9 +3,7 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { of, throwError } from 'rxjs';
-import { catchError, filter, map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
-import { messageReceived } from 'src/app/data-access/notification/notification.actions';
-import { AuthenticationStore } from 'src/app/shared/authentication/data-access';
+import { catchError, map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 import { User } from '@models/';
 import { ChatService } from '../../api/chat.service';
 import { Message } from '../../models/message.model';
@@ -15,20 +13,17 @@ import {
     loadChatSuccess,
     loadMessagesError,
     loadMessagesSuccess,
-    openChatMessageReceived,
     sendMessage,
     sendMessageSuccess,
 } from './open-message.actions';
 import { selectChat } from './open-message.selectors';
+import { Observable } from 'rxjs';
+import { selectUser } from '@stores/authentication';
 
 @Injectable()
 export class OpenMessageEffects {
-    constructor(
-        private actions$: Actions,
-        private store$: Store,
-        private chatService: ChatService,
-        private authStore: AuthenticationStore
-    ) {}
+    user$: Observable<User | null> = this.store.select(selectUser);
+    constructor(private actions$: Actions, private store: Store, private chatService: ChatService) {}
 
     loadChat$ = createEffect(() =>
         this.actions$.pipe(
@@ -51,7 +46,7 @@ export class OpenMessageEffects {
     sendMessage$ = createEffect(() =>
         this.actions$.pipe(
             ofType(sendMessage),
-            withLatestFrom(this.store$.select(selectChat), this.authStore.user$),
+            withLatestFrom(this.store.select(selectChat), this.user$),
             tap(([_, __, user]) => this.#checkUserLoggedIn(user)),
             map(
                 ([action, chat, user]) =>
@@ -69,14 +64,6 @@ export class OpenMessageEffects {
                 console.log('ERRRRR', error);
                 return of(loadMessagesError({ error: error.error ?? error.message }));
             })
-        )
-    );
-    messageReceived$ = createEffect(() =>
-        this.actions$.pipe(
-            ofType(messageReceived),
-            withLatestFrom(this.store$.select(selectChat)),
-            filter(([action, chat]) => action.message.chatId === chat?.id),
-            map(([action]) => openChatMessageReceived({ message: action.message }))
         )
     );
 

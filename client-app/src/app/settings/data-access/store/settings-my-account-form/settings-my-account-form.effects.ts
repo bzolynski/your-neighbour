@@ -5,8 +5,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { MessageService } from 'primeng/api';
 import { of, throwError } from 'rxjs';
 import { catchError, filter, map, switchMap, tap } from 'rxjs/operators';
-import { AuthenticationStore } from 'src/app/shared/authentication/data-access';
-import { UserService } from 'src/app/shared/data-access/api';
+import { UserService } from '@services/.';
 import { User } from '@models/';
 import {
     loadUser,
@@ -16,12 +15,16 @@ import {
     updateUserError,
     updateUserSuccess,
 } from './settings-my-account-form.actions';
+import { Observable } from 'rxjs';
+import { selectUser, updateUserData } from '@stores/authentication';
+import { Store } from '@ngrx/store';
 @Injectable()
 export class SettingsMyAccountFormEffects {
+    user$: Observable<User | null> = this.store.select(selectUser);
     constructor(
         private actions$: Actions,
         private userService: UserService,
-        private authStore: AuthenticationStore,
+        private store: Store,
         private messageService: MessageService,
         private router: Router
     ) {}
@@ -30,7 +33,7 @@ export class SettingsMyAccountFormEffects {
         this.actions$.pipe(
             ofType(loadUser),
             switchMap(() =>
-                this.authStore.user$.pipe(
+                this.user$.pipe(
                     tap(this.checkUserLoggedIn),
                     filter((user): user is User => user != null),
                     map((user) => loadUserSuccess({ user: user })),
@@ -47,7 +50,7 @@ export class SettingsMyAccountFormEffects {
                 this.userService.update(id, user).pipe(
                     map(() => {
                         console.log(user);
-                        this.authStore.updateData({ ...user });
+                        this.store.dispatch(updateUserData({ user: user }));
                         return updateUserSuccess({ user: { ...user, id: id } });
                     }),
                     catchError((error: HttpErrorResponse) => of(updateUserError({ error: error.error ?? error.message })))

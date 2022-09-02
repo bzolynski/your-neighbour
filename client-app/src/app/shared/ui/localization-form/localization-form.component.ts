@@ -2,8 +2,7 @@ import { Component, Input, Output } from '@angular/core';
 import { FormGroup, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { Localization } from '@models/';
-import { GenericFormControl, GenericFormGroup } from '../../utils';
-
+import { GenericFormControl, GenericFormGroup } from '@app-types/.';
 @Component({
     selector: 'app-localization-form',
     templateUrl: './localization-form.component.html',

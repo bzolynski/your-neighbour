@@ -4,9 +4,9 @@ import { ActivatedRoute, Router, UrlTree } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { iif, Observable, of, Subject } from 'rxjs';
 import { filter, switchMap, takeUntil, tap } from 'rxjs/operators';
-import { CanComponentDeactivate } from 'src/app/modules/core/guards/can-deactivate.guard';
+import { CanComponentDeactivate } from '@guards/.';
 import { Category } from '@models/';
-import { GenericFormControl } from 'src/app/shared/utils';
+import { GenericFormControl } from '@app-types/.';
 import { DestroyObservable } from 'src/app/shared/utils/destroy-observable';
 import {
     createCategory,

@@ -1,8 +1,11 @@
 import { Component } from '@angular/core';
+import { User } from '@models/user.model';
+import { Store } from '@ngrx/store';
+import { selectUser } from '@stores/authentication';
 import { MenuItem } from 'primeng/api';
+import { Observable } from 'rxjs';
 import { combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { AuthenticationStore } from 'src/app/shared/authentication/data-access';
 
 @Component({
     selector: 'app-settings-side-bar',
@@ -10,7 +13,9 @@ import { AuthenticationStore } from 'src/app/shared/authentication/data-access';
     styleUrls: ['./settings-side-bar.component.scss'],
 })
 export class SettingsSideBarComponent {
-    #isAdmin$ = this.authStore.user$.pipe(map((user) => user !== null && user.roles.some((val) => val === 'Administrator')));
+    user$: Observable<User | null> = this.store.select(selectUser);
+
+    #isAdmin$ = this.user$.pipe(map((user) => user !== null && user.roles.some((val) => val === 'Administrator')));
 
     vm$ = combineLatest([this.#isAdmin$]).pipe(map(([isAdmin]) => ({ isAdmin })));
     items: MenuItem[] = [
@@ -41,5 +46,5 @@ export class SettingsSideBarComponent {
             ],
         },
     ];
-    constructor(private authStore: AuthenticationStore) {}
+    constructor(private store: Store) {}
 }

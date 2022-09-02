@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
-import { CategoryDefinitionsService, CategoryService } from 'src/app/modules/core/services';
+import { CategoryDefinitionsService, CategoryService } from '@services/.';
 import { ROOT_CATEGORY_GUID } from '@models/category.model';
 import {
     loadTree,

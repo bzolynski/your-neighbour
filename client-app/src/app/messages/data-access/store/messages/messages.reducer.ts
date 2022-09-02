@@ -1,5 +1,5 @@
 import { createReducer, on } from '@ngrx/store';
-import { GenericState } from '@utils/types';
+import { GenericState } from '@app-types/.';
 import { Chat } from '../../models/chat.model';
 import { Message } from '../../models/message.model';
 import { loadChats, loadChatsError, loadChatsSuccess } from './messages.actions';

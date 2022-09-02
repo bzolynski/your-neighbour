@@ -1,10 +1,9 @@
 import { Advertisement, Category, Image } from '@models/';
-import { GenericState } from '@utils/types';
+import { GenericState } from '@app-types/.';
 import { Injectable } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { switchMap, tap } from 'rxjs/operators';
-import { AdvertisementService } from '..';
-import { CategoryService } from 'src/app/modules/core/services';
+import { AdvertisementService, CategoryService } from '@services/.';
 import { Params } from '@angular/router';
 import { ListViewType } from 'src/app/shared/ui/list-container/list-container.component';
 import { HttpErrorResponse } from '@angular/common/http';

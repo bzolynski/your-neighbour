@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { takeUntil } from 'rxjs/operators';
-import { AuthenticationStore } from 'src/app/shared/authentication/data-access';
+import { User } from '@models/user.model';
+import { Store } from '@ngrx/store';
+import { selectStatus, selectUser, signIn } from '@stores/authentication';
+import { Observable } from 'rxjs';
+import { map, takeUntil } from 'rxjs/operators';
 import { DestroyObservable } from 'src/app/shared/utils/destroy-observable';
 
 @Component({
@@ -12,13 +15,10 @@ import { DestroyObservable } from 'src/app/shared/utils/destroy-observable';
     providers: [DestroyObservable],
 })
 export class WelcomeComponent implements OnInit {
+    user$: Observable<User | null> = this.store.select(selectUser);
     selectedIndex: number = 0;
-    isBusy$ = this.authenticationStore.isLoading$;
-    constructor(
-        private activatedRoute: ActivatedRoute,
-        private destroy$: DestroyObservable,
-        private authenticationStore: AuthenticationStore
-    ) {}
+    isBusy$: Observable<boolean> = this.store.select(selectStatus).pipe(map((status) => status === 'loading'));
+    constructor(private activatedRoute: ActivatedRoute, private destroy$: DestroyObservable, private store: Store) {}
 
     ngOnInit(): void {
         this.activatedRoute.fragment.pipe(takeUntil(this.destroy$)).subscribe((fragment) => {
@@ -30,13 +30,14 @@ export class WelcomeComponent implements OnInit {
 
     onLogin = (form: FormGroup) => {
         if (form.valid) {
-            this.authenticationStore.signIn({ login: form.get('login')?.value, password: form.get('password')?.value });
+            this.store.dispatch(signIn({ login: form.get('login')?.value, password: form.get('password')?.value }));
         }
     };
 
     onRegister = (form: FormGroup) => {
         if (form.valid) {
-            this.authenticationStore.register({ ...form.value });
+            // TODO: Register
+            // this.authenticationStore.register({ ...form.value });
         }
     };
 }

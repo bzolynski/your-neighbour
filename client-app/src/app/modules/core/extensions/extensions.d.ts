@@ -1,5 +1,4 @@
-import { Lookup } from "../types";
-
+import { Lookup } from '@app-types/.';
 declare global {
     interface Array<T> {
         toLookup<TKey, TValue>(

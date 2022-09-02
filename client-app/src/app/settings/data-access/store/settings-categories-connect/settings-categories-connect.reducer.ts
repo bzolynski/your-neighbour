@@ -1,8 +1,7 @@
 import { createReducer, on } from '@ngrx/store';
-import { Dictionary } from 'src/app/modules/core/types';
-import { ITree } from 'src/app/modules/tree-view/models';
+
+import { Dictionary, GenericState, ITree } from '@app-types/.';
 import { Category } from '@models/';
-import { GenericState } from '@utils/types';
 import {
     loadTree,
     loadTreeError,

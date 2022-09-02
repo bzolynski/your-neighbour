@@ -4,6 +4,7 @@ export * from './base.model';
 export * from './category-definition.model';
 export * from './category.model';
 export * from './definition-base.model';
+export * from './favorite-advertisement.model';
 export * from './image.model';
 export * from './localization.model';
 export * from './user.model';

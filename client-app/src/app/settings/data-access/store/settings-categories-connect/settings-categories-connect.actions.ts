@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { ITree } from 'src/app/modules/tree-view/models';
+import { ITree } from '@app-types/.';
 import { Category } from '@models/';
 
 export const resetState = createAction('[SettingsCategoriesConnectComponent] Reset State');

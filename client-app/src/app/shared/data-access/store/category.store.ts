@@ -1,7 +1,7 @@
-import { GenericState } from '@utils/types';
+import { GenericState } from '@app-types/.';
 import { Injectable } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
-import { CategoryService } from 'src/app/modules/core/services';
+import { CategoryService } from '@services/.';
 import { switchMap, tap } from 'rxjs/operators';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MessageService } from 'primeng/api';

@@ -1,15 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { HubConnectionState } from '@microsoft/signalr';
-import { Store } from '@ngrx/store';
 import { PrimeNGConfig } from 'primeng/api';
 import { filter, tap } from 'rxjs/operators';
-import { removeInfoBarMessage } from './data-access/notification/notification.actions';
-import { selectInfoBarOpen, selectMessages } from './data-access/notification/notification.selectors';
-import { RootState } from './data-access/root.state';
 import { ChatService } from './messages/data-access/api/chat.service';
 import { AuthenticationStore } from './shared/authentication/data-access';
 import { User } from '@models/';
-import { MessageWithType } from './shared/ui/info-bar/info-bar.component';
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
@@ -18,14 +13,7 @@ import { MessageWithType } from './shared/ui/info-bar/info-bar.component';
 export class AppComponent implements OnInit {
     title = 'client-app';
     isBusy = false;
-    infoBarMessages$ = this.store.select(selectMessages);
-    infoBarOpen$ = this.store.select(selectInfoBarOpen);
-    constructor(
-        private store: Store<RootState>,
-        private chatService: ChatService,
-        private authStore: AuthenticationStore,
-        private primengConfig: PrimeNGConfig
-    ) {}
+    constructor(private chatService: ChatService, private authStore: AuthenticationStore, private primengConfig: PrimeNGConfig) {}
 
     ngOnInit(): void {
         this.primengConfig.ripple = true;
@@ -40,7 +28,4 @@ export class AppComponent implements OnInit {
             )
             .subscribe();
     }
-
-    closeInfoBar = (message: MessageWithType) =>
-        this.store.dispatch(removeInfoBarMessage({ message: message.message, messageType: message.type }));
 }

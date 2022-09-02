@@ -1,6 +1,6 @@
 import { Component, ElementRef, Input, OnInit, TemplateRef, ViewChild, ViewContainerRef } from '@angular/core';
 import { TreeViewNodeContainerComponent } from '..';
-import { ITree } from '../../models';
+import { ITree } from '@app-types/.';
 import { TreeViewService } from '../../services';
 
 @Component({

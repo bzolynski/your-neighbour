@@ -6,7 +6,7 @@ import { iif, of, Subject } from 'rxjs';
 import { filter, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { CategoryDefinitionAsyncValidators } from 'src/app/shared/validators/category-definition-validators';
 import { CategoryDefinition } from '@models/';
-import { GenericFormControl } from 'src/app/shared/utils';
+import { GenericFormControl } from '@app-types/.';
 import { DestroyObservable } from 'src/app/shared/utils/destroy-observable';
 import {
     selectDefinition,

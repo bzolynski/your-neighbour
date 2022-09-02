@@ -6,10 +6,7 @@ import { Store } from '@ngrx/store';
 import { MessageService } from 'primeng/api';
 import { of, throwError } from 'rxjs';
 import { catchError, filter, map, switchMap, tap } from 'rxjs/operators';
-import { AdvertisementService } from 'src/app/advertisements/data-access';
-import { LocalizationService } from 'src/app/modules/core/services/localization.service';
-import { AuthenticationStore } from 'src/app/shared/authentication/data-access';
-import { AdvertisementDefinitionService } from 'src/app/shared/data-access/api';
+import { AdvertisementDefinitionService, AdvertisementService, LocalizationService } from '@services/.';
 import { User } from '@models/';
 import {
     createAdvertisement,
@@ -28,18 +25,20 @@ import {
     updateAdvertisementError,
     updateAdvertisementSuccess,
 } from './settings-my-advertisements-form.actions';
+import { Observable } from 'rxjs';
+import { selectUser } from '@stores/authentication';
 
 @Injectable()
 export class SettingsMyAdvertisementsFormEffects {
+    user$: Observable<User | null> = this.store.select(selectUser);
     constructor(
         private actions$: Actions,
         private advertisementService: AdvertisementService,
-        private authStore: AuthenticationStore,
+        private store: Store,
         private messageService: MessageService,
         private localizationService: LocalizationService,
         private advertisementDefinitionService: AdvertisementDefinitionService,
-        private router: Router,
-        private store: Store
+        private router: Router
     ) {}
 
     loadAdvertisement$ = createEffect(() =>
@@ -99,7 +98,7 @@ export class SettingsMyAdvertisementsFormEffects {
     loadLocalizations$ = createEffect(() =>
         this.actions$.pipe(
             ofType(loadLocalizations),
-            switchMap(() => this.authStore.user$),
+            switchMap(() => this.user$),
             tap(this.checkUserLoggedIn),
             filter((user): user is User => user !== null),
             switchMap((user) =>
@@ -127,7 +126,7 @@ export class SettingsMyAdvertisementsFormEffects {
         this.actions$.pipe(
             ofType(createAdvertisement),
             switchMap(({ advertisement }) =>
-                this.authStore.user$.pipe(
+                this.user$.pipe(
                     tap(this.checkUserLoggedIn),
                     filter((user): user is User => user !== null),
                     switchMap((user) => this.advertisementService.create(advertisement, user.id)),

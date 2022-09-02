@@ -1,19 +1,22 @@
-import { GenericState } from '@utils/types';
+import { GenericState } from '@app-types/.';
 import { Injectable } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
-import { AuthenticationStore } from '../../authentication/data-access';
 import { Router } from '@angular/router';
 import { throwError } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Localization, User } from '@models/';
-import { LocalizationService } from 'src/app/modules/core/services/localization.service';
+import { LocalizationService } from '@services/.';
 import { MessageService } from 'primeng/api';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { selectUser } from '@stores/authentication';
 
 type LocalizationsState = GenericState<Localization[]>;
 
 @Injectable()
 export class LocalizationsStore extends ComponentStore<LocalizationsState> {
+    user$: Observable<User | null> = this.store.select(selectUser);
     readonly localizations$ = this.select((state) => state.data);
     readonly isLoading$ = this.select((state) => state.status === 'loading');
     readonly error$ = this.select((state) => state.error);
@@ -21,7 +24,7 @@ export class LocalizationsStore extends ComponentStore<LocalizationsState> {
     readonly create = this.effect<Localization>((params$) =>
         params$.pipe(
             switchMap((localization) =>
-                this.authStore.user$.pipe(
+                this.user$.pipe(
                     tap(this.checkUserLoggedIn),
                     filter((user): user is User => user !== null),
                     switchMap((user) => this.localizationService.create(localization, user.id)),
@@ -40,7 +43,7 @@ export class LocalizationsStore extends ComponentStore<LocalizationsState> {
     );
     readonly loadForLoggedInUser = this.effect(($) =>
         $.pipe(
-            switchMap(() => this.authStore.user$),
+            switchMap(() => this.user$),
             tap(this.checkUserLoggedIn),
             filter((user): user is User => user !== null),
             switchMap((user) =>
@@ -107,7 +110,7 @@ export class LocalizationsStore extends ComponentStore<LocalizationsState> {
 
     constructor(
         private localizationService: LocalizationService,
-        private authStore: AuthenticationStore,
+        private store: Store,
         private router: Router,
         private messageService: MessageService
     ) {

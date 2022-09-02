@@ -1,20 +1,22 @@
-import { GenericState } from '@utils/types';
+import { GenericState } from '@app-types/.';
 import { Injectable } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { filter, switchMap, tap } from 'rxjs/operators';
-import { CategoryService } from 'src/app/modules/core/services';
 import { HttpErrorResponse } from '@angular/common/http';
-import { AdvertisementService, GetAdvertisementQueryParams } from 'src/app/advertisements/data-access';
+import { AdvertisementService, CategoryService, GetAdvertisementQueryParams } from '@services/.';
 import { throwError } from 'rxjs';
 import { Router } from '@angular/router';
 import { Advertisement, User } from '@models/';
-import { AuthenticationStore } from '../../authentication/data-access';
 import { MessageService } from 'primeng/api';
+import { Observable } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { selectUser } from '@stores/authentication';
 
 type AdvertisementsState = GenericState<Advertisement[]>;
 
 @Injectable()
 export class AdvertisementsStore extends ComponentStore<AdvertisementsState> {
+    user$: Observable<User | null> = this.store.select(selectUser);
     readonly advertisements$ = this.select((state) => state.data);
     readonly isLoading$ = this.select((state) => state.status === 'loading');
     readonly error$ = this.select((state) => state.error);
@@ -37,7 +39,7 @@ export class AdvertisementsStore extends ComponentStore<AdvertisementsState> {
     readonly loadByUser = this.effect<GetAdvertisementQueryParams>((params$) =>
         params$.pipe(
             switchMap((queryParams) =>
-                this.authStore.user$.pipe(
+                this.user$.pipe(
                     tap(this.checkUserLoggedIn),
                     filter((user): user is User => user !== null),
                     tap(() => this.patchState({ status: 'loading', data: undefined })),
@@ -134,7 +136,7 @@ export class AdvertisementsStore extends ComponentStore<AdvertisementsState> {
     };
 
     constructor(
-        private authStore: AuthenticationStore,
+        private store: Store,
         private advertisementService: AdvertisementService,
         private messageService: MessageService,
         private categoryService: CategoryService,
