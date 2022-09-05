@@ -16,6 +16,8 @@ import { ToastModule } from 'primeng/toast';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { CoreModule2 } from './core/core.module';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
 @NgModule({
     declarations: [AppComponent],
     imports: [
@@ -33,6 +35,8 @@ import { CoreModule2 } from './core/core.module';
         ToastModule,
         ConfirmDialogModule,
         CoreModule2,
+        StoreModule.forRoot({}),
+        EffectsModule.forRoot([]),
     ],
     bootstrap: [AppComponent],
     exports: [AppComponent],

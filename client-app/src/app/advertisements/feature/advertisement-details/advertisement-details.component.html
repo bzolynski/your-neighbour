@@ -13,11 +13,7 @@
     <div fxFlex="40vw" fxFlex.gt-sm="300px">
         <p-card header="header">
             <div>
-                <p-avatar
-                    shape="circle"
-                    [label]="(vm.user?.firstName ?? 'U')[0]"
-                    styleClass="mr-2"
-                    size="xlarge"></p-avatar>
+                <p-avatar shape="circle" [label]="(vm.user?.firstName ?? 'U')[0]" styleClass="mr-2" size="xlarge"></p-avatar>
                 <div class="user-name">
                     {{ vm.user?.firstName }}
                     {{ (vm.user?.firstName ?? '')[0] + (vm.user ? '.' : '') }}
@@ -35,7 +31,7 @@
             </button>
             <ng-template #noFavorite>
                 <button
-                    [disabled]="vm.isOwner || (loggedInUser$ | async) === null"
+                    [disabled]="vm.isOwner || (user$ | async) === null"
                     class="favorite"
                     mat-icon-button
                     (click)="addFavorite($any(vm.advertisement?.id))"
@@ -45,15 +41,13 @@
             </ng-template>
             <div class="buttons">
                 <button
-                    [disabled]="vm.isOwner || (loggedInUser$ | async) === null"
+                    [disabled]="vm.isOwner || (user$ | async) === null"
                     mat-stroked-button
                     (click)="redirectToChat($any(vm.user?.id))"
                     color="primary">
                     Napisz
                 </button>
-                <button [disabled]="true" mat-raised-button color="primary">
-                    Zadzwoń
-                </button>
+                <button [disabled]="true" mat-raised-button color="primary">Zadzwoń</button>
             </div>
         </p-card>
     </div>

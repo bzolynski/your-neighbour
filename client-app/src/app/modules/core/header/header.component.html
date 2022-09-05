@@ -1,4 +1,4 @@
-<p-menubar [model]="menuItems">
+<p-menubar *ngIf="vm$ | async as vm" [model]="vm.menuItems">
     <ng-template pTemplate="start">
         <div class="own-logo-wrapper" [routerLink]="['.']">
             <img src="assets/logo.png" />

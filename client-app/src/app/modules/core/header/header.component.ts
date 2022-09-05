@@ -1,64 +1,66 @@
-import { Component, OnDestroy } from '@angular/core';
-import { User } from '@models/user.model';
+import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { selectUser, signOut } from '@stores/authentication';
 import { MenuItem } from 'primeng/api';
 import { Observable } from 'rxjs';
-import { combineLatest, Subject } from 'rxjs';
+import { combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
 @Component({
     selector: 'app-header',
     templateUrl: './header.component.html',
     styleUrls: ['./header.component.scss'],
 })
-export class HeaderComponent implements OnDestroy {
-    user$: Observable<User | null> = this.store.select(selectUser);
-    menuItems: MenuItem[] = [
-        { label: 'Ogłoszenia', icon: 'pi pi-server', routerLink: ['/advertisements'] },
-        {
-            label: 'Czaty',
-            badge: '1',
-            tooltip: 'Masz 1 nieprzeczytaną wiadomość!',
-            tooltipPosition: 'right',
-            icon: 'pi pi-comments',
-            routerLink: ['/messages'],
-        },
-        {
-            label: 'Ustawienia',
-            icon: 'pi  pi-cog',
-            items: [
-                {
-                    label: 'Moje',
-                    icon: 'pi pi-user',
-                    routerLink: ['/settings', 'my'],
-                    items: [
-                        { label: 'Konto', icon: 'pi pi-user-edit', routerLink: ['/settings', 'my', 'account'] },
-                        { label: 'Ogłoszenia', icon: 'pi pi-server', routerLink: ['/settings', 'my', 'advertisements'] },
-                    ],
-                },
-                { separator: true },
-                { label: 'Wszystkie', icon: 'pi pi-list', routerLink: ['/settings'] },
-            ],
-        },
-        {
-            label: 'Wyloguj',
-            icon: 'pi pi-power-off',
-            command: () => this.store.dispatch(signOut()),
-        },
-        { label: 'Zaloguj', icon: 'pi pi-sign-in', routerLink: ['/welcome'], fragment: 'login' },
-        { label: 'Zarejestruj', icon: 'pi pi-pencil', routerLink: ['/welcome'], fragment: 'register' },
-    ];
-
-    unsubscriber$: Subject<boolean> = new Subject<boolean>();
-    vm$ = combineLatest([this.user$]).pipe(
-        map(([user]) => ({
-            user,
+export class HeaderComponent {
+    menuItems$: Observable<MenuItem[]> = this.store.select(selectUser).pipe(
+        map((user) => [
+            { label: 'Ogłoszenia', icon: 'pi pi-server', routerLink: ['/advertisements'] },
+            {
+                label: 'Czaty',
+                icon: 'pi pi-comments',
+                visible: user !== null,
+                badge: '1',
+                tooltip: 'Masz 1 nieprzeczytaną wiadomość!',
+                tooltipPosition: 'right',
+                routerLink: ['/messages'],
+            },
+            {
+                label: 'Ustawienia',
+                icon: 'pi  pi-cog',
+                visible: user !== null,
+                items: [
+                    {
+                        label: 'Moje',
+                        icon: 'pi pi-user',
+                        routerLink: ['/settings', 'my'],
+                        items: [
+                            { label: 'Konto', icon: 'pi pi-user-edit', routerLink: ['/settings', 'my', 'account'] },
+                            { label: 'Ogłoszenia', icon: 'pi pi-server', routerLink: ['/settings', 'my', 'advertisements'] },
+                        ],
+                    },
+                    { separator: true },
+                    { label: 'Wszystkie', icon: 'pi pi-list', routerLink: ['/settings'] },
+                ],
+            },
+            {
+                label: 'Wyloguj',
+                icon: 'pi pi-power-off',
+                visible: user !== null,
+                command: () => this.store.dispatch(signOut()),
+            },
+            {
+                label: 'Zarejestruj',
+                icon: 'pi pi-pencil',
+                visible: user === null,
+                routerLink: ['/welcome'],
+                fragment: 'register',
+            },
+            { label: 'Zaloguj', icon: 'pi pi-sign-in', visible: user === null, routerLink: ['/welcome'], fragment: 'login' },
+        ])
+    );
+    vm$ = combineLatest([this.menuItems$]).pipe(
+        map(([menuItems]) => ({
+            menuItems,
         }))
     );
     constructor(private store: Store) {}
-
-    ngOnDestroy(): void {
-        this.unsubscriber$.next(true);
-        this.unsubscriber$.unsubscribe();
-    }
 }

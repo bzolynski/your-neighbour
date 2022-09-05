@@ -1,10 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { User } from '@models/user.model';
 import { Store } from '@ngrx/store';
 import { MessageService } from 'primeng/api';
+import { Observable } from 'rxjs';
 import { combineLatest } from 'rxjs';
 import { map, takeUntil, tap } from 'rxjs/operators';
-import { AuthenticationStore } from 'src/app/shared/authentication/data-access';
 import { DestroyObservable } from 'src/app/shared/utils/destroy-observable';
 import {
     addFavorite,
@@ -27,8 +28,7 @@ import {
     providers: [DestroyObservable],
 })
 export class AdvertisementDetailsComponent implements OnInit, OnDestroy {
-    loggedInUser$ = this.authStore.user$;
-
+    user$: Observable<User | null> = this.store.select(selectUser);
     #advertisement$ = this.store.select(selectAdvertisement);
     #user$ = this.store.select(selectUser);
     #status$ = this.store.select(selectStatus);
@@ -54,8 +54,7 @@ export class AdvertisementDetailsComponent implements OnInit, OnDestroy {
         private route: ActivatedRoute,
         private store: Store,
         private messageService: MessageService,
-        private destroy$: DestroyObservable,
-        private authStore: AuthenticationStore
+        private destroy$: DestroyObservable
     ) {}
 
     ngOnInit(): void {

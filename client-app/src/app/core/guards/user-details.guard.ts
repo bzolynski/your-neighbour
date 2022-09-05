@@ -3,7 +3,7 @@ import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTr
 import { User } from '@models/user.model';
 import { Store } from '@ngrx/store';
 import { selectUser } from '@stores/authentication';
-import { StringHelperMethods } from '@utils/';
+import { StringHelperMethods } from '@utils/.';
 import { MessageService } from 'primeng/api';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';

@@ -5,7 +5,6 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { of, throwError } from 'rxjs';
 import { catchError, filter, map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 import { ChatService } from 'src/app/messages/data-access/api/chat.service';
-import { AuthenticationStore } from 'src/app/shared/authentication/data-access';
 import { AdvertisementService, FavoriteAdvertisementService, UserService } from '@services/.';
 import { User } from '@models/';
 import {
@@ -24,14 +23,18 @@ import {
     redirectToChatSuccess,
     setIsOwner,
 } from './advertisement-details.actions';
+import { Observable } from 'rxjs';
+import { selectUser } from '@stores/authentication';
+import { Store } from '@ngrx/store';
 
 @Injectable()
 export class AdvertisementDetailsEffects {
+    user$: Observable<User | null> = this.store.select(selectUser);
     constructor(
         private actions$: Actions,
         private advertisementService: AdvertisementService,
         private userService: UserService,
-        private authStore: AuthenticationStore,
+        private store: Store,
         private favoriteService: FavoriteAdvertisementService,
         private chatService: ChatService,
         private router: Router
@@ -66,7 +69,7 @@ export class AdvertisementDetailsEffects {
         this.actions$.pipe(
             ofType(loadAdvertisementSuccess),
             switchMap(({ advertisement }) =>
-                this.authStore.user$.pipe(
+                this.user$.pipe(
                     map((user) => {
                         let isOwner = false;
                         if (user) isOwner = user.id === advertisement.userId;
@@ -81,7 +84,7 @@ export class AdvertisementDetailsEffects {
         this.actions$.pipe(
             ofType(loadAdvertisementSuccess),
             switchMap(({ advertisement }) =>
-                this.authStore.user$.pipe(
+                this.user$.pipe(
                     filter((user): user is User => user !== null),
                     switchMap((user) => this.favoriteService.isFavorite(user.id, advertisement.id)),
                     filter((response) => response),
@@ -104,7 +107,7 @@ export class AdvertisementDetailsEffects {
         this.actions$.pipe(
             ofType(addFavorite),
             switchMap(({ advertisementId }) =>
-                this.authStore.user$.pipe(
+                this.user$.pipe(
                     tap(this.checkUserLoggedIn),
                     filter((user): user is User => user !== null),
                     switchMap((user) => this.favoriteService.create(user.id, advertisementId)),
@@ -119,7 +122,7 @@ export class AdvertisementDetailsEffects {
         this.actions$.pipe(
             ofType(deleteFavorite),
             switchMap(({ advertisementId }) =>
-                this.authStore.user$.pipe(
+                this.user$.pipe(
                     filter((user): user is User => user !== null),
                     switchMap((user) => this.favoriteService.delete(user.id, advertisementId)),
                     map(() => deleteFavoriteSuccess()),
@@ -132,7 +135,7 @@ export class AdvertisementDetailsEffects {
     redirectToChat$ = createEffect(() =>
         this.actions$.pipe(
             ofType(redirectToChat),
-            withLatestFrom(this.authStore.user$),
+            withLatestFrom(this.user$),
             tap(([_, user]) => this.checkUserLoggedIn(user)),
             switchMap(([action, user]) =>
                 this.chatService.getChatId([action.ownerId, user!.id]).pipe(
