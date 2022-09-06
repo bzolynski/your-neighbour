@@ -30,3 +30,31 @@ export const loadImagesSuccess = createAction(
     props<{ itemId: number; images: Image[] }>()
 );
 export const loadImagesError = createAction('[SettingsMyAdvertisementsComponent] Load Images Error', props<{ error: string }>());
+
+// create
+export const createAdvertisement = createAction(
+    '[SettingsMyAdvertisementsComponent] Create Advertisement',
+    props<{ advertisement: Advertisement }>()
+);
+export const createAdvertisementSuccess = createAction(
+    '[SettingsMyAdvertisementsComponent] Create Advertisement Success',
+    props<{ advertisement: Advertisement }>()
+);
+export const createAdvertisementError = createAction(
+    '[SettingsMyAdvertisementsComponent] Create Advertisement Error',
+    props<{ error: string }>()
+);
+
+// update
+export const updateAdvertisement = createAction(
+    '[SettingsMyAdvertisementsComponent] Update Advertisement',
+    props<{ id: number; advertisement: Advertisement }>()
+);
+export const updateAdvertisementSuccess = createAction(
+    '[SettingsMyAdvertisementsComponent] Update Advertisement Success',
+    props<{ advertisement: Advertisement }>()
+);
+export const updateAdvertisementError = createAction(
+    '[SettingsMyAdvertisementsComponent] Update Advertisement Error',
+    props<{ error: string }>()
+);

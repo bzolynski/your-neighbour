@@ -27,6 +27,8 @@ import { RippleModule } from 'primeng/ripple';
 import { CardContainerModule } from 'src/app/shared/directives/card-container/card-container.module';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
+import { AdvertisementFormModule } from '../../ui/advertisement-form/advertisement-form.module';
+import { DialogService, DynamicDialogModule } from 'primeng/dynamicdialog';
 @NgModule({
     imports: [
         CommonModule,
@@ -49,8 +51,10 @@ import { OverlayPanelModule } from 'primeng/overlaypanel';
         RippleModule,
         CardContainerModule,
         OverlayPanelModule,
+        AdvertisementFormModule,
+        DynamicDialogModule,
     ],
     declarations: [SettingsMyAdvertisementsComponent],
-    providers: [ConfirmationService],
+    providers: [ConfirmationService, DialogService],
 })
 export class SettingsMyAdvertisementsModule {}

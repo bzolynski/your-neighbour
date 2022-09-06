@@ -1,93 +1,111 @@
-<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>
-<div class="wrapper" *ngIf="vm$ | async as vm">
-    <div class="left">
-        <form class="container" [formGroup]="form" (ngSubmit)="formSubmited.next(form)" fxFlex fxLayout="column">
-            <div fxLayoutGap="10px">
-                <p-button
-                    [label]="form.value['item'] ? form.value['item'].name : 'Wybierz przedmiot'"
-                    icon="pi pi-search"
-                    (click)="itemsOP.toggle($event)"></p-button>
-                <p-button
-                    [label]="form.value['localization'] ? form.value['localization'].city : 'Wybierz lokalizację'"
-                    icon="pi pi-search"
-                    (click)="localizationsOP.toggle($event)"></p-button>
-            </div>
-            <div fxLayoutGap="10px" fxLayout="row">
+<div *ngIf="vm$ | async as vm">
+    <div fxLayout="column" fxLayoutGap="24px">
+        <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap="24px">
+            <form class="container" [formGroup]="form" (ngSubmit)="submitForm(vm.mode)">
                 <app-text-input
                     [placeholder]="'Wprowadź tytuł ogłoszenia'"
-                    fxFlex="50"
                     [formControlName]="'title'"
                     [label]="'Tytuł ogłoszenia'"
                     [errorMessage]="titleErrorMessage">
                 </app-text-input>
-                <app-select-input
-                    fxFlex="50"
-                    [formControlName]="'definition'"
-                    [options]="vm.definitions"
-                    [errorMessage]="definitionErrorMessage"
-                    [label]="'Definicja'"
-                    optionLabel="name"
-                    filterMatchMode="contains"
-                    filterBy="name"
-                    placeholder="Wybierz definicję ogłoszenia">
-                    <ng-template appSelectInputSelectedTemplate let-definition>
-                        <div class="country-item">
-                            <div>{{ form.value['definition'].name }}</div>
-                        </div>
-                    </ng-template>
-                    <ng-template appSelectInputItemTemplate let-definition>
-                        <div class="country-item">
-                            <div>{{ definition.name }}</div>
-                        </div>
-                    </ng-template>
-                </app-select-input>
-            </div>
-
-            <app-text-area-input
-                [formControlName]="'description'"
-                [placeholder]="'Wprowadź opis ogłoszenia'"
-                [rows]="5"
-                [label]="'Opis ogłoszenia'"
-                [errorMessage]="descriptionErrorMessage">
-            </app-text-area-input>
-            <button mat-raised-button color="accent" type="submit">
-                {{ true ? 'Edytuj' : 'Utwórz' }}
-            </button>
-        </form>
+                <app-text-area-input
+                    [formControlName]="'description'"
+                    [placeholder]="'Wprowadź opis ogłoszenia'"
+                    [rows]="5"
+                    [label]="'Opis ogłoszenia'"
+                    [errorMessage]="descriptionErrorMessage">
+                </app-text-area-input>
+                <div fxLayoutGap.gt-sm="24px" fxLayout="column" fxLayout.gt-sm="row">
+                    <app-select-input
+                        fxFlex.gt-sm="50"
+                        fxFlex="100"
+                        [formControlName]="'definition'"
+                        [options]="vm.definitions ?? []"
+                        [errorMessage]="definitionErrorMessage"
+                        [label]="'Definicja'"
+                        optionLabel="name"
+                        filterMatchMode="contains"
+                        filterBy="name"
+                        placeholder="Wybierz definicję">
+                        <ng-template appSelectInputSelectedTemplate let-definition>
+                            <div>
+                                <div>{{ form.value['definition'].name }}</div>
+                            </div>
+                        </ng-template>
+                        <ng-template appSelectInputItemTemplate let-definition>
+                            <div>
+                                <div>{{ definition.name }}</div>
+                            </div>
+                        </ng-template>
+                    </app-select-input>
+                    <app-select-input
+                        fxFlex.gt-sm="50"
+                        fxFlex="100"
+                        [formControlName]="'category'"
+                        [options]="vm.categories ?? []"
+                        [errorMessage]="categoryErrorMessage"
+                        [label]="'Kategoria'"
+                        optionLabel="name"
+                        filterMatchMode="contains"
+                        filterBy="name"
+                        placeholder="Wybierz kategorię">
+                        <ng-template appSelectInputSelectedTemplate let-definition>
+                            <div>
+                                <div>{{ form.value['category'].name }}</div>
+                            </div>
+                        </ng-template>
+                        <ng-template appSelectInputItemTemplate let-category>
+                            <div>
+                                <div>{{ category.name }}</div>
+                            </div>
+                        </ng-template>
+                    </app-select-input>
+                </div>
+                <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap="18px">
+                    <button
+                        fxFlex="50"
+                        pButton
+                        pRipple
+                        [label]="form.value['localization'] ? form.value['localization'].city : 'Wybierz lokalizację'"
+                        icon="pi pi-map-marker"
+                        class="p-button-text p-button-raised p-button-secondary"
+                        (click)="localizationsOP.toggle($event)"></button>
+                    <button
+                        fxFlex="50"
+                        pButton
+                        pRipple
+                        label="Zapisz"
+                        icon="pi pi-check"
+                        class="p-button-text p-button-raised"></button>
+                </div>
+            </form>
+            <p-fileUpload
+                ngClass.lt-md="p-fileupload-content-lt-md"
+                name="images[]"
+                accept="image/*"
+                [uploadLabel]="'Wgraj'"
+                [chooseLabel]="'Wybierz'"
+                [cancelLabel]="'Anuluj'"
+                [customUpload]="true"
+                (uploadHandler)="customUploadHandler($event)"
+                [multiple]="true"
+                [maxFileSize]="1000000">
+                <ng-template pTemplate="content">
+                    <ul *ngIf="uploadedFiles.length">
+                        <li *ngFor="let file of uploadedFiles">{{ file.name }} - {{ file.size }} bytes</li>
+                    </ul>
+                </ng-template>
+            </p-fileUpload>
+        </div>
     </div>
-    <app-backdrop-loading [fixed]="true" *ngIf="(status$ | async) == 'loading'"></app-backdrop-loading>
 
-    <p-overlayPanel #itemsOP [showCloseIcon]="true" [style]="{ width: '450px' }">
-        <p-table
-            [value]="(items$ | async) ?? []"
-            selectionMode="single"
-            [selection]="form.value['item']"
-            (onRowSelect)="onItemSelect($event)"
-            [paginator]="true"
-            [rows]="5"
-            responsiveLayout="scroll">
-            <ng-template pTemplate="header">
-                <tr>
-                    <th pSortableColumn="name">Nazwa<p-sortIcon field="name"></p-sortIcon></th>
-                    <th>Zdjęcie</th>
-                    <th pSortableColumn="category.name">Kategoria <p-sortIcon field="category.name"></p-sortIcon></th>
-                </tr>
-            </ng-template>
-            <ng-template pTemplate="body" let-rowData let-item>
-                <tr [pSelectableRow]="rowData">
-                    <td>{{ item.name }}</td>
-                    <td>
-                        <img [src]="item?.images[0]?.dataUrl" [alt]="item?.images[0]?.name" class="item-image" />
-                    </td>
-                    <td>{{ item.category?.name }}</td>
-                </tr>
-            </ng-template>
-        </p-table>
-    </p-overlayPanel>
+    <ng-template #detailsFormTemplate> </ng-template>
+
+    <ng-template #photosUploadTemplate> </ng-template>
 
     <p-overlayPanel #localizationsOP [showCloseIcon]="true" [style]="{ width: '450px' }">
         <p-table
-            [value]="(localizations$ | async) ?? []"
+            [value]="vm.localizations ?? []"
             selectionMode="single"
             [selection]="form.value['localization']"
             (onRowSelect)="onLocalizationSelect($event)"

@@ -9,12 +9,6 @@ export class AuthentiacionInterceptor implements HttpInterceptor {
     constructor(private authenticationService: AuthenticationService, private router: Router) {}
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        req = req.clone({
-            setHeaders: {
-                'Content-Type': 'application/json',
-            },
-            withCredentials: true,
-        });
         if (req.url.includes('/authentication/')) {
             return next.handle(req).pipe(catchError(this.handleError));
         }

@@ -4,6 +4,8 @@ import { GenericState } from '@app-types/.';
 import { IItem } from 'src/app/shared/data-access/models';
 import { ListViewType } from 'src/app/shared/ui/list-container/list-container.component';
 import {
+    createAdvertisement,
+    createAdvertisementSuccess,
     deleteAdvertisement,
     deleteAdvertisementError,
     deleteAdvertisementSuccess,
@@ -12,6 +14,8 @@ import {
     loadAdvertisementsSuccess,
     loadImagesError,
     loadImagesSuccess,
+    updateAdvertisement,
+    updateAdvertisementSuccess,
 } from './settings-my-advertisements.actions';
 
 export const SETTINGS_MY_ADVERTISEMENTS_STATE_FEATURE_KEY = 'settings my advertisements';
@@ -44,7 +48,7 @@ export const settingsMyAdvertisementsReducer = createReducer(
         status: 'error',
         error: error,
     })),
-    on(deleteAdvertisement, (state) => ({
+    on(createAdvertisement, updateAdvertisement, deleteAdvertisement, (state) => ({
         ...state,
         status: 'loading',
         error: null,
@@ -65,6 +69,10 @@ export const settingsMyAdvertisementsReducer = createReducer(
         data: (state.data ?? []).map((value) =>
             value.item.id === itemId ? ({ ...value, item: { ...value.item, images: images } as IItem } as Advertisement) : value
         ),
+    })),
+    on(createAdvertisementSuccess, updateAdvertisementSuccess, (state) => ({
+        ...state,
+        status: 'success',
     })),
     on(loadImagesError, (state, { error }) => ({
         ...state,

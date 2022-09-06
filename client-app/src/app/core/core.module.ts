@@ -5,11 +5,12 @@ import { authenticationInterceptionProvider } from './interceptors';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { AuthenticationEffects, authenticationReducer, AUTHENTICATION_STATE_KEY } from '@stores/authentication';
+import { metaReducers } from './stores';
 
 @NgModule({
     imports: [
         CommonModule,
-        StoreModule.forFeature(AUTHENTICATION_STATE_KEY, authenticationReducer),
+        StoreModule.forFeature(AUTHENTICATION_STATE_KEY, authenticationReducer, { metaReducers }),
         EffectsModule.forFeature([AuthenticationEffects]),
     ],
     declarations: [],

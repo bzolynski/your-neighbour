@@ -8,12 +8,18 @@ import { catchError, filter, map, switchMap, tap } from 'rxjs/operators';
 import { AdvertisementService } from '@services/.';
 import { User } from '@models/';
 import {
+    createAdvertisement,
+    createAdvertisementError,
+    createAdvertisementSuccess,
     deleteAdvertisement,
     deleteAdvertisementError,
     deleteAdvertisementSuccess,
     loadAdvertisements,
     loadAdvertisementsError,
     loadAdvertisementsSuccess,
+    updateAdvertisement,
+    updateAdvertisementError,
+    updateAdvertisementSuccess,
 } from './settings-my-advertisements.actions';
 import { Store } from '@ngrx/store';
 import { selectUser } from '../settings-my-account-form';
@@ -46,6 +52,37 @@ export class SettingsMyAdvertisementsEffects {
                     ),
                     map((advertisements) => loadAdvertisementsSuccess({ advertisements: advertisements })),
                     catchError((error: HttpErrorResponse) => of(loadAdvertisementsError({ error: error.error ?? error.message })))
+                )
+            )
+        )
+    );
+
+    createAdvertisement$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(createAdvertisement),
+            switchMap(({ advertisement }) =>
+                this.user$.pipe(
+                    tap(this.checkUserLoggedIn),
+                    filter((user): user is User => user !== null),
+                    switchMap((user) => this.advertisementService.create(advertisement, user.id)),
+                    map((id) => createAdvertisementSuccess({ advertisement: { ...advertisement, id: id } })),
+                    catchError((error: HttpErrorResponse) =>
+                        of(createAdvertisementError({ error: error.error ?? error.message }))
+                    )
+                )
+            )
+        )
+    );
+
+    updateAdvertisement$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(updateAdvertisement),
+            switchMap(({ id, advertisement }) =>
+                this.advertisementService.update(id, advertisement).pipe(
+                    map((id) => updateAdvertisementSuccess({ advertisement: { ...advertisement, id: id } })),
+                    catchError((error: HttpErrorResponse) =>
+                        of(updateAdvertisementError({ error: error.error ?? error.message }))
+                    )
                 )
             )
         )

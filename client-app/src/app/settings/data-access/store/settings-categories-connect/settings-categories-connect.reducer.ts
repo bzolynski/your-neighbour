@@ -1,5 +1,4 @@
 import { createReducer, on } from '@ngrx/store';
-
 import { Dictionary, GenericState, ITree } from '@app-types/.';
 import { Category } from '@models/';
 import {

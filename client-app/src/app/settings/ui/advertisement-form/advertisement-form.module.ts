@@ -9,11 +9,11 @@ import { TableModule } from 'primeng/table';
 import { SelectInputModule } from 'src/app/shared/ui/select-input/select-input.module';
 import { TextAreaInputModule } from 'src/app/shared/ui/text-area-input/text-area-input.module';
 import { TextInputModule } from 'src/app/shared/ui/text-input/text-input.module';
-import { ConfirmDialogModule } from 'primeng/confirmdialog';
-import { BackdropLoadingModule } from 'src/app/shared/ui/backdrop-loading/backdrop-loading.module';
 import { ConfirmationService } from 'primeng/api';
 import { ReactiveFormsModule } from '@angular/forms';
-
+import { FileUploadModule } from 'primeng/fileupload';
+import { DynamicDialogModule } from 'primeng/dynamicdialog';
+import { StepsModule } from 'primeng/steps';
 @NgModule({
     imports: [
         CommonModule,
@@ -26,9 +26,9 @@ import { ReactiveFormsModule } from '@angular/forms';
         SelectInputModule,
         TextAreaInputModule,
         TextInputModule,
-        ConfirmDialogModule,
-
-        BackdropLoadingModule,
+        FileUploadModule,
+        StepsModule,
+        DynamicDialogModule,
     ],
     declarations: [AdvertisementFormComponent],
     exports: [AdvertisementFormComponent],

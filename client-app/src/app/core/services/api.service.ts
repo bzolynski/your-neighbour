@@ -1,4 +1,4 @@
-import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpEvent, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -21,7 +21,7 @@ export class ApiService {
         return this.client.get<T>(`${environment.api_url}/${path}`, { params: params }).pipe(catchError(this.handleError));
     };
     post = <T>(path: string, body?: unknown, params?: HttpParams): Observable<T> => {
-        return this.client.post<T>(`${environment.api_url}/${path}`, body, { params: params }).pipe(catchError(this.handleError));
+        return this.client.post(`${environment.api_url}/${path}`, body, { params: params }).pipe(catchError(this.handleError));
     };
     patch = <T>(path: string, body?: unknown, params?: HttpParams): Observable<T> => {
         return this.client
@@ -33,5 +33,11 @@ export class ApiService {
     };
     delete = <T>(path: string, params?: HttpParams): Observable<T> => {
         return this.client.delete<T>(`${environment.api_url}/${path}`, { params: params }).pipe(catchError(this.handleError));
+    };
+
+    uploadFile = (path: string, formData: FormData): Observable<HttpEvent<unknown>> => {
+        return this.client
+            .post(`${environment.api_url}/${path}`, formData, { reportProgress: true, observe: 'events' })
+            .pipe(catchError(this.handleError));
     };
 }

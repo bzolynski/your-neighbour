@@ -3,7 +3,7 @@ import { FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { User } from '@models/user.model';
 import { Store } from '@ngrx/store';
-import { selectStatus, selectUser, signIn } from '@stores/authentication';
+import { selectStatus, selectUser, signIn, signUp } from '@stores/authentication';
 import { Observable } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
 import { DestroyObservable } from 'src/app/shared/utils/destroy-observable';
@@ -36,8 +36,20 @@ export class WelcomeComponent implements OnInit {
 
     onRegister = (form: FormGroup) => {
         if (form.valid) {
-            // TODO: Register
-            // this.authenticationStore.register({ ...form.value });
+            const x = {
+                email: form.value['email'],
+                password: form.value['password'],
+                confirmPassword: form.value['confirmPassword'],
+            };
+            console.log(x);
+
+            this.store.dispatch(
+                signUp({
+                    email: form.value['email'],
+                    password: form.value['password'],
+                    confirmPassword: form.value['confirmPassword'],
+                })
+            );
         }
     };
 }

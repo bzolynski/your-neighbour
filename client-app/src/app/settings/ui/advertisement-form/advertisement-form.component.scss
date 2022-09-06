@@ -1,0 +1,41 @@
+:host ::ng-deep {
+    .p-fileupload .p-fileupload-buttonbar {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+    }
+    .p-fileupload .p-fileupload-buttonbar .p-button {
+        margin-right: 0;
+    }
+    .p-fileupload-files .ng-star-inserted .p-button {
+        aspect-ratio: 1/1 !important;
+        height: 35px !important;
+    }
+    .p-fileupload-row > div:last-child {
+        flex-basis: 0;
+    }
+    :is(.p-fileupload-content) {
+        overflow: auto;
+        height: calc(391.4px - 86.4px);
+    }
+    :is(.p-fileupload-content-lt-md) :is(.p-fileupload-content) {
+        overflow: auto;
+        height: calc(445.4px - 86.4px);
+    }
+}
+
+.own-stepper {
+    margin-bottom: 1.5rem;
+    display: block;
+}
+
+.own-button-section {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.own-button-section button {
+    width: auto;
+}

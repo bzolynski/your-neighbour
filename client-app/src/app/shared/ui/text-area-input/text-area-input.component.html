@@ -16,6 +16,6 @@
         (blur)="onTouched()"
         [formControl]="control"></textarea>
     <small class="own-error-message" *ngIf="showError">
-        <ng-container *ngIf="errorMessage && control.dirty && control.touched">{{ errorMessage }}</ng-container>
+        <ng-container *ngIf="errorMessage && control.invalid && control.touched">{{ errorMessage }}</ng-container>
     </small>
 </div>

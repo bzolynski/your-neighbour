@@ -1,4 +1,4 @@
-import { HttpParams } from '@angular/common/http';
+import { HttpEvent, HttpEventType, HttpParams, HttpProgressEvent, HttpResponse } from '@angular/common/http';
 
 export type QueryParams = Object; // eslint-disable-line
 
@@ -11,5 +11,12 @@ export class HttpHelperMethods {
             }
         }
         return params;
+    };
+
+    static isHttpResponse = <T>(event: HttpEvent<T>): event is HttpResponse<T> => {
+        return event.type === HttpEventType.Response;
+    };
+    static isHttpProgressEvent = (event: HttpEvent<unknown>): event is HttpProgressEvent => {
+        return event.type === HttpEventType.DownloadProgress || event.type === HttpEventType.UploadProgress;
     };
 }

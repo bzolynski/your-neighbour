@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import { ApiService } from './';
 import { HttpHelperMethods, QueryParams } from 'src/app/shared/utils';
 import { Advertisement } from '@models/';
+import { HttpEvent } from '@angular/common/http';
 
 export interface GetAdvertisementQueryParams extends QueryParams {
     includeUser?: boolean;
@@ -44,6 +45,13 @@ export class AdvertisementService {
     getManyByUser = (userId: number, queryParams?: GetAdvertisementQueryParams): Observable<Advertisement[]> => {
         const params = HttpHelperMethods.mapToHttpParams(queryParams);
         return this.apiService.get<Advertisement[]>(`advertisement/get-by-user/${userId}`, params);
+    };
+    uploadImages = (advertisementId: number, images: File[]): Observable<HttpEvent<unknown>> => {
+        const formData = new FormData();
+        for (const image of images) {
+            formData.append('file', image, image.name);
+        }
+        return this.apiService.uploadFile(`advertisement/upload-images/${advertisementId}`, formData);
     };
 
     delete = (id: number): Observable<boolean> => {

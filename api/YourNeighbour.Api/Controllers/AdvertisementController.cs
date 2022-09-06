@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using YourNeighbour.Application.Features.Advertisements.Commands.CreateAdvertisement;
 using YourNeighbour.Application.Features.Advertisements.Commands.DeleteAdvertisement;
@@ -35,6 +36,14 @@ namespace YourNeighbour.Api.Controllers
         {
             IEnumerable<AdvertisementDto> result = await Mediator.Send(new GetManyAdvertisementsByCategoryQuery(categoryId, queryParams));
             return Ok(result);
+        }
+
+        [HttpPost("upload-images/{advertisementid}")]
+        [DisableRequestSizeLimit]
+        public async Task<IActionResult> UploadImages(int advertisementid)
+        {
+            IFormFileCollection x = Request.Form.Files;
+            return Ok("");
         }
 
 
