@@ -93,11 +93,20 @@ namespace YourNeighbour.EntityFramework.SqlServer.Migrations
                     b.Property<int>("AdvertisementId")
                         .HasColumnType("int");
 
-                    b.Property<string>("DataUrl")
+                    b.Property<byte[]>("Bytes")
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FileExtension")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("Guid")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal>("Size")
+                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
 
@@ -264,16 +273,16 @@ namespace YourNeighbour.EntityFramework.SqlServer.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "45299e6b-8722-4f35-a3c7-457261859c30",
-                            Guid = new Guid("51e8c76a-7c0c-49d6-90cc-397697c93dfb"),
+                            ConcurrencyStamp = "f1e55ff9-0dcb-4118-a79c-c3013a298760",
+                            Guid = new Guid("b8e4a448-bd5c-442c-8a80-28635ac58301"),
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "64635e53-3a89-4313-aa58-094d5087fd36",
-                            Guid = new Guid("206f17a5-181d-4377-bd06-cbe6ffdbdbed"),
+                            ConcurrencyStamp = "7bbfd773-a999-4827-afc1-f53039d8db25",
+                            Guid = new Guid("1987e266-a149-48c4-a9fc-03b3450be282"),
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -485,9 +494,6 @@ namespace YourNeighbour.EntityFramework.SqlServer.Migrations
 
                     b.Property<bool>("IsPrimary")
                         .HasColumnType("bit");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PostCode")
                         .HasColumnType("nvarchar(max)");

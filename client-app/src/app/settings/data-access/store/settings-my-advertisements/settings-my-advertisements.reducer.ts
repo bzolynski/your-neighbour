@@ -1,8 +1,6 @@
 import { Advertisement } from '@models/';
 import { createReducer, on } from '@ngrx/store';
 import { GenericState } from '@app-types/.';
-import { IItem } from 'src/app/shared/data-access/models';
-import { ListViewType } from 'src/app/shared/ui/list-container/list-container.component';
 import {
     createAdvertisement,
     createAdvertisementSuccess,
@@ -20,14 +18,11 @@ import {
 
 export const SETTINGS_MY_ADVERTISEMENTS_STATE_FEATURE_KEY = 'settings my advertisements';
 
-export interface SettingsMyAdvertisementsState extends GenericState<Advertisement[]> {
-    listViewType: ListViewType;
-}
+export type SettingsMyAdvertisementsState = GenericState<Advertisement[]>;
 
 export const initialState: SettingsMyAdvertisementsState = {
     error: null,
     status: 'pending',
-    listViewType: 'list',
     data: null,
 };
 
@@ -63,11 +58,11 @@ export const settingsMyAdvertisementsReducer = createReducer(
         status: 'error',
         error: error,
     })),
-    on(loadImagesSuccess, (state, { itemId, images }) => ({
+    on(loadImagesSuccess, (state, { advertisementId, images }) => ({
         ...state,
         status: 'success',
         data: (state.data ?? []).map((value) =>
-            value.item.id === itemId ? ({ ...value, item: { ...value.item, images: images } as IItem } as Advertisement) : value
+            value.id === advertisementId ? ({ ...value, images: images } as Advertisement) : value
         ),
     })),
     on(createAdvertisementSuccess, updateAdvertisementSuccess, (state) => ({

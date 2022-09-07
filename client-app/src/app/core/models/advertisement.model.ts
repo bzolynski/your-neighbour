@@ -1,5 +1,4 @@
-import { IItem } from 'src/app/shared/data-access/models';
-import { BaseModel, Category, AdvertisementDefinition, Localization, Image, User } from '.';
+import { BaseModel, Category, AdvertisementDefinition, Localization, User, AdvertisementImage } from '.';
 export interface Advertisement extends BaseModel {
     title: string;
     description: string;
@@ -8,9 +7,7 @@ export interface Advertisement extends BaseModel {
     definition: AdvertisementDefinition;
     localization: Localization;
     category: Category;
-    images: Image[];
-
-    item: IItem;
+    images: AdvertisementImage[];
 
     userId: number;
     definitionId: number;

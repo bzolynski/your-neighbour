@@ -31,7 +31,9 @@
             "@stores/*": ["./src/app/core/stores/*"],
             "@stores/": ["./src/app/core/stores/"],
             "@utils/*": ["./src/app/shared/utils/*"],
-            "@utils/": ["./src/app/shared/utils/"]
+            "@utils/": ["./src/app/shared/utils/"],
+            "@shared/*": ["./src/app/shared/*"],
+            "@shared/": ["./src/app/shared/"]
         }
     },
     "angularCompilerOptions": {

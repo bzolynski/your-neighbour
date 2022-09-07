@@ -81,8 +81,8 @@
                     <td gdArea="title">{{ advertisement.title }}</td>
                     <td gdArea="image">
                         <img
-                            [src]="advertisement.images[0]?.dataUrl"
-                            [alt]="advertisement.images[0]?.name"
+                            [src]="advertisement.images[0]?.bytes"
+                            [alt]="advertisement.images[0]?.description"
                             width="100"
                             class="shadow-4" />
                     </td>

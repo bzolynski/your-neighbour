@@ -10,8 +10,6 @@ import { AdvertisementDefinitionService, AdvertisementService, LocalizationServi
 import { User } from '@models/';
 import {
     createAdvertisement,
-    createAdvertisementError,
-    createAdvertisementSuccess,
     loadAdvertisement,
     loadAdvertisementError,
     loadAdvertisementSuccess,
@@ -46,7 +44,7 @@ export class SettingsMyAdvertisementsFormEffects {
             ofType(loadAdvertisement),
             switchMap(({ id }) =>
                 this.advertisementService
-                    .get(id, { includeCategory: true, includeLocalization: true, includeDefinition: true, includeItem: true })
+                    .get(id, { includeCategory: true, includeLocalization: true, includeDefinition: true })
                     .pipe(
                         map((advertisement) => loadAdvertisementSuccess({ advertisement })),
                         catchError((error: HttpErrorResponse) =>
@@ -124,18 +122,18 @@ export class SettingsMyAdvertisementsFormEffects {
 
     createAdvertisement$ = createEffect(() =>
         this.actions$.pipe(
-            ofType(createAdvertisement),
-            switchMap(({ advertisement }) =>
-                this.user$.pipe(
-                    tap(this.checkUserLoggedIn),
-                    filter((user): user is User => user !== null),
-                    switchMap((user) => this.advertisementService.create(advertisement, user.id)),
-                    map((id) => createAdvertisementSuccess({ advertisement: { ...advertisement, id: id } })),
-                    catchError((error: HttpErrorResponse) =>
-                        of(createAdvertisementError({ error: error.error ?? error.message }))
-                    )
-                )
-            )
+            ofType(createAdvertisement)
+            // switchMap(({ advertisement }) =>
+            //     this.user$.pipe(
+            //         tap(this.checkUserLoggedIn),
+            //         filter((user): user is User => user !== null)
+            //         // switchMap((user) => this.advertisementService.create(advertisement, user.id)),
+            //         // map((id) => createAdvertisementSuccess({ advertisement: { ...advertisement, id: id } })),
+            //         // catchError((error: HttpErrorResponse) =>
+            //         //     of(createAdvertisementError({ error: error.error ?? error.message }))
+            //         // )
+            //     )
+            // )
         )
     );
 

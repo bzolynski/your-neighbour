@@ -1,6 +1,6 @@
 <app-welcome-landing-page>
     <mat-card class="mat-elevation-z6">
-    <mat-tab-group mat-stretch-tabs [selectedIndex]="selectedIndex">
+        <mat-tab-group mat-stretch-tabs [selectedIndex]="selectedIndex">
             <mat-tab>
                 <ng-template mat-tab-label>Logowanie</ng-template>
                 <app-welcome-login (formSubmited)="onLogin($event)"></app-welcome-login>
@@ -13,6 +13,4 @@
     </mat-card>
 </app-welcome-landing-page>
 
-<app-backdrop-loading [fixed]="true"
-    *ngIf="(isBusy$ | async)"
-    [backdropColor]="'hsl(0, 0%, 30%, 0.3'"></app-backdrop-loading>
+<app-backdrop-loading [fixed]="true" *ngIf="isBusy$ | async" [backdropColor]="'hsl(0, 0%, 30%, 0.3'"></app-backdrop-loading>

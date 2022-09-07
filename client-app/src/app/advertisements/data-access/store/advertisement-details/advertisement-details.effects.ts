@@ -48,7 +48,7 @@ export class AdvertisementDetailsEffects {
                     includeDefinition: true,
                     includeLocalization: true,
                     includeUser: true,
-                    includeItem: true,
+                    includeImages: true,
                 })
             ),
             map((advertisement) => loadAdvertisementSuccess({ advertisement: advertisement })),

@@ -48,7 +48,7 @@ export class SettingsMyAdvertisementsComponent implements OnInit {
     }
 
     loadImages = (advertisement: Advertisement) => {
-        this.store.dispatch(loadImages({ itemId: advertisement.item.id }));
+        this.store.dispatch(loadImages({ advertisementId: advertisement.id }));
     };
 
     advertisementDialog: boolean = false;

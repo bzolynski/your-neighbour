@@ -1,0 +1,75 @@
+.title {
+    padding-left: 1rem;
+    padding-top: 1rem;
+    margin: 0;
+}
+
+.wrapper {
+    padding: 1rem;
+}
+
+.tile {
+    padding: 0.5rem;
+}
+.tile-title {
+    font-weight: 500;
+    padding-right: 0.5rem;
+}
+
+.button {
+    padding: 0.25rem;
+}
+
+.list-container-wrapper {
+    margin-top: 1rem;
+}
+
+app-localization-card,
+app-card {
+    &:hover {
+        transform: scale(1.01);
+    }
+    transition: ease-in-out 0.1s;
+    cursor: pointer;
+}
+
+.backdrop {
+    position: absolute;
+    inset: 0;
+}
+.add-icon-container {
+    display: grid;
+    height: 100%;
+    place-items: center;
+    mat-icon {
+        transform: scale(2);
+    }
+    span {
+        font-weight: 400;
+        font-size: 25px;
+    }
+}
+
+:host ::ng-deep {
+    .p-panel .p-panel-content {
+        padding: 0;
+    }
+    .p-frozen-column,
+    .p-datatable-frozen-tbody {
+        font-weight: 600 !important;
+    }
+
+    .own-cell-padding-lt-md > td {
+        padding-block: 0.5rem !important;
+    }
+    p-celleditor {
+        display: flex;
+        flex-direction: row;
+        gap: 0.5rem;
+        justify-content: start;
+        align-items: center;
+    }
+    p-celleditor .own-edit-label {
+        margin-bottom: 20px;
+    }
+}

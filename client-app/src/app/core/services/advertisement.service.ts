@@ -7,7 +7,6 @@ import { HttpEvent } from '@angular/common/http';
 
 export interface GetAdvertisementQueryParams extends QueryParams {
     includeUser?: boolean;
-    includeItem?: boolean;
     includeLocalization?: boolean;
     includeDefinition?: boolean;
     includeCategory?: boolean;

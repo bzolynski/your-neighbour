@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using YourNeighbour.Application.Abstractions;
-using YourNeighbour.Application.Features.Common.Dtos;
 using YourNeighbour.Domain.Entities;
 using YourNeighbour.Domain.Exceptions;
 
@@ -35,18 +31,18 @@ namespace YourNeighbour.Application.Features.Advertisements.Commands.UpdateAdver
                 advertisement.Description = request.AdvertisementDto.Description;
                 advertisement.CategoryId = request.AdvertisementDto.CategoryId;
 
-                List<AdvertisementImage> images = await applicationDbContext.Set<AdvertisementImage>()
-                    .Where(i => i.AdvertisementId == request.Id)
-                    .ToListAsync();
+                //List<AdvertisementImage> images = await applicationDbContext.Set<AdvertisementImage>()
+                //    .Where(i => i.AdvertisementId == request.Id)
+                //    .ToListAsync();
 
-                foreach (UpdateImageDto img in request.AdvertisementDto.Images)
-                {
-                    if (!Guid.TryParse(img.Guid, out Guid guid) || guid == Guid.Empty)
-                        applicationDbContext.Set<AdvertisementImage>().Add(new AdvertisementImage { DataUrl = img.DataUrl, AdvertisementId = request.Id });
-                    else
-                        images.Remove(images.First(x => x.Guid == guid));
-                }
-                applicationDbContext.Set<AdvertisementImage>().RemoveRange(images);
+                //foreach (UpdateImageDto img in request.AdvertisementDto.Images)
+                //{
+                //    if (!Guid.TryParse(img.Guid, out Guid guid) || guid == Guid.Empty)
+                //        applicationDbContext.Set<AdvertisementImage>().Add(new AdvertisementImage { DataUrl = img.DataUrl, AdvertisementId = request.Id });
+                //    else
+                //        images.Remove(images.First(x => x.Guid == guid));
+                //}
+                //applicationDbContext.Set<AdvertisementImage>().RemoveRange(images);
                 await applicationDbContext.SaveChangesAsync(cancellationToken);
                 await transaction.CommitAsync(cancellationToken);
             }

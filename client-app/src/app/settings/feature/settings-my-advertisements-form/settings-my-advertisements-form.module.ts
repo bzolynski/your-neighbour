@@ -12,9 +12,6 @@ import { RouterModule } from '@angular/router';
 import { AdvertisementOverviewModule } from 'src/app/advertisements/ui/advertisement-overview/advertisement-overview.module';
 import { ElevatedSectionModule } from 'src/app/shared/directives/elevated-section/elevated-section.module';
 import { ParentWidthModule } from 'src/app/shared/directives/parent-width/parent-width.module';
-import { AccordionSelectItemModule } from 'src/app/shared/ui/accordion-select-item/accordion-select-item.module';
-import { AccordionSelectModule } from 'src/app/shared/ui/accordion-select/accordion-select.module';
-import { LocalizationFormModule } from 'src/app/shared/ui/localization-form/localization-form.module';
 import { TextAreaInputModule } from 'src/app/shared/ui/text-area-input/text-area-input.module';
 import {
     SettingsMyAdvertisementsFormEffects,
@@ -40,11 +37,8 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
         SettingsMyAdvertisementsFormRoutingModule,
         RouterModule,
         ReactiveFormsModule,
-        LocalizationFormModule,
         ParentWidthModule,
         AdvertisementOverviewModule,
-        AccordionSelectModule,
-        AccordionSelectItemModule,
         MatDialogModule,
         TextAreaInputModule,
         TextInputModule,

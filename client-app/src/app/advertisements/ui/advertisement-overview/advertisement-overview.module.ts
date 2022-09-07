@@ -5,15 +5,10 @@ import { SkeletonTextModule } from 'src/app/shared/ui/skeleton-text/skeleton-tex
 import { SkeletonBoxModule } from 'src/app/shared/ui/skeleton-box/skeleton-box.module';
 import { GalleriaModule } from 'primeng/galleria';
 import { CardModule } from 'primeng/card';
+import { SharedModule } from '@shared/shared.module';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        SkeletonTextModule,
-        SkeletonBoxModule,
-        GalleriaModule,
-        CardModule,
-    ],
+    imports: [CommonModule, SkeletonTextModule, SkeletonBoxModule, GalleriaModule, CardModule, SharedModule],
     declarations: [AdvertisementOverviewComponent],
     exports: [AdvertisementOverviewComponent],
 })

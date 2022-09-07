@@ -2,7 +2,7 @@
 
 namespace YourNeighbour.Domain.Entities
 {
-    public sealed class AdvertisementImage : ImageBase
+    public sealed class AdvertisementImage : FileBase
     {
         public Advertisement Advertisement { get; set; }
         public int AdvertisementId { get; set; }

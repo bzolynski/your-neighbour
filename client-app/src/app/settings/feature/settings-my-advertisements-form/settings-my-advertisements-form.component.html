@@ -4,10 +4,6 @@
         <form class="container" [formGroup]="form" (ngSubmit)="submitForm$.next()" fxFlex fxLayout="column">
             <div fxLayoutGap="10px">
                 <p-button
-                    [label]="form.value['item'] ? form.value['item'].name : 'Wybierz przedmiot'"
-                    icon="pi pi-search"
-                    (click)="itemsOP.toggle($event)"></p-button>
-                <p-button
                     [label]="form.value['localization'] ? form.value['localization'].city : 'Wybierz lokalizację'"
                     icon="pi pi-search"
                     (click)="localizationsOP.toggle($event)"></p-button>
@@ -56,34 +52,6 @@
         </form>
     </div>
     <app-backdrop-loading [fixed]="true" *ngIf="(status$ | async) == 'loading'"></app-backdrop-loading>
-
-    <p-overlayPanel #itemsOP [showCloseIcon]="true" [style]="{ width: '450px' }">
-        <p-table
-            [value]="(items$ | async) ?? []"
-            selectionMode="single"
-            [selection]="form.value['item']"
-            (onRowSelect)="onItemSelect($event)"
-            [paginator]="true"
-            [rows]="5"
-            responsiveLayout="scroll">
-            <ng-template pTemplate="header">
-                <tr>
-                    <th pSortableColumn="name">Nazwa<p-sortIcon field="name"></p-sortIcon></th>
-                    <th>Zdjęcie</th>
-                    <th pSortableColumn="category.name">Kategoria <p-sortIcon field="category.name"></p-sortIcon></th>
-                </tr>
-            </ng-template>
-            <ng-template pTemplate="body" let-rowData let-item>
-                <tr [pSelectableRow]="rowData">
-                    <td>{{ item.name }}</td>
-                    <td>
-                        <img [src]="item?.images[0]?.dataUrl" [alt]="item?.images[0]?.name" class="item-image" />
-                    </td>
-                    <td>{{ item.category?.name }}</td>
-                </tr>
-            </ng-template>
-        </p-table>
-    </p-overlayPanel>
 
     <p-overlayPanel #localizationsOP [showCloseIcon]="true" [style]="{ width: '450px' }">
         <p-table

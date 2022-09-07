@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using YourNeighbour.Application.Features.Common.Dtos;
-
-namespace YourNeighbour.Application.Features.Advertisements.Dtos
+﻿namespace YourNeighbour.Application.Features.Advertisements.Dtos
 {
     public sealed class CreateAdvertisementDto
     {
@@ -10,7 +7,5 @@ namespace YourNeighbour.Application.Features.Advertisements.Dtos
         public int DefinitionId { get; set; }
         public int LocalizationId { get; set; }
         public int CategoryId { get; set; }
-
-        public IEnumerable<CreateImageDto> Images { get; set; }
     }
 }

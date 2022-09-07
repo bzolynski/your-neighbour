@@ -1,6 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { Image, Advertisement, AdvertisementDefinition, Localization } from '@models/';
-import { IItem } from 'src/app/shared/data-access/models';
+import { AdvertisementImage, Advertisement, AdvertisementDefinition, Localization } from '@models/';
 
 // load advertisement
 export const loadAdvertisement = createAction(
@@ -15,29 +14,11 @@ export const loadAdvertisementError = createAction(
     '[SettingsMyAdvertisementsFormComponent] Load Advertisement Error',
     props<{ error: string }>()
 );
-// load item
-export const loadItem = createAction('[SettingsMyAdvertisementsFormComponent] Load Item', props<{ id: number }>());
-export const loadItemSuccess = createAction(
-    '[SettingsMyAdvertisementsFormComponent] Load Item Success',
-    props<{ item: IItem }>()
-);
-export const loadItemError = createAction('[SettingsMyAdvertisementsFormComponent] Load Item Error', props<{ error: string }>());
-
-// load items
-export const loadItems = createAction('[SettingsMyAdvertisementsFormComponent] Load Items');
-export const loadItemsSuccess = createAction(
-    '[SettingsMyAdvertisementsFormComponent] Load Items Success',
-    props<{ items: IItem[] }>()
-);
-export const loadItemsError = createAction(
-    '[SettingsMyAdvertisementsFormComponent] Load Items Error',
-    props<{ error: string }>()
-);
 // load images
 export const loadImages = createAction('[SettingsMyAdvertisementsFormComponent] Load Images');
 export const loadImagesSuccess = createAction(
     '[SettingsMyAdvertisementsFormComponent] Load Images Success',
-    props<{ images: Image[] }>()
+    props<{ images: AdvertisementImage[] }>()
 );
 export const loadImagesError = createAction(
     '[SettingsMyAdvertisementsFormComponent] Load Images Error',

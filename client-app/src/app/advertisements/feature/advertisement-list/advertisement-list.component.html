@@ -41,15 +41,14 @@
                     <div class="own-list-item own-item" pRipple [routerLink]="['/advertisements', 'details', advertisement.id]">
                         <img
                             class="own-image"
-                            [src]="advertisement.item.images[0]?.dataUrl"
-                            [alt]="advertisement.item.images[0]?.name" />
+                            [src]="advertisement.images[0]?.bytes"
+                            [alt]="advertisement.images[0]?.description" />
                         <div class="own-list-detail">
                             <div class="own-name">{{ advertisement.title }}</div>
-                            <div class="own-description">{{ advertisement.item.name }}</div>
                             <p-rating [readonly]="true" [cancel]="false"></p-rating>
                             <div class="own-icon-label-group own-category-group">
                                 <i class="pi pi-tag"></i>
-                                <span class="own-category">{{ advertisement.item.category.name }}</span>
+                                <span class="own-category">{{ advertisement.category.name }}</span>
                             </div>
                         </div>
                         <div class="own-list-action">
@@ -70,15 +69,15 @@
                         [routerLink]="['/advertisements', 'details', advertisement.id]">
                         <div class="own-icon-label-group">
                             <i class="pi pi-tag"></i>
-                            <span class="own-category">{{ advertisement.item.category.name }}</span>
+                            <span class="own-category">{{ advertisement.category.name }}</span>
                         </div>
                         <div class="own-grid-item-content">
                             <img
                                 class="own-image"
-                                [src]="advertisement.item.images[0]?.dataUrl"
-                                [alt]="advertisement.item.images[0]?.name" />
+                                [src]="advertisement.images[0]?.bytes"
+                                [alt]="advertisement.images[0]?.description" />
                             <div class="own-name">{{ advertisement.title }}</div>
-                            <div class="own-description">{{ advertisement.item.name }}</div>
+                            <div class="own-description">{{ advertisement.name }}</div>
                             <p-rating [readonly]="true" [cancel]="false"></p-rating>
                         </div>
                         <div class="own-grid-item-bottom">

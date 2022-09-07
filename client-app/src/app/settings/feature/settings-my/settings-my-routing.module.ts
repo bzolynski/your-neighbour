@@ -13,7 +13,7 @@ const routes: Routes = [
     },
     {
         path: 'account',
-        loadChildren: () => import('../settings-my-account/settings-my-account.module').then((m) => m.SettingsMyAccountModule),
+        loadChildren: () => import('../settings-account/settings-account.module').then((m) => m.SettingsAccountModule),
     },
 ];
 

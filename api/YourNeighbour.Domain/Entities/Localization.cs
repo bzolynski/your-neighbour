@@ -10,7 +10,6 @@ namespace YourNeighbour.Domain.Entities
         {
             Advertisements = new HashSet<Advertisement>();
         }
-        public string Name { get; set; }
         public string PostCode { get; set; }
         public string Street { get; set; }
         public string HouseNumber { get; set; }

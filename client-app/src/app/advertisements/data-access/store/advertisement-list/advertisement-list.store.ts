@@ -1,16 +1,13 @@
-import { Advertisement, Category, Image } from '@models/';
+import { Advertisement, Category } from '@models/';
 import { GenericState } from '@app-types/.';
 import { Injectable } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { switchMap, tap } from 'rxjs/operators';
 import { AdvertisementService, CategoryService } from '@services/.';
 import { Params } from '@angular/router';
-import { ListViewType } from 'src/app/shared/ui/list-container/list-container.component';
 import { HttpErrorResponse } from '@angular/common/http';
-import { from } from 'rxjs';
 
 interface AdvertisementListState extends GenericState<Advertisement[]> {
-    listViewType: ListViewType;
     activeCategory?: Category;
     activeCategoryLoading: boolean;
 }
@@ -20,14 +17,8 @@ export class AdvertisementListStore extends ComponentStore<AdvertisementListStat
     readonly advertisements$ = this.select((state) => state.data);
     readonly isLoading$ = this.select((state) => state.status === 'loading');
     readonly error$ = this.select((state) => state.error);
-    readonly listViewType$ = this.select((state) => state.listViewType);
     readonly activeCategory$ = this.select((state) => state.activeCategory);
     readonly activeCategoryLoading$ = this.select((state) => state.activeCategoryLoading);
-
-    readonly changeListViewType = this.updater((state, listViewType: ListViewType) => {
-        return { ...state, listViewType: listViewType };
-    });
-
     readonly loadCategoryAndAdvertisements = this.effect<Params>((params$) =>
         params$.pipe(
             tap(() => this.patchState({ activeCategoryLoading: true, activeCategory: undefined })),
@@ -64,7 +55,6 @@ export class AdvertisementListStore extends ComponentStore<AdvertisementListStat
                             includeDefinition: true,
                             includeLocalization: true,
                             includeUser: true,
-                            includeItem: true,
                             search: params.searchQuery ?? '',
                         })
                         .pipe((response$) =>
@@ -76,8 +66,8 @@ export class AdvertisementListStore extends ComponentStore<AdvertisementListStat
                                     (error: HttpErrorResponse) => {
                                         this.patchState({ status: 'error', error: error.message });
                                     }
-                                ),
-                                switchMap((response) => from(response.map((x) => x.item.id)))
+                                )
+                                // switchMap((response) => from(response.map((x) => x.item.id)))
                                 // mergeMap((id) =>
                                 //     // this.itemService
                                 //     //     .getImagesByItem(id, { maxImages: 1 })
@@ -89,13 +79,7 @@ export class AdvertisementListStore extends ComponentStore<AdvertisementListStat
             )
     );
 
-    private readonly updateImages = this.updater((state, params: { id: number; images: Image[] }) => {
-        const advertisements = (state.data ?? []).map((value) =>
-            value.item.id === params.id ? { ...value, item: { ...value.item, images: params.images } } : value
-        );
-        return { ...state, data: advertisements };
-    });
     constructor(private advertisementService: AdvertisementService, private categoryService: CategoryService) {
-        super(<AdvertisementListState>{ listViewType: 'list' });
+        super(<AdvertisementListState>{});
     }
 }

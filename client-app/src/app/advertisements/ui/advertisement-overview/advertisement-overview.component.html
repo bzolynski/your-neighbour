@@ -1,36 +1,32 @@
 <p-card
-    *ngIf="advertisement && advertisement.item; else skeleton"
-    [header]="advertisement.item.name"
-    [subheader]="'Kategoria: ' + advertisement.item.category.name">
+    *ngIf="advertisement && advertisement; else skeleton"
+    [header]="advertisement.title"
+    [subheader]="'Kategoria: ' + advertisement.category.name">
     <ng-template pTemplate="header">
         <p-galleria
             style="border-radius: 4px"
-            *ngIf="advertisement.item.images.length > 0; else imageSkeleton"
-            [value]="advertisement.item.images"
+            *ngIf="advertisement.images.length > 0; else imageSkeleton"
+            [value]="advertisement.images"
             [circular]="true"
             [showItemNavigators]="true"
             [showThumbnails]="false"
             [showIndicators]="true"
             [showIndicatorsOnItem]="true">
             <ng-template pTemplate="item" let-item>
-                <img [src]="item.dataUrl" />
+                <img [src]="item.bytes | base64ToDataUri" />
             </ng-template>
         </p-galleria>
     </ng-template>
-    <p
-        *ngIf="
-            advertisement && advertisement.description;
-            else descriptionSkeleton
-        ">
+    <p *ngIf="advertisement && advertisement.description; else descriptionSkeleton">
         {{ advertisement.description }}
     </p>
     <p>
-        {{ advertisement.item.description }}
+        {{ advertisement.description }}
     </p>
     <ng-template pTemplate="footer">
         <h3 class="h3-title">Lokalizacja:</h3>
         <h4 *ngIf="advertisement && advertisement.localization">
-            {{ advertisement.localization.name }}
+            {{ advertisement.localization.city }}
         </h4>
     </ng-template>
 </p-card>
@@ -44,8 +40,7 @@
             <ng-container [ngTemplateOutlet]="titleSkeleton"></ng-container>
             <ng-container [ngTemplateOutlet]="subtitleSkeleton"></ng-container>
             <div class="p-card-content">
-                <ng-container
-                    [ngTemplateOutlet]="descriptionSkeleton"></ng-container>
+                <ng-container [ngTemplateOutlet]="descriptionSkeleton"></ng-container>
             </div>
         </div>
         <ng-template pTemplate="footer">
@@ -55,27 +50,14 @@
 </ng-template>
 
 <ng-template #titleSkeleton>
-    <app-skeleton-text
-        [animate]="loading"
-        [rows]="1"
-        [rowSpacing]="'8px'"
-        [rowHeight]="'20px'"></app-skeleton-text>
+    <app-skeleton-text [animate]="loading" [rows]="1" [rowSpacing]="'8px'" [rowHeight]="'20px'"></app-skeleton-text>
 </ng-template>
 <ng-template #subtitleSkeleton>
-    <app-skeleton-text
-        [animate]="loading"
-        [rows]="1"
-        [rowSpacing]="'8px'"
-        [rowHeight]="'16px'"></app-skeleton-text>
+    <app-skeleton-text [animate]="loading" [rows]="1" [rowSpacing]="'8px'" [rowHeight]="'16px'"></app-skeleton-text>
 </ng-template>
 <ng-template #imageSkeleton>
-    <app-skeleton-box
-        class="skeleton-image"
-        [animate]="loading"></app-skeleton-box>
+    <app-skeleton-box class="skeleton-image" [animate]="loading"></app-skeleton-box>
 </ng-template>
 <ng-template #descriptionSkeleton>
-    <app-skeleton-text
-        [animate]="loading"
-        [rows]="6"
-        [rowHeight]="'14px'"></app-skeleton-text>
+    <app-skeleton-text [animate]="loading" [rows]="6" [rowHeight]="'14px'"></app-skeleton-text>
 </ng-template>

@@ -112,7 +112,7 @@ export class AdvertisementFormComponent implements OnInit {
                 } as Advertisement,
             });
         } else {
-            this.componentStore.createAdvertisement({
+            this.componentStore.updateAdvertisement({
                 advertisement: {
                     id: this.form.value['id'],
                     title: this.form.value['title'],

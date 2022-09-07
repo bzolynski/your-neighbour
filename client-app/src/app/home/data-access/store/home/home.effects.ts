@@ -18,8 +18,9 @@ export class HomeEffects {
                     includeDefinition: true,
                     includeLocalization: true,
                     includeUser: true,
-                    includeItem: true,
                     take: quantity,
+                    includeImages: true,
+                    maxImages: 1,
                 })
             ),
             map((advertisements) => loadAdvertisementsSuccess({ advertisements: advertisements })),

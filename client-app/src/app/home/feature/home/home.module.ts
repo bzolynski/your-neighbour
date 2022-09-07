@@ -13,6 +13,7 @@ import { CarouselModule } from 'primeng/carousel';
 import { ButtonModule } from 'primeng/button';
 import { RippleModule } from 'primeng/ripple';
 import { StopPropagationModule } from 'src/app/shared/directives/stop-propagation/stop-propagation.module';
+import { SharedModule } from '@shared/shared.module';
 @NgModule({
     imports: [
         CommonModule,
@@ -25,6 +26,7 @@ import { StopPropagationModule } from 'src/app/shared/directives/stop-propagatio
         StopPropagationModule,
         StoreModule.forFeature(HOME_FEATURE_KEY, homeReducer),
         EffectsModule.forFeature([HomeEffects]),
+        SharedModule,
     ],
     declarations: [HomeComponent],
 })

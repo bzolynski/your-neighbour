@@ -13,7 +13,6 @@ import { metaReducers } from './stores';
         StoreModule.forFeature(AUTHENTICATION_STATE_KEY, authenticationReducer, { metaReducers }),
         EffectsModule.forFeature([AuthenticationEffects]),
     ],
-    declarations: [],
     providers: [AuthGuard, CanDeactivateGuard, LoggedInGuard, RoleGuard, UserDetailsGuard, authenticationInterceptionProvider],
 })
 export class CoreModule2 {}

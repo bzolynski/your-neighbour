@@ -8,7 +8,6 @@ export const selectSettingsMyAdvertisementsFormState = createFeatureSelector<Set
     SETTINGS_MY_ADVERTISEMENTS_FORM_STATE_FEATURE_KEY
 );
 
-export const selectItems = createSelector(selectSettingsMyAdvertisementsFormState, (state) => state.items);
 export const selectLocalizations = createSelector(selectSettingsMyAdvertisementsFormState, (state) => state.localizations);
 export const selectDefinitions = createSelector(selectSettingsMyAdvertisementsFormState, (state) => state.definitions);
 export const selectStatus = createSelector(selectSettingsMyAdvertisementsFormState, (state) => state.status);

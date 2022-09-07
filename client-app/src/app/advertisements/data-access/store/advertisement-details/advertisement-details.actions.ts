@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { Image, Advertisement, User } from '@models/';
+import { AdvertisementImage, Advertisement, User } from '@models/';
 
 export const loadAdvertisement = createAction('[AdvertisementDetailsComponent] Load Advertisement', props<{ id: number }>());
 export const loadAdvertisementSuccess = createAction(
@@ -11,8 +11,11 @@ export const loadAdvertisementError = createAction(
     props<{ error: string }>()
 );
 
-export const loadImages = createAction('[SettingsMyAccountComponent] Load Images', props<{ itemId: number }>());
-export const loadImagesSuccess = createAction('[SettingsMyAccountComponent] Load Images Success', props<{ images: Image[] }>());
+export const loadImages = createAction('[SettingsMyAccountComponent] Load Images', props<{ advertisementId: number }>());
+export const loadImagesSuccess = createAction(
+    '[SettingsMyAccountComponent] Load Images Success',
+    props<{ images: AdvertisementImage[] }>()
+);
 export const loadImagesError = createAction('[SettingsMyAccountComponent] Load Images Error', props<{ error: string }>());
 
 export const redirectToChat = createAction('[SettingsMyAccountComponent] Redirect To Chat', props<{ ownerId: number }>());

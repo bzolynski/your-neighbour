@@ -9,8 +9,6 @@ import { AdvertisementService } from '@services/.';
 import { User } from '@models/';
 import {
     createAdvertisement,
-    createAdvertisementError,
-    createAdvertisementSuccess,
     deleteAdvertisement,
     deleteAdvertisementError,
     deleteAdvertisementSuccess,
@@ -47,7 +45,6 @@ export class SettingsMyAdvertisementsEffects {
                         this.advertisementService.getManyByUser(user.id, {
                             includeCategory: true,
                             includeLocalization: true,
-                            includeItem: true,
                         })
                     ),
                     map((advertisements) => loadAdvertisementsSuccess({ advertisements: advertisements })),
@@ -59,18 +56,18 @@ export class SettingsMyAdvertisementsEffects {
 
     createAdvertisement$ = createEffect(() =>
         this.actions$.pipe(
-            ofType(createAdvertisement),
-            switchMap(({ advertisement }) =>
-                this.user$.pipe(
-                    tap(this.checkUserLoggedIn),
-                    filter((user): user is User => user !== null),
-                    switchMap((user) => this.advertisementService.create(advertisement, user.id)),
-                    map((id) => createAdvertisementSuccess({ advertisement: { ...advertisement, id: id } })),
-                    catchError((error: HttpErrorResponse) =>
-                        of(createAdvertisementError({ error: error.error ?? error.message }))
-                    )
-                )
-            )
+            ofType(createAdvertisement)
+            // switchMap(({ advertisement }) =>
+            //     this.user$.pipe(
+            //         tap(this.checkUserLoggedIn)
+            // filter((user): user is User => user !== null),
+            // switchMap((user) => this.advertisementService.create(advertisement, user.id)),
+            // map((id) => createAdvertisementSuccess({ advertisement: { ...advertisement, id: id } })),
+            // catchError((error: HttpErrorResponse) =>
+            //     of(createAdvertisementError({ error: error.error ?? error.message }))
+            // )
+            //     )
+            // )
         )
     );
 

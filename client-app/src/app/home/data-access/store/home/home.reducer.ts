@@ -1,7 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
 import { Advertisement } from '@models/';
 import { GenericState } from '@app-types/.';
-import { IItem } from 'src/app/shared/data-access/models';
 import {
     loadAdvertisements,
     loadAdvertisementsError,
@@ -32,11 +31,11 @@ export const homeReducer = createReducer(
         status: 'success',
         data: advertisements,
     })),
-    on(loadImagesSuccess, (state, { itemId, images }) => ({
+    on(loadImagesSuccess, (state, { advertisementId, images }) => ({
         ...state,
         status: 'success',
         data: (state.data ?? []).map((value) =>
-            value.item.id === itemId ? ({ ...value, item: { ...value.item, images: images } as IItem } as Advertisement) : value
+            value.id === advertisementId ? ({ ...value, images: images } as Advertisement) : value
         ),
     })),
     on(loadAdvertisementsError, loadImagesError, (state, { error }) => ({

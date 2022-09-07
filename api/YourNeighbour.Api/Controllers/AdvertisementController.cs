@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using YourNeighbour.Application.Features.Advertisements.Commands.CreateAdvertisement;
 using YourNeighbour.Application.Features.Advertisements.Commands.DeleteAdvertisement;
 using YourNeighbour.Application.Features.Advertisements.Commands.UpdateAdvertisement;
+using YourNeighbour.Application.Features.Advertisements.Commands.UploadAdvertisementImages;
 using YourNeighbour.Application.Features.Advertisements.Dtos;
 using YourNeighbour.Application.Features.Advertisements.Queries;
 using YourNeighbour.Application.Features.Advertisements.Queries.GetAdvertisement;
@@ -42,8 +42,8 @@ namespace YourNeighbour.Api.Controllers
         [DisableRequestSizeLimit]
         public async Task<IActionResult> UploadImages(int advertisementid)
         {
-            IFormFileCollection x = Request.Form.Files;
-            return Ok("");
+            await Mediator.Send(new UploadAdvertisementImagesCommand(advertisementid, Request.Form.Files));
+            return Ok();
         }
 
 

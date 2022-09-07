@@ -58,7 +58,7 @@ export const advertisementDetailsReducer = createReducer(
     on(loadImagesSuccess, (state, { images }) => ({
         ...state,
         status: 'success',
-        data: { ...state.data, item: { ...state.data?.item, images: images } } as Advertisement,
+        data: { ...state.data, images: images } as Advertisement,
     })),
     on(loadUserError, loadAdvertisementError, loadImagesError, addFavoriteError, deleteFavoriteError, (state, { error }) => ({
         ...state,

@@ -1,0 +1,167 @@
+<div *ngIf="vm$ | async as vm">
+    <app-settings-layout [expanded]="false">
+        <app-settings-layout-topbar>
+            <h1 class="title">Twoje dane</h1>
+        </app-settings-layout-topbar>
+        <app-settings-layout-content>
+            <div class="wrapper" appElevatedSection>
+                <div class="tile">
+                    <span class="tile-title">Email:</span>
+                    <span>{{ vm.user?.email }}</span>
+                </div>
+                <div class="tile">
+                    <span class="tile-title">Imię i nazwisko:</span>
+                    <span>{{ vm.user?.firstName }} {{ vm.user?.lastName }}</span>
+                </div>
+                <div class="tile">
+                    <span class="tile-title">Telefon:</span>
+                    <span>{{ vm.user?.phoneNumber }}</span>
+                </div>
+                <button class="button" mat-button [color]="'primary'" [routerLink]="['edit']">Edytuj</button>
+            </div>
+        </app-settings-layout-content>
+    </app-settings-layout>
+    <p-panel header="Moje adresy" [ngStyle]="{ padding: '0' }">
+        <ng-template pTemplate="icons">
+            <button pButton class="p-panel-header-icon p-link">
+                <span class="pi pi-cog"></span>
+            </button>
+        </ng-template>
+        <form [formGroup]="form">
+            <p-table
+                [value]="vm.localizations ?? []"
+                dataKey="id"
+                editMode="row"
+                [loading]="vm.status === 'loading'"
+                [frozenValue]="vm.primaryLocalizations ?? []">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th style="width: 3rem"></th>
+                        <th>Miejscowość</th>
+                        <th>Ulica</th>
+                        <th style="width: 6rem">Numer domu</th>
+                        <th style="width: 7rem">Numer mieszkania</th>
+                        <th style="width: 7rem">Kod pocztowy</th>
+                        <th style="width: 8rem"></th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="frozenbody" let-localization let-editing="editing" let-ri="rowIndex">
+                    <ng-container
+                        [ngTemplateOutlet]="rowTemplate"
+                        [ngTemplateOutletContext]="{ $implicit: localization, editing: editing, ri: ri }"></ng-container>
+                </ng-template>
+                <ng-template pTemplate="body" let-localization let-editing="editing" let-ri="rowIndex">
+                    <ng-container
+                        [ngTemplateOutlet]="rowTemplate"
+                        [ngTemplateOutletContext]="{ $implicit: localization, editing: editing, ri: ri }"></ng-container>
+                </ng-template>
+                <!-- Row template -->
+                <ng-template #rowTemplate let-localization let-editing="editing" let-ri="rowIndex">
+                    <tr [pEditableRow]="localization" [ngClass.lt-md]="'own-cell-padding-lt-md'">
+                        <td style="padding: 0">
+                            <button
+                                *ngIf="!editing"
+                                pButton
+                                pRipple
+                                (click)="setPrimaryLocalization(localization.id)"
+                                type="button"
+                                [icon]="'pi ' + (localization.isPrimary ? 'pi-star-fill' : 'pi-star')"
+                                class="p-button-rounded p-button-text"></button>
+                        </td>
+                        <td>
+                            <p-cellEditor>
+                                <ng-template pTemplate="input">
+                                    <strong class="own-edit-label" [fxHide.gt-sm]="true">Miejscowość:</strong>
+                                    <app-text-input [formControlName]="'city'"></app-text-input>
+                                </ng-template>
+                                <ng-template pTemplate="output">
+                                    <strong [fxHide.gt-sm]="true">Miejscowość:</strong>
+                                    {{ localization.city }}
+                                </ng-template>
+                            </p-cellEditor>
+                        </td>
+                        <td>
+                            <p-cellEditor>
+                                <ng-template pTemplate="input">
+                                    <strong class="own-edit-label" [fxHide.gt-sm]="true">Ulica:</strong>
+                                    <app-text-input [formControlName]="'street'"></app-text-input>
+                                </ng-template>
+                                <ng-template pTemplate="output">
+                                    <strong [fxHide.gt-sm]="true">Ulica:</strong>
+                                    {{ localization.street }}
+                                </ng-template>
+                            </p-cellEditor>
+                        </td>
+                        <td>
+                            <p-cellEditor>
+                                <ng-template pTemplate="input">
+                                    <strong class="own-edit-label" [fxHide.gt-sm]="true">Numer domu:</strong>
+                                    <app-text-input [formControlName]="'houseNumber'"></app-text-input>
+                                </ng-template>
+                                <ng-template pTemplate="output">
+                                    <strong [fxHide.gt-sm]="true">Numer domu:</strong>
+                                    {{ localization.houseNumber }}
+                                </ng-template>
+                            </p-cellEditor>
+                        </td>
+                        <td>
+                            <p-cellEditor>
+                                <ng-template pTemplate="input">
+                                    <strong class="own-edit-label" [fxHide.gt-sm]="true">Numer mieszkania:</strong>
+                                    <app-text-input [formControlName]="'flatNumber'"></app-text-input>
+                                </ng-template>
+                                <ng-template pTemplate="output">
+                                    <strong [fxHide.gt-sm]="true">Numer mieszkania:</strong>
+                                    {{ localization.flatNumber }}
+                                </ng-template>
+                            </p-cellEditor>
+                        </td>
+                        <td>
+                            <p-cellEditor>
+                                <ng-template pTemplate="input">
+                                    <strong class="own-edit-label" [fxHide.gt-sm]="true">Kod pocztowy:</strong>
+                                    <app-text-input [formControlName]="'postCode'"></app-text-input>
+                                </ng-template>
+                                <ng-template pTemplate="output">
+                                    <strong [fxHide.gt-sm]="true">Kod pocztowy:</strong>
+                                    {{ localization.postCode }}
+                                </ng-template>
+                            </p-cellEditor>
+                        </td>
+
+                        <td style="text-align: center">
+                            <button
+                                *ngIf="!editing"
+                                pButton
+                                pRipple
+                                type="button"
+                                pInitEditableRow
+                                icon="pi pi-pencil"
+                                (click)="onRowEditInit(localization)"
+                                class="p-button-rounded p-button-text"></button>
+
+                            <button
+                                *ngIf="editing"
+                                pButton
+                                pRipple
+                                type="button"
+                                pSaveEditableRow
+                                icon="pi pi-check"
+                                (click)="onRowEditSave(localization)"
+                                class="p-button-rounded p-button-text p-button-success p-mr-2"></button>
+                            <button
+                                *ngIf="editing"
+                                pButton
+                                pRipple
+                                type="button"
+                                pCancelEditableRow
+                                icon="pi pi-times"
+                                (click)="onRowEditCancel(localization, ri)"
+                                class="p-button-rounded p-button-text p-button-danger"></button>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </form>
+    </p-panel>
+</div>

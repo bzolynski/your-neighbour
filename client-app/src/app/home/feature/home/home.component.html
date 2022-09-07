@@ -15,13 +15,12 @@
             <div class="own-item" pRipple appStopPropagation [routerLink]="['/advertisements', 'details', advertisement.id]">
                 <div class="own-image-wrapper">
                     <img
-                        [src]="advertisement.item.images[0]?.dataUrl"
-                        [alt]="advertisement.item.images[0]?.name"
+                        [src]="advertisement.images[0]?.bytes | base64ToDataUri"
+                        [alt]="advertisement.images[0]?.description"
                         class="own-image" />
                 </div>
                 <div>
                     <h2>{{ advertisement.title }}</h2>
-                    <h4>{{ advertisement.item.name }}</h4>
                     <div class="own-icon-label-group">
                         <i class="pi pi-map-marker"></i>
                         <span>{{ advertisement.localization.city }}</span>

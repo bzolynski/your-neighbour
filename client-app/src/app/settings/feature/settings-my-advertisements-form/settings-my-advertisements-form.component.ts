@@ -7,17 +7,14 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { Observable, Subject } from 'rxjs';
 import { filter, map, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { CanComponentDeactivate } from '@guards/.';
-import { IItem } from 'src/app/shared/data-access/models';
 import { GenericFormControl, GenericStoreStatus } from '@app-types/.';
 import { DestroyObservable } from 'src/app/shared/utils/destroy-observable';
 import {
     loadDefinitions,
-    loadItems,
     loadLocalizations,
     resetState,
     selectDefinitions,
     selectError,
-    selectItems,
     selectLocalizations,
     selectSubmited,
     selectStatus,
@@ -39,14 +36,12 @@ export interface AdvertisementForm {
     providers: [DestroyObservable],
 })
 export class SettingsMyAdvertisementsFormComponent implements OnInit, CanComponentDeactivate {
-    items$: Observable<IItem[]> = this.store.select(selectItems);
     localizations$: Observable<Localization[]> = this.store.select(selectLocalizations);
     definitions$: Observable<AdvertisementDefinition[]> = this.store.select(selectDefinitions);
     status$: Observable<GenericStoreStatus> = this.store.select(selectStatus);
     error$: Observable<string | null> = this.store.select(selectError);
 
     form: FormGroup = new FormGroup({
-        item: new GenericFormControl<IItem>(undefined, [Validators.required]),
         localization: new GenericFormControl<Localization>(undefined, [Validators.required]),
         dateCreated: new GenericFormControl<Date>(new Date(), [Validators.required]),
         definition: new GenericFormControl<AdvertisementDefinition>(undefined, [Validators.required]),
@@ -114,7 +109,6 @@ export class SettingsMyAdvertisementsFormComponent implements OnInit, CanCompone
         return '';
     }
 
-    selectedItem: IItem | null = null;
     selectedLocalization: Localization | null = null;
     selectedDefinition: CategoryDefinition | null = null;
     onItemSelect(event: any) {
@@ -139,7 +133,6 @@ export class SettingsMyAdvertisementsFormComponent implements OnInit, CanCompone
     ) {}
     ngOnInit(): void {
         this.store.dispatch(loadLocalizations());
-        this.store.dispatch(loadItems());
         this.store.dispatch(loadDefinitions());
         this.form.valueChanges
             .pipe(

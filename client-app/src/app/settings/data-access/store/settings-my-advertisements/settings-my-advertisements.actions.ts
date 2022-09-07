@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { Image, Advertisement } from '@models/';
+import { AdvertisementImage, Advertisement } from '@models/';
 
 export const loadAdvertisements = createAction('[SettingsMyAdvertisementsComponent] Load Advertisements');
 export const loadAdvertisementsSuccess = createAction(
@@ -24,10 +24,10 @@ export const deleteAdvertisementError = createAction(
     props<{ error: string }>()
 );
 
-export const loadImages = createAction('[SettingsMyAdvertisementsComponent] Load Images', props<{ itemId: number }>());
+export const loadImages = createAction('[SettingsMyAdvertisementsComponent] Load Images', props<{ advertisementId: number }>());
 export const loadImagesSuccess = createAction(
     '[SettingsMyAdvertisementsComponent] Load Images Success',
-    props<{ itemId: number; images: Image[] }>()
+    props<{ advertisementId: number; images: AdvertisementImage[] }>()
 );
 export const loadImagesError = createAction('[SettingsMyAdvertisementsComponent] Load Images Error', props<{ error: string }>());
 

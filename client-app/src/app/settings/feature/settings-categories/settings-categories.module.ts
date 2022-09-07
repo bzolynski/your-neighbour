@@ -11,8 +11,6 @@ import {
     SETTINGS_CATEGORIES_STATE_FEATURE_KEY,
 } from '../../data-access/store/settings-categories';
 import { EffectsModule } from '@ngrx/effects';
-import { CardModule } from 'src/app/shared/ui/card/card.module';
-import { CardContentModule } from 'src/app/shared/ui/card-content/card-content.module';
 import { MatListModule } from '@angular/material/list';
 import { ElevatedSectionModule } from 'src/app/shared/directives/elevated-section/elevated-section.module';
 import { MatButtonModule } from '@angular/material/button';
@@ -23,8 +21,6 @@ import { SettingsLayoutModule } from '../../ui/settings-layout/settings-layout.m
 @NgModule({
     imports: [
         CommonModule,
-        CardModule,
-        CardContentModule,
         SettingsCategoriesRoutingModule,
         SettingsLayoutModule,
         SettingsLayoutContentModule,
