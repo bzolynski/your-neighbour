@@ -1,24 +1,24 @@
-import { Component, ElementRef, Input, OnChanges, OnInit, Self, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, Self, SimpleChanges } from '@angular/core';
 import { ControlValueAccessor, FormControl, NgControl } from '@angular/forms';
+
 @Component({
-    selector: 'app-text-input',
-    templateUrl: './text-input.component.html',
-    styleUrls: ['./text-input.component.scss'],
+    selector: 'app-mask-input',
+    templateUrl: './mask-input.component.html',
+    styleUrls: ['./mask-input.component.scss'],
 })
-export class TextInputComponent implements OnInit, OnChanges, ControlValueAccessor {
-    // Public properties
-    @ViewChild('input', { static: true }) input!: ElementRef<HTMLInputElement>;
+export class MaskInputComponent implements OnInit, OnChanges, ControlValueAccessor {
+    // @ViewChild('input', { static: true }) input!: ElementRef<HTMLInputElement>;
     @Input() formControlName: string = '';
     @Input() type: string = 'text';
     @Input() label: string = '';
     @Input() placeholder: string = '';
     @Input() errorMessage: string = '';
     @Input() hideError: boolean = false;
-    @Input() showPasswordButton: boolean = false;
     @Input() disabledInput: boolean = false;
     @Input() showError: boolean = true;
+    @Input() mask: string = '';
+    @Input() characterPattern: string = '';
     @Input() autoFocus: boolean = false;
-
     required: boolean = false;
     get control(): FormControl {
         return this.controlDir.control as FormControl;
@@ -49,7 +49,7 @@ export class TextInputComponent implements OnInit, OnChanges, ControlValueAccess
     onTouched = () => {};
 
     writeValue(obj: any): void {
-        this.input.nativeElement.value = obj || '';
+        // this.input?.nativeElement.value = obj || '';
     }
     registerOnChange(fn: any): void {
         this.onChange = fn;

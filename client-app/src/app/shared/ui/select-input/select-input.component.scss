@@ -1,15 +1,31 @@
-$errorColor: rgb(200, 51, 51);
+$errorColor: hsl(0, 72%, 59%);
+
+:host {
+    width: 100%;
+}
+:host ::ng-deep {
+    .own-has-error .p-dropdown {
+        border-top-right-radius: 0 !important;
+        border-bottom-right-radius: 0 !important;
+    }
+    .p-inputgroup p-dropdown {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
 .own-form-group {
     display: flex;
     flex-direction: column;
 }
-
-.own-error-message {
-    color: $errorColor;
-    min-height: 20px;
-}
-
 .own-label.own-required:after {
     content: ' *';
     color: $errorColor;
+}
+
+.own-error-addon {
+    border-color: $errorColor;
+    background-color: $errorColor;
+    color: white;
 }

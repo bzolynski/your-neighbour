@@ -20,8 +20,8 @@ import {
     updateAdvertisementSuccess,
 } from './settings-my-advertisements.actions';
 import { Store } from '@ngrx/store';
-import { selectUser } from '../settings-my-account-form';
 import { Observable } from 'rxjs';
+import { selectUser } from '@stores/authentication';
 
 @Injectable()
 export class SettingsMyAdvertisementsEffects {

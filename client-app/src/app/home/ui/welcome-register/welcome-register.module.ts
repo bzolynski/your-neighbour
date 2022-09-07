@@ -6,9 +6,18 @@ import { RouterModule } from '@angular/router';
 import { BackdropLoadingModule } from 'src/app/shared/ui/backdrop-loading/backdrop-loading.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { PasswordInputModule } from '@shared/ui/password-input/password-input.module';
 
 @NgModule({
-    imports: [CommonModule, TextInputModule, RouterModule, BackdropLoadingModule, ReactiveFormsModule, MatButtonModule],
+    imports: [
+        CommonModule,
+        TextInputModule,
+        RouterModule,
+        BackdropLoadingModule,
+        ReactiveFormsModule,
+        PasswordInputModule,
+        MatButtonModule,
+    ],
     declarations: [WelcomeRegisterComponent],
     exports: [WelcomeRegisterComponent],
 })

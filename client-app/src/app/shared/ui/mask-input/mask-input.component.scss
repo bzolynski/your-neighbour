@@ -2,6 +2,13 @@ $errorColor: hsl(0, 72%, 59%);
 :host {
     width: 100%;
 }
+:host ::ng-deep {
+    .own-has-error .p-inputtext {
+        border-top-right-radius: 0 !important;
+        border-bottom-right-radius: 0 !important;
+    }
+}
+
 .own-form-group {
     display: flex;
     flex-direction: column;

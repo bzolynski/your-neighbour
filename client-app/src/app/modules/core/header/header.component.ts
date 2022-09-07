@@ -31,10 +31,9 @@ export class HeaderComponent {
                     {
                         label: 'Moje',
                         icon: 'pi pi-user',
-                        routerLink: ['/settings', 'my'],
                         items: [
-                            { label: 'Konto', icon: 'pi pi-user-edit', routerLink: ['/settings', 'my', 'account'] },
-                            { label: 'Ogłoszenia', icon: 'pi pi-server', routerLink: ['/settings', 'my', 'advertisements'] },
+                            { label: 'Konto', icon: 'pi pi-user-edit', routerLink: ['/settings', 'account'] },
+                            { label: 'Ogłoszenia', icon: 'pi pi-server', routerLink: ['/settings', 'advertisements'] },
                         ],
                     },
                     { separator: true },

@@ -17,7 +17,7 @@
                 </app-text-area-input>
                 <div fxLayoutGap.gt-sm="24px" fxLayout="column" fxLayout.gt-sm="row">
                     <app-select-input
-                        fxFlex.gt-sm="50"
+                        fxFlex.gt-sm="50%"
                         fxFlex="100"
                         [formControlName]="'definition'"
                         [options]="vm.definitions ?? []"
@@ -39,7 +39,7 @@
                         </ng-template>
                     </app-select-input>
                     <app-select-input
-                        fxFlex.gt-sm="50"
+                        fxFlex.gt-sm="50%"
                         fxFlex="100"
                         [formControlName]="'category'"
                         [options]="vm.categories ?? []"

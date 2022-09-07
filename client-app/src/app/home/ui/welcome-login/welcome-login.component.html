@@ -1,39 +1,29 @@
 <div class="wrapper">
     <div class="main-content">
         <div class="icon"></div>
-        <form class="form-group"
-              [formGroup]="form"
-              (ngSubmit)="formSubmited.next(form)">
-            <app-text-input [label]="'Login lub email'"
-                            [type]="'text'"
-                            [formControlName]="'login'"
-                            [errorMessage]="loginErrorMessage">
+        <form class="form-group" [formGroup]="form" (ngSubmit)="formSubmited.next(form)">
+            <app-text-input
+                [label]="'Login lub email'"
+                [type]="'text'"
+                [formControlName]="'login'"
+                [errorMessage]="loginErrorMessage">
             </app-text-input>
-            <app-text-input [label]="'Hasło'"
-                            [type]="'password'"
-                            [formControlName]="'password'"
-                            [errorMessage]="passwordErrorMessage">
-            </app-text-input>
-            <button mat-stroked-button
-                    [type]="'submit'"
-                    [disabled]="!form.valid"
-                    color="primary"
-                    class="submit-button">Zaloguj</button>
+            <app-password-input
+                [label]="'Hasło'"
+                [type]="'password'"
+                [formControlName]="'password'"
+                [errorMessage]="passwordErrorMessage"></app-password-input>
+            <button mat-stroked-button [type]="'submit'" [disabled]="!form.valid" color="primary" class="submit-button">
+                Zaloguj
+            </button>
         </form>
 
         <div class="external-buttons">
-            <button mat-raised-button
-                    color="primary"
-                    class="submit-button">Placeholder dla facebooka</button>
+            <button mat-raised-button color="primary" class="submit-button">Placeholder dla facebooka</button>
 
-            <button mat-raised-button
-                    disabled
-                    color="warn"
-                    class="submit-button">Placeholder dla google</button>
+            <button mat-raised-button disabled color="warn" class="submit-button">Placeholder dla google</button>
         </div>
     </div>
 
-    <a [routerLink]="'../'"
-       mat-button
-       class="no-acc-link">Kontynuuj bez konta</a>
+    <a [routerLink]="'../'" mat-button class="no-acc-link">Kontynuuj bez konta</a>
 </div>

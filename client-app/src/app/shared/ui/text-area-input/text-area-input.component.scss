@@ -1,4 +1,22 @@
-$errorColor: rgb(200, 51, 51);
+$errorColor: hsl(0, 72%, 59%);
+
+:host {
+    width: 100%;
+}
+:host ::ng-deep {
+    .p-inputgroup textarea {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .p-inputtextarea {
+        border-radius: 6px;
+    }
+}
+.own-has-error {
+    border-top-right-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+}
 .own-form-group {
     display: flex;
     flex-direction: column;
@@ -12,4 +30,9 @@ $errorColor: rgb(200, 51, 51);
 .own-label.own-required:after {
     content: ' *';
     color: $errorColor;
+}
+.own-error-addon {
+    border-color: $errorColor;
+    background-color: $errorColor;
+    color: white;
 }

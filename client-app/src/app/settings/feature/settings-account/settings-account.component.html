@@ -1,31 +1,51 @@
-<div *ngIf="vm$ | async as vm">
-    <app-settings-layout [expanded]="false">
-        <app-settings-layout-topbar>
-            <h1 class="title">Twoje dane</h1>
-        </app-settings-layout-topbar>
-        <app-settings-layout-content>
-            <div class="wrapper" appElevatedSection>
-                <div class="tile">
-                    <span class="tile-title">Email:</span>
-                    <span>{{ vm.user?.email }}</span>
-                </div>
-                <div class="tile">
-                    <span class="tile-title">Imię i nazwisko:</span>
-                    <span>{{ vm.user?.firstName }} {{ vm.user?.lastName }}</span>
-                </div>
-                <div class="tile">
-                    <span class="tile-title">Telefon:</span>
-                    <span>{{ vm.user?.phoneNumber }}</span>
-                </div>
-                <button class="button" mat-button [color]="'primary'" [routerLink]="['edit']">Edytuj</button>
+<div *ngIf="vm$ | async as vm" fxLayoutGap="16px">
+    <p-panel header="Twoje dane" [ngStyle]="{ padding: '0' }">
+        <div class="wrapper">
+            <div class="tile">
+                <span class="tile-title">Email:</span>
+                <span>{{ vm.user?.email }}</span>
             </div>
-        </app-settings-layout-content>
-    </app-settings-layout>
+            <div class="tile">
+                <span class="tile-title">Imię i nazwisko:</span>
+                <span>{{ vm.user?.firstName }} {{ vm.user?.lastName }}</span>
+            </div>
+            <div class="tile">
+                <span class="tile-title">Telefon:</span>
+                <span>{{ vm.user?.phoneNumber }}</span>
+            </div>
+        </div>
+        <form [formGroup]="accountForm">
+            <app-text-input
+                class="firstName"
+                [label]="'Imię'"
+                [type]="'text'"
+                [formControlName]="'firstName'"
+                [errorMessage]="firstNameErrorMessage"></app-text-input>
+            <app-text-input
+                class="lastName"
+                [label]="'Nazwisko'"
+                [type]="'text'"
+                [formControlName]="'lastName'"
+                [errorMessage]="lastNameErrorMessage"></app-text-input>
+            <app-text-input
+                class="phone"
+                [label]="'Telefon'"
+                [type]="'text'"
+                [formControlName]="'phoneNumber'"
+                [errorMessage]="phoneNumberErrorMessage"></app-text-input>
+        </form>
+    </p-panel>
     <p-panel header="Moje adresy" [ngStyle]="{ padding: '0' }">
         <ng-template pTemplate="icons">
-            <button pButton class="p-panel-header-icon p-link">
-                <span class="pi pi-cog"></span>
-            </button>
+            <button
+                [disabled]="vm.formOpen && !overlayPanel.overlayVisible"
+                [pTooltip]="'Zakończ edycję przed dodaniem lokalizacji!'"
+                [tooltipDisabled]="!vm.formOpen || (vm.formOpen && overlayPanel.overlayVisible)"
+                label="Dodaj"
+                icon="pi pi-plus"
+                pButton
+                class="p-button-sm p-button-raised p-button-text"
+                (click)="overlayPanel.toggle($event)"></button>
         </ng-template>
         <form [formGroup]="form">
             <p-table
@@ -60,6 +80,7 @@
                     <tr [pEditableRow]="localization" [ngClass.lt-md]="'own-cell-padding-lt-md'">
                         <td style="padding: 0">
                             <button
+                                [fxHide.lt-md]="true"
                                 *ngIf="!editing"
                                 pButton
                                 pRipple
@@ -120,7 +141,7 @@
                             <p-cellEditor>
                                 <ng-template pTemplate="input">
                                     <strong class="own-edit-label" [fxHide.gt-sm]="true">Kod pocztowy:</strong>
-                                    <app-text-input [formControlName]="'postCode'"></app-text-input>
+                                    <app-mask-input [formControlName]="'postCode'" [mask]="'99-999'"></app-mask-input>
                                 </ng-template>
                                 <ng-template pTemplate="output">
                                     <strong [fxHide.gt-sm]="true">Kod pocztowy:</strong>
@@ -131,24 +152,51 @@
 
                         <td style="text-align: center">
                             <button
+                                [fxHide.gt-sm]="true"
                                 *ngIf="!editing"
                                 pButton
                                 pRipple
+                                (click)="setPrimaryLocalization(localization.id)"
                                 type="button"
-                                pInitEditableRow
-                                icon="pi pi-pencil"
-                                (click)="onRowEditInit(localization)"
+                                [icon]="'pi ' + (localization.isPrimary ? 'pi-star-fill' : 'pi-star')"
                                 class="p-button-rounded p-button-text"></button>
+                            <div *ngIf="!editing">
+                                <button
+                                    [pTooltip]="'Zakończ edycję przed dodaniem lokalizacji!'"
+                                    [tooltipDisabled]="!vm.formOpen"
+                                    [disabled]="vm.formOpen"
+                                    [tooltipPosition]="'left'"
+                                    fxFlex="50"
+                                    pButton
+                                    pRipple
+                                    pInitEditableRow
+                                    type="button"
+                                    icon="pi pi-pencil"
+                                    (click)="onRowEditInit(localization)"
+                                    class="p-button-rounded p-button-text"></button>
+                                <button
+                                    fxFlex="50"
+                                    pButton
+                                    pRipple
+                                    type="button"
+                                    icon="pi pi-trash"
+                                    (click)="deleteLocalization(localization)"
+                                    class="p-button-rounded p-button-text p-button-danger"></button>
+                            </div>
 
                             <button
                                 *ngIf="editing"
+                                [pTooltip]="'Co najmniej jedno pole zostało błędnie wprowadzone'"
+                                [tooltipDisabled]="form.valid"
+                                [disabled]="!form.valid"
+                                [tooltipPosition]="'left'"
                                 pButton
                                 pRipple
-                                type="button"
                                 pSaveEditableRow
+                                type="button"
                                 icon="pi pi-check"
                                 (click)="onRowEditSave(localization)"
-                                class="p-button-rounded p-button-text p-button-success p-mr-2"></button>
+                                class="p-button-rounded p-button-text p-button-success"></button>
                             <button
                                 *ngIf="editing"
                                 pButton
@@ -156,12 +204,56 @@
                                 type="button"
                                 pCancelEditableRow
                                 icon="pi pi-times"
-                                (click)="onRowEditCancel(localization, ri)"
+                                (click)="onRowEditCancel()"
                                 class="p-button-rounded p-button-text p-button-danger"></button>
                         </td>
                     </tr>
                 </ng-template>
             </p-table>
+
+            <p-overlayPanel
+                #overlayPanel
+                [showCloseIcon]="true"
+                [style]="{ width: '500px' }"
+                (onShow)="onOverlayShow()"
+                (onHide)="onOverlayHide()">
+                <ng-template pTemplate>
+                    <div fxLayout="column" fxLayoutGap="10px">
+                        <div fxLayout="row" fxLayoutGap="10px">
+                            <app-text-input fxFlex="50%" label="Miejscowość" [formControlName]="'city'"></app-text-input>
+                            <app-text-input fxFlex="50%" label="Ulica" [formControlName]="'street'"></app-text-input>
+                        </div>
+                        <div fxLayout="row" fxLayoutGap="10px">
+                            <app-mask-input
+                                fxFlex="33%"
+                                label="Kod pocztowy"
+                                [formControlName]="'postCode'"
+                                [mask]="'99-999'"></app-mask-input>
+                            <app-text-input fxFlex="33%" label="Numer domu" [formControlName]="'houseNumber'"></app-text-input>
+                            <app-text-input
+                                fxFlex="33%"
+                                label="Numer mieszkania"
+                                [formControlName]="'flatNumber'"></app-text-input>
+                        </div>
+                        <div fxLayout="row" fxLayoutAlign="space-between">
+                            <button
+                                pButton
+                                class="p-button-flat p-button-text"
+                                type="button"
+                                label="Anuluj"
+                                icon="pi pi-times"
+                                (click)="overlayPanel.hide()"></button>
+                            <button
+                                pButton
+                                class="p-button-raised p-button-text"
+                                type="button"
+                                label="Zapisz"
+                                icon="pi pi-save"
+                                (click)="createLocalization()"></button>
+                        </div>
+                    </div>
+                </ng-template>
+            </p-overlayPanel>
         </form>
     </p-panel>
 </div>

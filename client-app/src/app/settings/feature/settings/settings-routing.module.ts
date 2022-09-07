@@ -9,7 +9,17 @@ const routes: Routes = [
         component: SettingsComponent,
         canActivate: [AuthGuard],
         children: [
-            { path: 'my', loadChildren: () => import('../settings-my/settings-my.module').then((m) => m.SettingsMyModule) },
+            {
+                path: 'advertisements',
+                loadChildren: () =>
+                    import('../settings-my-advertisements/settings-my-advertisements.module').then(
+                        (m) => m.SettingsMyAdvertisementsModule
+                    ),
+            },
+            {
+                path: 'account',
+                loadChildren: () => import('../settings-account/settings-account.module').then((m) => m.SettingsAccountModule),
+            },
             {
                 path: 'categories',
                 canActivate: [RoleGuard],

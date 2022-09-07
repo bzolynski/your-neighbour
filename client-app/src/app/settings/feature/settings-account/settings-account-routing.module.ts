@@ -6,15 +6,6 @@ const routes: Routes = [
     {
         path: '',
         component: SettingsAccountComponent,
-        children: [
-            {
-                path: 'edit',
-                loadChildren: () =>
-                    import('../settings-my-account-form/settings-my-account-form.module').then(
-                        (m) => m.SettingsMyAccountFormModule
-                    ),
-            },
-        ],
     },
 ];
 

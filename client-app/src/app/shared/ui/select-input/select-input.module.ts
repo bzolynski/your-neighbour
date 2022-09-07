@@ -7,9 +7,10 @@ import {
 } from './select-input.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DropdownModule } from 'primeng/dropdown';
+import { TooltipModule } from 'primeng/tooltip';
 
 @NgModule({
-    imports: [CommonModule, ReactiveFormsModule, FormsModule, DropdownModule],
+    imports: [CommonModule, ReactiveFormsModule, FormsModule, DropdownModule, TooltipModule],
     declarations: [SelectInputComponent, SelectInputSelectedTemplateDirective, SelectInputItemTemplateDirective],
     exports: [SelectInputComponent, SelectInputSelectedTemplateDirective, SelectInputItemTemplateDirective],
 })

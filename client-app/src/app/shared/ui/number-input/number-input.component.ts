@@ -1,23 +1,22 @@
-import { Component, ElementRef, Input, OnChanges, OnInit, Self, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, Self, SimpleChanges } from '@angular/core';
 import { ControlValueAccessor, FormControl, NgControl } from '@angular/forms';
+
 @Component({
-    selector: 'app-text-input',
-    templateUrl: './text-input.component.html',
-    styleUrls: ['./text-input.component.scss'],
+    selector: 'app-number-input',
+    templateUrl: './number-input.component.html',
+    styleUrls: ['./number-input.component.scss'],
 })
-export class TextInputComponent implements OnInit, OnChanges, ControlValueAccessor {
-    // Public properties
-    @ViewChild('input', { static: true }) input!: ElementRef<HTMLInputElement>;
+export class NumberInputComponent implements OnInit, OnChanges, ControlValueAccessor {
+    // @ViewChild('input', { static: true }) input!: ElementRef<HTMLInputElement>;
     @Input() formControlName: string = '';
     @Input() type: string = 'text';
     @Input() label: string = '';
     @Input() placeholder: string = '';
     @Input() errorMessage: string = '';
     @Input() hideError: boolean = false;
-    @Input() showPasswordButton: boolean = false;
     @Input() disabledInput: boolean = false;
     @Input() showError: boolean = true;
-    @Input() autoFocus: boolean = false;
+    @Input() mode: string = 'decimal';
 
     required: boolean = false;
     get control(): FormControl {
@@ -44,12 +43,12 @@ export class TextInputComponent implements OnInit, OnChanges, ControlValueAccess
         this.required = control?.errors?.['required'] ?? false;
     }
 
-    onChange = (value: string) => {};
+    onChange = (value: number) => {};
 
     onTouched = () => {};
 
     writeValue(obj: any): void {
-        this.input.nativeElement.value = obj || '';
+        // this.input.nativeElement.value = obj || '';
     }
     registerOnChange(fn: any): void {
         this.onChange = fn;

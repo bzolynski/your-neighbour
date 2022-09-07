@@ -1,11 +1,12 @@
 import { Component, ElementRef, Input, OnChanges, OnInit, Self, SimpleChanges, ViewChild } from '@angular/core';
 import { ControlValueAccessor, FormControl, NgControl } from '@angular/forms';
+
 @Component({
-    selector: 'app-text-input',
-    templateUrl: './text-input.component.html',
-    styleUrls: ['./text-input.component.scss'],
+    selector: 'app-password-input',
+    templateUrl: './password-input.component.html',
+    styleUrls: ['./password-input.component.scss'],
 })
-export class TextInputComponent implements OnInit, OnChanges, ControlValueAccessor {
+export class PasswordInputComponent implements OnInit, OnChanges, ControlValueAccessor {
     // Public properties
     @ViewChild('input', { static: true }) input!: ElementRef<HTMLInputElement>;
     @Input() formControlName: string = '';
@@ -49,7 +50,7 @@ export class TextInputComponent implements OnInit, OnChanges, ControlValueAccess
     onTouched = () => {};
 
     writeValue(obj: any): void {
-        this.input.nativeElement.value = obj || '';
+        // this.input.nativeElement.value = obj || '';
     }
     registerOnChange(fn: any): void {
         this.onChange = fn;

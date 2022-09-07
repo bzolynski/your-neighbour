@@ -4,8 +4,9 @@ import { TextInputComponent } from './text-input.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { MessageModule } from 'primeng/message';
+import { TooltipModule } from 'primeng/tooltip';
 @NgModule({
-    imports: [CommonModule, ReactiveFormsModule, InputTextModule, MessageModule],
+    imports: [CommonModule, ReactiveFormsModule, InputTextModule, MessageModule, TooltipModule],
     declarations: [TextInputComponent],
     exports: [TextInputComponent],
 })

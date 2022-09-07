@@ -2,20 +2,27 @@
     <label *ngIf="label && label !== ''" class="own-label" [ngClass]="{ 'own-required': required }" [for]="formControlName">
         {{ label }}
     </label>
+    <!-- TODO: Możliwość dodawania input group -->
     <div class="p-inputgroup">
-        <!-- TODO: Możliwość dodawania input group -->
-        <input
-            #input
-            [ngClass]="{ 'ng-invalid ng-dirty': control.invalid && control.touched }"
+        <p-inputMask
+            #inputMask
+            [style]="{ width: '100%' }"
+            [ngClass]="{
+                'ng-invalid ng-dirty': control.invalid && control.touched,
+                'own-has-error': showError && errorMessage && control.invalid && control.touched
+            }"
             pInputText
             [type]="type"
-            [autofocus]="autoFocus"
             [id]="formControlName"
             [required]="required"
             [formControl]="control"
             [placeholder]="placeholder"
-            (input)="onChange(input!.value)"
-            (blur)="onTouched()" />
+            [mask]="mask"
+            [characterPattern]="characterPattern"
+            [autoFocus]="autoFocus"
+            (input)="onChange(inputMask!.value)"
+            (blur)="onTouched()"></p-inputMask>
+        <!-- <p-message  severity="error" text="Field is required"></p-message> -->
         <span
             *ngIf="showError && errorMessage && control.invalid && control.touched"
             class="p-inputgroup-addon own-error-addon"
