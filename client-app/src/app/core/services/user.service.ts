@@ -13,6 +13,6 @@ export class UserService {
         return this.apiService.get(`user/get/${id}`);
     };
     update = (id: number, body: User): Observable<number> => {
-        return this.apiService.put(`user/update/${id}`, body);
+        return this.apiService.patch(`user/update/${id}`, body);
     };
 }

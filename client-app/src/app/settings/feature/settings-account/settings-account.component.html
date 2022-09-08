@@ -1,51 +1,53 @@
 <div *ngIf="vm$ | async as vm" fxLayoutGap="16px">
-    <p-panel header="Twoje dane" [ngStyle]="{ padding: '0' }">
-        <div class="wrapper">
-            <div class="tile">
-                <span class="tile-title">Email:</span>
-                <span>{{ vm.user?.email }}</span>
-            </div>
-            <div class="tile">
-                <span class="tile-title">Imię i nazwisko:</span>
+    <p-panel header="Twoje dane">
+        <div class="own-wrapper" fxLayout="row" fxLayoutAlign="space-between">
+            <div fxLayout="column" fxLayoutGap="8px" [style]="{ width: '300px' }" fxLayoutAlign="center start">
+                <h5 class="own-tile-label">Imię i nazwisko</h5>
                 <span>{{ vm.user?.firstName }} {{ vm.user?.lastName }}</span>
+                <app-button
+                    [label]="'Edytuj'"
+                    [buttonIcon]="'pi pi-pencil'"
+                    [buttonStyle]="'flat'"
+                    [buttonColor]="'primary'"
+                    [buttonSize]="'small'"
+                    (click)="openNameForm($any(vm.user))"></app-button>
             </div>
-            <div class="tile">
-                <span class="tile-title">Telefon:</span>
+            <div fxLayout="column" fxLayoutGap="8px" [style]="{ width: '300px' }" fxLayoutAlign="center start">
+                <h5 class="own-tile-label">Email</h5>
+                <span>{{ vm.user?.email }}</span>
+                <app-button
+                    [label]="'Edytuj'"
+                    [buttonIcon]="'pi pi-pencil'"
+                    [buttonStyle]="'flat'"
+                    [buttonColor]="'primary'"
+                    [buttonSize]="'small'"
+                    (click)="openEmailForm($any(vm.user))"></app-button>
+            </div>
+            <div fxLayout="column" fxLayoutGap="8px" [style]="{ width: '300px' }" fxLayoutAlign="center start">
+                <h5 class="own-tile-label">Telefon</h5>
                 <span>{{ vm.user?.phoneNumber }}</span>
+                <app-button
+                    [label]="'Edytuj'"
+                    [buttonIcon]="'pi pi-pencil'"
+                    [buttonStyle]="'flat'"
+                    [buttonColor]="'primary'"
+                    [buttonSize]="'small'"
+                    (click)="openNumberForm($any(vm.user))"></app-button>
             </div>
         </div>
-        <form [formGroup]="accountForm">
-            <app-text-input
-                class="firstName"
-                [label]="'Imię'"
-                [type]="'text'"
-                [formControlName]="'firstName'"
-                [errorMessage]="firstNameErrorMessage"></app-text-input>
-            <app-text-input
-                class="lastName"
-                [label]="'Nazwisko'"
-                [type]="'text'"
-                [formControlName]="'lastName'"
-                [errorMessage]="lastNameErrorMessage"></app-text-input>
-            <app-text-input
-                class="phone"
-                [label]="'Telefon'"
-                [type]="'text'"
-                [formControlName]="'phoneNumber'"
-                [errorMessage]="phoneNumberErrorMessage"></app-text-input>
-        </form>
     </p-panel>
     <p-panel header="Moje adresy" [ngStyle]="{ padding: '0' }">
         <ng-template pTemplate="icons">
-            <button
-                [disabled]="vm.formOpen && !overlayPanel.overlayVisible"
+            <app-button
+                [label]="'Dodaj'"
+                [disabled]="vm.localizationFormOpen && !overlayPanel.overlayVisible"
                 [pTooltip]="'Zakończ edycję przed dodaniem lokalizacji!'"
-                [tooltipDisabled]="!vm.formOpen || (vm.formOpen && overlayPanel.overlayVisible)"
-                label="Dodaj"
-                icon="pi pi-plus"
-                pButton
-                class="p-button-sm p-button-raised p-button-text"
-                (click)="overlayPanel.toggle($event)"></button>
+                [tooltipDisabled]="!vm.localizationFormOpen || (vm.localizationFormOpen && overlayPanel.overlayVisible)"
+                [buttonIcon]="'pi pi-plus'"
+                [buttonStyle]="'raised'"
+                [buttonColor]="'primary'"
+                [buttonSize]="'small'"
+                (click)="overlayPanel.toggle($event)"></app-button>
         </ng-template>
         <form [formGroup]="form">
             <p-table
@@ -79,15 +81,14 @@
                 <ng-template #rowTemplate let-localization let-editing="editing" let-ri="rowIndex">
                     <tr [pEditableRow]="localization" [ngClass.lt-md]="'own-cell-padding-lt-md'">
                         <td style="padding: 0">
-                            <button
+                            <app-button
                                 [fxHide.lt-md]="true"
                                 *ngIf="!editing"
-                                pButton
-                                pRipple
-                                (click)="setPrimaryLocalization(localization.id)"
-                                type="button"
-                                [icon]="'pi ' + (localization.isPrimary ? 'pi-star-fill' : 'pi-star')"
-                                class="p-button-rounded p-button-text"></button>
+                                [buttonIcon]="'pi ' + (localization.isPrimary ? 'pi-star-fill' : 'pi-star')"
+                                [buttonStyle]="'flat'"
+                                [buttonRounded]="true"
+                                [buttonColor]="'primary'"
+                                (click)="componentStore.setPrimaryLocalization(localization.id)"></app-button>
                         </td>
                         <td>
                             <p-cellEditor>
@@ -151,61 +152,58 @@
                         </td>
 
                         <td style="text-align: center">
-                            <button
+                            <app-button
                                 [fxHide.gt-sm]="true"
                                 *ngIf="!editing"
-                                pButton
-                                pRipple
-                                (click)="setPrimaryLocalization(localization.id)"
-                                type="button"
-                                [icon]="'pi ' + (localization.isPrimary ? 'pi-star-fill' : 'pi-star')"
-                                class="p-button-rounded p-button-text"></button>
+                                [buttonIcon]="'pi ' + (localization.isPrimary ? 'pi-star-fill' : 'pi-star')"
+                                [buttonStyle]="'flat'"
+                                [buttonRounded]="true"
+                                [buttonColor]="'primary'"
+                                (click)="componentStore.setPrimaryLocalization(localization.id)"></app-button>
+
                             <div *ngIf="!editing">
-                                <button
-                                    [pTooltip]="'Zakończ edycję przed dodaniem lokalizacji!'"
-                                    [tooltipDisabled]="!vm.formOpen"
-                                    [disabled]="vm.formOpen"
-                                    [tooltipPosition]="'left'"
+                                <app-button
                                     fxFlex="50"
-                                    pButton
-                                    pRipple
                                     pInitEditableRow
-                                    type="button"
-                                    icon="pi pi-pencil"
-                                    (click)="onRowEditInit(localization)"
-                                    class="p-button-rounded p-button-text"></button>
-                                <button
+                                    [pTooltip]="'Zakończ poprzednią edycję!'"
+                                    [tooltipDisabled]="!vm.localizationFormOpen"
+                                    [disabled]="vm.localizationFormOpen"
+                                    [tooltipPosition]="'left'"
+                                    [buttonIcon]="'pi pi-pencil'"
+                                    [buttonStyle]="'flat'"
+                                    [buttonRounded]="true"
+                                    [buttonColor]="'primary'"
+                                    (click)="onRowEditInit(localization)"></app-button>
+                                <app-button
                                     fxFlex="50"
-                                    pButton
-                                    pRipple
-                                    type="button"
-                                    icon="pi pi-trash"
-                                    (click)="deleteLocalization(localization)"
-                                    class="p-button-rounded p-button-text p-button-danger"></button>
+                                    [buttonIcon]="'pi pi-trash'"
+                                    [buttonStyle]="'flat'"
+                                    [buttonRounded]="true"
+                                    [buttonColor]="'danger'"
+                                    (click)="componentStore.deleteLocalization(localization.id)"></app-button>
                             </div>
 
-                            <button
+                            <app-button
                                 *ngIf="editing"
+                                pSaveEditableRow
                                 [pTooltip]="'Co najmniej jedno pole zostało błędnie wprowadzone'"
                                 [tooltipDisabled]="form.valid"
                                 [disabled]="!form.valid"
                                 [tooltipPosition]="'left'"
-                                pButton
-                                pRipple
-                                pSaveEditableRow
-                                type="button"
-                                icon="pi pi-check"
-                                (click)="onRowEditSave(localization)"
-                                class="p-button-rounded p-button-text p-button-success"></button>
-                            <button
+                                [buttonIcon]="'pi pi-check'"
+                                [buttonStyle]="'flat'"
+                                [buttonRounded]="true"
+                                [buttonColor]="'success'"
+                                (click)="onRowEditSave(localization)"></app-button>
+
+                            <app-button
                                 *ngIf="editing"
-                                pButton
-                                pRipple
-                                type="button"
                                 pCancelEditableRow
-                                icon="pi pi-times"
-                                (click)="onRowEditCancel()"
-                                class="p-button-rounded p-button-text p-button-danger"></button>
+                                [buttonIcon]="'pi pi-times'"
+                                [buttonStyle]="'flat'"
+                                [buttonRounded]="true"
+                                [buttonColor]="'danger'"
+                                (click)="onRowEditCancel()"></app-button>
                         </td>
                     </tr>
                 </ng-template>
@@ -215,7 +213,7 @@
                 #overlayPanel
                 [showCloseIcon]="true"
                 [style]="{ width: '500px' }"
-                (onShow)="onOverlayShow()"
+                (onShow)="componentStore.setFormOpen(true)"
                 (onHide)="onOverlayHide()">
                 <ng-template pTemplate>
                     <div fxLayout="column" fxLayoutGap="10px">
@@ -236,24 +234,106 @@
                                 [formControlName]="'flatNumber'"></app-text-input>
                         </div>
                         <div fxLayout="row" fxLayoutAlign="space-between">
-                            <button
-                                pButton
-                                class="p-button-flat p-button-text"
-                                type="button"
+                            <app-button
                                 label="Anuluj"
-                                icon="pi pi-times"
-                                (click)="overlayPanel.hide()"></button>
-                            <button
-                                pButton
-                                class="p-button-raised p-button-text"
-                                type="button"
+                                [buttonIcon]="'pi pi-times'"
+                                [buttonStyle]="'flat'"
+                                (click)="overlayPanel.hide()"></app-button>
+                            <app-button
                                 label="Zapisz"
-                                icon="pi pi-save"
-                                (click)="createLocalization()"></button>
+                                [buttonIcon]="'pi pi-save'"
+                                [buttonStyle]="'raised'"
+                                (click)="createLocalization()"></app-button>
                         </div>
                     </div>
                 </ng-template>
             </p-overlayPanel>
         </form>
     </p-panel>
+
+    <p-dialog
+        [header]="'Zmień imię i nazwisko'"
+        [visible]="vm.nameFormOpen"
+        [modal]="true"
+        [resizable]="false"
+        [closable]="false">
+        <form [formGroup]="nameForm" fxFlex fxLayoutGap="16px">
+            <app-text-input
+                fxFlex="50"
+                [label]="'Imię'"
+                [type]="'text'"
+                [formControlName]="'firstName'"
+                [errorMessage]="firstNameErrorMessage"></app-text-input>
+            <app-text-input
+                fxFlex="50"
+                class="lastName"
+                [label]="'Nazwisko'"
+                [type]="'text'"
+                [formControlName]="'lastName'"
+                [errorMessage]="lastNameErrorMessage"></app-text-input>
+        </form>
+        <ng-template pTemplate="footer">
+            <p-divider [style]="{ 'margin-top': '0' }"></p-divider>
+            <app-button
+                label="Anuluj"
+                [buttonIcon]="'pi pi-times'"
+                [buttonStyle]="'flat'"
+                (click)="componentStore.setNameFormOpen(false)"></app-button>
+            <app-button
+                label="Zapisz"
+                [buttonLoading]="vm.nameFormStatus === 'loading'"
+                [buttonIcon]="'pi pi-save'"
+                [buttonStyle]="'raised'"
+                (click)="submitNameForm()"></app-button>
+        </ng-template>
+    </p-dialog>
+    <p-dialog [header]="'Zmień e-mail'" [visible]="vm.emailFormOpen" [modal]="true" [resizable]="false" [closable]="false">
+        <form [formGroup]="emailForm" fxFlex fxLayoutGap="16px">
+            <app-text-input
+                fxFlex
+                [label]="'E-mail'"
+                [type]="'text'"
+                [formControlName]="'email'"
+                [errorMessage]="emailErrorMessage"></app-text-input>
+        </form>
+        <ng-template pTemplate="footer">
+            <p-divider [style]="{ 'margin-top': '0' }"></p-divider>
+            <app-button
+                label="Anuluj"
+                [buttonIcon]="'pi pi-times'"
+                [buttonStyle]="'flat'"
+                (click)="componentStore.setEmailFormOpen(false)"></app-button>
+            <app-button
+                label="Zapisz"
+                [buttonLoading]="vm.emailFormStatus === 'loading'"
+                [buttonIcon]="'pi pi-save'"
+                [buttonStyle]="'raised'"
+                (click)="submitEmailForm()"></app-button>
+        </ng-template>
+    </p-dialog>
+    <p-dialog [header]="'Ustaw telefon'" [visible]="vm.numberFormOpen" [modal]="true" [resizable]="false" [closable]="false">
+        <form [formGroup]="numberForm" fxFlex fxLayoutGap="16px">
+            <app-mask-input
+                fxFlex="100"
+                [label]="'Telefon komórkowy'"
+                [type]="'text'"
+                [formControlName]="'phoneNumber'"
+                [errorMessage]="phoneNumberErrorMessage"
+                [mask]="'999 999 999'"></app-mask-input>
+        </form>
+        <ng-template pTemplate="footer"
+            ><p-divider [style]="{ 'margin-top': '0' }"></p-divider>
+            <app-button
+                label="Anuluj"
+                [buttonIcon]="'pi pi-times'"
+                [buttonStyle]="'flat'"
+                (click)="componentStore.setNumberFormOpen(false)"></app-button>
+            <app-button
+                label="Zapisz"
+                [buttonLoading]="vm.numberFormStatus === 'loading'"
+                [buttonIcon]="'pi pi-save'"
+                [buttonStyle]="'raised'"
+                (click)="submitNumberForm()"></app-button>
+        </ng-template>
+    </p-dialog>
 </div>

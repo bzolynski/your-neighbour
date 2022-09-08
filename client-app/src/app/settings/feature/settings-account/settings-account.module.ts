@@ -5,29 +5,28 @@ import { SettingsAccountRoutingModule } from './settings-account-routing.module'
 import { SettingsAccountComponent } from './settings-account.component';
 
 import { PanelModule } from 'primeng/panel';
-import { ButtonModule } from 'primeng/button';
 import { TableModule } from 'primeng/table';
 import { DropdownModule } from 'primeng/dropdown';
-import { TextInputModule } from '@shared/ui/text-input/text-input.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '@shared/shared.module';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { TooltipModule } from 'primeng/tooltip';
-import { MaskInputModule } from '@shared/ui/mask-input/mask-input.module';
+import { DialogModule } from 'primeng/dialog';
+import { DividerModule } from 'primeng/divider';
+
 @NgModule({
     imports: [
         CommonModule,
         SettingsAccountRoutingModule,
         PanelModule,
-        ButtonModule,
         TableModule,
         DropdownModule,
-        TextInputModule,
         ReactiveFormsModule,
         SharedModule,
         OverlayPanelModule,
         TooltipModule,
-        MaskInputModule,
+        DialogModule,
+        DividerModule,
     ],
     declarations: [SettingsAccountComponent],
 })

@@ -12,13 +12,15 @@
                 [label]="'Hasło'"
                 [type]="'password'"
                 [formControlName]="'password'"
-                [errorMessage]="passwordErrorMessage"></app-password-input>
-            <app-text-input
+                [errorMessage]="passwordErrorMessage"
+                [showSuggestion]="true"></app-password-input>
+            <app-password-input
                 [label]="'Powtórz hasło'"
                 [type]="'password'"
                 [formControlName]="'confirmPassword'"
-                [errorMessage]="confirmPasswordErrorMessage">
-            </app-text-input>
+                [errorMessage]="confirmPasswordErrorMessage"
+                [showSuggestion]="false"></app-password-input>
+
             <button mat-stroked-button [type]="'submit'" [disabled]="!form.valid" color="primary" class="submit-button">
                 Zarejestruj
             </button>

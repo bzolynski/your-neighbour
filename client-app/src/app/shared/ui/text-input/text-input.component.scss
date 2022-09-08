@@ -6,6 +6,9 @@ $errorColor: hsl(0, 72%, 59%);
     display: flex;
     flex-direction: column;
 }
+.own-label {
+    margin-bottom: 0.25rem;
+}
 .own-label.own-required:after {
     content: ' *';
     color: $errorColor;

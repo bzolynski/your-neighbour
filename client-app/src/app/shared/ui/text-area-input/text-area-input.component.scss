@@ -27,6 +27,9 @@ $errorColor: hsl(0, 72%, 59%);
     min-height: 20px;
 }
 
+.own-label {
+    margin-bottom: 0.25rem;
+}
 .own-label.own-required:after {
     content: ' *';
     color: $errorColor;

@@ -3,7 +3,7 @@ import { Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { map } from 'rxjs/operators';
-import { Localization } from '@models/';
+import { Localization, User } from '@models/';
 import { GenericFormControl, GenericFormGroup } from '@app-types/generic-form.type';
 import { SettingsAccountStore } from './settings-account.store';
 import { selectUser } from '@stores/authentication';
@@ -20,36 +20,71 @@ export class SettingsAccountComponent implements OnInit {
     #localizations$ = this.componentStore.localizations$.pipe();
     #error$ = this.componentStore.error$;
     #status$ = this.componentStore.status$;
-    #formOpen$ = this.componentStore.formOpen$;
+    #localizationFormOpen$ = this.componentStore.localizationFormOpen$;
+    #localizationFormStatus$ = this.componentStore.localizationFormStatus$;
+    #nameFormOpen$ = this.componentStore.nameFormOpen$;
+    #nameFormStatus$ = this.componentStore.nameFormStatus$;
+    #emailFormOpen$ = this.componentStore.emailFormOpen$;
+    #emailFormStatus$ = this.componentStore.emailFormStatus$;
+    #numberFormOpen$ = this.componentStore.numberFormOpen$;
+    #numberFormStatus$ = this.componentStore.numberFormStatus$;
 
-    vm$ = combineLatest([this.#user$, this.#localizations$, this.#error$, this.#status$, this.#formOpen$]).pipe(
-        map(([user, localizations, error, status, formOpen]) => ({
-            user,
-            localizations: localizations?.filter((x) => !x.isPrimary),
-            error,
-            status,
-            primaryLocalizations: localizations?.filter((x) => x.isPrimary),
-            formOpen,
-        }))
+    vm$ = combineLatest([
+        combineLatest([this.#user$, this.#localizations$, this.#error$, this.#status$]),
+        combineLatest([this.#localizationFormOpen$, this.#nameFormOpen$, this.#emailFormOpen$, this.#numberFormOpen$]),
+        combineLatest([this.#localizationFormStatus$, this.#nameFormStatus$, this.#emailFormStatus$, this.#numberFormStatus$]),
+    ]).pipe(
+        map(
+            ([
+                [user, localizations, error, status],
+                [localizationFormOpen, nameFormOpen, emailFormOpen, numberFormOpen],
+                [localizationFormStatus, nameFormStatus, emailFormStatus, numberFormStatus],
+            ]) => ({
+                user,
+                localizations: localizations?.filter((x) => !x.isPrimary),
+                error,
+                status,
+                primaryLocalizations: localizations?.filter((x) => x.isPrimary),
+                localizationFormOpen,
+                nameFormOpen,
+                emailFormOpen,
+                numberFormOpen,
+                localizationFormStatus,
+                nameFormStatus,
+                emailFormStatus,
+                numberFormStatus,
+            })
+        )
     );
 
-    accountForm = new GenericFormGroup({
+    nameForm = new GenericFormGroup({
         firstName: new GenericFormControl<string>('', [Validators.required]),
         lastName: new GenericFormControl<string>('', [Validators.required]),
+    });
+    emailForm = new GenericFormGroup({
+        email: new GenericFormControl<string>('', [Validators.required, Validators.email]),
+    });
+    numberForm = new GenericFormGroup({
         phoneNumber: new GenericFormControl<string>('', [Validators.required]),
     });
     get firstNameErrorMessage() {
-        const control = this.accountForm.controls['firstName'];
+        const control = this.nameForm.controls['firstName'];
         if (control.errors?.required) return 'Pole jest wymagane';
         return '';
     }
     get lastNameErrorMessage() {
-        const control = this.accountForm.controls['lastName'];
+        const control = this.nameForm.controls['lastName'];
         if (control.errors?.required) return 'Pole jest wymagane';
         return '';
     }
+    get emailErrorMessage() {
+        const control = this.emailForm.controls['email'];
+        if (control.errors?.required) return 'Pole jest wymagane';
+        if (control.errors?.email) return 'Musi to być email ';
+        return '';
+    }
     get phoneNumberErrorMessage() {
-        const control = this.accountForm.controls['phoneNumber'];
+        const control = this.numberForm.controls['phoneNumber'];
         if (control.errors?.required) return 'Pole jest wymagane';
         return '';
     }
@@ -63,13 +98,10 @@ export class SettingsAccountComponent implements OnInit {
         flatNumber: new GenericFormControl<string>(''),
     });
 
-    constructor(private store: Store, private componentStore: SettingsAccountStore, public dialog: MatDialog) {}
+    constructor(private store: Store, protected componentStore: SettingsAccountStore, public dialog: MatDialog) {}
 
     ngOnInit(): void {
         this.componentStore.loadLocalizations();
-    }
-    onOverlayShow(): void {
-        this.componentStore.setFormOpen(true);
     }
     onOverlayHide(): void {
         this.form.reset();
@@ -98,10 +130,33 @@ export class SettingsAccountComponent implements OnInit {
             this.componentStore.createLocalization(localization);
         }
     }
-    deleteLocalization(localization: Localization): void {
-        this.componentStore.deleteLocalization(localization.id);
+    openNameForm(user: User): void {
+        this.nameForm.setValue({ firstName: user.firstName, lastName: user.lastName });
+        this.componentStore.setNameFormOpen(true);
     }
-    setPrimaryLocalization(id: number): void {
-        this.componentStore.setPrimaryLocalization(id);
+    submitNameForm(): void {
+        if (this.nameForm.valid) {
+            this.componentStore.updateName({ ...this.nameForm.value });
+        }
+    }
+
+    openEmailForm(user: User): void {
+        this.emailForm.setValue({ email: user.email });
+        this.componentStore.setEmailFormOpen(true);
+    }
+    submitEmailForm(): void {
+        if (this.emailForm.valid) {
+            this.componentStore.updateEmail({ ...this.emailForm.value });
+        }
+    }
+
+    openNumberForm(user: User): void {
+        this.numberForm.setValue({ phoneNumber: user.phoneNumber });
+        this.componentStore.setNumberFormOpen(true);
+    }
+    submitNumberForm(): void {
+        if (this.numberForm.valid) {
+            this.componentStore.updateNumber({ ...this.numberForm.value });
+        }
     }
 }

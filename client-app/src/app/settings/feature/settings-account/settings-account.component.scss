@@ -1,55 +1,3 @@
-.title {
-    padding-left: 1rem;
-    padding-top: 1rem;
-    margin: 0;
-}
-
-.wrapper {
-    padding: 1rem;
-}
-
-.tile {
-    padding: 0.5rem;
-}
-.tile-title {
-    font-weight: 500;
-    padding-right: 0.5rem;
-}
-
-.button {
-    padding: 0.25rem;
-}
-
-.list-container-wrapper {
-    margin-top: 1rem;
-}
-
-app-localization-card,
-app-card {
-    &:hover {
-        transform: scale(1.01);
-    }
-    transition: ease-in-out 0.1s;
-    cursor: pointer;
-}
-
-.backdrop {
-    position: absolute;
-    inset: 0;
-}
-.add-icon-container {
-    display: grid;
-    height: 100%;
-    place-items: center;
-    mat-icon {
-        transform: scale(2);
-    }
-    span {
-        font-weight: 400;
-        font-size: 25px;
-    }
-}
-
 :host ::ng-deep {
     .p-panel .p-panel-content {
         padding: 0;
@@ -72,4 +20,17 @@ app-card {
     p-celleditor .own-edit-label {
         margin-bottom: 20px;
     }
+
+    .p-panel-content {
+        overflow: hidden;
+    }
+}
+.own-wrapper {
+    padding: 1rem;
+}
+
+.own-tile-label {
+    text-transform: uppercase;
+    font-size: 14px;
+    font-weight: 500;
 }

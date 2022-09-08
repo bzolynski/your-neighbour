@@ -16,7 +16,7 @@ namespace YourNeighbour.Api.Controllers
             return Ok(result);
         }
 
-        [HttpPut("update/{id}")]
+        [HttpPatch("update/{id}")]
         public async Task<IActionResult> Update(int id, UpdateUserDto userDto)
         {
             int result = await Mediator.Send(new UpdateUserCommand(id, userDto));

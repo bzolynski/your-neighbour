@@ -19,6 +19,7 @@ export class PasswordInputComponent implements OnInit, OnChanges, ControlValueAc
     @Input() disabledInput: boolean = false;
     @Input() showError: boolean = true;
     @Input() autoFocus: boolean = false;
+    @Input() showSuggestion: boolean = false;
 
     required: boolean = false;
     get control(): FormControl {

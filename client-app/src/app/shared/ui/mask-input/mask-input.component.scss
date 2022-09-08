@@ -1,8 +1,13 @@
 $errorColor: hsl(0, 72%, 59%);
+
 :host {
     width: 100%;
 }
+
 :host ::ng-deep {
+    p-inputMask {
+        width: 100%;
+    }
     .own-has-error .p-inputtext {
         border-top-right-radius: 0 !important;
         border-bottom-right-radius: 0 !important;
@@ -12,6 +17,10 @@ $errorColor: hsl(0, 72%, 59%);
 .own-form-group {
     display: flex;
     flex-direction: column;
+}
+
+.own-label {
+    margin-bottom: 0.25rem;
 }
 .own-label.own-required:after {
     content: ' *';

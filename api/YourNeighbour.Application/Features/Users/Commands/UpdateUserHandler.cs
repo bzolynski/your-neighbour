@@ -20,9 +20,9 @@ namespace YourNeighbour.Application.Features.Users.Commands
             User user = await applicationDbContext.Set<User>().FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
             if (user is null)
                 throw new StatusCodeException("Użytkownik nie istnieje w bazie!", System.Net.HttpStatusCode.NotFound);
-            user.PhoneNumber = request.UserDto.PhoneNumber;
-            user.FirstName = request.UserDto.FirstName;
-            user.LastName = request.UserDto.LastName;
+            user.PhoneNumber = request.UserDto.PhoneNumber ?? user.PhoneNumber;
+            user.FirstName = request.UserDto.FirstName ?? user.FirstName;
+            user.LastName = request.UserDto.LastName ?? user.LastName;
             applicationDbContext.Update(user);
             await applicationDbContext.SaveChangesAsync(cancellationToken);
             return user.Id;
