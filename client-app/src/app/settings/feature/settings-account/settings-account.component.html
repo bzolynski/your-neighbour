@@ -1,7 +1,7 @@
 <div *ngIf="vm$ | async as vm" fxLayoutGap="16px">
     <p-panel header="Twoje dane">
         <div class="own-wrapper" fxLayout="row" fxLayoutAlign="space-between">
-            <div fxLayout="column" fxLayoutGap="8px" [style]="{ width: '300px' }" fxLayoutAlign="center start">
+            <div fxLayout="column" fxLayoutGap="8px" fxFlex="33" fxLayoutAlign="center start">
                 <h5 class="own-tile-label">Imię i nazwisko</h5>
                 <span>{{ vm.user?.firstName }} {{ vm.user?.lastName }}</span>
                 <app-button
@@ -12,7 +12,7 @@
                     [buttonSize]="'small'"
                     (click)="openNameForm($any(vm.user))"></app-button>
             </div>
-            <div fxLayout="column" fxLayoutGap="8px" [style]="{ width: '300px' }" fxLayoutAlign="center start">
+            <div fxLayout="column" fxLayoutGap="8px" fxFlex="33" fxLayoutAlign="center start">
                 <h5 class="own-tile-label">Email</h5>
                 <span>{{ vm.user?.email }}</span>
                 <app-button
@@ -23,7 +23,7 @@
                     [buttonSize]="'small'"
                     (click)="openEmailForm($any(vm.user))"></app-button>
             </div>
-            <div fxLayout="column" fxLayoutGap="8px" [style]="{ width: '300px' }" fxLayoutAlign="center start">
+            <div fxLayout="column" fxLayoutGap="8px" fxFlex="33" fxLayoutAlign="center start">
                 <h5 class="own-tile-label">Telefon</h5>
                 <span>{{ vm.user?.phoneNumber }}</span>
                 <app-button
@@ -40,16 +40,16 @@
         <ng-template pTemplate="icons">
             <app-button
                 [label]="'Dodaj'"
-                [disabled]="vm.localizationFormOpen && !overlayPanel.overlayVisible"
+                [disabled]="vm.editingLocalization"
                 [pTooltip]="'Zakończ edycję przed dodaniem lokalizacji!'"
-                [tooltipDisabled]="!vm.localizationFormOpen || (vm.localizationFormOpen && overlayPanel.overlayVisible)"
+                [tooltipDisabled]="!vm.editingLocalization"
                 [buttonIcon]="'pi pi-plus'"
                 [buttonStyle]="'raised'"
                 [buttonColor]="'primary'"
                 [buttonSize]="'small'"
-                (click)="overlayPanel.toggle($event)"></app-button>
+                (click)="openLocalizationForm()"></app-button>
         </ng-template>
-        <form [formGroup]="form">
+        <form [formGroup]="localizationForm">
             <p-table
                 [value]="vm.localizations ?? []"
                 dataKey="id"
@@ -165,9 +165,9 @@
                                 <app-button
                                     fxFlex="50"
                                     pInitEditableRow
-                                    [pTooltip]="'Zakończ poprzednią edycję!'"
-                                    [tooltipDisabled]="!vm.localizationFormOpen"
-                                    [disabled]="vm.localizationFormOpen"
+                                    [pTooltip]="'Zakończ edycję!'"
+                                    [tooltipDisabled]="!vm.editingLocalization"
+                                    [disabled]="vm.editingLocalization"
                                     [tooltipPosition]="'left'"
                                     [buttonIcon]="'pi pi-pencil'"
                                     [buttonStyle]="'flat'"
@@ -187,8 +187,8 @@
                                 *ngIf="editing"
                                 pSaveEditableRow
                                 [pTooltip]="'Co najmniej jedno pole zostało błędnie wprowadzone'"
-                                [tooltipDisabled]="form.valid"
-                                [disabled]="!form.valid"
+                                [tooltipDisabled]="localizationForm.valid"
+                                [disabled]="!localizationForm.valid"
                                 [tooltipPosition]="'left'"
                                 [buttonIcon]="'pi pi-check'"
                                 [buttonStyle]="'flat'"
@@ -208,49 +208,47 @@
                     </tr>
                 </ng-template>
             </p-table>
-
-            <p-overlayPanel
-                #overlayPanel
-                [showCloseIcon]="true"
-                [style]="{ width: '500px' }"
-                (onShow)="componentStore.setFormOpen(true)"
-                (onHide)="onOverlayHide()">
-                <ng-template pTemplate>
-                    <div fxLayout="column" fxLayoutGap="10px">
-                        <div fxLayout="row" fxLayoutGap="10px">
-                            <app-text-input fxFlex="50%" label="Miejscowość" [formControlName]="'city'"></app-text-input>
-                            <app-text-input fxFlex="50%" label="Ulica" [formControlName]="'street'"></app-text-input>
-                        </div>
-                        <div fxLayout="row" fxLayoutGap="10px">
-                            <app-mask-input
-                                fxFlex="33%"
-                                label="Kod pocztowy"
-                                [formControlName]="'postCode'"
-                                [mask]="'99-999'"></app-mask-input>
-                            <app-text-input fxFlex="33%" label="Numer domu" [formControlName]="'houseNumber'"></app-text-input>
-                            <app-text-input
-                                fxFlex="33%"
-                                label="Numer mieszkania"
-                                [formControlName]="'flatNumber'"></app-text-input>
-                        </div>
-                        <div fxLayout="row" fxLayoutAlign="space-between">
-                            <app-button
-                                label="Anuluj"
-                                [buttonIcon]="'pi pi-times'"
-                                [buttonStyle]="'flat'"
-                                (click)="overlayPanel.hide()"></app-button>
-                            <app-button
-                                label="Zapisz"
-                                [buttonIcon]="'pi pi-save'"
-                                [buttonStyle]="'raised'"
-                                (click)="createLocalization()"></app-button>
-                        </div>
-                    </div>
-                </ng-template>
-            </p-overlayPanel>
         </form>
     </p-panel>
+    <!-- Localization form dialog -->
+    <p-dialog
+        [header]="'Dodal lokalizację'"
+        [visible]="vm.localizationFormOpen"
+        [modal]="true"
+        [resizable]="false"
+        [closable]="false">
+        <form [formGroup]="localizationForm" fxFlex fxLayout="column" fxLayoutGap="16px">
+            <div fxLayout="row" fxLayoutGap="10px">
+                <app-text-input fxFlex="50%" label="Miejscowość" [formControlName]="'city'"></app-text-input>
+                <app-text-input fxFlex="50%" label="Ulica" [formControlName]="'street'"></app-text-input>
+            </div>
+            <div fxLayout="row" fxLayoutGap="10px">
+                <app-mask-input
+                    fxFlex="33%"
+                    label="Kod pocztowy"
+                    [formControlName]="'postCode'"
+                    [mask]="'99-999'"></app-mask-input>
+                <app-text-input fxFlex="33%" label="Numer domu" [formControlName]="'houseNumber'"></app-text-input>
+                <app-text-input fxFlex="33%" label="Numer mieszkania" [formControlName]="'flatNumber'"></app-text-input>
+            </div>
+        </form>
+        <ng-template pTemplate="footer">
+            <p-divider [style]="{ 'margin-top': '0' }"></p-divider>
+            <app-button
+                label="Anuluj"
+                [buttonIcon]="'pi pi-times'"
+                [buttonStyle]="'flat'"
+                (click)="componentStore.setLocalizationFormOpen(false)"></app-button>
+            <app-button
+                label="Zapisz"
+                [buttonLoading]="vm.localizationFormStatus === 'loading'"
+                [buttonIcon]="'pi pi-save'"
+                [buttonStyle]="'raised'"
+                (click)="submitLocalizationForm()"></app-button>
+        </ng-template>
+    </p-dialog>
 
+    <!-- Name form dialog -->
     <p-dialog
         [header]="'Zmień imię i nazwisko'"
         [visible]="vm.nameFormOpen"
@@ -287,6 +285,8 @@
                 (click)="submitNameForm()"></app-button>
         </ng-template>
     </p-dialog>
+
+    <!-- Email form dialog -->
     <p-dialog [header]="'Zmień e-mail'" [visible]="vm.emailFormOpen" [modal]="true" [resizable]="false" [closable]="false">
         <form [formGroup]="emailForm" fxFlex fxLayoutGap="16px">
             <app-text-input
@@ -311,6 +311,8 @@
                 (click)="submitEmailForm()"></app-button>
         </ng-template>
     </p-dialog>
+
+    <!-- Phone form dialog -->
     <p-dialog [header]="'Ustaw telefon'" [visible]="vm.numberFormOpen" [modal]="true" [resizable]="false" [closable]="false">
         <form [formGroup]="numberForm" fxFlex fxLayoutGap="16px">
             <app-mask-input

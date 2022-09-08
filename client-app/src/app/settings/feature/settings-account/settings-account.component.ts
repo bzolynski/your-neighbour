@@ -20,6 +20,7 @@ export class SettingsAccountComponent implements OnInit {
     #localizations$ = this.componentStore.localizations$.pipe();
     #error$ = this.componentStore.error$;
     #status$ = this.componentStore.status$;
+    #editingLocalization$ = this.componentStore.editingLocalization$;
     #localizationFormOpen$ = this.componentStore.localizationFormOpen$;
     #localizationFormStatus$ = this.componentStore.localizationFormStatus$;
     #nameFormOpen$ = this.componentStore.nameFormOpen$;
@@ -32,26 +33,33 @@ export class SettingsAccountComponent implements OnInit {
     vm$ = combineLatest([
         combineLatest([this.#user$, this.#localizations$, this.#error$, this.#status$]),
         combineLatest([this.#localizationFormOpen$, this.#nameFormOpen$, this.#emailFormOpen$, this.#numberFormOpen$]),
-        combineLatest([this.#localizationFormStatus$, this.#nameFormStatus$, this.#emailFormStatus$, this.#numberFormStatus$]),
+        combineLatest([
+            this.#localizationFormStatus$,
+            this.#editingLocalization$,
+            this.#nameFormStatus$,
+            this.#emailFormStatus$,
+            this.#numberFormStatus$,
+        ]),
     ]).pipe(
         map(
             ([
                 [user, localizations, error, status],
                 [localizationFormOpen, nameFormOpen, emailFormOpen, numberFormOpen],
-                [localizationFormStatus, nameFormStatus, emailFormStatus, numberFormStatus],
+                [localizationFormStatus, editingLocalization, nameFormStatus, emailFormStatus, numberFormStatus],
             ]) => ({
                 user,
                 localizations: localizations?.filter((x) => !x.isPrimary),
                 error,
                 status,
                 primaryLocalizations: localizations?.filter((x) => x.isPrimary),
+                editingLocalization,
                 localizationFormOpen,
-                nameFormOpen,
-                emailFormOpen,
-                numberFormOpen,
                 localizationFormStatus,
+                nameFormOpen,
                 nameFormStatus,
+                emailFormOpen,
                 emailFormStatus,
+                numberFormOpen,
                 numberFormStatus,
             })
         )
@@ -89,7 +97,7 @@ export class SettingsAccountComponent implements OnInit {
         return '';
     }
 
-    form = new GenericFormGroup({
+    localizationForm = new GenericFormGroup({
         id: new GenericFormControl<number>(undefined),
         street: new GenericFormControl<string>('', [Validators.required, Validators.minLength(3)]),
         city: new GenericFormControl<string>('', [Validators.required, Validators.minLength(3)]),
@@ -103,38 +111,47 @@ export class SettingsAccountComponent implements OnInit {
     ngOnInit(): void {
         this.componentStore.loadLocalizations();
     }
-    onOverlayHide(): void {
-        this.form.reset();
-        this.componentStore.setFormOpen(false);
-    }
+
     onRowEditInit(localization: Localization): void {
-        this.componentStore.setFormOpen(true);
-        this.form.patchValue({ ...localization });
+        this.componentStore.setLocalizationEditing(true);
+        this.localizationForm.patchValue({ ...localization });
     }
     onRowEditSave(localization: Localization): void {
-        this.form.markAllAsTouched();
-        if (this.form.valid) {
-            this.componentStore.updateLocalization({ id: localization.id, localization: { ...this.form.value } });
-            this.componentStore.setFormOpen(false);
-            this.form.reset();
+        this.localizationForm.markAllAsTouched();
+        if (this.localizationForm.valid) {
+            this.componentStore.updateLocalization({ id: localization.id, localization: { ...this.localizationForm.value } });
+            this.componentStore.setLocalizationEditing(false);
+            this.localizationForm.reset();
         }
     }
     onRowEditCancel(): void {
-        this.form.reset();
-        this.componentStore.setFormOpen(false);
+        this.localizationForm.reset();
+        this.componentStore.setLocalizationEditing(false);
     }
     createLocalization(): void {
-        this.form.markAllAsTouched();
-        if (this.form.valid) {
-            const localization: Localization = { ...this.form.value } as Localization;
+        this.localizationForm.markAllAsTouched();
+        if (this.localizationForm.valid) {
+            const localization: Localization = { ...this.localizationForm.value } as Localization;
             this.componentStore.createLocalization(localization);
         }
     }
+    openLocalizationForm(): void {
+        this.localizationForm.reset();
+        this.componentStore.setLocalizationFormOpen(true);
+    }
+    submitLocalizationForm(): void {
+        this.localizationForm.markAllAsTouched();
+        if (this.localizationForm.valid) {
+            this.componentStore.createLocalization({ ...this.localizationForm.value });
+        }
+    }
+
     openNameForm(user: User): void {
         this.nameForm.setValue({ firstName: user.firstName, lastName: user.lastName });
         this.componentStore.setNameFormOpen(true);
     }
     submitNameForm(): void {
+        this.nameForm.markAllAsTouched();
         if (this.nameForm.valid) {
             this.componentStore.updateName({ ...this.nameForm.value });
         }
@@ -145,6 +162,7 @@ export class SettingsAccountComponent implements OnInit {
         this.componentStore.setEmailFormOpen(true);
     }
     submitEmailForm(): void {
+        this.emailForm.markAllAsTouched();
         if (this.emailForm.valid) {
             this.componentStore.updateEmail({ ...this.emailForm.value });
         }
@@ -155,6 +173,7 @@ export class SettingsAccountComponent implements OnInit {
         this.componentStore.setNumberFormOpen(true);
     }
     submitNumberForm(): void {
+        this.numberForm.markAllAsTouched();
         if (this.numberForm.valid) {
             this.componentStore.updateNumber({ ...this.numberForm.value });
         }

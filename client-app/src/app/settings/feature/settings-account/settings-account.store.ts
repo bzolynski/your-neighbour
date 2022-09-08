@@ -12,6 +12,7 @@ import { MessageService } from 'primeng/api';
 export type FormMode = 'edit' | 'create';
 
 interface SettingsAccountState extends GenericState<Localization[]> {
+    editingLocalization: boolean;
     localizationFormOpen: boolean;
     localizationFormStatus: GenericStoreStatus;
     nameFormOpen: boolean;
@@ -27,6 +28,7 @@ export class SettingsAccountStore extends ComponentStore<SettingsAccountState> {
     readonly localizations$ = this.select((state) => state.data);
     readonly status$ = this.select((state) => state.status);
     readonly error$ = this.select((state) => state.error);
+    readonly editingLocalization$ = this.select((state) => state.editingLocalization);
     readonly localizationFormOpen$ = this.select((state) => state.localizationFormOpen);
     readonly localizationFormStatus$ = this.select((state) => state.localizationFormStatus);
     readonly nameFormOpen$ = this.select((state) => state.nameFormOpen);
@@ -68,15 +70,21 @@ export class SettingsAccountStore extends ComponentStore<SettingsAccountState> {
     );
     readonly createLocalization = this.effect<Localization>((params$) =>
         params$.pipe(
-            tap(() => this.patchState({ status: 'loading' })),
+            tap(() => this.patchState({ localizationFormStatus: 'loading' })),
             withLatestFrom(this.user$),
             switchMap(([localization, user]) =>
                 this.localizationService.create(localization, user.id).pipe(
                     tapResponse(
                         (response) => {
+                            this.messageService.add({
+                                severity: 'success',
+                                summary: 'Sukces',
+                                detail: 'Pomyślnie dodano lokalizację!',
+                            });
                             this.patchState((state) => ({
                                 data: [...(state.data ?? []), { ...localization, id: response }],
-                                status: 'success',
+                                localizationFormStatus: 'success',
+                                localizationFormOpen: false,
                             }));
                         },
                         (error: HttpErrorResponse) => this.handleError(error)
@@ -234,7 +242,10 @@ export class SettingsAccountStore extends ComponentStore<SettingsAccountState> {
             )
         )
     );
-    readonly setFormOpen = this.updater<boolean>((state, formOpen) => {
+    readonly setLocalizationEditing = this.updater<boolean>((state, editing) => {
+        return { ...state, editingLocalization: editing };
+    });
+    readonly setLocalizationFormOpen = this.updater<boolean>((state, formOpen) => {
         return { ...state, localizationFormOpen: formOpen };
     });
     readonly setNameFormOpen = this.updater<boolean>((state, formOpen) => {
