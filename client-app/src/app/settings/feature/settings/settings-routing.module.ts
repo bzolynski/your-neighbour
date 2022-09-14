@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AuthGuard, RoleGuard } from '@guards/.';
+import { AuthGuard } from '@guards/.';
 import { SettingsComponent } from './settings.component';
 
 const routes: Routes = [
@@ -12,8 +12,8 @@ const routes: Routes = [
             {
                 path: 'advertisements',
                 loadChildren: () =>
-                    import('../settings-my-advertisements/settings-my-advertisements.module').then(
-                        (m) => m.SettingsMyAdvertisementsModule
+                    import('../settings-advertisements/settings-advertisements.module').then(
+                        (m) => m.SettingsAdvertisementsModule
                     ),
             },
             {
@@ -22,15 +22,15 @@ const routes: Routes = [
             },
             {
                 path: 'categories',
-                canActivate: [RoleGuard],
-                data: { roles: ['Administrator'] },
+                // canActivate: [RoleGuard],
+                // data: { roles: ['Administrator'] },
                 loadChildren: () =>
                     import('../settings-categories/settings-categories.module').then((m) => m.SettingsCategoriesModule),
             },
             {
                 path: 'category-definitions',
-                canActivate: [RoleGuard],
-                data: { roles: ['Administrator'] },
+                // canActivate: [RoleGuard],
+                // data: { roles: ['Administrator'] },
                 loadChildren: () =>
                     import('../settings-category-definitions/settings-category-definitions.module').then(
                         (m) => m.SettingsCategoryDefinitionsModule

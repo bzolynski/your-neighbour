@@ -1,0 +1,77 @@
+<div class="own-form-group">
+    <label *ngIf="label && label !== ''" class="own-label" [ngClass]="{ 'own-required': required }" [for]="formControlName">{{
+        label
+    }}</label>
+    <div class="own-input-group">
+        <div
+            class="own-inputtext p-inputtext p-dropdown .p-dropdown-label p-placeholder p-component p-element"
+            [ngClass]="{
+                'ng-invalid': control.invalid,
+                'ng-pristine': control.pristine,
+                'ng-dirty': control.dirty,
+                'ng-touched': control.touched,
+                'own-has-error': control.invalid && control.dirty,
+                'own-input-wrapper-focus': overlayOpen && !(control.invalid && control.dirty)
+            }"
+            (click)="localizationsOP.toggle($event)">
+            <div class="own-selected-container">
+                <ng-container
+                    *ngIf="control.value; else noValueSelected"
+                    [ngTemplateOutlet]="selectedTemplate || defaultSelectedTemplate"
+                    [ngTemplateOutletContext]="{ $implicit: control.value }"></ng-container>
+            </div>
+            <ng-template #noValueSelected
+                ><span class="own-placeholder-text">{{ placeholder }}</span></ng-template
+            >
+        </div>
+        <span
+            *ngIf="showError && control.invalid && control.dirty"
+            class="p-inputgroup-addon own-error-addon"
+            [pTooltip]="errorMessage">
+            <i class="pi pi-exclamation-circle"></i>
+        </span>
+    </div>
+</div>
+
+<p-overlayPanel
+    #localizationsOP
+    [showCloseIcon]="true"
+    [style]="{ width: '450px' }"
+    (onShow)="overlayOpen = true"
+    (onHide)="control.markAsDirty(); overlayOpen = false">
+    <p-table
+        [value]="data"
+        selectionMode="single"
+        [selection]="control.value"
+        (onRowSelect)="onChange(valueSelector ? valueSelector($event.data) : $event.data)"
+        [paginator]="true"
+        [rows]="5"
+        responsiveLayout="scroll">
+        <ng-template pTemplate="header">
+            <tr>
+                <ng-container [ngTemplateOutlet]="headerTemplate || defaultHeaderTemplate"></ng-container>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-item>
+            <tr [pSelectableRow]="rowData">
+                <ng-container
+                    [ngTemplateOutlet]="rowTemplate || defaultRowTemplate"
+                    [ngTemplateOutletContext]="{ $implicit: rowData, item: item }"></ng-container>
+            </tr>
+        </ng-template>
+    </p-table>
+</p-overlayPanel>
+<ng-template #defaultSelectedTemplate>
+    {{ control.value }}
+</ng-template>
+<ng-template #defaultHeaderTemplate> </ng-template>
+<ng-template #defaultRowTemplate let-item>
+    <ng-container *ngIf="item | keyvalue as keyValues; else noKV">
+        <td *ngFor="let keyvalue of keyValues">
+            {{ keyvalue.value }}
+        </td>
+    </ng-container>
+    <ng-template #noKV>
+        <td>{{ item }}</td>
+    </ng-template>
+</ng-template>

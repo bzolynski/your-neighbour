@@ -35,9 +35,9 @@ export class ApiService {
         return this.client.delete<T>(`${environment.api_url}/${path}`, { params: params }).pipe(catchError(this.handleError));
     };
 
-    uploadFile = (path: string, formData: FormData): Observable<HttpEvent<unknown>> => {
+    uploadFile = <T>(path: string, formData: FormData): Observable<HttpEvent<T>> => {
         return this.client
-            .post(`${environment.api_url}/${path}`, formData, { reportProgress: true, observe: 'events' })
+            .post<T>(`${environment.api_url}/${path}`, formData, { reportProgress: true, observe: 'events' })
             .pipe(catchError(this.handleError));
     };
 }

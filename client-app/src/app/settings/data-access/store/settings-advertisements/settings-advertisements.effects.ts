@@ -8,17 +8,19 @@ import { catchError, filter, map, switchMap, tap } from 'rxjs/operators';
 import { AdvertisementService } from '@services/.';
 import { User } from '@models/';
 import {
-    createAdvertisement,
+    addToList,
+    addToListError,
+    addToListSuccess,
     deleteAdvertisement,
     deleteAdvertisementError,
     deleteAdvertisementSuccess,
     loadAdvertisements,
     loadAdvertisementsError,
     loadAdvertisementsSuccess,
-    updateAdvertisement,
-    updateAdvertisementError,
-    updateAdvertisementSuccess,
-} from './settings-my-advertisements.actions';
+    updateOnList,
+    updateOnListError,
+    updateOnListSuccess,
+} from './settings-advertisements.actions';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { selectUser } from '@stores/authentication';
@@ -45,6 +47,8 @@ export class SettingsMyAdvertisementsEffects {
                         this.advertisementService.getManyByUser(user.id, {
                             includeCategory: true,
                             includeLocalization: true,
+                            includeImages: true,
+                            maxImages: 1,
                         })
                     ),
                     map((advertisements) => loadAdvertisementsSuccess({ advertisements: advertisements })),
@@ -54,48 +58,37 @@ export class SettingsMyAdvertisementsEffects {
         )
     );
 
-    createAdvertisement$ = createEffect(() =>
+    addToList$ = createEffect(() =>
         this.actions$.pipe(
-            ofType(createAdvertisement)
-            // switchMap(({ advertisement }) =>
-            //     this.user$.pipe(
-            //         tap(this.checkUserLoggedIn)
-            // filter((user): user is User => user !== null),
-            // switchMap((user) => this.advertisementService.create(advertisement, user.id)),
-            // map((id) => createAdvertisementSuccess({ advertisement: { ...advertisement, id: id } })),
-            // catchError((error: HttpErrorResponse) =>
-            //     of(createAdvertisementError({ error: error.error ?? error.message }))
-            // )
-            //     )
-            // )
+            ofType(addToList),
+            switchMap(({ id }) =>
+                this.advertisementService.get(id, {
+                    includeCategory: true,
+                    includeLocalization: true,
+                    includeImages: true,
+                    maxImages: 1,
+                })
+            ),
+            map((advertisement) => addToListSuccess({ advertisement: advertisement })),
+            catchError((error: HttpErrorResponse) => of(addToListError({ error: error.error ?? error.message })))
         )
     );
 
-    updateAdvertisement$ = createEffect(() =>
+    updateOnList$ = createEffect(() =>
         this.actions$.pipe(
-            ofType(updateAdvertisement),
-            switchMap(({ id, advertisement }) =>
-                this.advertisementService.update(id, advertisement).pipe(
-                    map((id) => updateAdvertisementSuccess({ advertisement: { ...advertisement, id: id } })),
-                    catchError((error: HttpErrorResponse) =>
-                        of(updateAdvertisementError({ error: error.error ?? error.message }))
-                    )
-                )
-            )
+            ofType(updateOnList),
+            switchMap(({ id }) =>
+                this.advertisementService.get(id, {
+                    includeCategory: true,
+                    includeLocalization: true,
+                    includeImages: true,
+                    maxImages: 1,
+                })
+            ),
+            map((advertisement) => updateOnListSuccess({ advertisement: advertisement })),
+            catchError((error: HttpErrorResponse) => of(updateOnListError({ error: error.error ?? error.message })))
         )
     );
-
-    // loadImages$ = createEffect(() =>
-    //     this.actions$.pipe(
-    //         ofType(loadImages),
-    //         mergeMap(({ itemId }) =>
-    //             this.itemService.getImagesByItem(itemId, { maxImages: 1 }).pipe(
-    //                 map((images) => loadImagesSuccess({ itemId: itemId, images: images })),
-    //                 catchError((error: HttpErrorResponse) => of(loadImagesError({ error: error.error ?? error.message })))
-    //             )
-    //         )
-    //     )
-    // );
 
     deleteAdvertisement$ = createEffect(() =>
         this.actions$.pipe(

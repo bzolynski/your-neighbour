@@ -8,7 +8,8 @@ export interface Category extends BaseModel {
     isActive: boolean;
     parent?: Category;
     children?: Category[];
-
     parentId: number;
     parentGuid: string;
+
+    definitionId: number;
 }

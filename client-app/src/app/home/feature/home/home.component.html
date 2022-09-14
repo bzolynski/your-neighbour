@@ -12,7 +12,12 @@
             <h1>Ostatnio dodane</h1>
         </ng-template>
         <ng-template let-advertisement pTemplate="item">
-            <div class="own-item" pRipple appStopPropagation [routerLink]="['/advertisements', 'details', advertisement.id]">
+            <div
+                [ngStyle]="{ 'max-height': '300px' }"
+                class="own-item"
+                pRipple
+                appStopPropagation
+                [routerLink]="['/advertisements', 'details', advertisement.id]">
                 <div class="own-image-wrapper">
                     <img
                         [src]="advertisement.images[0]?.bytes | base64ToDataUri"

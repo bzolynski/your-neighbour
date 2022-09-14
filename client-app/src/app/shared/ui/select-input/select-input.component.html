@@ -5,8 +5,9 @@
     <div class="p-inputgroup">
         <p-dropdown
             [ngClass]="{
-                'ng-invalid ng-dirty': control.invalid && control.dirty,
-                'own-has-error': showError && errorMessage && control.invalid && control.dirty
+                'ng-invalid': control.invalid,
+                'ng-dirty': control.touched,
+                'own-has-error': control.invalid && control.touched
             }"
             [style]="{ width: '100%' }"
             [id]="formControlName"
@@ -28,7 +29,7 @@
                     [ngTemplateOutletContext]="{ $implicit: item }"></ng-container>
             </ng-template> </p-dropdown
         ><span
-            *ngIf="showError && errorMessage && control.invalid && control.dirty"
+            *ngIf="showError && control.invalid && control.touched"
             class="p-inputgroup-addon own-error-addon"
             [pTooltip]="errorMessage">
             <i class="pi pi-exclamation-circle"></i>

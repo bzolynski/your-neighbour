@@ -1,19 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { SettingsMyAdvertisementsRoutingModule } from './settings-my-advertisements-routing.module';
-import { SettingsMyAdvertisementsComponent } from './settings-my-advertisements.component';
-import { StopPropagationModule } from 'src/app/shared/directives/stop-propagation/stop-propagation.module';
+import { SettingsAdvertisementsRoutingModule } from './settings-advertisements-routing.module';
+import { SettingsAdvertisementsComponent } from './settings-advertisements.component';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { TableModule } from 'primeng/table';
 import { DialogModule } from 'primeng/dialog';
 
-import {
-    SettingsMyAdvertisementsEffects,
-    settingsMyAdvertisementsReducer,
-    SETTINGS_MY_ADVERTISEMENTS_STATE_FEATURE_KEY,
-} from '../../data-access/store/settings-my-advertisements';
 import { RatingModule } from 'primeng/rating';
 import { ToolbarModule } from 'primeng/toolbar';
 import { ToastModule } from 'primeng/toast';
@@ -21,20 +15,23 @@ import { RadioButtonModule } from 'primeng/radiobutton';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
 import { InputTextModule } from 'primeng/inputtext';
-import { ButtonModule } from 'primeng/button';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { RippleModule } from 'primeng/ripple';
-import { CardContainerModule } from 'src/app/shared/directives/card-container/card-container.module';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { AdvertisementFormModule } from '../../ui/advertisement-form/advertisement-form.module';
 import { DialogService, DynamicDialogModule } from 'primeng/dynamicdialog';
+import { SharedModule } from '@shared/shared.module';
+import {
+    SettingsMyAdvertisementsEffects,
+    settingsMyAdvertisementsReducer,
+    SETTINGS_ADVERTISEMENTS_STATE_FEATURE_KEY,
+} from '../../data-access/store/settings-advertisements';
 @NgModule({
     imports: [
         CommonModule,
-        SettingsMyAdvertisementsRoutingModule,
-        StopPropagationModule,
-        StoreModule.forFeature(SETTINGS_MY_ADVERTISEMENTS_STATE_FEATURE_KEY, settingsMyAdvertisementsReducer),
+        SettingsAdvertisementsRoutingModule,
+        StoreModule.forFeature(SETTINGS_ADVERTISEMENTS_STATE_FEATURE_KEY, settingsMyAdvertisementsReducer),
         EffectsModule.forFeature([SettingsMyAdvertisementsEffects]),
 
         TableModule,
@@ -46,15 +43,14 @@ import { DialogService, DynamicDialogModule } from 'primeng/dynamicdialog';
         ConfirmDialogModule,
         InputTextModule,
         InputNumberModule,
-        ButtonModule,
         FlexLayoutModule,
         RippleModule,
-        CardContainerModule,
         OverlayPanelModule,
         AdvertisementFormModule,
         DynamicDialogModule,
+        SharedModule,
     ],
-    declarations: [SettingsMyAdvertisementsComponent],
+    declarations: [SettingsAdvertisementsComponent],
     providers: [ConfirmationService, DialogService],
 })
-export class SettingsMyAdvertisementsModule {}
+export class SettingsAdvertisementsModule {}

@@ -1,129 +1,146 @@
-<div *ngIf="vm$ | async as vm">
-    <div fxLayout="column" fxLayoutGap="24px">
-        <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap="24px">
-            <form class="container" [formGroup]="form" (ngSubmit)="submitForm(vm.mode)">
-                <app-text-input
-                    [placeholder]="'Wprowadź tytuł ogłoszenia'"
-                    [formControlName]="'title'"
-                    [label]="'Tytuł ogłoszenia'"
-                    [errorMessage]="titleErrorMessage">
-                </app-text-input>
-                <app-text-area-input
-                    [formControlName]="'description'"
-                    [placeholder]="'Wprowadź opis ogłoszenia'"
-                    [rows]="5"
-                    [label]="'Opis ogłoszenia'"
-                    [errorMessage]="descriptionErrorMessage">
-                </app-text-area-input>
-                <div fxLayoutGap.gt-sm="24px" fxLayout="column" fxLayout.gt-sm="row">
-                    <app-select-input
-                        fxFlex.gt-sm="50%"
-                        fxFlex="100"
-                        [formControlName]="'definition'"
-                        [options]="vm.definitions ?? []"
-                        [errorMessage]="definitionErrorMessage"
-                        [label]="'Definicja'"
-                        optionLabel="name"
-                        filterMatchMode="contains"
-                        filterBy="name"
-                        placeholder="Wybierz definicję">
-                        <ng-template appSelectInputSelectedTemplate let-definition>
-                            <div>
-                                <div>{{ form.value['definition'].name }}</div>
-                            </div>
-                        </ng-template>
-                        <ng-template appSelectInputItemTemplate let-definition>
-                            <div>
-                                <div>{{ definition.name }}</div>
-                            </div>
-                        </ng-template>
-                    </app-select-input>
-                    <app-select-input
-                        fxFlex.gt-sm="50%"
-                        fxFlex="100"
-                        [formControlName]="'category'"
-                        [options]="vm.categories ?? []"
-                        [errorMessage]="categoryErrorMessage"
-                        [label]="'Kategoria'"
-                        optionLabel="name"
-                        filterMatchMode="contains"
-                        filterBy="name"
-                        placeholder="Wybierz kategorię">
-                        <ng-template appSelectInputSelectedTemplate let-definition>
-                            <div>
-                                <div>{{ form.value['category'].name }}</div>
-                            </div>
-                        </ng-template>
-                        <ng-template appSelectInputItemTemplate let-category>
-                            <div>
-                                <div>{{ category.name }}</div>
-                            </div>
-                        </ng-template>
-                    </app-select-input>
-                </div>
-                <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap="18px">
-                    <button
-                        fxFlex="50"
-                        pButton
-                        pRipple
-                        [label]="form.value['localization'] ? form.value['localization'].city : 'Wybierz lokalizację'"
-                        icon="pi pi-map-marker"
-                        class="p-button-text p-button-raised p-button-secondary"
-                        (click)="localizationsOP.toggle($event)"></button>
-                    <button
-                        fxFlex="50"
-                        pButton
-                        pRipple
-                        label="Zapisz"
-                        icon="pi pi-check"
-                        class="p-button-text p-button-raised"></button>
-                </div>
-            </form>
-            <p-fileUpload
-                ngClass.lt-md="p-fileupload-content-lt-md"
-                name="images[]"
-                accept="image/*"
-                [uploadLabel]="'Wgraj'"
-                [chooseLabel]="'Wybierz'"
-                [cancelLabel]="'Wyczyść'"
-                [customUpload]="true"
-                (uploadHandler)="customUploadHandler($event)"
-                [multiple]="true"
-                [maxFileSize]="1000000">
-                <ng-template pTemplate="content">
-                    <ul *ngIf="uploadedFiles.length">
-                        <li *ngFor="let file of uploadedFiles">{{ file.name }} - {{ file.size }} bytes</li>
-                    </ul>
-                </ng-template>
-            </p-fileUpload>
-        </div>
-    </div>
-
-    <ng-template #detailsFormTemplate> </ng-template>
-
-    <ng-template #photosUploadTemplate> </ng-template>
-
-    <p-overlayPanel #localizationsOP [showCloseIcon]="true" [style]="{ width: '450px' }">
-        <p-table
-            [value]="vm.localizations ?? []"
-            selectionMode="single"
-            [selection]="form.value['localization']"
-            (onRowSelect)="onLocalizationSelect($event)"
-            [paginator]="true"
+<p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>
+<div *ngIf="vm$ | async as vm" fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap="24px">
+    <form class="container" [formGroup]="form" (ngSubmit)="submitForm(vm.mode)">
+        <app-text-input
+            [placeholder]="'Wprowadź tytuł ogłoszenia'"
+            [formControlName]="'title'"
+            [label]="'Tytuł ogłoszenia'"
+            [errorMessage]="titleErrorMessage">
+        </app-text-input>
+        <app-text-area-input
+            [formControlName]="'description'"
+            [placeholder]="'Wprowadź opis ogłoszenia'"
             [rows]="5"
-            responsiveLayout="scroll">
-            <ng-template pTemplate="header">
-                <tr>
-                    <th pSortableColumn="street">Ulica<p-sortIcon field="street"></p-sortIcon></th>
-                    <th pSortableColumn="city">Miasto <p-sortIcon field="city"></p-sortIcon></th>
-                </tr>
-            </ng-template>
-            <ng-template pTemplate="body" let-rowData let-localization>
-                <tr [pSelectableRow]="rowData">
+            [label]="'Opis ogłoszenia'"
+            [errorMessage]="descriptionErrorMessage">
+        </app-text-area-input>
+        <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap="18px" fxLayoutAlign="center end">
+            <app-select-input
+                fxFlex="50"
+                [formControlName]="'definition'"
+                [options]="vm.definitions ?? []"
+                [errorMessage]="definitionErrorMessage"
+                [label]="'Definicja'"
+                optionLabel="name"
+                filterMatchMode="contains"
+                filterBy="name"
+                placeholder="Wybierz definicję">
+                <ng-template appSelectInputSelectedTemplate let-definition>
+                    <div>
+                        <div>{{ form.value['definition'].name }}</div>
+                    </div>
+                </ng-template>
+                <ng-template appSelectInputItemTemplate let-definition>
+                    <div>
+                        <div>{{ definition.name }}</div>
+                    </div>
+                </ng-template>
+            </app-select-input>
+            <app-select-input
+                fxFlex="50"
+                [formControlName]="'category'"
+                [options]="vm.categories ?? []"
+                [errorMessage]="categoryErrorMessage"
+                [label]="'Kategoria'"
+                optionLabel="name"
+                filterMatchMode="contains"
+                filterBy="name"
+                placeholder="Wybierz kategorię">
+                <ng-template appSelectInputSelectedTemplate let-definition>
+                    <div>
+                        <div>{{ form.value['category'].name }}</div>
+                    </div>
+                </ng-template>
+                <ng-template appSelectInputItemTemplate let-category>
+                    <div>
+                        <div>{{ category.name }}</div>
+                    </div>
+                </ng-template>
+            </app-select-input>
+        </div>
+        <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap="18px" fxLayoutAlign="center end">
+            <app-overlay-select-input
+                fxFlex="50"
+                [label]="'Lokalizacja'"
+                [placeholder]="'Wybierz lokalizację'"
+                [formControlName]="'localization'"
+                [data]="vm.localizations ?? []">
+                <ng-template appOverlaySelectInputSelectedTemplate let-localization>
+                    {{ localization.city }}
+                </ng-template>
+                <ng-template appOverlaySelectInputHeaderTemplate>
+                    <th>Ulica</th>
+                    <th>Miasto</th>
+                </ng-template>
+                <ng-template appOverlaySelectInputRowTemplate let-localization>
                     <td>{{ localization.street }}</td>
                     <td>{{ localization.city }}</td>
-                </tr>
-            </ng-template>
-        </p-table>
-    </p-overlayPanel>
+                </ng-template>
+            </app-overlay-select-input>
+
+            <app-button
+                fxFlex="50"
+                [type]="'submit'"
+                [buttonLoading]="vm.status === 'loading'"
+                [disabled]="!form.valid"
+                label="Zapisz"
+                [buttonIcon]="'pi pi-check'"
+                [buttonStyle]="'raised'"></app-button>
+        </div>
+    </form>
+    <p-fileUpload
+        #fileUpload
+        fxFlex="480px"
+        ngClass.lt-md="p-fileupload-content-lt-md"
+        name="images[]"
+        accept="image/*"
+        [uploadLabel]="'Wgraj'"
+        [chooseLabel]="'Wybierz'"
+        [showCancelButton]="false"
+        [customUpload]="true"
+        (uploadHandler)="customUploadHandler($event, fileUpload)"
+        [multiple]="true"
+        [maxFileSize]="1000000">
+        <ng-template let-file let-index="index" pTemplate="file">
+            <div fxLayout="row" fxLayoutGap="16px" [ngStyle]="{ 'margin-bottom': '8px' }">
+                <img fxFlex="80px" [src]="file.objectURL" />
+                <div fxFlex>
+                    {{ file.name }}
+                </div>
+                <app-button
+                    fxFlexAlign="start"
+                    [buttonIcon]="'pi pi-times'"
+                    (click)="fileUpload.remove($event, index)"></app-button>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="content">
+            <ng-container *ngIf="vm.advertisement && vm.advertisement.images && vm.advertisement.images.length > 0">
+                <p-divider [align]="'center'">
+                    <b>Aktualne zdjęcia</b>
+                </p-divider>
+                <div fxLayout="column" fxLayoutGap="8px">
+                    <div *ngFor="let file of vm.advertisement.images" fxLayout="row" fxLayoutGap="16px">
+                        <img fxFlex="80px" [src]="file.bytes | base64ToDataUri" />
+                        <div fxFlex>
+                            {{ file.description }}
+                        </div>
+                        <div>
+                            <app-button
+                                [buttonIcon]="file.main ? 'pi pi-star-fill' : 'pi pi-star'"
+                                [buttonStyle]="'flat'"
+                                [buttonRounded]="true"
+                                [buttonColor]="'warning'"
+                                (click)="setMainImage(file.id)"></app-button>
+                            <app-button
+                                [buttonIcon]="'pi pi-trash'"
+                                [buttonStyle]="'flat'"
+                                [buttonRounded]="true"
+                                [buttonColor]="'danger'"
+                                (click)="deleteImage(file.id)"></app-button>
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+        </ng-template>
+    </p-fileUpload>
 </div>

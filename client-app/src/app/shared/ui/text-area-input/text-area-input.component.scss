@@ -1,5 +1,3 @@
-$errorColor: hsl(0, 72%, 59%);
-
 :host {
     width: 100%;
 }
@@ -10,7 +8,7 @@ $errorColor: hsl(0, 72%, 59%);
         justify-content: center;
     }
     .p-inputtextarea {
-        border-radius: 6px;
+        border-radius: var(--border-radius);
     }
 }
 .own-has-error {
@@ -22,20 +20,15 @@ $errorColor: hsl(0, 72%, 59%);
     flex-direction: column;
 }
 
-.own-error-message {
-    color: $errorColor;
-    min-height: 20px;
-}
-
 .own-label {
     margin-bottom: 0.25rem;
 }
 .own-label.own-required:after {
     content: ' *';
-    color: $errorColor;
+    color: var(--error-color);
 }
 .own-error-addon {
-    border-color: $errorColor;
-    background-color: $errorColor;
+    border-color: var(--error-color);
+    background-color: var(--error-color);
     color: white;
 }

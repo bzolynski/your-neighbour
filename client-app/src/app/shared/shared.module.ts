@@ -15,6 +15,8 @@ import { TextAreaInputModule } from './ui/text-area-input/text-area-input.module
 import { MaskInputModule } from './ui/mask-input/mask-input.module';
 import { NumberInputModule } from './ui/number-input/number-input.module';
 import { SelectInputModule } from './ui/select-input/select-input.module';
+import { ElevationModule } from './directives/elevation/elevation.module';
+import { OverlaySelectInputModule } from './ui/overlay-select-input/overlay-select-input.module';
 
 @NgModule({
     imports: [CommonModule],
@@ -26,6 +28,7 @@ import { SelectInputModule } from './ui/select-input/select-input.module';
         ParentWidthModule,
         FocusOnLoadModule,
         CardContainerModule,
+        ElevationModule,
         // pipes
         RepeatModule,
         ToStringModule,
@@ -37,6 +40,7 @@ import { SelectInputModule } from './ui/select-input/select-input.module';
         MaskInputModule,
         NumberInputModule,
         SelectInputModule,
+        OverlaySelectInputModule,
 
         // 3rd party
         FlexLayoutModule,

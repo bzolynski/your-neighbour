@@ -2,21 +2,19 @@ import { Advertisement } from '@models/';
 import { createReducer, on } from '@ngrx/store';
 import { GenericState } from '@app-types/.';
 import {
-    createAdvertisement,
-    createAdvertisementSuccess,
+    addToList,
+    addToListSuccess,
     deleteAdvertisement,
     deleteAdvertisementError,
     deleteAdvertisementSuccess,
     loadAdvertisements,
     loadAdvertisementsError,
     loadAdvertisementsSuccess,
-    loadImagesError,
-    loadImagesSuccess,
-    updateAdvertisement,
-    updateAdvertisementSuccess,
-} from './settings-my-advertisements.actions';
+    updateOnList,
+    updateOnListSuccess,
+} from './settings-advertisements.actions';
 
-export const SETTINGS_MY_ADVERTISEMENTS_STATE_FEATURE_KEY = 'settings my advertisements';
+export const SETTINGS_ADVERTISEMENTS_STATE_FEATURE_KEY = 'settings advertisements';
 
 export type SettingsMyAdvertisementsState = GenericState<Advertisement[]>;
 
@@ -43,7 +41,7 @@ export const settingsMyAdvertisementsReducer = createReducer(
         status: 'error',
         error: error,
     })),
-    on(createAdvertisement, updateAdvertisement, deleteAdvertisement, (state) => ({
+    on(deleteAdvertisement, (state) => ({
         ...state,
         status: 'loading',
         error: null,
@@ -58,20 +56,18 @@ export const settingsMyAdvertisementsReducer = createReducer(
         status: 'error',
         error: error,
     })),
-    on(loadImagesSuccess, (state, { advertisementId, images }) => ({
+    on(addToList, updateOnList, (state) => ({
+        ...state,
+        status: 'loading',
+    })),
+    on(addToListSuccess, (state, { advertisement }) => ({
         ...state,
         status: 'success',
-        data: (state.data ?? []).map((value) =>
-            value.id === advertisementId ? ({ ...value, images: images } as Advertisement) : value
-        ),
+        data: [...(state.data ?? []), advertisement],
     })),
-    on(createAdvertisementSuccess, updateAdvertisementSuccess, (state) => ({
+    on(updateOnListSuccess, (state, { advertisement }) => ({
         ...state,
         status: 'success',
-    })),
-    on(loadImagesError, (state, { error }) => ({
-        ...state,
-        status: 'error',
-        error: error,
+        data: (state.data ?? []).map((value) => (value.id === advertisement.id ? advertisement : value)),
     }))
 );

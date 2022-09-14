@@ -1,47 +1,114 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { Store } from '@ngrx/store';
-import { iif, merge, of } from 'rxjs';
-import { filter, map, switchMap } from 'rxjs/operators';
-import {
-    loadCategories,
-    selectCategories,
-    selectError,
-    selectSidePanelWidth,
-    selectStatus,
-    setSidePanelWitdh,
-} from '../../data-access/store/settings-categories';
-
+import { Category } from '@models/category.model';
+import { TreeNode } from 'primeng/api';
+import { combineLatest } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { FormMode, SettingsCategoriesStore } from './settings-categories.store';
+import { TreeDragDropService } from 'primeng/api';
+import { FormGroup, Validators } from '@angular/forms';
+import { GenericFormControl } from '@app-types/generic-form.type';
+import { CategoryDefinition } from '@models/category-definition.model';
 @Component({
     selector: 'app-settings-categories',
     templateUrl: './settings-categories.component.html',
     styleUrls: ['./settings-categories.component.scss'],
+    providers: [SettingsCategoriesStore, TreeDragDropService],
 })
 export class SettingsCategoriesComponent implements OnInit {
-    categories$ = this.store.select(selectCategories);
-    status$ = this.store.select(selectStatus);
-    error$ = this.store.select(selectError);
-    sidePanelWidth$ = this.store.select(selectSidePanelWidth);
-
-    expanded$ = merge(of(undefined), this.router.events).pipe(
-        switchMap((value) =>
-            iif(
-                () => value === undefined,
-                (this.route.firstChild?.url ?? this.route.url).pipe(map((segmets) => segmets.length > 0)),
-                of(value).pipe(
-                    filter((e): e is NavigationEnd => e !== null && e instanceof NavigationEnd),
-                    map(() => (this.route.firstChild ? true : false))
-                )
-            )
-        )
+    vm$ = combineLatest([
+        this.componentStore.rootCategoryTree$,
+        this.componentStore.formOpen$,
+        this.componentStore.definitions$,
+        this.componentStore.formStatus$,
+        this.componentStore.formMode$,
+        this.componentStore.status$,
+    ]).pipe(
+        map(([rootCategoryTree, formOpen, definitions, formStatus, formMode, status]) => ({
+            rootCategoryTree,
+            formOpen,
+            definitions,
+            formStatus,
+            formMode,
+            status,
+        }))
     );
 
-    constructor(private store: Store, private router: Router, private route: ActivatedRoute) {}
-    ngOnInit(): void {
-        this.store.dispatch(loadCategories());
+    form: FormGroup = new FormGroup({
+        id: new GenericFormControl<number>(undefined),
+        parentId: new GenericFormControl<number>(undefined),
+        name: new GenericFormControl<string>('', [Validators.required, Validators.minLength(3)]),
+        definition: new GenericFormControl<CategoryDefinition>(undefined, [Validators.required]),
+        isActive: new GenericFormControl<boolean>(true),
+    });
+
+    get nameErrorMessage() {
+        const control = this.form.controls['name'];
+        if (control.errors?.required) return 'Pole jest wymagane';
+        if (control.errors?.minlength) return `Minimalna długość: ${control.errors?.minlength?.requiredLength}`;
+        return '';
     }
-    triggerRouter = (route: any[], width: string = '600px') => {
-        this.router.navigate(route, { relativeTo: this.route });
-        this.store.dispatch(setSidePanelWitdh({ width: width }));
-    };
+    get definitionErrorMessage() {
+        const control = this.form.controls['definition'];
+        if (control.errors?.required) return 'Pole jest wymagane';
+        return '';
+    }
+
+    constructor(private componentStore: SettingsCategoriesStore) {}
+
+    ngOnInit(): void {
+        this.componentStore.loadRootCategory();
+        this.componentStore.loadDefinitions();
+    }
+    editCategory(category: Category): void {
+        this.form.patchValue({
+            id: category.id,
+            parentId: category.parentId,
+            name: category.name,
+            isActive: category.isActive,
+            definition: category.definition,
+        });
+        this.componentStore.setFormOpen({ open: true, mode: 'edit' });
+    }
+    createCategory(category: Category): void {
+        this.form.patchValue({ parentId: category.id });
+        this.componentStore.setFormOpen({ open: true, mode: 'create' });
+    }
+    closeForm(): void {
+        this.form.reset();
+        this.componentStore.setFormOpen({ open: false });
+    }
+    submitForm(formMode?: FormMode): void {
+        this.form.markAllAsTouched();
+        if (!this.form.valid || !formMode) return;
+        if (formMode === 'create') {
+            this.componentStore.createCategory({
+                category: {
+                    parentId: this.form.value['parentId'],
+                    name: this.form.value['name'],
+                    isActive: this.form.value['isActive'],
+                    definitionId: this.form.value['definition'].id,
+                } as Category,
+                parentId: this.form.value['parentId'],
+            });
+        } else {
+            this.componentStore.updateCategory({
+                category: {
+                    name: this.form.value['name'],
+                    isActive: this.form.value['isActive'],
+                    definitionId: this.form.value['definition'].id,
+                } as Category,
+                id: this.form.value['id'],
+            });
+        }
+    }
+    trackNodeBy(index: number, item: TreeNode<Category>): unknown {
+        return item.data?.id ?? index;
+    }
+    triggerNodeExpand(event: { node: TreeNode<Category>; originalEvent: Event }): void {
+        this.componentStore.expandNode(event.node);
+    }
+    moveNode(event: { dragNode: TreeNode<Category>; dropNode: TreeNode<Category> }): void {
+        if (event.dragNode.parent !== event.dropNode)
+            this.componentStore.moveNode({ movedId: event.dragNode.data!.id, newParentNode: event.dropNode });
+    }
 }

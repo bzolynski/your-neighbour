@@ -3,7 +3,28 @@
 }
 
 .top-bar {
-    padding: .51rem;
+    padding: 0.51rem;
     display: flex;
     justify-content: flex-end;
+}
+
+:host ::ng-deep {
+    .p-treenode-label {
+        width: 100%;
+    }
+
+    .p-panel-content {
+        padding: 0;
+    }
+    .p-tree {
+        border: unset;
+    }
+    .p-tree .p-tree-container .p-treenode .p-treenode-content:hover {
+        outline: 0 none;
+        outline-offset: 0;
+        box-shadow: inset var(--focus-ring);
+    }
+    .p-tree-container p-treenode > li.p-treenode-droppoint {
+        display: none;
+    }
 }

@@ -55,6 +55,8 @@ export class AdvertisementListStore extends ComponentStore<AdvertisementListStat
                             includeDefinition: true,
                             includeLocalization: true,
                             includeUser: true,
+                            includeImages: true,
+                            maxImages: 1,
                             search: params.searchQuery ?? '',
                         })
                         .pipe((response$) =>

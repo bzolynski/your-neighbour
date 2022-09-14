@@ -38,22 +38,44 @@
             </ng-template>
             <ng-template let-advertisement pTemplate="listItem">
                 <div fxFlex="100">
-                    <div class="own-list-item own-item" pRipple [routerLink]="['/advertisements', 'details', advertisement.id]">
+                    <div
+                        fxLayout="row"
+                        fxLayoutAlign="start center"
+                        fxLayoutGap="16px"
+                        fxLayout.lt-sm="column"
+                        fxLayoutAlign.lt-sm="center center"
+                        class="own-item"
+                        [ngStyle]="{ padding: '1rem' }"
+                        pRipple
+                        [routerLink]="['/advertisements', 'details', advertisement.id]">
                         <img
+                            [appElevation]="2"
+                            fxFlex.gt-xs="150px"
+                            [ngStyle.lt-sm]="{ width: '75%' }"
                             class="own-image"
-                            [src]="advertisement.images[0]?.bytes"
+                            [src]="advertisement.images[0]?.bytes | base64ToDataUri"
                             [alt]="advertisement.images[0]?.description" />
-                        <div class="own-list-detail">
+                        <div
+                            fxFlex
+                            fxLayout="column"
+                            fxLayoutGap="4px"
+                            fxLayoutAlign="center start"
+                            fxLayoutAlign.lt-sm="center center">
                             <div class="own-name">{{ advertisement.title }}</div>
                             <p-rating [readonly]="true" [cancel]="false"></p-rating>
-                            <div class="own-icon-label-group own-category-group">
+                            <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="4px">
                                 <i class="pi pi-tag"></i>
                                 <span class="own-category">{{ advertisement.category.name }}</span>
                             </div>
                         </div>
-                        <div class="own-list-action">
-                            <p-button icon="pi pi-star" label="Obserwuj"></p-button>
-                            <div class="own-icon-label-group">
+                        <div
+                            fxFlex
+                            fxLayout="column"
+                            fxLayoutGap="4px"
+                            fxLayoutAlign="center end"
+                            fxLayoutAlign.lt-sm="center center">
+                            <app-button [buttonIcon]="'pi pi-star'" label="Obserwuj" [buttonStyle]="'raised'"></app-button>
+                            <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="4px">
                                 <i class="pi pi-map-marker"></i>
                                 <span>{{ advertisement.localization.city }}</span>
                             </div>
@@ -64,25 +86,27 @@
             <ng-template let-advertisement pTemplate="gridItem">
                 <div fxFlex.xs="100" fxFlex.gt-xs="50" fxFlex.gt-sm="33" fxFlex.gt-md="25">
                     <div
+                        [appElevation]="2"
                         class="own-grid-item own-card own-item"
                         pRipple
                         [routerLink]="['/advertisements', 'details', advertisement.id]">
-                        <div class="own-icon-label-group">
+                        <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="4px">
                             <i class="pi pi-tag"></i>
                             <span class="own-category">{{ advertisement.category.name }}</span>
                         </div>
                         <div class="own-grid-item-content">
                             <img
+                                [appElevation]="2"
                                 class="own-image"
-                                [src]="advertisement.images[0]?.bytes"
+                                [src]="advertisement.images[0]?.bytes | base64ToDataUri"
                                 [alt]="advertisement.images[0]?.description" />
                             <div class="own-name">{{ advertisement.title }}</div>
                             <div class="own-description">{{ advertisement.name }}</div>
                             <p-rating [readonly]="true" [cancel]="false"></p-rating>
                         </div>
                         <div class="own-grid-item-bottom">
-                            <p-button icon="pi pi-star"></p-button>
-                            <div class="own-icon-label-group">
+                            <app-button [buttonIcon]="'pi pi-star'" [buttonStyle]="'flat'" [buttonRounded]="true"></app-button>
+                            <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="4px">
                                 <i class="pi pi-map-marker"></i>
                                 <span>{{ advertisement.localization.city }}</span>
                             </div>

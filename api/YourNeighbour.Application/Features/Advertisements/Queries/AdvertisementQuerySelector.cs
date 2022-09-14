@@ -16,7 +16,7 @@ namespace YourNeighbour.Application.Features.Advertisements.Queries
         public static IQueryable<Advertisement> ApplyQueryParams(this IQueryable<Advertisement> query, AdvertisementQueryParams queryParams)
         {
             return query.IncludeIf(a => a.Category, queryParams.IncludeCategory)
-                .IncludeIf(a => a.Images.Take(queryParams.MaxImages ?? int.MaxValue), queryParams.IncludeImages)
+                .IncludeIf(a => a.Images.OrderByDescending(x => x.Main).Take(queryParams.MaxImages ?? int.MaxValue), queryParams.IncludeImages)
                 .IncludeIf(a => a.User, queryParams.IncludeUser)
                 .IncludeIf(a => a.Localization, queryParams.IncludeLocalization)
                 .IncludeIf(a => a.Definition, queryParams.IncludeDefinition);

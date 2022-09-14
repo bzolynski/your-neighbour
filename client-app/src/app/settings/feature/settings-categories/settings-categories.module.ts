@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 
 import { SettingsCategoriesRoutingModule } from './settings-categories-routing.module';
 import { SettingsCategoriesComponent } from './settings-categories.component';
-import { BackdropLoadingModule } from 'src/app/shared/ui/backdrop-loading/backdrop-loading.module';
 import { StoreModule } from '@ngrx/store';
 import {
     SettingsCategoriesEffects,
@@ -11,27 +10,28 @@ import {
     SETTINGS_CATEGORIES_STATE_FEATURE_KEY,
 } from '../../data-access/store/settings-categories';
 import { EffectsModule } from '@ngrx/effects';
-import { MatListModule } from '@angular/material/list';
-import { ElevatedSectionModule } from 'src/app/shared/directives/elevated-section/elevated-section.module';
-import { MatButtonModule } from '@angular/material/button';
-import { SettingsLayoutContentModule } from '../../ui/settings-layout-content/settings-layout-content.module';
-import { SettingsLayoutTopbarModule } from '../../ui/settings-layout-topbar/settings-layout-topbar.module';
-import { SettingsLayoutSideContentModule } from '../../ui/settings-layout-side-content/settings-layout-side-content.module';
-import { SettingsLayoutModule } from '../../ui/settings-layout/settings-layout.module';
+import { TreeModule } from 'primeng/tree';
+import { SharedModule } from '@shared/shared.module';
+import { PanelModule } from 'primeng/panel';
+import { DialogModule } from 'primeng/dialog';
+import { ReactiveFormsModule } from '@angular/forms';
+import { DividerModule } from 'primeng/divider';
+import { CheckboxModule } from 'primeng/checkbox';
+import { BackdropLoadingModule } from '@shared/ui/backdrop-loading/backdrop-loading.module';
 @NgModule({
     imports: [
         CommonModule,
+        ReactiveFormsModule,
         SettingsCategoriesRoutingModule,
-        SettingsLayoutModule,
-        SettingsLayoutContentModule,
-        SettingsLayoutTopbarModule,
-        SettingsLayoutSideContentModule,
         BackdropLoadingModule,
-        MatListModule,
-        ElevatedSectionModule,
-        MatButtonModule,
         StoreModule.forFeature(SETTINGS_CATEGORIES_STATE_FEATURE_KEY, settingsCategoriesReducer),
         EffectsModule.forFeature([SettingsCategoriesEffects]),
+        TreeModule,
+        SharedModule,
+        PanelModule,
+        DialogModule,
+        DividerModule,
+        CheckboxModule,
     ],
     declarations: [SettingsCategoriesComponent],
 })

@@ -6,8 +6,27 @@
     p-inputNumber {
         width: 100%;
     }
+    .own-has-error .p-inputtext {
+        border-top-right-radius: 0 !important;
+        border-bottom-right-radius: 0 !important;
+    }
+}
+
+.own-form-group {
+    display: flex;
+    flex-direction: column;
 }
 
 .own-label {
     margin-bottom: 0.25rem;
+}
+.own-label.own-required:after {
+    content: ' *';
+    color: var(--error-color);
+}
+
+.own-error-addon {
+    border-color: var(--error-color);
+    background-color: var(--error-color);
+    color: white;
 }

@@ -1,8 +1,6 @@
-﻿using System.Collections.Generic;
-using YourNeighbour.Application.Abstractions;
-using YourNeighbour.Application.Features.Categories.Dtos;
+﻿using YourNeighbour.Application.Abstractions;
 
 namespace YourNeighbour.Application.Features.Categories.Commands.ChangeParent
 {
-    public sealed record ChangeParentCategoryCommand(IEnumerable<ChangeParentCategoryPairDto> ChangeParents) : ICommand<bool>;
+    public sealed record ChangeParentCategoryCommand(int Id, int ParentId) : ICommand<bool>;
 }

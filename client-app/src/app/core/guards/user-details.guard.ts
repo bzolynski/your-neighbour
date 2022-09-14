@@ -27,10 +27,10 @@ export class UserDetailsGuard implements CanActivate {
                 if (!result) {
                     this.messageService.add({
                         severity: 'warn',
-                        summary: 'Warn',
+                        summary: 'Uwaga!',
                         detail: 'Niezbędne dane użytkownika nie zostały uzupełnione!',
                     });
-                    this.router.navigate(['settings/my/account/edit']);
+                    this.router.navigate(['/settings', 'account']);
                 }
             })
         );

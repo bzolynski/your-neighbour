@@ -30,10 +30,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
         CardModule,
         AvatarModule,
         FlexLayoutModule,
-        StoreModule.forFeature(
-            ADVERTISEMENT_DETAILS_FEATURE_KEY,
-            advertisementDetailsReducer
-        ),
+        StoreModule.forFeature(ADVERTISEMENT_DETAILS_FEATURE_KEY, advertisementDetailsReducer),
         EffectsModule.forFeature([AdvertisementDetailsEffects]),
     ],
     declarations: [AdvertisementDetailsComponent],

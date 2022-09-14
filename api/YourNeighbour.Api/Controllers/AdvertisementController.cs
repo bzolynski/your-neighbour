@@ -3,6 +3,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using YourNeighbour.Application.Features.Advertisements.Commands.CreateAdvertisement;
 using YourNeighbour.Application.Features.Advertisements.Commands.DeleteAdvertisement;
+using YourNeighbour.Application.Features.Advertisements.Commands.DeleteAdvertisementImage;
+using YourNeighbour.Application.Features.Advertisements.Commands.SetMainAdvertisementImage;
 using YourNeighbour.Application.Features.Advertisements.Commands.UpdateAdvertisement;
 using YourNeighbour.Application.Features.Advertisements.Commands.UploadAdvertisementImages;
 using YourNeighbour.Application.Features.Advertisements.Dtos;
@@ -11,6 +13,7 @@ using YourNeighbour.Application.Features.Advertisements.Queries.GetAdvertisement
 using YourNeighbour.Application.Features.Advertisements.Queries.GetManyAdvertisements;
 using YourNeighbour.Application.Features.Advertisements.Queries.GetManyAdvertisementsByCategory;
 using YourNeighbour.Application.Features.Advertisements.Queries.GetManyAdvertisementsByUser;
+using YourNeighbour.Domain.Entities;
 
 namespace YourNeighbour.Api.Controllers
 {
@@ -28,7 +31,6 @@ namespace YourNeighbour.Api.Controllers
         {
             AdvertisementDto result = await Mediator.Send(new GetAdvertisementQuery(id, queryParams));
             return Ok(result);
-
         }
 
         [HttpGet("get-by-category/{categoryId}")]
@@ -42,10 +44,23 @@ namespace YourNeighbour.Api.Controllers
         [DisableRequestSizeLimit]
         public async Task<IActionResult> UploadImages(int advertisementid)
         {
-            await Mediator.Send(new UploadAdvertisementImagesCommand(advertisementid, Request.Form.Files));
-            return Ok();
+            IEnumerable<AdvertisementImage> result = await Mediator.Send(new UploadAdvertisementImagesCommand(advertisementid, Request.Form.Files));
+            return Ok(result);
         }
 
+        [HttpDelete("delete-image/{id}")]
+        public async Task<IActionResult> DeleteImage(int id)
+        {
+            await Mediator.Send(new DeleteAdvertisementImageCommand(id));
+            return NoContent();
+        }
+
+        [HttpPatch("set-main-image/{id}")]
+        public async Task<IActionResult> SetMainImage(int id)
+        {
+            await Mediator.Send(new SetMainAdvertisementImageCommand(id));
+            return Ok();
+        }
 
         [HttpGet("get-by-user/{userId}")]
         public async Task<IActionResult> GetByUser(int userId, [FromQuery] AdvertisementSearchableQueryParams queryParams)

@@ -3,20 +3,22 @@
     <p-toolbar>
         <ng-template pTemplate="left">
             <div fxLayoutGap="1rem">
-                <button pButton pRipple label="Nowe" icon="pi pi-plus" class="p-button-success" (click)="show()"></button>
-                <button
-                    pButton
-                    pRipple
+                <app-button
+                    label="Nowe"
+                    [buttonIcon]="'pi pi-plus'"
+                    (click)="createAdvertisement()"
+                    [buttonColor]="'success'"></app-button>
+                <app-button
                     label="Usuń"
-                    icon="pi pi-trash"
-                    class="p-button-danger"
+                    [buttonIcon]="'pi pi-trash'"
+                    [buttonColor]="'danger'"
                     (click)="deleteSelectedAdvertisements()"
-                    [disabled]="!selectedAdvertisement || !selectedAdvertisement.length"></button>
+                    [disabled]="!selectedAdvertisement || !selectedAdvertisement.length"></app-button>
             </div>
         </ng-template>
 
         <ng-template pTemplate="right">
-            <button pButton pRipple label="Eksportuj?" icon="pi pi-upload" class="p-button-help"></button>
+            <app-button label="Eksportuj?" [buttonIcon]="'pi pi-upload'" [buttonColor]="'help'"></app-button>
         </ng-template>
     </p-toolbar>
 
@@ -81,10 +83,11 @@
                     <td gdArea="title">{{ advertisement.title }}</td>
                     <td gdArea="image">
                         <img
-                            [src]="advertisement.images[0]?.bytes"
+                            [appElevation]="2"
+                            [src]="advertisement.images[0]?.bytes | base64ToDataUri"
                             [alt]="advertisement.images[0]?.description"
                             width="100"
-                            class="shadow-4" />
+                            class="own-image" />
                     </td>
                     <td gdArea="date">{{ advertisement.dateCreated | date: 'dd MMM yyyy' }}</td>
                     <td gdArea="city">{{ advertisement.localization.city }}</td>
@@ -96,18 +99,16 @@
                     <td gdArea="status"><p-rating [readonly]="true" [cancel]="false"></p-rating></td>
                     <td gdArea="buttons">
                         <div fxLayout="row" fxLayout.lt-lg="column" fxLayoutGap="10px" fxLayoutAlign="space-between baseline">
-                            <button
-                                pButton
-                                pRipple
-                                icon="pi pi-pencil"
-                                class="p-button-rounded p-button-success p-mr-2"
-                                (click)="editProduct(advertisement)"></button>
-                            <button
-                                pButton
-                                pRipple
-                                icon="pi pi-trash"
-                                class="p-button-rounded p-button-warning"
-                                (click)="deleteAdvertisement(advertisement)"></button>
+                            <app-button
+                                [buttonIcon]="'pi pi-pencil'"
+                                [buttonColor]="'success'"
+                                [buttonRounded]="true"
+                                (click)="editAdvertisement(advertisement)"></app-button>
+                            <app-button
+                                [buttonIcon]="'pi pi-trash'"
+                                [buttonColor]="'warning'"
+                                [buttonRounded]="true"
+                                (click)="deleteAdvertisement(advertisement)"></app-button>
                         </div>
                     </td>
                 </tr>

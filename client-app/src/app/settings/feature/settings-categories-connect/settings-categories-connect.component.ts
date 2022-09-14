@@ -1,4 +1,3 @@
-import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { UrlTree } from '@angular/router';
 import { IconDefinition, faChevronDown } from '@fortawesome/free-solid-svg-icons';
@@ -93,14 +92,14 @@ export class SettingsCategoriesConnectComponent implements OnInit {
             return new ChildParentPair(key, value);
         });
 
-        this.categoryService.changeParent(childParentPairs).subscribe(
-            (response) => {
-                this.parentChanges.clear();
-                this.messageService.add({ severity: 'success', summary: 'Sukces', detail: 'Pomyślnie zaktualizowano kategorie' });
-            },
-            (error: HttpErrorResponse) => {
-                this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error ?? error.message });
-            }
-        );
+        // this.categoryService.changeParent(childParentPairs).subscribe(
+        //     (response) => {
+        //         this.parentChanges.clear();
+        //         this.messageService.add({ severity: 'success', summary: 'Sukces', detail: 'Pomyślnie zaktualizowano kategorie' });
+        //     },
+        //     (error: HttpErrorResponse) => {
+        //         this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error ?? error.message });
+        //     }
+        // );
     };
 }

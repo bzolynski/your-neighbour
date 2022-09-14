@@ -105,6 +105,9 @@ namespace YourNeighbour.EntityFramework.SqlServer.Migrations
                     b.Property<Guid>("Guid")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<bool>("Main")
+                        .HasColumnType("bit");
+
                     b.Property<decimal>("Size")
                         .HasColumnType("decimal(18,2)");
 
@@ -273,16 +276,16 @@ namespace YourNeighbour.EntityFramework.SqlServer.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "f1e55ff9-0dcb-4118-a79c-c3013a298760",
-                            Guid = new Guid("b8e4a448-bd5c-442c-8a80-28635ac58301"),
+                            ConcurrencyStamp = "ae1185b5-5e41-4199-b2bd-1645abac77d9",
+                            Guid = new Guid("812f2c5f-fa28-41d4-83da-c32ce7ae2630"),
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "7bbfd773-a999-4827-afc1-f53039d8db25",
-                            Guid = new Guid("1987e266-a149-48c4-a9fc-03b3450be282"),
+                            ConcurrencyStamp = "0a78206e-7b64-419b-89a3-25b24c9b6f3a",
+                            Guid = new Guid("578405b3-dc01-4103-9f16-739cc7ad0a91"),
                             Name = "User",
                             NormalizedName = "USER"
                         });

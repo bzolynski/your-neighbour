@@ -8,7 +8,8 @@
             pInputTextarea
             #input
             [ngClass]="{
-                'ng-invalid ng-dirty': control.invalid && control.touched,
+                'ng-invalid': control.invalid,
+                'ng-dirty': control.touched,
                 'own-has-error': control.invalid && control.touched
             }"
             [id]="formControlName"
@@ -16,12 +17,13 @@
             [cols]="cols"
             [wrap]="wrap"
             [required]="required"
+            [autoResize]="true"
             [placeholder]="placeholder"
             (input)="onChange(input!.value)"
             (blur)="onTouched()"
             [formControl]="control"></textarea>
         <span
-            *ngIf="showError && errorMessage && control.invalid && control.touched"
+            *ngIf="showError && control.invalid && control.touched"
             class="p-inputgroup-addon own-error-addon"
             [pTooltip]="errorMessage">
             <i class="pi pi-exclamation-circle"></i>

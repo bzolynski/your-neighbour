@@ -6,10 +6,10 @@ const routes: Routes = [
     {
         path: '',
         component: SettingsCategoriesComponent,
-        
+
         children: [
             {
-                path: ':id',
+                path: '',
                 matcher: (url) =>
                     url.length === 1 && url[0].path !== 'add' && url[0].path !== 'connect'
                         ? {

@@ -1,2 +1,4 @@
 import { BaseModel, FileBase } from '.';
-export interface AdvertisementImage extends FileBase, BaseModel {}
+export interface AdvertisementImage extends FileBase, BaseModel {
+    main: boolean;
+}

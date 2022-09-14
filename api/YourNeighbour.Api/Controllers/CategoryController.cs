@@ -10,6 +10,7 @@ using YourNeighbour.Application.Features.Categories.Dtos;
 using YourNeighbour.Application.Features.Categories.Queries;
 using YourNeighbour.Application.Features.Categories.Queries.GetCategory;
 using YourNeighbour.Application.Features.Categories.Queries.GetCategoryByGuid;
+using YourNeighbour.Application.Features.Categories.Queries.GetManyByParent;
 using YourNeighbour.Application.Features.Categories.Queries.GetManyCategories;
 using YourNeighbour.Application.Features.Categories.Queries.GetUnassigned;
 
@@ -35,6 +36,13 @@ namespace YourNeighbour.Api.Controllers
         public async Task<IActionResult> GetByGuid(Guid guid, [FromQuery] CategoryQueryParams queryParams)
         {
             CategoryDto category = await Mediator.Send(new GetCategoryByGuidQuery(guid, queryParams));
+            return Ok(category);
+        }
+
+        [HttpGet("get-many-by-parent/{id}")]
+        public async Task<IActionResult> GetManyByParent(int id, [FromQuery] CategoryQueryParams queryParams)
+        {
+            IEnumerable<CategoryDto> category = await Mediator.Send(new GetManyByParentQuery(id, queryParams));
             return Ok(category);
         }
 
@@ -66,10 +74,10 @@ namespace YourNeighbour.Api.Controllers
             return NoContent();
         }
 
-        [HttpPatch("change-parent")]
-        public async Task<IActionResult> ChangeParent(IEnumerable<ChangeParentCategoryPairDto> changeParents)
+        [HttpPatch("change-parent/{id}/to/{parentId}")]
+        public async Task<IActionResult> ChangeParent(int id, int parentId)
         {
-            bool result = await Mediator.Send(new ChangeParentCategoryCommand(changeParents));
+            bool result = await Mediator.Send(new ChangeParentCategoryCommand(id, parentId));
             return Ok(result);
         }
     }

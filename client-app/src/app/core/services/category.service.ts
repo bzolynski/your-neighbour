@@ -3,7 +3,6 @@ import { Observable, Subject } from 'rxjs';
 import { Category, ROOT_CATEGORY_GUID } from '@models/category.model';
 import { HttpHelperMethods, QueryParams } from 'src/app/shared/utils';
 import { ApiService } from '.';
-import { IChildParentPair } from '@app-types/.';
 
 export interface CategoryQueryParams extends QueryParams {
     includeDefinition?: boolean;
@@ -19,6 +18,10 @@ export class CategoryService {
 
     changed: Subject<void> = new Subject<void>();
 
+    getManyByParent = (id: number, queryParams?: CategoryQueryParams): Observable<Category[]> => {
+        const params = HttpHelperMethods.mapToHttpParams(queryParams);
+        return this.apiService.get<Category[]>(`category/get-many-by-parent/${id}`, params);
+    };
     getMany = (queryParams?: CategoryQueryParams): Observable<Category[]> => {
         const params = HttpHelperMethods.mapToHttpParams(queryParams);
         return this.apiService.get<Category[]>('category/get', params);
@@ -40,8 +43,8 @@ export class CategoryService {
     delete = (id: number): Observable<boolean> => {
         return this.apiService.delete<boolean>(`category/delete/${id}`);
     };
-    changeParent = (childParentPairs: Array<IChildParentPair>): Observable<boolean> => {
-        return this.apiService.patch<boolean>(`category/change-parent/`, childParentPairs);
+    changeParent = (id: number, parentId: number): Observable<boolean> => {
+        return this.apiService.patch<boolean>(`category/change-parent/${id}/to/${parentId}`);
     };
     getUnassigned = (): Observable<Array<Category>> => {
         return this.apiService.get<Array<Category>>('category/get-unassigned');

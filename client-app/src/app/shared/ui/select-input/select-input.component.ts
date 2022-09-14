@@ -33,7 +33,6 @@ export class SelectInputItemTemplateDirective {}
 export class SelectInputComponent implements OnInit, OnChanges, AfterContentChecked, ControlValueAccessor {
     @ContentChild(SelectInputSelectedTemplateDirective, { read: TemplateRef }) selectedTemplate?: TemplateRef<any>;
     @ContentChild(SelectInputItemTemplateDirective, { read: TemplateRef }) itemTemplate?: TemplateRef<any>;
-
     @Input() formControlName: string = '';
     @Input() filterMatchMode: string = 'contains';
     @Input() filterBy: string = 'id';

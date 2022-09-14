@@ -1,16 +1,7 @@
-<app-settings-layout
-    [expanded]="expanded$ | async"
-    [sideContentWidth]="$any(sidePanelWidth$ | async)">
+<!-- <app-settings-layout [expanded]="expanded$ | async" [sideContentWidth]="$any(sidePanelWidth$ | async)">
     <app-settings-layout-topbar class="top-bar" appElevatedSection>
-        <button
-            mat-button
-            [color]="'accent'"
-            (click)="triggerRouter(['connect'], '800px')">
-            Połącz kategorie
-        </button>
-        <button mat-button [color]="'primary'" (click)="triggerRouter(['add'])">
-            Nowa kategoria
-        </button>
+        <button mat-button [color]="'accent'" (click)="triggerRouter(['connect'], '800px')">Połącz kategorie</button>
+        <button mat-button [color]="'primary'" (click)="triggerRouter(['add'])">Nowa kategoria</button>
     </app-settings-layout-topbar>
     <app-settings-layout-content class="content-wrapper" appElevatedSection>
         <mat-selection-list [multiple]="false">
@@ -26,6 +17,86 @@
         <router-outlet></router-outlet>
     </app-settings-layout-side-content>
 </app-settings-layout>
-<app-backdrop-loading
-    [fixed]="true"
-    *ngIf="(status$ | async) === 'loading'"></app-backdrop-loading>
+<app-backdrop-loading [fixed]="true" *ngIf="(status$ | async) === 'loading'"></app-backdrop-loading> -->
+<div *ngIf="vm$ | async as vm">
+    <p-panel header="Kategorie">
+        <p-tree
+            [loading]="vm.status === 'loading'"
+            (onNodeExpand)="triggerNodeExpand($event)"
+            (onNodeCollapse)="triggerNodeExpand($event)"
+            (onNodeDrop)="moveNode($event)"
+            [value]="vm.rootCategoryTree ?? []"
+            [trackBy]="trackNodeBy"
+            [draggableNodes]="true"
+            [droppableNodes]="true"
+            draggableScope="self"
+            droppableScope="self">
+            <ng-template let-node pTemplate="default">
+                <div fxLayout="row" fxLayoutAlign="space-between center">
+                    <span fxFlex>{{ node.label }}</span>
+                    <div fxLayout="row" fxLayoutGap="8px">
+                        <app-button
+                            [buttonSize]="'small'"
+                            [buttonIcon]="'pi pi-pencil'"
+                            [buttonStyle]="'flat'"
+                            [buttonColor]="'warning'"
+                            [buttonRounded]="true"
+                            (click)="editCategory(node.data)"></app-button>
+                        <app-button
+                            [buttonSize]="'small'"
+                            [buttonIcon]="'pi pi-plus'"
+                            [buttonStyle]="'flat'"
+                            [buttonRounded]="true"
+                            [buttonColor]="'success'"
+                            (click)="createCategory(node.data)"></app-button>
+                    </div>
+                </div>
+            </ng-template>
+        </p-tree>
+    </p-panel>
+    <p-dialog [header]="'Kategoria'" [visible]="vm.formOpen" [modal]="true" [resizable]="false" [closable]="false">
+        <form [formGroup]="form" fxLayoutGap="16px" fxLayout="column">
+            <app-text-input
+                [label]="'Nazwa'"
+                [type]="'text'"
+                [formControlName]="'name'"
+                [errorMessage]="nameErrorMessage"></app-text-input>
+            <app-select-input
+                [formControlName]="'definition'"
+                [options]="vm.definitions"
+                [errorMessage]="definitionErrorMessage"
+                [label]="'Definicja'"
+                optionLabel="name"
+                filterMatchMode="contains"
+                filterBy="name"
+                placeholder="Wybierz definicję">
+                <ng-template appSelectInputSelectedTemplate let-definition>
+                    <div>
+                        <div>{{ form.value['definition'].name }}</div>
+                    </div>
+                </ng-template>
+                <ng-template appSelectInputItemTemplate let-definition>
+                    <div>
+                        <div>{{ definition.name }}</div>
+                    </div>
+                </ng-template>
+            </app-select-input>
+            <div fxFlex fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+                <p-checkbox [formControlName]="'isActive'" [binary]="true"></p-checkbox>
+                <label>Aktywny</label>
+            </div>
+        </form>
+        <ng-template pTemplate="footer">
+            <p-divider [style]="{ 'margin-top': '0' }"></p-divider>
+            <app-button label="Anuluj" [buttonIcon]="'pi pi-times'" [buttonStyle]="'flat'" (click)="closeForm()"></app-button>
+            <app-button
+                label="Zapisz"
+                [type]="'submit'"
+                [disabled]="!form.valid"
+                [buttonLoading]="vm.formStatus === 'loading'"
+                [buttonIcon]="'pi pi-save'"
+                [buttonStyle]="'raised'"
+                (click)="submitForm(vm.formMode)"></app-button>
+        </ng-template>
+    </p-dialog>
+</div>

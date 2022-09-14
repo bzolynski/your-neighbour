@@ -17,10 +17,10 @@ export class RoleGuard implements CanActivate {
     ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
         const roles = route.data.roles as string[] | undefined;
         if (!roles) throw Error('Pass allowed roles in data');
-        return this.user$.pipe(map((user) => user !== null && this.#checkRoles(user.roles, roles)));
+        return this.user$.pipe(map((user) => user !== null && this.checkRoles(user.roles, roles)));
     }
 
-    #checkRoles = (userRoles: string[], roles: string[]): boolean => {
+    private checkRoles = (userRoles: string[], roles: string[]): boolean => {
         return userRoles.some((val1) => roles.some((val2) => val1 === val2));
     };
 }

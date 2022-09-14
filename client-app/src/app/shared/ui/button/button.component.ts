@@ -1,11 +1,9 @@
 import { Component, ElementRef, Input, Renderer2, ViewChild } from '@angular/core';
-import { PrimeIcons } from 'primeng/api';
 
 type ButtonSize = 'small' | 'normal' | 'large';
 type ButtonStyle = 'flat' | 'raised' | 'outlined' | 'filled' | 'raised-filled';
 type ButtonColor = 'primary' | 'secondary' | 'success' | 'info' | 'warning' | 'help' | 'danger';
 type ButtonType = 'button' | 'submit' | 'reset';
-type ButtonIcon = typeof PrimeIcons[keyof typeof PrimeIcons];
 @Component({
     selector: 'app-button',
     templateUrl: './button.component.html',
@@ -17,7 +15,8 @@ export class ButtonComponent {
     @Input() disabled: boolean = false;
     @Input() buttonLoading: boolean = false;
     @Input() buttonColor: ButtonColor = 'primary';
-    @Input() buttonIcon: ButtonIcon = '';
+    @Input() buttonIcon: string = '';
+    // TODO: Ability to use different icons like font awesome (check if passed value is prime icon if not use custom content button)
     @Input() type: ButtonType = 'button';
     @Input() set buttonSize(value: ButtonSize | undefined) {
         switch (value) {
