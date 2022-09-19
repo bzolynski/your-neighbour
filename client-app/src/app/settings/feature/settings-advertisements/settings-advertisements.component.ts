@@ -4,12 +4,7 @@ import { Store } from '@ngrx/store';
 import { combineLatest, Observable } from 'rxjs';
 import { ConfirmationService } from 'primeng/api';
 import { MessageService } from 'primeng/api';
-import {
-    deleteAdvertisement,
-    loadAdvertisements,
-    selectAdvertisements,
-    selectError,
-} from '../../data-access/store/settings-advertisements';
+import { deleteAdvertisement, loadAdvertisements, selectAdvertisements, selectError } from './store';
 import { map, tap } from 'rxjs/operators';
 import { Advertisement } from '@models/';
 import { AdvertisementFormComponent } from '../../ui/advertisement-form/advertisement-form.component';

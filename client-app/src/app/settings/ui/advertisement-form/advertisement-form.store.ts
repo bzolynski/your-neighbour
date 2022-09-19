@@ -9,7 +9,7 @@ import { Store } from '@ngrx/store';
 import { selectUser } from '@stores/authentication';
 import { MessageService } from 'primeng/api';
 import { HttpHelperMethods } from '@utils/http-utils';
-import { addToList, updateOnList } from '../../data-access/store/settings-advertisements';
+import { addToList, updateOnList } from '../../feature/settings-advertisements/store';
 import { FileUpload } from 'primeng/fileupload';
 
 export type FormMode = 'edit' | 'create';

@@ -26,7 +26,7 @@ import {
     SettingsMyAdvertisementsEffects,
     settingsMyAdvertisementsReducer,
     SETTINGS_ADVERTISEMENTS_STATE_FEATURE_KEY,
-} from '../../data-access/store/settings-advertisements';
+} from './store';
 @NgModule({
     imports: [
         CommonModule,
