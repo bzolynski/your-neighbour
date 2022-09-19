@@ -1,28 +1,77 @@
-<app-settings-layout
-    [expanded]="expanded$ | async"
-    [sideContentWidth]="'600px'">
-    <app-settings-layout-topbar class="top-bar" appElevatedSection top-bar>
-        <button mat-button [color]="'primary'" [routerLink]="['add']">
-            Nowa definicja
-        </button>
-    </app-settings-layout-topbar>
-    <app-settings-layout-content
-        class="content-wrapper"
-        appElevatedSection
-        content>
-        <mat-selection-list [multiple]="false">
-            <mat-list-option
-                *ngFor="let definition of definitions$ | async"
-                [value]="definition.id"
-                [routerLink]="[definition.id]">
-                {{ definition.name }}
-            </mat-list-option>
-        </mat-selection-list>
-    </app-settings-layout-content>
-    <app-settings-layout-side-content>
-        <router-outlet></router-outlet>
-    </app-settings-layout-side-content>
-</app-settings-layout>
-<app-backdrop-loading
-    [fixed]="true"
-    *ngIf="(status$ | async) === 'loading'"></app-backdrop-loading>
+<ng-container *ngIf="vm$ | async as vm">
+    <p-panel header="Definicje kategorii">
+        <ng-template pTemplate="icons">
+            <app-button
+                [label]="'Dodaj'"
+                [buttonIcon]="'pi pi-plus'"
+                [buttonStyle]="'raised'"
+                [buttonColor]="'primary'"
+                [buttonSize]="'small'"
+                (click)="createDefinition()"></app-button>
+        </ng-template>
+        <p-table [value]="vm.definitions ?? []" [loading]="vm.status === 'loading'">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th pSortableColumn="name">Nazwa <p-sortIcon field="name"></p-sortIcon></th>
+                    <th pSortableColumn="displayName">Nazwa wyświetlana <p-sortIcon field="displayName"></p-sortIcon></th>
+                    <th pSortableColumn="isActive">Aktywny <p-sortIcon field="isActive"></p-sortIcon></th>
+                    <th [width]="'8rem'"></th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-definition>
+                <tr>
+                    <td>{{ definition.name }}</td>
+                    <td>{{ definition.displayName }}</td>
+                    <td>{{ definition.isActive ? 'tak' : 'nie' }}</td>
+                    <td>
+                        <app-button
+                            fxFlex="50"
+                            [buttonIcon]="'pi pi-pencil'"
+                            [buttonStyle]="'flat'"
+                            [buttonRounded]="true"
+                            [buttonColor]="'primary'"
+                            (click)="editDefinition(definition)"></app-button>
+                        <app-button
+                            fxFlex="50"
+                            [buttonIcon]="'pi pi-trash'"
+                            [buttonStyle]="'flat'"
+                            [buttonRounded]="true"
+                            [buttonColor]="'danger'"
+                            (click)="deleteDefinition(definition)"></app-button>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </p-panel>
+
+    <p-dialog [header]="'Definicja kategorii'" [visible]="vm.formOpen" [modal]="true" [resizable]="false" [closable]="false">
+        <form [formGroup]="form" fxLayoutGap="16px" fxLayout="column">
+            <app-text-input
+                [label]="'Nazwa'"
+                [type]="'text'"
+                [formControlName]="'name'"
+                [errorMessage]="nameErrorMessage"></app-text-input
+            ><app-text-input
+                [label]="'Nazwa wyświetlana'"
+                [type]="'text'"
+                [formControlName]="'displayName'"
+                [errorMessage]="nameErrorMessage"></app-text-input>
+            <div fxFlex fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+                <p-checkbox [formControlName]="'isActive'" [binary]="true"></p-checkbox>
+                <label>Aktywny</label>
+            </div>
+        </form>
+        <ng-template pTemplate="footer">
+            <p-divider [style]="{ 'margin-top': '0' }"></p-divider>
+            <app-button label="Anuluj" [buttonIcon]="'pi pi-times'" [buttonStyle]="'flat'" (click)="closeForm()"></app-button>
+            <app-button
+                label="Zapisz"
+                [type]="'submit'"
+                [disabled]="!form.valid"
+                [buttonLoading]="vm.formStatus === 'loading'"
+                [buttonIcon]="'pi pi-save'"
+                [buttonStyle]="'raised'"
+                (click)="submitForm(vm.formMode)"></app-button>
+        </ng-template>
+    </p-dialog>
+</ng-container>

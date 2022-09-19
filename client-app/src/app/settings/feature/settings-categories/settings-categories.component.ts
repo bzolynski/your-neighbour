@@ -107,8 +107,10 @@ export class SettingsCategoriesComponent implements OnInit {
     triggerNodeExpand(event: { node: TreeNode<Category>; originalEvent: Event }): void {
         this.componentStore.expandNode(event.node);
     }
-    moveNode(event: { dragNode: TreeNode<Category>; dropNode: TreeNode<Category> }): void {
-        if (event.dragNode.parent !== event.dropNode)
+    moveNode(event: { dragNode: TreeNode<Category>; dropNode: TreeNode<Category>; accept: () => void }): void {
+        if (event.dragNode.parent !== event.dropNode) {
+            event.accept();
             this.componentStore.moveNode({ movedId: event.dragNode.data!.id, newParentNode: event.dropNode });
+        }
     }
 }

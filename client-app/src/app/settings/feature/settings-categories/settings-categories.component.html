@@ -1,26 +1,8 @@
-<!-- <app-settings-layout [expanded]="expanded$ | async" [sideContentWidth]="$any(sidePanelWidth$ | async)">
-    <app-settings-layout-topbar class="top-bar" appElevatedSection>
-        <button mat-button [color]="'accent'" (click)="triggerRouter(['connect'], '800px')">Połącz kategorie</button>
-        <button mat-button [color]="'primary'" (click)="triggerRouter(['add'])">Nowa kategoria</button>
-    </app-settings-layout-topbar>
-    <app-settings-layout-content class="content-wrapper" appElevatedSection>
-        <mat-selection-list [multiple]="false">
-            <mat-list-option
-                *ngFor="let category of categories$ | async"
-                [value]="category.id"
-                (click)="triggerRouter([category.id])">
-                {{ category.name }}
-            </mat-list-option>
-        </mat-selection-list>
-    </app-settings-layout-content>
-    <app-settings-layout-side-content>
-        <router-outlet></router-outlet>
-    </app-settings-layout-side-content>
-</app-settings-layout>
-<app-backdrop-loading [fixed]="true" *ngIf="(status$ | async) === 'loading'"></app-backdrop-loading> -->
-<div *ngIf="vm$ | async as vm">
+<ng-container *ngIf="vm$ | async as vm">
     <p-panel header="Kategorie">
         <p-tree
+            [validateDrop]="true"
+            [emptyMessage]="'Ładnowanie kategorii...'"
             [loading]="vm.status === 'loading'"
             (onNodeExpand)="triggerNodeExpand($event)"
             (onNodeCollapse)="triggerNodeExpand($event)"
@@ -99,4 +81,4 @@
                 (click)="submitForm(vm.formMode)"></app-button>
         </ng-template>
     </p-dialog>
-</div>
+</ng-container>

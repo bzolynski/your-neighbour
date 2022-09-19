@@ -89,6 +89,11 @@ export class SettingsCategoriesStore extends ComponentStore<SettingsCategoriesSt
                         ([_, rootCategoryTree]) => {
                             const updated = this.updateNode(rootCategoryTree![0], newParentNode);
                             this.patchState({ data: [updated], status: 'success' });
+                            this.messageService.add({
+                                severity: 'success',
+                                summary: 'Sukces',
+                                detail: `Przeniesiono kategorię!`,
+                            });
                         },
                         (error: HttpErrorResponse) => {
                             this.patchState({ error: error.error, status: 'error' });

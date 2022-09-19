@@ -22,7 +22,6 @@ export class SettingsSideBarComponent {
         {
             label: 'Administrator',
             icon: 'pi pi-fw pi-user',
-            routerLink: ['/settings', 'category-definitions'],
             items: [
                 {
                     label: 'Definicje kategorii',
