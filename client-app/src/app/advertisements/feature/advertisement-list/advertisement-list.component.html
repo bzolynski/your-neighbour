@@ -4,6 +4,7 @@
         <p-dataView
             *ngIf="advertisements$ | async as advertisements"
             #dv
+            [emptyMessage]="'Brak ogłoszeń w kategorii!'"
             [value]="advertisements"
             [paginator]="true"
             [rows]="9"
