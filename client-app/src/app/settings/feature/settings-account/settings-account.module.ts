@@ -13,6 +13,7 @@ import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { TooltipModule } from 'primeng/tooltip';
 import { DialogModule } from 'primeng/dialog';
 import { DividerModule } from 'primeng/divider';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 @NgModule({
     imports: [
@@ -27,6 +28,7 @@ import { DividerModule } from 'primeng/divider';
         TooltipModule,
         DialogModule,
         DividerModule,
+        ConfirmDialogModule,
     ],
     declarations: [SettingsAccountComponent],
 })

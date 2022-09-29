@@ -221,6 +221,33 @@ export class SettingsCategoriesStore extends ComponentStore<SettingsCategoriesSt
         )
     );
 
+    readonly deleteCategory = this.effect<{ id: number }>((params$) =>
+        params$.pipe(
+            tap(() => this.patchState({ status: 'loading' })),
+            switchMap(({ id }) =>
+                this.categoryService.delete(id).pipe(
+                    withLatestFrom(this.rootCategoryTree$),
+                    tapResponse(
+                        ([_, rootNode]) => {
+                            const updatedNode = this.removeNode(id, rootNode![0]);
+
+                            this.patchState({ status: 'success', data: [updatedNode] });
+                            this.messageService.add({
+                                severity: 'success',
+                                summary: 'Sukces',
+                                detail: `Pomyślnie usunięto kategorię!`,
+                            });
+                        },
+                        (error: HttpErrorResponse) => {
+                            this.patchState({ error: error.error, status: 'error' });
+                            this.handleError(error);
+                        }
+                    )
+                )
+            )
+        )
+    );
+
     readonly setFormOpen = this.updater<{ open: boolean; mode?: FormMode }>((state, { open, mode }) => {
         return { ...state, formOpen: open, formMode: mode };
     });
@@ -229,6 +256,18 @@ export class SettingsCategoriesStore extends ComponentStore<SettingsCategoriesSt
         if (existingNode.data?.id === newNode.data?.id)
             return { ...existingNode, ...newNode, data: { ...existingNode.data!, ...newNode.data! } };
         return { ...existingNode, children: existingNode.children?.map((value) => this.updateNode(value, newNode)) };
+    };
+
+    private removeNode = (id: number, existingNode: TreeNode<Category>): TreeNode<Category> => {
+        const children = existingNode.children?.filter((value) => value.data?.id !== id);
+        if (children?.length !== existingNode.children?.length)
+            return {
+                ...existingNode,
+                children: children,
+                expanded: existingNode.expanded && children && children?.length > 0 ? true : false,
+                leaf: children && children?.length > 0 ? false : true,
+            };
+        return { ...existingNode, children: children?.map((value) => this.removeNode(id, value)) } as TreeNode<Category>;
     };
 
     private addChildToParentNode = (

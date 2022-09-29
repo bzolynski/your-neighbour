@@ -8,6 +8,7 @@ import { GenericFormControl, GenericFormGroup } from '@app-types/generic-form.ty
 import { SettingsAccountStore } from './settings-account.store';
 import { selectUser } from '@stores/authentication';
 import { combineLatest } from 'rxjs';
+import { ConfirmationService } from 'primeng/api';
 
 @Component({
     selector: 'app-settings-account',
@@ -106,7 +107,12 @@ export class SettingsAccountComponent implements OnInit {
         flatNumber: new GenericFormControl<string>(''),
     });
 
-    constructor(private store: Store, protected componentStore: SettingsAccountStore, public dialog: MatDialog) {}
+    constructor(
+        private store: Store,
+        protected componentStore: SettingsAccountStore,
+        public dialog: MatDialog,
+        private confirmationService: ConfirmationService
+    ) {}
 
     ngOnInit(): void {
         this.componentStore.loadLocalizations();
@@ -134,6 +140,18 @@ export class SettingsAccountComponent implements OnInit {
             const localization: Localization = { ...this.localizationForm.value } as Localization;
             this.componentStore.createLocalization(localization);
         }
+    }
+    deleteLocalization(localization: Localization): void {
+        this.confirmationService.confirm({
+            message: `Czy na pewno chcesz usunąć tą lokalizację?`,
+            header: 'Potwierdź',
+            acceptLabel: 'Tak',
+            rejectLabel: 'Nie',
+            icon: 'pi pi-exclamation-triangle',
+            accept: () => {
+                this.componentStore.deleteLocalization(localization.id);
+            },
+        });
     }
     openLocalizationForm(): void {
         this.localizationForm.reset();

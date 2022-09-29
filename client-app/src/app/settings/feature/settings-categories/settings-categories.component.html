@@ -1,3 +1,4 @@
+<p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>
 <ng-container *ngIf="vm$ | async as vm">
     <p-panel header="Kategorie">
         <p-tree
@@ -31,6 +32,13 @@
                             [buttonRounded]="true"
                             [buttonColor]="'success'"
                             (click)="createCategory(node.data)"></app-button>
+                        <app-button
+                            [buttonSize]="'small'"
+                            [buttonIcon]="'pi pi-trash'"
+                            [buttonStyle]="'flat'"
+                            [buttonRounded]="true"
+                            [buttonColor]="'danger'"
+                            (click)="deleteCategory(node.data)"></app-button>
                     </div>
                 </div>
             </ng-template>

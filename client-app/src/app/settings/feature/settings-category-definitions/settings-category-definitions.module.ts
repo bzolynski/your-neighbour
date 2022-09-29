@@ -11,6 +11,7 @@ import { DialogModule } from 'primeng/dialog';
 import { CheckboxModule } from 'primeng/checkbox';
 import { DividerModule } from 'primeng/divider';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 @NgModule({
     imports: [
         CommonModule,
@@ -22,6 +23,7 @@ import { ReactiveFormsModule } from '@angular/forms';
         DialogModule,
         CheckboxModule,
         DividerModule,
+        ConfirmDialogModule,
     ],
     declarations: [SettingsCategoryDefinitionsComponent],
 })

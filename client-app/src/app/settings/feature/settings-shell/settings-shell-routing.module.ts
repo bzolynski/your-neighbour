@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AuthGuard } from '@guards/.';
+import { AuthGuard, RoleGuard } from '@guards/.';
+import { Role } from '@models/user.model';
 import { SettingsShellComponent } from './settings-shell.component';
 
 const routes: Routes = [
@@ -10,6 +11,15 @@ const routes: Routes = [
         component: SettingsShellComponent,
         children: [
             {
+                path: '',
+                redirectTo: 'account',
+                pathMatch: 'full',
+            },
+            {
+                path: 'account',
+                loadChildren: () => import('../settings-account/settings-account.module').then((m) => m.SettingsAccountModule),
+            },
+            {
                 path: 'advertisements',
                 loadChildren: () =>
                     import('../settings-advertisements/settings-advertisements.module').then(
@@ -17,20 +27,16 @@ const routes: Routes = [
                     ),
             },
             {
-                path: 'account',
-                loadChildren: () => import('../settings-account/settings-account.module').then((m) => m.SettingsAccountModule),
-            },
-            {
                 path: 'categories',
-                // canActivate: [RoleGuard],
-                // data: { roles: ['Administrator'] },
+                canActivate: [RoleGuard],
+                data: { roles: ['Administrator'] as Role[] },
                 loadChildren: () =>
                     import('../settings-categories/settings-categories.module').then((m) => m.SettingsCategoriesModule),
             },
             {
                 path: 'category-definitions',
-                // canActivate: [RoleGuard],
-                // data: { roles: ['Administrator'] },
+                canActivate: [RoleGuard],
+                data: { roles: ['Administrator'] as Role[] },
                 loadChildren: () =>
                     import('../settings-category-definitions/settings-category-definitions.module').then(
                         (m) => m.SettingsCategoryDefinitionsModule

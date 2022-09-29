@@ -36,8 +36,19 @@ export class HeaderComponent {
                             { label: 'Ogłoszenia', icon: 'pi pi-server', routerLink: ['/settings', 'advertisements'] },
                         ],
                     },
-                    { separator: true },
-                    { label: 'Wszystkie', icon: 'pi pi-list', routerLink: ['/settings'] },
+                    {
+                        label: 'Administracyjne',
+                        icon: 'pi pi-shield',
+                        visible: user?.roles.some((r) => r === 'Administrator'),
+                        items: [
+                            { label: 'Kategorie', icon: 'pi pi-list', routerLink: ['/settings', 'categories'] },
+                            {
+                                label: 'Definicje kategorii',
+                                icon: 'pi pi-user-plus',
+                                routerLink: ['/settings', 'category-definitions'],
+                            },
+                        ],
+                    },
                 ],
             },
             {

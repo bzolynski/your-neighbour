@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
 import { GenericFormControl } from '@app-types/generic-form.type';
 import { CategoryDefinition } from '@models/category-definition.model';
+import { ConfirmationService } from 'primeng/api';
 import { combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -51,18 +51,23 @@ export class SettingsCategoryDefinitionsComponent implements OnInit {
         return '';
     }
 
-    constructor(
-        private componentStore: SettingsCategoryDefinitionsStore,
-        private router: Router,
-        private route: ActivatedRoute
-    ) {}
+    constructor(private componentStore: SettingsCategoryDefinitionsStore, private confirmationService: ConfirmationService) {}
 
     ngOnInit(): void {
         this.componentStore.loadDefinitions();
     }
 
     deleteDefinition(definition: CategoryDefinition) {
-        this.componentStore.deleteDefinition({ id: definition.id });
+        this.confirmationService.confirm({
+            message: `Czy na pewno chcesz usunąć definicję kategorii ${definition.displayName}?`,
+            header: 'Potwierdź',
+            acceptLabel: 'Tak',
+            rejectLabel: 'Nie',
+            icon: 'pi pi-exclamation-triangle',
+            accept: () => {
+                this.componentStore.deleteDefinition({ id: definition.id });
+            },
+        });
     }
 
     editDefinition(definition: CategoryDefinition): void {

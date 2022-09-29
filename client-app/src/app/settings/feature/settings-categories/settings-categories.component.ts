@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Category } from '@models/category.model';
-import { TreeNode } from 'primeng/api';
+import { ConfirmationService, TreeNode } from 'primeng/api';
 import { combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { FormMode, SettingsCategoriesStore } from './settings-categories.store';
@@ -53,7 +53,7 @@ export class SettingsCategoriesComponent implements OnInit {
         return '';
     }
 
-    constructor(private componentStore: SettingsCategoriesStore) {}
+    constructor(private componentStore: SettingsCategoriesStore, private confirmationService: ConfirmationService) {}
 
     ngOnInit(): void {
         this.componentStore.loadRootCategory();
@@ -72,6 +72,18 @@ export class SettingsCategoriesComponent implements OnInit {
     createCategory(category: Category): void {
         this.form.patchValue({ parentId: category.id });
         this.componentStore.setFormOpen({ open: true, mode: 'create' });
+    }
+    deleteCategory(category: Category): void {
+        this.confirmationService.confirm({
+            message: `Czy na pewno chcesz usunąć kategorię ${category.name}?`,
+            header: 'Potwierdź',
+            acceptLabel: 'Tak',
+            rejectLabel: 'Nie',
+            icon: 'pi pi-exclamation-triangle',
+            accept: () => {
+                this.componentStore.deleteCategory({ id: category.id });
+            },
+        });
     }
     closeForm(): void {
         this.form.reset();
