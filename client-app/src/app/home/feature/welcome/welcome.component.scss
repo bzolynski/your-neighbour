@@ -1,0 +1,11 @@
+:host ::ng-deep {
+    .p-tabview .p-tabview-panels,
+    .p-tabview .p-tabview-nav {
+        background-color: inherit !important;
+    }
+    .p-tabview .p-tabview-nav {
+        justify-content: space-around;
+    }
+}
+.own-tabs-wrapper {
+}

@@ -1,62 +1,58 @@
 $main-width: 80%;
 
-.wrapper{
+.own-wrapper {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
     width: 100%;
     height: 100%;
-    .main-content{
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: space-around;
-        gap:15px;
-        width: $main-width;
-        height: 100%;
-        .icon{
-            margin-top: 20px;
-            height: 70px;
-            width: 70px;
+}
+.own-main-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    gap: 15px;
+    width: $main-width;
+    height: 100%;
+}
+.own-icon {
+    margin-top: 20px;
+    height: 70px;
+    width: 70px;
 
-            background-image: url('/assets/fingerprint.png');
-            background-size: cover;
-            background-repeat: no-repeat;
-            background-position: right center;
+    background-image: url('/assets/fingerprint.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: right center;
+}
 
-        }
+.own-form-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
 
-        .form-group{
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 100%;
-        }
+.own-external-buttons {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+    align-items: center;
+    margin-bottom: 5px;
+}
+app-text-input {
+    width: 100%;
+}
 
-        .submit-button{
-            height: 40px;
-            width: 100%;
-        }
+.own-submit-button {
+    height: 40px;
+    width: 100%;
+}
 
-        .external-buttons{
-            width: 100%;
-            display: flex;
-            flex-direction: row;
-            gap: 5px;
-            align-items: center;
-            margin-bottom: 5px;
-        }
-        app-text-input{
-            width: 100%;
-        }
-        mat-form-field{
-            width: 100%;
-        }
-    }
-
-    .no-acc-link{
-        margin-bottom: 10px;
-        width: $main-width;
-    }
+.own-no-acc-link {
+    margin-bottom: 10px;
+    width: $main-width;
 }

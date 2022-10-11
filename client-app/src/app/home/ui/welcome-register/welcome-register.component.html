@@ -1,7 +1,7 @@
-<div class="wrapper">
-    <div class="main-content">
-        <div class="icon"></div>
-        <form class="form-group" [formGroup]="form" (ngSubmit)="formSubmited.next(form)">
+<div class="own-wrapper">
+    <div class="own-main-content">
+        <div class="own-icon"></div>
+        <form class="own-form-group" [formGroup]="form" (ngSubmit)="formSubmited.next(form)">
             <app-text-input
                 [label]="'Adres email'"
                 [type]="'email'"
@@ -21,17 +21,36 @@
                 [errorMessage]="confirmPasswordErrorMessage"
                 [showSuggestion]="false"></app-password-input>
 
-            <button mat-stroked-button [type]="'submit'" [disabled]="!form.valid" color="primary" class="submit-button">
-                Zarejestruj
-            </button>
+            <app-button
+                class="own-submit-button"
+                [type]="'submit'"
+                [disabled]="!form.valid"
+                [buttonColor]="'primary'"
+                [label]="'Zarejestruj'"
+                [buttonStyle]="'outlined'">
+            </app-button>
         </form>
 
-        <div class="external-buttons">
-            <button mat-raised-button color="primary" class="submit-button">Facebook</button>
+        <div class="own-external-buttons">
+            <app-button class="own-submit-button" [buttonColor]="'primary'" [label]="'Facebook'" [buttonStyle]="'raised'">
+            </app-button>
 
-            <button mat-raised-button disabled color="warn" class="submit-button">Google</button>
+            <app-button
+                class="own-submit-button"
+                [disabled]="true"
+                [buttonColor]="'warning'"
+                [label]="'Google'"
+                [buttonStyle]="'raised'">
+            </app-button>
         </div>
     </div>
 
-    <a [routerLink]="'../'" mat-button class="no-acc-link">Kontynuuj bez konta</a>
+    <app-button
+        [routerLink]="'../'"
+        class="own-no-acc-link"
+        [buttonColor]="'secondary'"
+        [label]="'Kontynuuj bez konta'"
+        [buttonStyle]="'flat'"
+        [buttonSize]="'small'">
+    </app-button>
 </div>

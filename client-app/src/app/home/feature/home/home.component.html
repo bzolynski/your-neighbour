@@ -1,5 +1,5 @@
 <div *ngIf="vm$ | async as vm">
-    <div appElevatedSection class="cover"></div>
+    <div [appElevation]="4" class="cover"></div>
     <app-bouncy-loading-backdrop [backdrop]="false" *ngIf="vm.status === 'loading'"></app-bouncy-loading-backdrop>
     <p-carousel
         [value]="vm.advertisements ?? []"

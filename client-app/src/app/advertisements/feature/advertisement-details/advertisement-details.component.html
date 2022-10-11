@@ -20,34 +20,38 @@
                 </div>
             </div>
 
-            <button
-                [disabled]="vm.isOwner"
+            <app-button
+                class="own-favorite"
                 *ngIf="vm.isFavorite; else noFavorite"
-                (click)="removeFavorite($any(vm.advertisement?.id))"
-                mat-icon-button
-                class="favorite"
-                color="warn">
-                <mat-icon>favorite</mat-icon>
-            </button>
+                [disabled]="vm.isOwner"
+                [buttonStyle]="'flat'"
+                [buttonRounded]="true"
+                [buttonColor]="'danger'"
+                [buttonIcon]="'pi pi-heart-fill'"
+                (click)="removeFavorite($any(vm.advertisement?.id))"></app-button>
             <ng-template #noFavorite>
-                <button
+                <app-button
+                    class="own-favorite"
                     [disabled]="vm.isOwner || (user$ | async) === null"
-                    class="favorite"
-                    mat-icon-button
-                    (click)="addFavorite($any(vm.advertisement?.id))"
-                    color="warn">
-                    <mat-icon>favorite_border</mat-icon>
-                </button>
+                    [buttonStyle]="'flat'"
+                    [buttonRounded]="true"
+                    [buttonColor]="'danger'"
+                    [buttonIcon]="'pi pi-heart'"
+                    (click)="addFavorite($any(vm.advertisement?.id))"></app-button>
             </ng-template>
-            <div class="buttons">
-                <button
+
+            <div class="own-buttons">
+                <app-button
                     [disabled]="vm.isOwner || (user$ | async) === null"
-                    mat-stroked-button
-                    (click)="redirectToChat($any(vm.user?.id))"
-                    color="primary">
-                    Napisz
-                </button>
-                <button [disabled]="true" mat-raised-button color="primary">Zadzwoń</button>
+                    [buttonStyle]="'outlined'"
+                    [buttonColor]="'primary'"
+                    [label]="'Napisz'"
+                    (click)="redirectToChat($any(vm.user?.id))"></app-button>
+                <app-button
+                    [disabled]="true"
+                    [buttonStyle]="'outlined'"
+                    [buttonColor]="'primary'"
+                    [label]="'Zadzwoń'"></app-button>
             </div>
         </p-card>
     </div>

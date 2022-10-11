@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Validators } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { map } from 'rxjs/operators';
 import { Localization, User } from '@models/';
@@ -110,7 +109,6 @@ export class SettingsAccountComponent implements OnInit {
     constructor(
         private store: Store,
         protected componentStore: SettingsAccountStore,
-        public dialog: MatDialog,
         private confirmationService: ConfirmationService
     ) {}
 

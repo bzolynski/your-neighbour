@@ -15,4 +15,4 @@ import { metaReducers } from './stores';
     ],
     providers: [AuthGuard, CanDeactivateGuard, LoggedInGuard, RoleGuard, UserDetailsGuard, authenticationInterceptionProvider],
 })
-export class CoreModule2 {}
+export class CoreModule {}

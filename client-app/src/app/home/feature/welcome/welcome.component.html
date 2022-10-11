@@ -1,16 +1,18 @@
 <app-welcome-landing-page>
-    <mat-card class="mat-elevation-z6">
-        <mat-tab-group mat-stretch-tabs [selectedIndex]="selectedIndex">
-            <mat-tab>
-                <ng-template mat-tab-label>Logowanie</ng-template>
-                <app-welcome-login (formSubmited)="onLogin($event)"></app-welcome-login>
-            </mat-tab>
-            <mat-tab>
-                <ng-template mat-tab-label>Rejestracja</ng-template>
-                <app-welcome-register (formSubmited)="onRegister($event)"></app-welcome-register>
-            </mat-tab>
-        </mat-tab-group>
-    </mat-card>
+    <div [appElevation]="4" class="own-tabs-wrapper" appCardContainer>
+        <p-tabView>
+            <p-tabPanel header="Logowanie">
+                <ng-template pTemplate="content">
+                    <app-welcome-login (formSubmited)="onLogin($event)"></app-welcome-login>
+                </ng-template>
+            </p-tabPanel>
+            <p-tabPanel header="Rejestracja">
+                <ng-template pTemplate="content">
+                    <app-welcome-register (formSubmited)="onRegister($event)"></app-welcome-register>
+                </ng-template>
+            </p-tabPanel>
+        </p-tabView>
+    </div>
 </app-welcome-landing-page>
 
 <app-backdrop-loading [fixed]="true" *ngIf="isBusy$ | async" [backdropColor]="'hsl(0, 0%, 30%, 0.3'"></app-backdrop-loading>

@@ -5,8 +5,8 @@ import { TextInputModule } from 'src/app/shared/ui/text-input/text-input.module'
 import { RouterModule } from '@angular/router';
 import { BackdropLoadingModule } from 'src/app/shared/ui/backdrop-loading/backdrop-loading.module';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
 import { PasswordInputModule } from '@shared/ui/password-input/password-input.module';
+import { ButtonModule } from '@shared/ui/button/button.module';
 
 @NgModule({
     imports: [
@@ -16,7 +16,7 @@ import { PasswordInputModule } from '@shared/ui/password-input/password-input.mo
         BackdropLoadingModule,
         ReactiveFormsModule,
         PasswordInputModule,
-        MatButtonModule,
+        ButtonModule,
     ],
     declarations: [WelcomeRegisterComponent],
     exports: [WelcomeRegisterComponent],

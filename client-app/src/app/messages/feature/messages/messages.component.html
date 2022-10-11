@@ -1,5 +1,5 @@
 <div class="wrapper" *ngIf="vm$ | async as vm">
-    <div class="side-bar" appElevatedSection>
+    <div class="side-bar" [appElevation]="4">
         <app-messages-side-bar [chats]="vm.chats"></app-messages-side-bar>
     </div>
     <div class="open-message">
