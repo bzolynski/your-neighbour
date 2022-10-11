@@ -3,7 +3,7 @@ import { Injectable, Provider } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, throwError } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
-import { AuthenticationService } from '@services/.';
+import { AuthenticationService } from '@core/services/.';
 @Injectable()
 export class AuthentiacionInterceptor implements HttpInterceptor {
     constructor(private authenticationService: AuthenticationService, private router: Router) {}

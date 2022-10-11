@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Localization } from '@models/';
+import { Localization } from '@core/models/';
 import { ApiService } from './api.service';
 
 @Injectable({

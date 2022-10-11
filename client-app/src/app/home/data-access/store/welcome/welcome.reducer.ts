@@ -1,6 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
 import { GenericState, User } from 'src/app/shared/data-access/models';
-import { Advertisement } from '@models/';
+import { Advertisement } from '@core/models/';
 import {
     addFavorite,
     addFavoriteError,

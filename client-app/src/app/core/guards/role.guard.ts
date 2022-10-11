@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot, UrlTree } from '@angular/router';
-import { Role, User } from '@models/user.model';
+import { Role, User } from '@core/models/user.model';
 import { Store } from '@ngrx/store';
-import { selectUser } from '@stores/authentication';
+import { selectUser } from '@core/stores/authentication';
 import { MessageService } from 'primeng/api';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';

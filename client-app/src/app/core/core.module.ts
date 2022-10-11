@@ -4,7 +4,7 @@ import { AuthGuard, CanDeactivateGuard, LoggedInGuard, RoleGuard, UserDetailsGua
 import { authenticationInterceptionProvider } from './interceptors';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
-import { AuthenticationEffects, authenticationReducer, AUTHENTICATION_STATE_KEY } from '@stores/authentication';
+import { AuthenticationEffects, authenticationReducer, AUTHENTICATION_STATE_KEY } from '@core/stores/authentication';
 import { metaReducers } from './stores';
 
 @NgModule({

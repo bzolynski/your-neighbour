@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
-import { User } from '@models/user.model';
+import { User } from '@core/models/user.model';
 import { Store } from '@ngrx/store';
-import { selectUser } from '@stores/authentication';
-import { StringHelperMethods } from '@utils/.';
+import { selectUser } from '@core/stores/authentication';
+import { StringHelperMethods } from '@shared/utils/.';
 import { MessageService } from 'primeng/api';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';

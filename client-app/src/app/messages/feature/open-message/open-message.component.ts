@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { User } from '@models/user.model';
+import { User } from '@core/models/user.model';
 import { Store } from '@ngrx/store';
-import { selectUser } from '@stores/authentication';
+import { selectUser } from '@core/stores/authentication';
 import { Observable } from 'rxjs';
 import { combineLatest } from 'rxjs';
 import { map, tap } from 'rxjs/operators';

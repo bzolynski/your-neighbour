@@ -1,14 +1,14 @@
-import { Advertisement, AdvertisementDefinition, Category, Localization, User } from '@models/';
-import { GenericState } from '@app-types/.';
+import { Advertisement, AdvertisementDefinition, Category, Localization, User } from '@core/models/';
+import { GenericState } from '@core/types/.';
 import { Injectable } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { switchMap, tap, filter, withLatestFrom } from 'rxjs/operators';
-import { AdvertisementDefinitionService, AdvertisementService, CategoryService, LocalizationService } from '@services/.';
+import { AdvertisementDefinitionService, AdvertisementService, CategoryService, LocalizationService } from '@core/services/.';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Store } from '@ngrx/store';
-import { selectUser } from '@stores/authentication';
+import { selectUser } from '@core/stores/authentication';
 import { MessageService } from 'primeng/api';
-import { HttpHelperMethods } from '@utils/http-utils';
+import { HttpHelperMethods } from '@shared/utils/http-utils';
 import { addToList, updateOnList } from '../../feature/settings-advertisements/store';
 import { FileUpload } from 'primeng/fileupload';
 

@@ -1,6 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
-import { GenericStoreStatus } from '@app-types/.';
-import { User } from '@models/';
+import { GenericStoreStatus } from '@core/types/.';
+import { User } from '@core/models/';
 import {
     signIn,
     signInError,

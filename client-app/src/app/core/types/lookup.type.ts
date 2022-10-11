@@ -1,4 +1,4 @@
-import { Dictionary, IDictionary, Tree, ITree } from '@app-types/.';
+import { Dictionary, IDictionary, Tree, ITree } from '@core/types/.';
 export interface ILookup<TKey, TValue> extends IDictionary<TKey, Array<TValue>> {
     //toTree(this: ILookup<TKey, TKey>): ITree<TKey>;
     toTree(this: ILookup<TKey, TKey>, rootSelector: (item: ILookup<TKey, TKey>) => [TKey, TKey[]]): ITree<TKey>;

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AuthGuard } from '@guards/.';
+import { AuthGuard } from '@core/guards/.';
 
 const routes: Routes = [
     { path: '', loadChildren: () => import('./home/feature/home-shell/home-shell.module').then((m) => m.HomeShellModule) },

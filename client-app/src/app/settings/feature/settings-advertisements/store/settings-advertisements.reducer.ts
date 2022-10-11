@@ -1,6 +1,6 @@
-import { Advertisement } from '@models/';
+import { Advertisement } from '@core/models/';
 import { createReducer, on } from '@ngrx/store';
-import { GenericState } from '@app-types/.';
+import { GenericState } from '@core/types/.';
 import {
     addToList,
     addToListSuccess,

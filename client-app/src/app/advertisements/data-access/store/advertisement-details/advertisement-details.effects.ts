@@ -5,8 +5,8 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { of, throwError } from 'rxjs';
 import { catchError, filter, map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 import { ChatService } from 'src/app/messages/data-access/api/chat.service';
-import { AdvertisementService, FavoriteAdvertisementService, UserService } from '@services/.';
-import { User } from '@models/';
+import { AdvertisementService, FavoriteAdvertisementService, UserService } from '@core/services/.';
+import { User } from '@core/models/';
 import {
     addFavorite,
     addFavoriteError,
@@ -24,7 +24,7 @@ import {
     setIsOwner,
 } from './advertisement-details.actions';
 import { Observable } from 'rxjs';
-import { selectUser } from '@stores/authentication';
+import { selectUser } from '@core/stores/authentication';
 import { Store } from '@ngrx/store';
 
 @Injectable()

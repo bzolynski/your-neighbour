@@ -1,12 +1,12 @@
-import { Localization, User } from '@models/';
-import { GenericState, GenericStoreStatus } from '@app-types/.';
+import { Localization, User } from '@core/models/';
+import { GenericState, GenericStoreStatus } from '@core/types/.';
 import { Injectable } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { switchMap, tap, filter, withLatestFrom } from 'rxjs/operators';
-import { LocalizationService, UserService } from '@services/.';
+import { LocalizationService, UserService } from '@core/services/.';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Store } from '@ngrx/store';
-import { selectUser, updateUserData } from '@stores/authentication';
+import { selectUser, updateUserData } from '@core/stores/authentication';
 import { MessageService } from 'primeng/api';
 
 export type FormMode = 'edit' | 'create';

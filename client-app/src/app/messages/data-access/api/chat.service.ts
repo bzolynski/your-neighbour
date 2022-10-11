@@ -2,7 +2,7 @@ import { HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { HubConnection, HubConnectionBuilder, HubConnectionState } from '@microsoft/signalr';
 import { from, Observable } from 'rxjs';
-import { ApiService } from '@services/.';
+import { ApiService } from '@core/services/.';
 import { Chat } from '../models/chat.model';
 import { Message } from '../models/message.model';
 

@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { Advertisement, AdvertisementImage } from '@models/';
+import { Advertisement, AdvertisementImage } from '@core/models/';
 
 export const loadAdvertisements = createAction('[Home] Load Advertisements', props<{ quantity: number }>());
 export const loadAdvertisementsSuccess = createAction(

@@ -1,9 +1,9 @@
-import { CategoryDefinition } from '@models/';
-import { GenericState, GenericStoreStatus } from '@app-types/.';
+import { CategoryDefinition } from '@core/models/';
+import { GenericState, GenericStoreStatus } from '@core/types/.';
 import { Injectable } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { switchMap, tap } from 'rxjs/operators';
-import { CategoryDefinitionsService } from '@services/.';
+import { CategoryDefinitionsService } from '@core/services/.';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Store } from '@ngrx/store';
 import { MessageService } from 'primeng/api';

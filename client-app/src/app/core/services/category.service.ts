@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
-import { Category, ROOT_CATEGORY_GUID } from '@models/category.model';
+import { Category, ROOT_CATEGORY_GUID } from '@core/models/category.model';
 import { HttpHelperMethods, QueryParams } from 'src/app/shared/utils';
 import { ApiService } from '.';
 

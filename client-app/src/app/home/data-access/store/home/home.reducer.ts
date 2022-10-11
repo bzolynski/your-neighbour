@@ -1,6 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
-import { Advertisement } from '@models/';
-import { GenericState } from '@app-types/.';
+import { Advertisement } from '@core/models/';
+import { GenericState } from '@core/types/.';
 import {
     loadAdvertisements,
     loadAdvertisementsError,

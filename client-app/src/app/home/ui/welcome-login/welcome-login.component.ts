@@ -1,7 +1,7 @@
 import { Component, Output } from '@angular/core';
 import { FormGroup, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
-import { GenericFormControl } from '@app-types/.';
+import { GenericFormControl } from '@core/types/.';
 @Component({
     selector: 'app-welcome-login',
     templateUrl: './welcome-login.component.html',

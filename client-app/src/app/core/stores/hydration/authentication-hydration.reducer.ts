@@ -1,5 +1,5 @@
 import { ActionReducer, INIT, UPDATE } from '@ngrx/store';
-import { AuthenticationState } from '@stores/authentication';
+import { AuthenticationState } from '@core/stores/authentication';
 
 export const authenticationMydrationMetaReducer = (
     reducer: ActionReducer<AuthenticationState>

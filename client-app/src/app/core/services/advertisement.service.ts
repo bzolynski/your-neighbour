@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ApiService } from './';
 import { HttpHelperMethods, QueryParams } from 'src/app/shared/utils';
-import { Advertisement, AdvertisementImage } from '@models/';
+import { Advertisement, AdvertisementImage } from '@core/models/';
 import { HttpEvent } from '@angular/common/http';
 
 export interface GetAdvertisementQueryParams extends QueryParams {

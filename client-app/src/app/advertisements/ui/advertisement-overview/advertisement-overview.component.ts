@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Advertisement } from '@models/';
+import { Advertisement } from '@core/models/';
 
 @Component({
     selector: 'app-advertisement-overview',

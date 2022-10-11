@@ -1,16 +1,16 @@
-import { GenericState } from '@app-types/.';
+import { GenericState } from '@core/types/.';
 import { Injectable } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { filter, switchMap, tap } from 'rxjs/operators';
 import { HttpErrorResponse } from '@angular/common/http';
-import { AdvertisementService, CategoryService, GetAdvertisementQueryParams } from '@services/.';
+import { AdvertisementService, CategoryService, GetAdvertisementQueryParams } from '@core/services/.';
 import { throwError } from 'rxjs';
 import { Router } from '@angular/router';
-import { Advertisement, User } from '@models/';
+import { Advertisement, User } from '@core/models/';
 import { MessageService } from 'primeng/api';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { selectUser } from '@stores/authentication';
+import { selectUser } from '@core/stores/authentication';
 
 type AdvertisementsState = GenericState<Advertisement[]>;
 

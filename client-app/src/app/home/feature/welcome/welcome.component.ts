@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { User } from '@models/user.model';
+import { User } from '@core/models/user.model';
 import { Store } from '@ngrx/store';
-import { selectStatus, selectUser, signIn, signUp } from '@stores/authentication';
+import { selectStatus, selectUser, signIn, signUp } from '@core/stores/authentication';
 import { Observable } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
 import { DestroyObservable } from 'src/app/shared/utils/destroy-observable';

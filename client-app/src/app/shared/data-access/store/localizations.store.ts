@@ -1,16 +1,16 @@
-import { GenericState } from '@app-types/.';
+import { GenericState } from '@core/types/.';
 import { Injectable } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { throwError } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Localization, User } from '@models/';
-import { LocalizationService } from '@services/.';
+import { Localization, User } from '@core/models/';
+import { LocalizationService } from '@core/services/.';
 import { MessageService } from 'primeng/api';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { selectUser } from '@stores/authentication';
+import { selectUser } from '@core/stores/authentication';
 
 type LocalizationsState = GenericState<Localization[]>;
 

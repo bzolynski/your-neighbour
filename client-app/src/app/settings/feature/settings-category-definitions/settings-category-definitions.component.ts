@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, Validators } from '@angular/forms';
-import { GenericFormControl } from '@app-types/generic-form.type';
-import { CategoryDefinition } from '@models/category-definition.model';
+import { GenericFormControl } from '@core/types/generic-form.type';
+import { CategoryDefinition } from '@core/models/category-definition.model';
 import { ConfirmationService } from 'primeng/api';
 import { combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';

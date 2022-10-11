@@ -5,8 +5,8 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { MessageService } from 'primeng/api';
 import { of, throwError } from 'rxjs';
 import { catchError, filter, map, switchMap, tap } from 'rxjs/operators';
-import { AdvertisementService } from '@services/.';
-import { User } from '@models/';
+import { AdvertisementService } from '@core/services/.';
+import { User } from '@core/models/';
 import {
     addToList,
     addToListError,
@@ -23,7 +23,7 @@ import {
 } from './settings-advertisements.actions';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { selectUser } from '@stores/authentication';
+import { selectUser } from '@core/stores/authentication';
 
 @Injectable()
 export class SettingsMyAdvertisementsEffects {

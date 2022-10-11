@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { map } from 'rxjs/operators';
-import { Localization, User } from '@models/';
-import { GenericFormControl, GenericFormGroup } from '@app-types/generic-form.type';
+import { Localization, User } from '@core/models/';
+import { GenericFormControl, GenericFormGroup } from '@core/types/generic-form.type';
 import { SettingsAccountStore } from './settings-account.store';
-import { selectUser } from '@stores/authentication';
+import { selectUser } from '@core/stores/authentication';
 import { combineLatest } from 'rxjs';
 import { ConfirmationService } from 'primeng/api';
 

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { selectUser, signOut } from '@stores/authentication';
+import { selectUser, signOut } from '@core/stores/authentication';
 import { MenuItem } from 'primeng/api';
 import { Observable } from 'rxjs';
 import { combineLatest } from 'rxjs';

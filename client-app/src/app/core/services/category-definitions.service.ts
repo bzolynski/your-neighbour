@@ -1,7 +1,7 @@
 import { HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
-import { CategoryDefinition } from '@models/';
+import { CategoryDefinition } from '@core/models/';
 import { ApiService } from './';
 
 @Injectable({

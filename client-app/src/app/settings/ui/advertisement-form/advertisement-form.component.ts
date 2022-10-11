@@ -1,7 +1,7 @@
 import { Component, OnInit, Optional } from '@angular/core';
 import { FormGroup, Validators } from '@angular/forms';
-import { GenericFormControl } from '@app-types/generic-form.type';
-import { Advertisement, Localization, AdvertisementDefinition, Category } from '@models/';
+import { GenericFormControl } from '@core/types/generic-form.type';
+import { Advertisement, Localization, AdvertisementDefinition, Category } from '@core/models/';
 import { ConfirmationService } from 'primeng/api';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { FileUpload } from 'primeng/fileupload';

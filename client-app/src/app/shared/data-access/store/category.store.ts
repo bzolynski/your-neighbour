@@ -1,11 +1,11 @@
-import { GenericState } from '@app-types/.';
+import { GenericState } from '@core/types/.';
 import { Injectable } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
-import { CategoryService } from '@services/.';
+import { CategoryService } from '@core/services/.';
 import { switchMap, tap } from 'rxjs/operators';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MessageService } from 'primeng/api';
-import { Category } from '@models/';
+import { Category } from '@core/models/';
 
 type CategoryState = GenericState<Category[]>;
 

@@ -1,8 +1,8 @@
 import { HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ApiService } from '@services/.';
-import { FavoriteAdvertisement } from '@models/';
+import { ApiService } from '@core/services/.';
+import { FavoriteAdvertisement } from '@core/models/';
 
 @Injectable({
     providedIn: 'root',

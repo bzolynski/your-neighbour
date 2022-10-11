@@ -4,7 +4,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { of, throwError } from 'rxjs';
 import { catchError, map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
-import { User } from '@models/';
+import { User } from '@core/models/';
 import { ChatService } from '../../api/chat.service';
 import { Message } from '../../models/message.model';
 import {
@@ -18,7 +18,7 @@ import {
 } from './open-message.actions';
 import { selectChat } from './open-message.selectors';
 import { Observable } from 'rxjs';
-import { selectUser } from '@stores/authentication';
+import { selectUser } from '@core/stores/authentication';
 
 @Injectable()
 export class OpenMessageEffects {

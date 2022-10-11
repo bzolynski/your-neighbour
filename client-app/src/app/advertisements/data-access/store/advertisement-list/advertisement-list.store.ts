@@ -1,9 +1,9 @@
-import { Advertisement, Category } from '@models/';
-import { GenericState } from '@app-types/.';
+import { Advertisement, Category } from '@core/models/';
+import { GenericState } from '@core/types/.';
 import { Injectable } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { switchMap, tap } from 'rxjs/operators';
-import { AdvertisementService, CategoryService } from '@services/.';
+import { AdvertisementService, CategoryService } from '@core/services/.';
 import { Params } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 

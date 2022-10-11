@@ -6,7 +6,7 @@ import { ConfirmationService } from 'primeng/api';
 import { MessageService } from 'primeng/api';
 import { deleteAdvertisement, loadAdvertisements, selectAdvertisements, selectError } from './store';
 import { map, tap } from 'rxjs/operators';
-import { Advertisement } from '@models/';
+import { Advertisement } from '@core/models/';
 import { AdvertisementFormComponent } from '../../ui/advertisement-form/advertisement-form.component';
 import { DialogService } from 'primeng/dynamicdialog';
 

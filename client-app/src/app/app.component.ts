@@ -3,9 +3,9 @@ import { HubConnectionState } from '@microsoft/signalr';
 import { PrimeNGConfig } from 'primeng/api';
 import { filter, tap } from 'rxjs/operators';
 import { ChatService } from './messages/data-access/api/chat.service';
-import { User } from '@models/';
+import { User } from '@core/models/';
 import { Observable } from 'rxjs';
-import { selectUser } from '@stores/authentication';
+import { selectUser } from '@core/stores/authentication';
 import { Store } from '@ngrx/store';
 @Component({
     selector: 'app-root',

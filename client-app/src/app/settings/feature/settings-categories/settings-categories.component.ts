@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { Category } from '@models/category.model';
+import { Category } from '@core/models/category.model';
 import { ConfirmationService, TreeNode } from 'primeng/api';
 import { combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { FormMode, SettingsCategoriesStore } from './settings-categories.store';
 import { TreeDragDropService } from 'primeng/api';
 import { FormGroup, Validators } from '@angular/forms';
-import { GenericFormControl } from '@app-types/generic-form.type';
-import { CategoryDefinition } from '@models/category-definition.model';
+import { GenericFormControl } from '@core/types/generic-form.type';
+import { CategoryDefinition } from '@core/models/category-definition.model';
 @Component({
     selector: 'app-settings-categories',
     templateUrl: './settings-categories.component.html',

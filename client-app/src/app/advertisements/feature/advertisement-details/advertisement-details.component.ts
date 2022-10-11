@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { User } from '@models/user.model';
+import { User } from '@core/models/user.model';
 import { Store } from '@ngrx/store';
 import { MessageService } from 'primeng/api';
 import { Observable } from 'rxjs';

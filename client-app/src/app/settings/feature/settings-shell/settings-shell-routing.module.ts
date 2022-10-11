@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AuthGuard, RoleGuard } from '@guards/.';
-import { Role } from '@models/user.model';
+import { AuthGuard, RoleGuard } from '@core/guards/.';
+import { Role } from '@core/models/user.model';
 import { SettingsShellComponent } from './settings-shell.component';
 
 const routes: Routes = [
