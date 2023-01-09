@@ -16,6 +16,7 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { HeaderModule } from '@core/components/header/header.module';
 import { FooterModule } from '@core/components/footer/footer.module';
+import { BouncyLoadingBackdropModule } from '@shared/ui/bouncy-loading-backdrop/bouncy-loading-backdrop.module';
 @NgModule({
     declarations: [AppComponent],
     imports: [
@@ -31,6 +32,7 @@ import { FooterModule } from '@core/components/footer/footer.module';
         ToastModule,
         ConfirmDialogModule,
         CoreModule,
+        BouncyLoadingBackdropModule,
         StoreModule.forRoot({}),
         EffectsModule.forRoot([]),
     ],

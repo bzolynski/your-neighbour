@@ -11,14 +11,12 @@ import { DialogModule } from 'primeng/dialog';
 import { ReactiveFormsModule } from '@angular/forms';
 import { DividerModule } from 'primeng/divider';
 import { CheckboxModule } from 'primeng/checkbox';
-import { BackdropLoadingModule } from '@shared/ui/backdrop-loading/backdrop-loading.module';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 @NgModule({
     imports: [
         CommonModule,
         ReactiveFormsModule,
         SettingsCategoriesRoutingModule,
-        BackdropLoadingModule,
         TreeModule,
         SharedModule,
         PanelModule,

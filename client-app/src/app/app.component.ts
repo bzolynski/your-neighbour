@@ -7,6 +7,7 @@ import { User } from '@core/models/';
 import { Observable } from 'rxjs';
 import { selectUser } from '@core/stores/authentication';
 import { Store } from '@ngrx/store';
+import { HttpRequestLoaderService } from '@core/services';
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
@@ -15,8 +16,13 @@ import { Store } from '@ngrx/store';
 export class AppComponent implements OnInit {
     user$: Observable<User | null> = this.store.select(selectUser);
     title = 'client-app';
-    isBusy = false;
-    constructor(private chatService: ChatService, private store: Store, private primengConfig: PrimeNGConfig) {}
+    isBusy$: Observable<boolean> = this.loaderService.isLoading$;
+    constructor(
+        private chatService: ChatService,
+        private store: Store,
+        private loaderService: HttpRequestLoaderService,
+        private primengConfig: PrimeNGConfig
+    ) {}
 
     ngOnInit(): void {
         this.primengConfig.ripple = true;

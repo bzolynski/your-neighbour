@@ -1,5 +1,4 @@
 import { createReducer, on } from '@ngrx/store';
-import { GenericStoreStatus } from '@core/types/.';
 import { User } from '@core/models/';
 import {
     signIn,
@@ -16,13 +15,11 @@ export const AUTHENTICATION_STATE_KEY = 'authentication state key';
 
 export interface AuthenticationState {
     user: User | null;
-    status: GenericStoreStatus;
     error: string | null;
 }
 
 export const initialState: AuthenticationState = {
     user: null,
-    status: 'pending',
     error: null,
 };
 
@@ -30,17 +27,14 @@ export const authenticationReducer = createReducer(
     initialState,
     on(signIn, signUp, (state) => ({
         ...state,
-        status: 'loading',
         error: null,
     })),
     on(signInSuccess, (state, { user }) => ({
         ...state,
-        status: 'success',
         user: user,
     })),
     on(signUpSuccess, (state) => ({
         ...state,
-        status: 'success',
     })),
     on(signOut, (state) => ({
         ...state,
@@ -52,7 +46,6 @@ export const authenticationReducer = createReducer(
     })),
     on(signInError, signUpError, (state, { error }) => ({
         ...state,
-        status: 'error',
         error: error,
     }))
 );

@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { selectUser, signOut } from '@core/stores/authentication';
-import { MenuItem } from 'primeng/api';
+import { MenuItem, MessageService } from 'primeng/api';
 import { Observable } from 'rxjs';
 import { combineLatest } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, startWith } from 'rxjs/operators';
 @Component({
     selector: 'app-header',
     templateUrl: './header.component.html',
@@ -12,6 +12,7 @@ import { map } from 'rxjs/operators';
 })
 export class HeaderComponent {
     menuItems$: Observable<MenuItem[]> = this.store.select(selectUser).pipe(
+        startWith(null),
         map((user) => [
             { label: 'Ogłoszenia', icon: 'pi pi-server', routerLink: ['/advertisements'] },
             {
@@ -39,7 +40,7 @@ export class HeaderComponent {
                     {
                         label: 'Administracyjne',
                         icon: 'pi pi-shield',
-                        visible: user?.roles.some((r) => r === 'Administrator'),
+                        visible: user?.roles?.some((r) => r === 'Administrator') ?? false,
                         items: [
                             { label: 'Kategorie', icon: 'pi pi-list', routerLink: ['/settings', 'categories'] },
                             {
@@ -55,7 +56,14 @@ export class HeaderComponent {
                 label: 'Wyloguj',
                 icon: 'pi pi-power-off',
                 visible: user !== null,
-                command: () => this.store.dispatch(signOut()),
+                command: () => {
+                    this.store.dispatch(signOut());
+                    this.messageService.add({
+                        severity: 'success',
+                        summary: 'Sukces',
+                        detail: `Pomyślnie wylogowano`,
+                    });
+                },
             },
             {
                 label: 'Zarejestruj',
@@ -72,5 +80,5 @@ export class HeaderComponent {
             menuItems,
         }))
     );
-    constructor(private store: Store) {}
+    constructor(private store: Store, private messageService: MessageService) {}
 }

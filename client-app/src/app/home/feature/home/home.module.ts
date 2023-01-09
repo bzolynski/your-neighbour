@@ -7,7 +7,6 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { homeReducer, HOME_FEATURE_KEY } from '../../data-access/store/home/home.reducer';
 import { HomeEffects } from '../../data-access/store/home/home.effects';
-import { BouncyLoadingBackdropModule } from '@shared/ui/bouncy-loading-backdrop/bouncy-loading-backdrop.module';
 import { CarouselModule } from 'primeng/carousel';
 import { ButtonModule } from 'primeng/button';
 import { RippleModule } from 'primeng/ripple';
@@ -16,7 +15,6 @@ import { SharedModule } from '@shared/shared.module';
     imports: [
         CommonModule,
         HomeRoutingModule,
-        BouncyLoadingBackdropModule,
         CarouselModule,
         ButtonModule,
         RippleModule,

@@ -1,6 +1,6 @@
 <app-welcome-landing-page>
     <div [appElevation]="4" class="own-tabs-wrapper" appCardContainer>
-        <p-tabView>
+        <p-tabView [(activeIndex)]="selectedIndex">
             <p-tabPanel header="Logowanie">
                 <ng-template pTemplate="content">
                     <app-welcome-login (formSubmited)="onLogin($event)"></app-welcome-login>
@@ -14,5 +14,3 @@
         </p-tabView>
     </div>
 </app-welcome-landing-page>
-
-<app-backdrop-loading [fixed]="true" *ngIf="isBusy$ | async" [backdropColor]="'hsl(0, 0%, 30%, 0.3'"></app-backdrop-loading>

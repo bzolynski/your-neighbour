@@ -1,5 +1,8 @@
 <p-toast></p-toast>
 <div class="root">
+    <app-bouncy-loading-backdrop
+        *ngIf="isBusy$ | async"
+        style="position: absolute; inset: 0; z-index: 999"></app-bouncy-loading-backdrop>
     <div class="own-wrapper">
         <div class="own-container">
             <header class="own-header">

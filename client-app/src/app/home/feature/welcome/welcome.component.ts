@@ -3,9 +3,9 @@ import { FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { User } from '@core/models/user.model';
 import { Store } from '@ngrx/store';
-import { selectStatus, selectUser, signIn, signUp } from '@core/stores/authentication';
+import { selectUser, signIn, signUp } from '@core/stores/authentication';
 import { Observable } from 'rxjs';
-import { map, takeUntil } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 import { DestroyObservable } from 'src/app/shared/utils/destroy-observable';
 
 @Component({
@@ -17,7 +17,6 @@ import { DestroyObservable } from 'src/app/shared/utils/destroy-observable';
 export class WelcomeComponent implements OnInit {
     user$: Observable<User | null> = this.store.select(selectUser);
     selectedIndex: number = 0;
-    isBusy$: Observable<boolean> = this.store.select(selectStatus).pipe(map((status) => status === 'loading'));
     constructor(private activatedRoute: ActivatedRoute, private destroy$: DestroyObservable, private store: Store) {}
 
     ngOnInit(): void {

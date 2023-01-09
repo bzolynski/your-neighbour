@@ -1,6 +1,5 @@
 <div *ngIf="vm$ | async as vm">
     <div appCardContainer [appElevation]="4" class="cover"></div>
-    <app-bouncy-loading-backdrop [backdrop]="false" *ngIf="vm.status === 'loading'"></app-bouncy-loading-backdrop>
     <p-carousel
         [value]="vm.advertisements ?? []"
         [numVisible]="4"

@@ -35,16 +35,15 @@ namespace YourNeighbour.Api
             services.AddInfrastructure(Configuration);
             services.AddStartupTask<InitializeDatabaseStartupTask>();
             services.AddSignalR();
-
             services.AddCors(options =>
             {
                 options.AddPolicy("CorsPolicy", policy =>
                 {
-                    policy.WithOrigins("http://localhost:4200")
+                    policy.WithOrigins("http://localhost:4200", "https://localhost:4200")
                         .AllowAnyHeader()
                         .AllowAnyMethod()
-                        .AllowCredentials()
-                        .SetIsOriginAllowed(_ => true);
+                        .AllowCredentials();
+
 
                 });
             });
@@ -67,9 +66,10 @@ namespace YourNeighbour.Api
             }
 
 
-            app.UseHttpsRedirection();
             app.UseRouting();
+            app.UseHttpsRedirection();
             app.UseCors("CorsPolicy");
+
             app.UseMiddleware<AccessTokenMiddleware>();
             app.UseMiddleware<ExceptionHandlingMiddleware>();
 
