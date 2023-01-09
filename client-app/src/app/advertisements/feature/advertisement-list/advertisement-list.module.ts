@@ -10,6 +10,7 @@ import { RatingModule } from 'primeng/rating';
 import { FlexLayoutModule, FlexModule } from '@angular/flex-layout';
 import { RippleModule } from 'primeng/ripple';
 import { SharedModule } from '@shared/shared.module';
+import { StopPropagationModule } from '@shared/directives/stop-propagation/stop-propagation.module';
 @NgModule({
     imports: [
         CommonModule,
@@ -23,6 +24,7 @@ import { SharedModule } from '@shared/shared.module';
         RatingModule,
         RippleModule,
         SharedModule,
+        StopPropagationModule,
     ],
     declarations: [AdvertisementListComponent],
 })

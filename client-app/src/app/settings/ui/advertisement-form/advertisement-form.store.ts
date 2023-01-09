@@ -283,6 +283,5 @@ export class AdvertisementFormStore extends ComponentStore<AdvertisementFormStat
     });
     private handleError = (error: HttpErrorResponse) => {
         this.patchState({ error: error.error, status: 'error' });
-        this.messageService.add({ severity: 'error', summary: 'Błąd', detail: error.error });
     };
 }

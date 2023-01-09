@@ -22,8 +22,6 @@ export class AuthenticationEffects {
             ofType(signIn),
             switchMap(({ login, password }) => this.authenticationService.login(login, password)),
             map((user) => {
-                console.log('user');
-
                 this.messageService.add({
                     severity: 'success',
                     summary: 'Sukces',
@@ -41,7 +39,15 @@ export class AuthenticationEffects {
             switchMap(({ email, password, confirmPassword }) =>
                 this.authenticationService.register({ email, password, confirmPassword })
             ),
-            map(() => signUpSuccess()),
+            map(() => {
+                this.messageService.add({
+                    severity: 'success',
+                    summary: 'Sukces',
+                    detail: `Zalogowano pomyślnie!`,
+                });
+                this.router.navigate(['..']);
+                return signUpSuccess();
+            }),
             catchError((error: HttpErrorResponse) => of(signUpError({ error: error.error ?? error.message })))
         )
     );

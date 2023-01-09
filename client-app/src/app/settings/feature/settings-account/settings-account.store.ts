@@ -259,6 +259,5 @@ export class SettingsAccountStore extends ComponentStore<SettingsAccountState> {
     });
     private handleError = (error: HttpErrorResponse) => {
         this.patchState({ error: error.error, status: 'error' });
-        this.messageService.add({ severity: 'error', summary: 'Błąd', detail: error.error });
     };
 }

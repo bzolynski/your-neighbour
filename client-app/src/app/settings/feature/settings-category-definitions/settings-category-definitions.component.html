@@ -10,7 +10,7 @@
                 [buttonSize]="'small'"
                 (click)="createDefinition()"></app-button>
         </ng-template>
-        <p-table [value]="vm.definitions ?? []" [loading]="vm.status === 'loading'">
+        <p-table [value]="vm.definitions ?? []">
             <ng-template pTemplate="header">
                 <tr>
                     <th pSortableColumn="name">Nazwa <p-sortIcon field="name"></p-sortIcon></th>

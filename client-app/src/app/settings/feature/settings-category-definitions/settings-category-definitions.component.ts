@@ -17,16 +17,12 @@ import { FormMode, SettingsCategoryDefinitionsStore } from './settings-category-
 export class SettingsCategoryDefinitionsComponent implements OnInit {
     vm$ = combineLatest([
         this.componentStore.definitions$,
-        this.componentStore.status$,
-        this.componentStore.error$,
         this.componentStore.formOpen$,
         this.componentStore.formStatus$,
         this.componentStore.formMode$,
     ]).pipe(
-        map(([definitions, status, error, formOpen, formStatus, formMode]) => ({
+        map(([definitions, formOpen, formStatus, formMode]) => ({
             definitions,
-            status,
-            error,
             formOpen,
             formStatus,
             formMode,

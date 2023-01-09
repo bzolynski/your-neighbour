@@ -73,7 +73,6 @@ export class SettingsCategoriesStore extends ComponentStore<SettingsCategoriesSt
                 },
                 (error: HttpErrorResponse) => {
                     this.patchState({ error: error.error, status: 'error' });
-                    this.handleError(error);
                 }
             )
         )
@@ -97,7 +96,6 @@ export class SettingsCategoriesStore extends ComponentStore<SettingsCategoriesSt
                         },
                         (error: HttpErrorResponse) => {
                             this.patchState({ error: error.error, status: 'error' });
-                            this.handleError(error);
                         }
                     )
                 )
@@ -131,7 +129,6 @@ export class SettingsCategoriesStore extends ComponentStore<SettingsCategoriesSt
                 },
                 (error: HttpErrorResponse) => {
                     this.patchState({ error: error.error, status: 'error' });
-                    this.handleError(error);
                 }
             )
         )
@@ -148,7 +145,6 @@ export class SettingsCategoriesStore extends ComponentStore<SettingsCategoriesSt
                         },
                         (error: HttpErrorResponse) => {
                             this.patchState({ error: error.error, formStatus: 'error' });
-                            this.handleError(error);
                         }
                     )
                 )
@@ -183,7 +179,6 @@ export class SettingsCategoriesStore extends ComponentStore<SettingsCategoriesSt
                         },
                         (error: HttpErrorResponse) => {
                             this.patchState({ error: error.error, formStatus: 'error' });
-                            this.handleError(error);
                         }
                     )
                 )
@@ -213,7 +208,6 @@ export class SettingsCategoriesStore extends ComponentStore<SettingsCategoriesSt
                         },
                         (error: HttpErrorResponse) => {
                             this.patchState({ error: error.error, formStatus: 'error' });
-                            this.handleError(error);
                         }
                     )
                 )
@@ -240,7 +234,6 @@ export class SettingsCategoriesStore extends ComponentStore<SettingsCategoriesSt
                         },
                         (error: HttpErrorResponse) => {
                             this.patchState({ error: error.error, status: 'error' });
-                            this.handleError(error);
                         }
                     )
                 )
@@ -283,9 +276,5 @@ export class SettingsCategoriesStore extends ComponentStore<SettingsCategoriesSt
             leaf: false,
             children: existingNode.children?.map((value) => this.addChildToParentNode(value, newNode, parentId)),
         };
-    };
-
-    private handleError = (error: HttpErrorResponse) => {
-        this.messageService.add({ severity: 'error', summary: 'Błąd', detail: error.error });
     };
 }

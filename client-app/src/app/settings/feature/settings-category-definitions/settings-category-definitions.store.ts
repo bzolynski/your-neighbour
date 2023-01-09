@@ -19,8 +19,6 @@ interface SettingsCategoryDefinitionsState extends GenericState<CategoryDefiniti
 @Injectable()
 export class SettingsCategoryDefinitionsStore extends ComponentStore<SettingsCategoryDefinitionsState> {
     readonly definitions$ = this.select((state) => state.data);
-    readonly status$ = this.select((state) => state.status);
-    readonly error$ = this.select((state) => state.error);
     readonly formOpen$ = this.select((state) => state.formOpen);
     readonly formStatus$ = this.select((state) => state.formStatus);
     readonly formMode$ = this.select((state) => state.formMode);
@@ -44,7 +42,6 @@ export class SettingsCategoryDefinitionsStore extends ComponentStore<SettingsCat
                         },
                         (error: HttpErrorResponse) => {
                             this.patchState({ error: error.error, formStatus: 'error' });
-                            this.handleError(error);
                         }
                     )
                 )
@@ -73,7 +70,6 @@ export class SettingsCategoryDefinitionsStore extends ComponentStore<SettingsCat
                         },
                         (error: HttpErrorResponse) => {
                             this.patchState({ error: error.error, formStatus: 'error' });
-                            this.handleError(error);
                         }
                     )
                 )
@@ -102,7 +98,6 @@ export class SettingsCategoryDefinitionsStore extends ComponentStore<SettingsCat
                         },
                         (error: HttpErrorResponse) => {
                             this.patchState({ error: error.error, formStatus: 'error' });
-                            this.handleError(error);
                         }
                     )
                 )
@@ -129,7 +124,6 @@ export class SettingsCategoryDefinitionsStore extends ComponentStore<SettingsCat
                         },
                         (error: HttpErrorResponse) => {
                             this.patchState({ error: error.error, status: 'error' });
-                            this.handleError(error);
                         }
                     )
                 )
@@ -140,8 +134,4 @@ export class SettingsCategoryDefinitionsStore extends ComponentStore<SettingsCat
     readonly setFormOpen = this.updater<{ open: boolean; mode?: FormMode }>((state, { open, mode }) => {
         return { ...state, formOpen: open, formMode: mode };
     });
-
-    private handleError = (error: HttpErrorResponse) => {
-        this.messageService.add({ severity: 'error', summary: 'Błąd', detail: error.error });
-    };
 }

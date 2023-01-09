@@ -132,7 +132,7 @@ export class AdvertisementsStore extends ComponentStore<AdvertisementsState> {
         }
     };
     private handleError = (error: HttpErrorResponse) => {
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error ?? error.message });
+        this.patchState({ error: error.error, status: 'error' });
     };
 
     constructor(

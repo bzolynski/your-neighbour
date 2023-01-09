@@ -74,15 +74,23 @@
     margin: 0.5em;
     border: 1px solid #dee2e6;
     padding: 1rem;
+    display: flex;
+    flex-direction: column;
 
     .own-grid-item-top {
         display: flex;
         align-items: center;
     }
+
+    .own-grid-item-content {
+        text-align: center;
+        margin-bottom: 1rem;
+    }
+
     .own-grid-item-bottom {
         display: flex;
         align-items: center;
-        justify-content: space-between;
+        justify-content: center;
         flex-wrap: wrap;
         gap: 0.25rem;
     }
@@ -91,9 +99,5 @@
         width: 75%;
         margin: 2rem 0;
         border-radius: 4px;
-    }
-
-    .own-grid-item-content {
-        text-align: center;
     }
 }

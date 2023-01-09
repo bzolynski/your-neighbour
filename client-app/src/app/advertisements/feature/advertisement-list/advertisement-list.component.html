@@ -59,7 +59,7 @@
                         <div
                             fxFlex
                             fxLayout="column"
-                            fxLayoutGap="4px"
+                            fxLayoutGap="8px"
                             fxLayoutAlign="center start"
                             fxLayoutAlign.lt-sm="center center">
                             <div class="own-name">{{ advertisement.title }}</div>
@@ -75,7 +75,6 @@
                             fxLayoutGap="4px"
                             fxLayoutAlign="center end"
                             fxLayoutAlign.lt-sm="center center">
-                            <app-button [buttonIcon]="'pi pi-star'" label="Obserwuj" [buttonStyle]="'raised'"></app-button>
                             <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="4px">
                                 <i class="pi pi-map-marker"></i>
                                 <span>{{ advertisement.localization.city }}</span>
@@ -91,7 +90,7 @@
                         class="own-grid-item own-card own-item"
                         pRipple
                         [routerLink]="['/advertisements', 'details', advertisement.id]">
-                        <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="4px">
+                        <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="8px" style="margin-bottom: -8px">
                             <i class="pi pi-tag"></i>
                             <span class="own-category">{{ advertisement.category.name }}</span>
                         </div>
@@ -106,7 +105,6 @@
                             <p-rating [readonly]="true" [cancel]="false"></p-rating>
                         </div>
                         <div class="own-grid-item-bottom">
-                            <app-button [buttonIcon]="'pi pi-star'" [buttonStyle]="'flat'" [buttonRounded]="true"></app-button>
                             <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="4px">
                                 <i class="pi pi-map-marker"></i>
                                 <span>{{ advertisement.localization.city }}</span>
